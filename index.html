@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="dist/style/app.min.css" />
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body ng-app="openvod">
+  <ui-view></ui-view>
+  <div ng-include="index.maskUrl" class="autoscroll"></div>
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js" ></script>
+  <script src="node_modules/angular-translate/dist/angular-translate.min.js" ></script>
+  <script src="node_modules/angular-translate/dist/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js" ></script>
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="dist/js/app.min.js"></script>
+  <!-- <script src="src/modules/app.js"></script>
+  <script src="src/modules/controllers.js"></script>
+  <script src="src/modules/directives.js"></script>
+  <script src="src/modules/filters.js"></script>
+  <script src="src/modules/services.js"></script> -->
+</body>
+</html>

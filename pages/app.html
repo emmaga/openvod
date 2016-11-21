@@ -1,0 +1,90 @@
+<div ng-controller="appController as app" ng-init="app.init()" class="app phase{{app.appPhase}}">
+    <div class="bg" style="background-image: url('dist/imgs/bg.jpg'); "></div>
+    <!-- desktop -->
+    <div class="desktop ">
+
+        <!-- header start -->
+        <div class="project-title">project/LOGO</div>
+        <div ng-click="app.logout()" class="avatar"></div>
+
+        <!-- grid -->
+        <div class="app-grid-wrapper">
+
+            <div class="app-grid">
+                <i ng-click="app.switchApp(0)" class="app-icon"></i>
+                <h4 class="app-name">酒店客房</h4>
+            </div>
+            <div class="app-grid">
+                <i class="app-icon"></i>
+                <h4 class="app-name">预订订单</h4>
+            </div>
+            <div class="app-grid">
+                <i ng-click="app.switchApp(1)" class="app-icon"></i>
+                <h4 class="app-name">移动商城</h4>
+            </div>
+            <div class="app-grid">
+                <i class="app-icon"></i>
+                <h4 class="app-name">商城订单</h4>            
+            </div>
+
+
+
+            <!-- 空白网格，数量等于{每行最大数量}, 用来保持网格整体各式正常-->
+            <div class="app-grid"></div>
+            <div class="app-grid"></div>
+            <div class="app-grid"></div>
+            <div class="app-grid"></div>
+            <div class="app-grid"></div>
+            <div class="app-grid"></div>
+
+        </div>
+
+    </div>
+    
+    <!-- app -->
+    <div class="app-frame phase{{app.appFramePhase}}">
+
+        <!-- app title -->
+        <div class="app-title">
+
+            <i class="app-icon" style=" background: -webkit-radial-gradient(0% 110%, rgba(216,156,44,1) 11%,rgba(211,157,116,0) 70%);"></i>
+            <h4 class="app-name">商城订单 todo</h4>
+
+        </div>
+
+        <!-- launcher -->
+        <div class="app-launcher">   
+            <!-- back -->
+            <div class="app-launcher-grid">  
+                <i ng-click="app.showDesktop()" class="app-icon app-back"></i>
+                <h5 class="app-name">{{'HOME' | translate}}</h5>
+            </div>
+            <!-- launcher-grid -->
+            <div class="app-launcher-grid">
+                <i ng-click="app.switchApp(0)" class="app-icon"></i>
+                <h5 class="app-name">酒店客房</h5>
+            </div>
+            <div class="app-launcher-grid">
+                <i class="app-icon"></i>
+                <h5 class="app-name">预订订单</h5>
+            </div>
+            <div class="app-launcher-grid">
+                <i ng-click="app.switchApp(1)" class="app-icon"></i>
+                <h5 class="app-name">移动商城</h5>
+            </div>
+            <div class="app-launcher-grid">
+                <i class="app-icon"></i>
+                <h5 class="app-name">商城订单</h5>            
+            </div>
+        </div>
+
+
+        <div ng-click="app.focusLauncher()" class="app-launcher-mask phase1" data-phase="1"></div>
+        
+        <!-- view -->
+        <div class="app-view">
+            <ui-view></ui-view>
+        </div>
+        <div ng-click="app.focusApp()" class="app-view-mask"></div>
+    </div>
+</div>
