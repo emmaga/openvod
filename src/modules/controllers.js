@@ -38,7 +38,7 @@
                   $state.go('app.hotelRoom');
                   break;
                 case 1:
-                  $state.go('app.shopCart');
+                  $state.go('app.shop');
                   break;
                 default:
                   break;
@@ -66,7 +66,7 @@
         }
     ])
 
-    .controller('shopCartController', ['$scope',
+    .controller('shopController', ['$scope',
         function($scope) {
             var self = this;
             self.init = function() {

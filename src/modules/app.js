@@ -30,9 +30,9 @@
         url: '/app',
         templateUrl: 'pages/app.html'
       })
-      .state('app.shopCart', {
+      .state('app.shop', {
         url: '/shopCart',
-        templateUrl: 'pages/shopCart.html'
+        templateUrl: 'pages/shop.html'
       })
       .state('app.hotelRoom', {
         url: '/hotelRoom',
