@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-    var app = angular.module('app.controllers', [])
+    var app = angular.module('app.controllers', ['ngTable'])
 
     .controller('indexController', ['$scope',
         function($scope) {
