@@ -84,14 +84,11 @@
         }
     ])
 
-<<<<<<< HEAD
+
     .controller('shopController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
         function($scope,$state,$http,$stateParams,$filter,util) {
             console.log('shopController')
-=======
-    .controller('shopCartController', ['$scope',
-        function($scope) {
->>>>>>> 86b099cc0710ba943d89983aa58f515387bf83d1
+
             var self = this;
             self.init = function() {
                self.searchShopList(); 
