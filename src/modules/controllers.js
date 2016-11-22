@@ -87,34 +87,42 @@
                         url: util.getApiUrl('hotelinfo', 'shopList'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
-
-                        self.shopList = data.data.data;
-                        console.log(self.hotel)
-
+                        console.log(data)
                     }, function errorCallback(data, status, headers, config) {
 
                     });
             }
 
-            self.addShop = function(){
+
+            
+
+            self.shopAdd = function(){
                 self.maskUrl = 'pages/shopAdd.html';
             }
-            self.addCancel = function(){
+            self.shopAddCancel = function(){
+                console.log('shopAddCancel')
                 self.maskUrl = '';
-                $state.reload();
                 console.log('cancel');
             }
         }
     ]) 
 
-    .controller('goodsController', ['$stateParams',
-        function($stateParams) {
+    .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
             console.log('goodsController');
             console.log($stateParams);
             var self = this;
             self.init = function() {
                 self.shopId = $stateParams.shopId;
             }
+            self.goodsEdit = function(){
+                $scope.shop.maskUrl = 'pages/goodsEdit.html';
+            }
+
+            self.categotyEdit = function(){
+                $scope.shop.maskUrl = 'pages/categoryEdit.html';
+            }
+
         }
     ])
 
