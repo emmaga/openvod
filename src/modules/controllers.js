@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-    var app = angular.module('app.controllers', ['ngTable'])
+    var app = angular.module('app.controllers', [])
 
     .controller('indexController', ['$scope',
         function($scope) {
@@ -12,23 +12,40 @@
         }
     ])
 
-    .controller('loginController', ['$scope',
-        function($scope) {
+    .controller('loginController', ['$scope', '$http', '$filter', '$state', 'util',
+        function($scope, $http, $filter, $state, util) {
             var self = this;
             self.init = function() {
-                
-            }
-        }
-    ])    
 
-    .controller('appController', ['$state',
-        function($state) {
+            }
+            self.login = function () {
+                util.setParams('a', '1')
+                $state.go('app')
+                console.log($filter('ajaxMethod')())
+                $http({
+                    method: $filter('ajaxMethod')(),
+                    url: util.getApiUrl('logon')
+                }).then(function successCallback(response) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                }, function errorCallback(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                });
+            }
+
+        }
+    ])
+
+    .controller('appController', ['$state', 'util',
+        function($state, util) {
             var self = this;
             self.init = function() {
                 self.appPhase = 1;
                 self.appFramePhase = 1;
+                console.log(util.getParams('a'))
             }
-            
+
             // n: 以后换成后台读取，先随便写一个
             // 0:酒店客房，1:移动商城
             self.switchApp = function(n) {
@@ -38,7 +55,7 @@
                   $state.go('app.hotelRoom');
                   break;
                 case 1:
-                  $state.go('app.shop');
+                  $state.go('app.shopCart');
                   break;
                 default:
                   break;
@@ -66,7 +83,7 @@
         }
     ])
 
-    .controller('shopController', ['$scope',
+    .controller('shopCartController', ['$scope',
         function($scope) {
             var self = this;
             self.init = function() {

@@ -1,3 +1,9 @@
 <div ng-controller="loginController as login" ng-init="login.init()">
-    login
+    <div class="titulo">Staff Login</div>
+    <form>
+        <input type="text" required title="Username required" placeholder="Username" data-icon="U" ng-model="userName">
+        <input type="password" required title="Password required" placeholder="Password" data-icon="x"  ng-model="password">
+        <input type="text" required title="" placeholder="" data-icon="U" ng-model="projectName">
+        <a href="" class="login-submit" ng-click="login.login()">Submit</a>
+    </form>
 </div>
