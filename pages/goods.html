@@ -1,0 +1,7 @@
+<div ng-controller="goodsController as goods" ng-init="goods.init()">
+    goods {{goods.shopId}}<br>
+    <span ui-sref="app.shop.goods.goodsList({categoryId:1})">Category1</span><br>
+    <span ui-sref="app.shop.goods.goodsList({categoryId:2})">Category2</span><br>
+    <ui-view></ui-view>
+    <div ng-include="shop.maskUrl" class="autoscroll"></div>
+</div>

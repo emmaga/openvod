@@ -66,19 +66,50 @@
         }
     ])
 
-    .controller('shopController', ['$scope',
-        function($scope) {
+    .controller('shopController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
             console.log('shopController')
             var self = this;
             self.init = function() {
+               self.searchShopList(); 
+            }
+
+            self.searchShopList = function() {
+                var data = {
+                    // 假数据
+                    // "hotelId": self.hotelId -0
+                    "hotelId": 1
+                };
+                data = JSON.stringify(data);
                 
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('hotelinfo', 'shopList'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+
+                        self.shopList = data.data.data;
+                        console.log(self.hotel)
+
+                    }, function errorCallback(data, status, headers, config) {
+
+                    });
+            }
+
+            self.addShop = function(){
+                self.maskUrl = 'pages/shopAdd.html';
+            }
+            self.addCancel = function(){
+                self.maskUrl = '';
+                $state.reload();
+                console.log('cancel');
             }
         }
     ]) 
 
-    .controller('goodsCategoryListController', ['$stateParams',
+    .controller('goodsController', ['$stateParams',
         function($stateParams) {
-            console.log('goodsCategoryListController');
+            console.log('goodsController');
             console.log($stateParams);
             var self = this;
             self.init = function() {

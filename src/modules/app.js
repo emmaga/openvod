@@ -34,11 +34,11 @@
         url: '/shop',
         templateUrl: 'pages/shop.html'
       })
-      .state('app.shop.goodsCategoryList', {
-        url: '/goodsCategoryList?shopId',
-        templateUrl: 'pages/goodsCategoryList.html'
+      .state('app.shop.goods', {
+        url: '/goods?shopId',
+        templateUrl: 'pages/goods.html'
       })
-      .state('app.shop.goodsCategoryList.goodsList', {
+      .state('app.shop.goods.goodsList', {
         url: '/goodsList?categoryId',
         templateUrl: 'pages/goodsList.html'
       })
