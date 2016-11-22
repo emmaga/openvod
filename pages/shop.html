@@ -1,3 +1,7 @@
-<div ng-controller="shopController as shopCart" ng-init="shop.init()">
-    shop
+<div ng-controller="shopController as shop" ng-init="shop.init()">
+    shop<br>
+    <span ui-sref="app.shop.goodsList({shopId:1})">shop1</span><br>
+    <span ui-sref="app.shop.goodsList({shopId:2})">shop2</span><br>
+    <ui-view></ui-view>
+    <div ng-include="shop.maskUrl" class="autoscroll"></div>
 </div>

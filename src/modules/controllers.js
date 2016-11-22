@@ -75,6 +75,15 @@
         }
     ]) 
 
+    .controller('goodsListController', ['$stateParams',
+        function($stateParams) {
+            var self = this;
+            self.init = function() {
+                self.shopId = $stateParams.shopId;
+            }
+        }
+    ])
+
     .controller('hotelRoomController', ['$scope',
         function($scope) {
             var self = this;

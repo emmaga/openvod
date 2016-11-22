@@ -31,8 +31,12 @@
         templateUrl: 'pages/app.html'
       })
       .state('app.shop', {
-        url: '/shopCart',
+        url: '/shop',
         templateUrl: 'pages/shop.html'
+      })
+      .state('app.shop.goodsList', {
+        url: '/goodsList?shopId',
+        templateUrl: 'pages/goodsList.html'
       })
       .state('app.hotelRoom', {
         url: '/hotelRoom',
