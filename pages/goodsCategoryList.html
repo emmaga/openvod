@@ -1,0 +1,7 @@
+<div ng-controller="goodsCategoryListController as gcl" ng-init="gcl.init()">
+    goodsCategoryList {{gcl.shopId}}<br>
+    <span ui-sref="app.shop.goodsCategoryList.goodsList({categoryId:1})">Category1</span><br>
+    <span ui-sref="app.shop.goodsCategoryList.goodsList({categoryId:2})">Category2</span><br>
+    <ui-view></ui-view>
+    <div ng-include="shop.maskUrl" class="autoscroll"></div>
+</div>

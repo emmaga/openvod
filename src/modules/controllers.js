@@ -68,6 +68,7 @@
 
     .controller('shopController', ['$scope',
         function($scope) {
+            console.log('shopController')
             var self = this;
             self.init = function() {
                 
@@ -75,11 +76,24 @@
         }
     ]) 
 
-    .controller('goodsListController', ['$stateParams',
+    .controller('goodsCategoryListController', ['$stateParams',
         function($stateParams) {
+            console.log('goodsCategoryListController');
+            console.log($stateParams);
             var self = this;
             self.init = function() {
                 self.shopId = $stateParams.shopId;
+            }
+        }
+    ])
+
+    .controller('goodsListController', ['$stateParams',
+        function($stateParams) {
+            console.log('goodsListController');
+            console.log($stateParams);
+            var self = this;
+            self.init = function() {
+                self.shopId = $stateParams.categoryId;
             }
         }
     ])
