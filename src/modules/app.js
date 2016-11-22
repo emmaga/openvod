@@ -52,6 +52,6 @@
     serverUrl     : 'http://openvod.cleartv.cn/backend_wx/v1/',
     testUrl       : 'test/',
     testExtesion  : '.json',
-    test          : true
+    test          : false
   })
 })();
