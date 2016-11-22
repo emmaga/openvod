@@ -18,7 +18,7 @@
             self.init = function() {
 
             }
-            self.login = function () {
+            /*self.login = function () {
                 util.setParams('a', '1')
                 $state.go('app')
                 console.log($filter('ajaxMethod')())
@@ -33,6 +33,20 @@
                     // or server returns response with an error status.
                 });
 
+            }*/
+            self.getEditLangs = function() {
+                $http({
+                    method: $filter('ajaxMethod')(),
+                    url: util.getApiUrl('', 'editLangs', 'local')
+                }).then(function successCallback(response) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    util.setParams('editLangs', response.data.editLangs);
+                    $state.go('app');
+                }, function errorCallback(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                });
             }
 
         }
@@ -44,7 +58,7 @@
             self.init = function() {
                 self.appPhase = 1;
                 self.appFramePhase = 1;
-                console.log(util.getParams('a'))
+                console.log(util.getParams('editLangs').length)
             }
 
             // n: 以后换成后台读取，先随便写一个
