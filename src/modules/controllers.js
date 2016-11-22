@@ -56,7 +56,7 @@
                   $state.go('app.hotelRoom');
                   break;
                 case 1:
-                  $state.go('app.shopCart');
+                  $state.go('app.shop');
                   break;
                 default:
                   break;
