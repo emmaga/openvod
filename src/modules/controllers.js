@@ -20,6 +20,7 @@
             }
 
             self.login = function () {
+                self.loading = true;
                 var data = JSON.stringify({
                     action: "GetToken",
                     projectName: self.projectName,
@@ -51,13 +52,9 @@
                     method: 'GET',
                     url: util.getApiUrl('', 'editLangs', 'local')
                 }).then(function successCallback(response) {
-                    // this callback will be called asynchronously
-                    // when the response is available
                     util.setParams('editLangs', response.data.editLangs);
                     $state.go('app');
                 }, function errorCallback(response) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
                 });
             }
 
