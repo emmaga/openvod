@@ -1,11 +1,12 @@
 <div style="position: absolute;left: 200px;" ng-controller="goodsController as goods" ng-init="goods.init()">
     goods {{goods.shopId}}<br>
+    <button ng-click="goods.shopEdit()">编辑商城属性</button><br>
     <span ui-sref="app.shop.goods.goodsList({categoryId:1})">Category1</span><br>
     <span ui-sref="app.shop.goods.goodsList({categoryId:2})">Category2</span><br>
     {商城名}{绑定门店名} <br>
-    <button ng-click="goods.shopEdit()">编辑商城属性</button><br>
-    <button ng-click="goods.categotyEdit()">分类编辑</button>
-    <button ng-click="goods.categotyEdit()">分类添加</button>
+    
+    <button ng-click="goods.categoryEdit()">分类编辑</button>
+    <button ng-click="goods.categoryAdd()">分类添加</button>
     <ui-view></ui-view>
     <div ng-include="goods.maskUrl" class="autoscroll"></div>
 </div>

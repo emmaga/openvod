@@ -129,7 +129,6 @@
 
             self.searchShopList = function() {
                 var data = {
-
                       "action": "getMgtHotelShopInfo",
                       "token": util.getParams("token"),
                       "lang": self.langStyle
@@ -138,7 +137,6 @@
                 data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
-
                         url: util.getApiUrl('shopinfo', 'shopList','server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
@@ -159,16 +157,20 @@
     .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
         function($scope,$state,$http,$stateParams,$translate,$filter,util) {
             console.log('shopAddController');
-            console.log('$stateParams:'+$stateParams);
             var self = this;
             self.init = function() {
                  self.langStyle = util.langStyle();
-                 self.multiLang = util.getParams('editLangs');
-
-                 console.log($scope.app.maskParams.test);
-                 self.searchHotelList();
-                 
+                 // self.multiLang = util.getParams('editLangs');
+                 // 假数据
+                 self.multiLang = [{
+                     "name": "中文",
+                     "code": "zh-CN"
+                 }, {
+                     "name": "en",
+                     "code": "en-US"
+                 }]
                  console.log(self.langStyle)
+                 self.searchHotelList();
                  // 表单提交 商城信息
                  self.form = {};
                  // 多语言
@@ -192,22 +194,34 @@
                         url: util.getApiUrl('shopinfo', 'shopList','server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
-                        self.hotelList = data.data.data.hotelList;
+                        console.log(data)
+                        // self.hotelList = data.data.data.hotelList;
+                        self.hotelList = [{
+                            "HotelID": 1,
+                            "HotelName": { "zh-CN": "上海门店" }
+                        },{
+                            "HotelID": 2,
+                            "HotelName": { "zh-CN": "北京门店" }
+                        }]
+
+
                     }, function errorCallback(data, status, headers, config) {
 
                     });
             }
 
             self.saveForm = function() {
+                console.log(self.form.HotelID)
                 var shopList = {
-                    "HotelID":self.form.HotelID,
+                    "HotelID":self.form.HotelID - 0,
                     "ShopName":self.form.shopName,
                     "ShopType":"wx"
                 }
                 var data = {
                       "action": "addMgtHotelShop",
                       "token": util.getParams("token"),
-                      "lang": self.langStyle
+                      "lang": self.langStyle,
+                      "shopList": [shopList]
                 };
                 data = JSON.stringify(data);
                     $http({
@@ -215,7 +229,7 @@
                         url: util.getApiUrl('shopinfo', 'shopList','server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
-                        self.hotelList = data.data.data.hotelList;
+                        console.log(data)
                     }, function errorCallback(data, status, headers, config) {
 
                     });
@@ -238,11 +252,12 @@
             }
 
             self.categoryAdd = function(){
+               console.log('categoryAdd')
                $scope.app.maskParams = {'test': '12'};
                $scope.app.maskUrl = 'pages/categoryAdd.html';
             }
 
-            self.categotyEdit = function(){
+            self.categoryEdit = function(){
                $scope.app.maskParams = {'test': '12'};
                $scope.app.maskUrl = 'pages/categoryEdit.html';
             }

@@ -1,4 +1,11 @@
 <div ng-controller="shopEditController as shopEdit" ng-init="shopEdit.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
  shopEdit
  <button ng-click="shopEdit.cancel()">X</button>
+ <form novalidate name="shopEditForm" ng-submit="shopEditForm.$valid && shopAdd.saveForm()">
+ 	<input type="text" name="" placeholder="请输入商城名字" required ng-model="shopAdd.form.shopName[lang.code]" ng-repeat="lang in shopAdd.multiLang track by $index"><br>
+ 	门店列表<br>
+ 	<label ng-repeat="hotel in shopAdd.hotelList"><input type="radio" name="hotelName" value="{{hotel.HotelID}}" ng-model="shopAdd.form.HotelID">{{hotel.HotelName[shopAdd.langStyle]}}</label> <br>
+
+ 	<input type="submit" value="保存" class="button button-block button-positive" ng-disabled="shopEditForm.$invalid">
+ </form>
 </div>
