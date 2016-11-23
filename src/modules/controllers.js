@@ -12,22 +12,28 @@
         }
     ])
 
-    .controller('loginController', ['$scope', '$http', '$filter', '$state', 'util',
-        function($scope, $http, $filter, $state, util) {
+    .controller('loginController', ['$scope', '$http', '$filter', '$state', 'md5', 'util',
+        function($scope, $http, $filter, $state, md5, util) {
             var self = this;
             self.init = function() {
-
             }
             self.login = function () {
-                util.setParams('a', '1')
-                $state.go('app')
-                console.log($filter('ajaxMethod')())
+                var uName = $("#login-userName").val(),
+                    pwd = md5.createHash($("#login-password").val())
+                var data = JSON.stringify({
+                    action: "GetToken",
+                    projectName: $("#login-projectName").val(),
+                    username: uName,
+                    password: pwd
+                })
                 $http({
                     method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('logon')
+                    url: util.getApiUrl('logon'),
+                    data: data
                 }).then(function successCallback(response) {
-                    // this callback will be called asynchronously
-                    // when the response is available
+                    util.setParams('userName', uName);
+                    util.setParams('psaaword', pwd);
+                    $state.go('app');
                 }, function errorCallback(response) {
                     // called asynchronously if an error occurs
                     // or server returns response with an error status.
@@ -44,7 +50,8 @@
             self.init = function() {
                 self.appPhase = 1;
                 self.appFramePhase = 1;
-                console.log(util.getParams('a'))
+                console.log(util.getParams('userName'))
+                console.log(util.getParams('psaaword'))
             }
 
             // n: 以后换成后台读取，先随便写一个
