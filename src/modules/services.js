@@ -17,12 +17,12 @@
                             return CONFIG.serverUrl + url;
                         }
                         else {
-                            return CONFIG.testUrl + testUrl + CONFIG.testExtesion;
+                            return CONFIG.testUrl + testUrl;
                         }
                     }
                     else {
                         if (CONFIG.test) {
-                            return CONFIG.testUrl + testUrl + CONFIG.testExtesion;
+                            return CONFIG.testUrl + testUrl;
                         }
                         else {
                             return CONFIG.serverUrl + url;

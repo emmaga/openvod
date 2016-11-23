@@ -48,7 +48,7 @@
             self.getEditLangs = function() {
                 $http({
                     method: 'GET',
-                    url: util.getApiUrl('', 'editLangs', 'local')
+                    url: util.getApiUrl('', 'editLangs.json', 'local')
                 }).then(function successCallback(response) {
                     util.setParams('editLangs', response.data.editLangs);
                     $state.go('app');
@@ -60,8 +60,8 @@
         }
     ])
 
-    .controller('appController', ['$state', 'util',
-        function($state, util) {
+    .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util',
+        function($http, $scope, $state, $stateParams, util) {
             var self = this;
             self.init = function() {
                 // app 页面展开desktop
@@ -74,23 +74,52 @@
                 }
                 self.appFramePhase = 1;
 
+                // 弹窗层
                 self.maskUrl = '';
                 self.maskParams = {};
+
+                // 读取applists
+                self.loading = true;
+                $http({
+                    method: 'GET',
+                    url: util.getApiUrl('', 'apps.json', 'local')
+                }).then(function successCallback(data, status, headers, config) {
+                    $scope.appList = data.data.apps;
+                    // 如果有指定appid focus
+                    if($stateParams.appId){
+                        self.setFocusApp($stateParams.appId);
+                    }
+                }, function errorCallback(data, status, headers, config) {
+
+                }).finally(function(value) {
+                    self.loading = false;
+                });
 
                 console.log(util.getParams('editLangs'))
 
             }
 
-            // n: 以后换成后台读取，先随便写一个
-            // 0:酒店客房，1:移动商城
+            self.setFocusApp = function(id) {
+                var l = $scope.appList;
+                for (var i =0; i < l.length; i++) {
+                    if(l[i].id == id) {
+                        self.activeAppName = l[i].name;
+                        self.activeAppBgColor = l[i].bgColor;
+                        return;
+                    }
+                }
+            }
+
+            // 1:酒店客房，3:移动商城
             self.switchApp = function(n) {
               self.appPhase = 2;
+              self.setFocusApp(n);
               switch(n) {
-                case 0:
-                  $state.go('app.hotelRoom');
-                  break;
                 case 1:
-                  $state.go('app.shop');
+                  $state.go('app.hotelRoom', {'appId': n});
+                  break;
+                case 3:
+                  $state.go('app.shop', {'appId': n});
                   break;
                 default:
                   break;
@@ -137,15 +166,15 @@
                 };
                 data = JSON.stringify(data);
 
-                    $http({
-                        method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList'),
-                        data: data
-                    }).then(function successCallback(data, status, headers, config) {
-                        console.log(data)
-                    }, function errorCallback(data, status, headers, config) {
+                $http({
+                    method: $filter('ajaxMethod')(),
+                    url: util.getApiUrl('shopinfo', 'shopList'),
+                    data: data
+                }).then(function successCallback(data, status, headers, config) {
+                    console.log(data)
+                }, function errorCallback(data, status, headers, config) {
 
-                    });
+                });
             }
 
 
