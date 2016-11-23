@@ -21,12 +21,12 @@
                             return CONFIG.serverUrl + url;
                         }
                         else {
-                            return CONFIG.testUrl + testUrl + CONFIG.testExtesion;
+                            return CONFIG.testUrl + testUrl;
                         }
                     }
                     else {
                         if (CONFIG.test) {
-                            return CONFIG.testUrl + testUrl + CONFIG.testExtesion;
+                            return CONFIG.testUrl + testUrl;
                         }
                         else {
                             return CONFIG.serverUrl + url;
@@ -40,7 +40,7 @@
                  *   userName: <String> 用户名,
                  *   projectName: <String> 项目名,
                  *   token: <String> token,
-                 *   editLangs: <Array> 语言
+                 *   editLangs: <String> 语言
                  *   [
                  *      {
                  *          "name": "中文",
@@ -55,7 +55,7 @@
                  * @param value {String}
                  */
                 'setParams': function (paramsName, value) {
-                    $cookies.put(paramsName, value)
+                    $cookies.put(paramsName, JSON.stringify(value))
                 },
                 /**
                  * 获取变量
@@ -64,7 +64,8 @@
                  */
                 'getParams': function (paramsName) {
 
-                    return $cookies.get(paramsName);
+
+                    return JSON.parse($cookies.get(paramsName));
 
                   
                 },
@@ -72,6 +73,7 @@
                 // 当前系统 使用 的 语言
                 'langStyle': function(){
                     return $translate.proposedLanguage() || $translate.use();
+
 
                 }
             }

@@ -29,7 +29,7 @@
                     templateUrl: 'pages/login.html'
                 })
                 .state('app', {
-                    url: '/app',
+                    url: '/app?appId',
                     templateUrl: 'pages/app.html'
                 })
                 .state('app.shop', {
@@ -66,22 +66,14 @@
         }])
 
 
-  // 每次页面开始跳转时触发
-  .run(['$rootScope', 'util', function($rootScope, util) {
-    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, options){
-      // 判断用户是否登录
-      if(!util.getParams('token') && toState.name!="login") {
-        alert('访问超时，请重新登录');
-        window.location.href = window.location.origin + window.location.pathname
-      }
-    })
-  }])
 
-  .constant('CONFIG', {
-    serverUrl     : 'http://openvod.cleartv.cn/backend_mgt/v1/',
-    testUrl       : 'test/',
-    testExtesion  : '.json',
-    test          : false
-  })
+
+
+
+        .constant('CONFIG', {
+            serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
+            testUrl: 'test/',
+            test: false
+        })
 
 })();
