@@ -1,8 +1,19 @@
 <div ng-controller="roomController as room" ng-init="room.init()">
-    {{room.hotelName}}
+    <h2>{{room.hotelName}}</h2>
     <div>
-        <!--<button ng-click="goods.shopEdit()">编辑商城属性</button><br>-->
-        <!--<button ng-click="goods.categotyEdit()">分类编辑</button>-->
-        <!--<button ng-click="goods.categotyEdit()">分类添加</button>-->
+        <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotelAddress}}</div>
+        <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotelDescription}}</div>
+    </div>
+    <div>
+        <h3>{{'ROOM_LIST' | translate}}</h3>
+        <div><button ng-click="room.roomAdd()">{{'ROOM_ADD' | translate}}</button></div>
+        <table ng-table="">
+            <tbody>
+                <tr ng-repeat="item in room.rooms">
+                    <td><img ng-src="{{item.imgURL}}"></td>
+                    <td>{{item.roomTypeName}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
