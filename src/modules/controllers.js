@@ -64,7 +64,14 @@
         function($state, util) {
             var self = this;
             self.init = function() {
-                self.appPhase = 1;
+                // app 页面展开desktop
+                if($state.current.name !== 'app') {
+                   self.appPhase = 2; 
+                }
+                // 其他页面收起desktop
+                else {
+                    self.appPhase = 1;
+                }
                 self.appFramePhase = 1;
 
                 self.maskUrl = '';
