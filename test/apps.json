@@ -1,0 +1,28 @@
+{
+  "apps": [
+    {
+      "id": 1,
+      "name": "酒店客房",
+      "icon": "xx.jpg",
+      "bgColor": "red"
+    },
+    {
+      "id": 2,
+      "name": "预定订单",
+      "icon": "xx.jpg",
+      "bgColor": "red"
+    },
+    {
+      "id": 3,
+      "name": "移动商城",
+      "icon": "xx.jpg",
+      "bgColor": "red"
+    },
+    {
+      "id": 4,
+      "name": "商城订单",
+      "icon": "xx.jpg",
+      "bgColor": "red"
+    }
+  ]
+}

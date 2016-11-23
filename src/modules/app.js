@@ -7,7 +7,8 @@
     'app.controllers',
     'app.filters',
     'app.directives',
-    'app.services'
+    'app.services',
+    'angular-md5'
   ])
 
   .config(['$translateProvider',function($translateProvider){
@@ -49,7 +50,7 @@
   }])
 
   .constant('CONFIG', {
-    serverUrl     : 'http://openvod.cleartv.cn/backend_wx/v1/',
+    serverUrl     : 'http://openvod.cleartv.cn/backend_mgt/v1/',
     testUrl       : 'test/',
     testExtesion  : '.json',
     test          : true
