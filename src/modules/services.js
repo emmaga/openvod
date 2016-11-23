@@ -34,6 +34,12 @@
                 /**
                  * 设置变量
                  * @param paramsName {String}
+                 * {
+                 *   userName: <String> 用户名,
+                 *   projectName: <String> 项目名,
+                 *   token: <String> token,
+                 *   editLangs: <String> 语言
+                 *   }
                  * @param value {String}
                  */
                 'setParams': function (paramsName, value) {

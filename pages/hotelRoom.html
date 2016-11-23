@@ -1,7 +1,7 @@
 <div ng-controller="hotelRoomController as hotelRoom" ng-init="hotelRoom.init()">
     {{hotelRoom.hotelList}}<br>
     <ul>
-        <li ng-repeat="item in hotelRoom.hotels">{{item.hotelName}}</li>
+        <li ng-repeat="item in hotels">{{item.hotelName}}</li>
     </ul>
     <ui-view></ui-view>
     <div ng-include="hotelRoom.maskUrl" class="autoscroll"></div>

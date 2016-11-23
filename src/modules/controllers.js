@@ -28,7 +28,7 @@
                 })
 
                 $http({
-                    method: $filter('ajaxMethod')(),
+                    method: 'POST',
                     url: util.getApiUrl('logon', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
@@ -48,7 +48,7 @@
             }
             self.getEditLangs = function() {
                 $http({
-                    method: $filter('ajaxMethod')(),
+                    method: 'GET',
                     url: util.getApiUrl('', 'editLangs', 'local')
                 }).then(function successCallback(response) {
                     // this callback will be called asynchronously
@@ -129,13 +129,13 @@
                 var data = {
                     // 假数据
                     // "hotelId": self.hotelId -0
-                    "hotelId": 1
+                    "shopId": 1
                 };
                 data = JSON.stringify(data);
 
                     $http({
                         method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('hotelinfo', 'shopList'),
+                        url: util.getApiUrl('shopinfo', 'shopList'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
@@ -314,9 +314,11 @@
                 self.queryHotelList
             }
             self.queryHotelList = function () {
-                self.hotels = [{hotelId: 1, hotelName: 'testhotel1'},
+                var hotels = [];
+                hotels = [{hotelId: 1, hotelName: 'testhotel1'},
                     {hotelId: 2, hotelName: 'testhotel2'},
-                    {hotelId: 3, hotelName: 'testhotel3'}]
+                    {hotelId: 3, hotelName: 'testhotel3'}];
+                self.hotels = hotels
             }
         }
     ]) 
