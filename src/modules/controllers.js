@@ -29,18 +29,25 @@
                     url: util.getApiUrl('logon'),
                     data: data
                 }).then(function successCallback(response) {
-                    console.log(response)
-                    if (response.data.rescode == '200') {
+                    var msg = response.data;
+                    if (msg.rescode == '200') {
                         util.setParams('userName', self.userName);
                         util.setParams('projectName', self.projectName);
-                        util.setParams('token', response.data.token);
+                        util.setParams('token', msg.token);
                         $state.go('app');
+                    } else if (msg.rescode == '401' && msg.errInfo == '用户名或者密码错误') {
+                        alert('用户名或者密码错误')
+                    } else if (msg.rescode == '401' && msg.errInfo == '用户名不存在') {
+                        alert('用户名不存在')
                     } else {
                         alert('Error')
                     }
                 }, function errorCallback(response) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
+                    if (response.status == 500) {
+                        alert('服务器出错');
+                    } else if (response.status == 404) {
+                        alert('服务器出错');
+                    }
                 });
 
             }
