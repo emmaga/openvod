@@ -18,22 +18,33 @@
             self.init = function() {
 
             }
-            /*self.login = function () {
-                util.setParams('a', '1')
-                $state.go('app')
-                console.log($filter('ajaxMethod')())
+
+            self.login = function () {
+                var data = JSON.stringify({
+                    action: "GetToken",
+                    projectName: self.projectName,
+                    username: self.userName,
+                    password: md5.createHash(self.password)
+                })
+
                 $http({
                     method: $filter('ajaxMethod')(),
                     url: util.getApiUrl('logon')
                 }).then(function successCallback(response) {
-                    // this callback will be called asynchronously
-                    // when the response is available
+                    var msg = response.data;
+                    if (msg.rescode == '200') {
+                        util.setParams('userName', self.userName);
+                        util.setParams('projectName', self.projectName);
+                        util.setParams('token', msg.token);
+                        self.getEditLangs();
+                    } else {
+                        alert(msg.rescode + ' ' + msg.errInfo);
+                    }
                 }, function errorCallback(response) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
+                    alert(response.status + ' 服务器出错');
                 });
 
-            }*/
+            }
             self.getEditLangs = function() {
                 $http({
                     method: $filter('ajaxMethod')(),
@@ -105,7 +116,7 @@
 
             var self = this;
             self.init = function() {
-               self.searchShopList(); 
+               self.searchShopList();
             }
 
             self.searchShopList = function() {
@@ -115,7 +126,7 @@
                     "hotelId": 1
                 };
                 data = JSON.stringify(data);
-                
+
                     $http({
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('hotelinfo', 'shopList'),
@@ -128,7 +139,7 @@
             }
 
 
-            
+
 
             self.shopAdd = function(){
                 self.maskUrl = 'pages/shopAdd.html';
@@ -139,7 +150,7 @@
                 console.log('cancel');
             }
         }
-    ]) 
+    ])
 
     .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
         function($scope,$state,$http,$stateParams,$filter,util) {

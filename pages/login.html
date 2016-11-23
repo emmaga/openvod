@@ -1,9 +1,9 @@
 <div ng-controller="loginController as login" ng-init="login.init()">
     <div class="titulo">Staff Login</div>
-    <form>
-        <input type="text" required title="Username required" placeholder="Username" data-icon="U" ng-model="userName">
-        <input type="password" required title="Password required" placeholder="Password" data-icon="x"  ng-model="password">
-        <input type="text" required title="" placeholder="" data-icon="U" ng-model="projectName">
-        <a href="" class="login-submit" ng-click="login.getEditLangs()">Submit</a>
+    <form name="loginForm" ng-submit="loginForm.$valid && login.login()">
+        <input ng-model="login.userName" type="text" required title="Username required" placeholder="Username">
+        <input ng-model="login.password" type="password" required title="Password required" placeholder="Password">
+        <input ng-model="login.projectName" type="text" required title="" placeholder="">
+        <button class="login-submit">Sign In</button>
     </form>
 </div>
