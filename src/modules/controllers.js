@@ -63,7 +63,7 @@
                   $state.go('app.hotelRoom');
                   break;
                 case 1:
-                  $state.go('app.shopCart');
+                  $state.go('app.shop');
                   break;
                 default:
                   break;
@@ -91,14 +91,78 @@
         }
     ])
 
-    .controller('shopCartController', ['$scope',
-        function($scope) {
+
+    .controller('shopController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
+            console.log('shopController')
+
             var self = this;
             self.init = function() {
+               self.searchShopList(); 
+            }
+
+            self.searchShopList = function() {
+                var data = {
+                    // 假数据
+                    // "hotelId": self.hotelId -0
+                    "hotelId": 1
+                };
+                data = JSON.stringify(data);
                 
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('hotelinfo', 'shopList'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        console.log(data)
+                    }, function errorCallback(data, status, headers, config) {
+
+                    });
+            }
+
+
+            
+
+            self.shopAdd = function(){
+                self.maskUrl = 'pages/shopAdd.html';
+            }
+            self.shopAddCancel = function(){
+                console.log('shopAddCancel')
+                self.maskUrl = '';
+                console.log('cancel');
             }
         }
     ]) 
+
+    .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
+            console.log('goodsController');
+            console.log($stateParams);
+            var self = this;
+            self.init = function() {
+                self.shopId = $stateParams.shopId;
+            }
+            self.goodsEdit = function(){
+                $scope.shop.maskUrl = 'pages/goodsEdit.html';
+            }
+
+            self.categotyEdit = function(){
+                $scope.shop.maskUrl = 'pages/categoryEdit.html';
+            }
+
+        }
+    ])
+
+    .controller('goodsListController', ['$stateParams',
+        function($stateParams) {
+            console.log('goodsListController');
+            console.log($stateParams);
+            var self = this;
+            self.init = function() {
+                self.shopId = $stateParams.categoryId;
+            }
+        }
+    ])
 
     .controller('hotelRoomController', ['$scope',
         function($scope) {
