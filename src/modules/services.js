@@ -3,9 +3,7 @@
 (function () {
     var app = angular.module('app.services', [])
 
-        .factory('util', ['CONFIG', function (CONFIG) {
-            var params = {};
-
+        .factory('util', ['$cookies', 'CONFIG', function ($cookies, CONFIG) {
             return {
                 /** 
                  * 调用接口，本地和服务器的接口切换，方便调试
@@ -53,7 +51,7 @@
                  * @param value {String}
                  */
                 'setParams': function (paramsName, value) {
-                    params[paramsName] = value;
+                    $cookies.put(paramsName, value)
                 },
                 /**
                  * 获取变量
@@ -61,7 +59,7 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
-                    return params[paramsName];
+                    return $cookies.get(paramsName);
                 }
             }
         }])
