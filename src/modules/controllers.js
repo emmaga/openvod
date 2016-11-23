@@ -27,7 +27,6 @@
                     username: self.userName,
                     password: md5.createHash(self.password)
                 })
-
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('logon', '', 'server'),
@@ -45,7 +44,6 @@
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');
                 });
-
             }
             self.getEditLangs = function() {
                 $http({
@@ -308,7 +306,7 @@
         function($scope) {
             var self = this;
             self.init = function() {
-                self.queryHotelList
+                self.queryHotelList()
             }
             self.queryHotelList = function () {
                 var hotels = [];
@@ -318,6 +316,45 @@
                 self.hotels = hotels
             }
         }
-    ]) 
+    ])
+
+        .controller('roomController', ['$scope', '$http', '$stateParams',
+            function($scope, $http, $stateParams) {
+                console.log($stateParams);
+                var self = this;
+                self.init = function() {
+                    self.hotelId = $stateParams.hotelId;
+                    self.queryRoomList()
+                }
+                self.queryRoomList = function () {
+                    var data = JSON.stringify({
+                        action: "getRoomList",
+                        token: util.getParams('token'),
+                        lang: self.userName,
+                        HotelID: Number(self.hotelId)
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('hotelroom', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            util.setParams('userName', self.userName);
+                            util.setParams('projectName', self.projectName);
+                            util.setParams('token', msg.token);
+                            self.getEditLangs();
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                    var rooms = [];
+
+                    self.rooms = rooms
+                }
+            }
+        ])
 
 })();
