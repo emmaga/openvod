@@ -38,24 +38,18 @@
                  *   userName: <String> 用户名,
                  *   projectName: <String> 项目名,
                  *   token: <String> token,
-                 *   editLangs: <String> 语言
-                 *   }
+                 *   editLangs: <Array> 语言
+                 *   [
+                 *      {
+                 *          "name": "中文",
+                 *          "code": "zh-CN"
+                 *      },
+                 *      {
+                 *          "name": "en",
+                 *          "code": "en-US"
+                 *      }
+                 *    ]
                  * @param value {String}
-                 */
-                /**
-                 * paramsName: editLangs
-                 *  {
-                      "editLangs": [
-                        {
-                          "name": "中文",
-                          "code": "zh-CN"
-                        },
-                        {
-                          "name": "en",
-                          "code": "en-US"
-                        }
-                      ]
-                    }
                  */
                 'setParams': function (paramsName, value) {
                     params[paramsName] = value;
