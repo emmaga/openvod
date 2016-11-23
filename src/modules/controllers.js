@@ -12,11 +12,13 @@
         }
     ])
 
-    .controller('loginController', ['$scope', '$http', '$filter', '$state', 'md5', 'util',
-        function($scope, $http, $filter, $state, md5, util) {
+    .controller('loginController', ['$scope', '$http', '$filter', '$state', 'util',
+        function($scope, $http, $filter, $state, util) {
             var self = this;
             self.init = function() {
+
             }
+
             self.login = function () {
                 var data = JSON.stringify({
                     action: "GetToken",
@@ -24,32 +26,38 @@
                     username: self.userName,
                     password: md5.createHash(self.password)
                 })
+
                 $http({
                     method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('logon'),
-                    data: data
+                    url: util.getApiUrl('logon')
                 }).then(function successCallback(response) {
                     var msg = response.data;
                     if (msg.rescode == '200') {
                         util.setParams('userName', self.userName);
                         util.setParams('projectName', self.projectName);
                         util.setParams('token', msg.token);
-                        $state.go('app');
-                    } else if (msg.rescode == '401' && msg.errInfo == '用户名或者密码错误') {
-                        alert('用户名或者密码错误')
-                    } else if (msg.rescode == '401' && msg.errInfo == '用户名不存在') {
-                        alert('用户名不存在')
+                        self.getEditLangs();
                     } else {
-                        alert('Error')
+                        alert(msg.rescode + ' ' + msg.errInfo);
                     }
                 }, function errorCallback(response) {
-                    if (response.status == 500) {
-                        alert('服务器出错');
-                    } else if (response.status == 404) {
-                        alert('服务器出错');
-                    }
+                    alert(response.status + ' 服务器出错');
                 });
 
+            }
+            self.getEditLangs = function() {
+                $http({
+                    method: $filter('ajaxMethod')(),
+                    url: util.getApiUrl('', 'editLangs', 'local')
+                }).then(function successCallback(response) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    util.setParams('editLangs', response.data.editLangs);
+                    $state.go('app');
+                }, function errorCallback(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                });
             }
 
         }
@@ -61,8 +69,7 @@
             self.init = function() {
                 self.appPhase = 1;
                 self.appFramePhase = 1;
-                console.log(util.getParams('userName'))
-                console.log(util.getParams('psaaword'))
+                console.log(util.getParams('editLangs').length)
             }
 
             // n: 以后换成后台读取，先随便写一个

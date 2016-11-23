@@ -7,13 +7,15 @@
             var params = {};
 
             return {
-                /** 调用接口，本地和服务器的接口切换，方便调试
-                 * @url, @testUrl 接口名称
-                 * @testType 测试接口时，有些接口强制服务端有效，此时设置为：server，其他设置为local，默认为local
+                /** 
+                 * 调用接口，本地和服务器的接口切换，方便调试
+                 * @param url 服务器接口名称 
+                 * @param testUrl 测试接口名称
+                 * @param forceType 强制读取服务器or本地接口 server or local
                  */
-                'getApiUrl': function (url, testUrl, testType) {
-                    if (CONFIG.test) {
-                        if (testType == 'server') {
+                'getApiUrl': function (url, testUrl, forceType) {
+                    if(forceType) {
+                        if (forceType == 'server') {
                             return CONFIG.serverUrl + url;
                         }
                         else {
@@ -21,7 +23,12 @@
                         }
                     }
                     else {
-                        return CONFIG.serverUrl + url;
+                        if (CONFIG.test) {
+                            return CONFIG.testUrl + testUrl + CONFIG.testExtesion;
+                        }
+                        else {
+                            return CONFIG.serverUrl + url;
+                        }
                     }
                 },
                 /**
@@ -39,9 +46,6 @@
                  */
                 'getParams': function (paramsName) {
                     return params[paramsName];
-                },
-                'MD5': function (value) {
-
                 }
             }
         }])
