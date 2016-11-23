@@ -12,8 +12,8 @@
         }
     ])
 
-    .controller('loginController', ['$scope', '$http', '$filter', '$state', 'util',
-        function($scope, $http, $filter, $state, util) {
+    .controller('loginController', ['$scope', '$http', '$filter', '$state', 'md5', 'util',
+        function($scope, $http, $filter, $state, md5, util) {
             var self = this;
             self.init = function() {
 
