@@ -5,5 +5,6 @@
         <input ng-model="login.password" type="password" required title="Password required" placeholder="Password">
         <input ng-model="login.projectName" type="text" required title="" placeholder="">
         <button class="login-submit">Sign In</button>
+        <div ng-show="login.loading">loading...</div>
     </form>
 </div>

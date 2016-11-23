@@ -36,6 +36,21 @@
                  * @param paramsName {String}
                  * @param value {String}
                  */
+                /**
+                 * paramsName: editLangs
+                 *  {
+                      "editLangs": [
+                        {
+                          "name": "中文",
+                          "code": "zh-CN"
+                        },
+                        {
+                          "name": "en",
+                          "code": "en-US"
+                        }
+                      ]
+                    }
+                 */
                 'setParams': function (paramsName, value) {
                     params[paramsName] = value;
                 },
