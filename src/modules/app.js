@@ -7,7 +7,8 @@
     'app.controllers',
     'app.filters',
     'app.directives',
-    'app.services'
+    'app.services',
+    'angular-md5'
   ])
 
   .config(['$translateProvider',function($translateProvider){
