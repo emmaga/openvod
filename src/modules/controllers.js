@@ -179,7 +179,12 @@
         function($scope) {
             var self = this;
             self.init = function() {
-                
+                self.queryHotelList
+            }
+            self.queryHotelList = function () {
+                self.hotels = [{hotelId: 1, hotelName: 'testhotel1'},
+                    {hotelId: 2, hotelName: 'testhotel2'},
+                    {hotelId: 3, hotelName: 'testhotel3'}]
             }
         }
     ]) 
