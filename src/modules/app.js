@@ -65,7 +65,7 @@
             })
         }])
 
-<<<<<<< HEAD
+
   // 每次页面开始跳转时触发
   .run(['$rootScope', 'util', function($rootScope, util) {
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, options){
@@ -83,12 +83,5 @@
     testExtesion  : '.json',
     test          : false
   })
-=======
-        .constant('CONFIG', {
-            serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
-            testUrl: 'test/',
-            testExtesion: '.json',
-            test: false
-        })
->>>>>>> 5d5d3233417e088fd55e2b13e473971f62035094
+
 })();
