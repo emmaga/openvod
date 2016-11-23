@@ -29,7 +29,8 @@
 
                 $http({
                     method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('logon')
+                    url: util.getApiUrl('logon', '', 'server'),
+                    data: data
                 }).then(function successCallback(response) {
                     var msg = response.data;
                     if (msg.rescode == '200') {
