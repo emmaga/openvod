@@ -2,7 +2,6 @@
     shopController<br>
     商城列表<br>
     <button ng-click="shop.shopAdd()">添加商城</button>
-    <span ui-sref="app.shop.goods({shopId:1})">shop1</span><br>
-    <span ui-sref="app.shop.goods({shopId:2})">shop2</span><br>
+    <div ng-repeat="shopItem in shop.shopList" ui-sref="app.shop.goods({shopId:shop.ShopID})">{{shopItem.ShopName[shop.langStyle]}}</div>
     <div ui-view></div>
 </div>

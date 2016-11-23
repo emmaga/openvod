@@ -1,4 +1,15 @@
 <div ng-controller="shopAddController as shopAdd" ng-init="shopAdd.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
- shopAdd
- <button ng-click="shopAdd.cancel()">X</button>
+ shopAdd<br>
+ <button ng-click="shopAdd.cancel()">X</button><br>
+ <!-- <form novalidate name="shopAddForm" ng-submit="shopAddForm.$valid && shopAdd.saveForm()">
+ 	<input type="text" name="" placeholder="请输入商城名字" required ng-model="shopAdd.form.shopName[{{lang.code}}]" ng-repeat="lang in shopAdd.multiLang">
+ 	<input type="radio" name="hotelName" value="{{hotel.HotelName[shopAdd.langStyle]}}" ng-repeat="hotel in shopAdd.hotelList" ng-model="hotel.form.HotelID">
+ 	{{hotel.form.HotelID}}<br>
+ 	{{hotel.HotelName[shopAdd.langStyle]}}<br>
+ 	<input type="submit" value="保存" class="button button-block button-positive" ng-disabled="shopAddForm.$invalid ">
+ </form> -->
+ 
+ 
+
+     
 </div>

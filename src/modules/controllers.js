@@ -115,38 +115,41 @@
     ])
 
 
-    .controller('shopController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
+    .controller('shopController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$translate,$http,$stateParams,$filter,util) {
             console.log('shopController')
 
             var self = this;
             self.init = function() {
+               self.langStyle = util.langStyle();
+               self.multiLang = util.getParams('editLangs');
+               console.log(self.langStyle)
+               console.log(self.multiLang)
                self.searchShopList();
+
             }
 
             self.searchShopList = function() {
                 var data = {
-                    // 假数据
-                    // "hotelId": self.hotelId -0
-                    "shopId": 1
+
+                      "action": "getMgtHotelShopInfo",
+                      "token": util.getParams("token"),
+                      "lang": self.langStyle
+
                 };
                 data = JSON.stringify(data);
-
                     $http({
                         method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList'),
+
+                        url: util.getApiUrl('shopinfo', 'shopList','server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
+                        self.shopList = data.data.data.shopList;
                     }, function errorCallback(data, status, headers, config) {
 
                     });
             }
-
-
-
-
-
 
             self.shopAdd = function(){
                 $scope.app.maskParams = {'test': '12'};
@@ -155,18 +158,69 @@
         }
     ])
 
-    .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
+    .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$translate,$filter,util) {
             console.log('shopAddController');
-           
+            console.log('$stateParams:'+$stateParams);
             var self = this;
             self.init = function() {
+                 self.langStyle = util.langStyle();
+                 self.multiLang = util.getParams('editLangs');
+
                  console.log($scope.app.maskParams.test);
+                 self.searchHotelList();
+                 
+                 console.log(self.langStyle)
+                 // 表单提交 商城信息
+                 self.form = {};
+                 // 多语言
+                 self.form.shopName = {};
             }
 
             self.cancel = function(){
                 console.log('cancel')
                 $scope.app.maskUrl = '';
+            }
+
+            self.searchHotelList = function() {
+                var data = {
+                      "action": "getMgtHotelInfo",
+                      "token": util.getParams("token"),
+                      "lang": self.langStyle
+                };
+                data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList','server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        self.hotelList = data.data.data.hotelList;
+                    }, function errorCallback(data, status, headers, config) {
+
+                    });
+            }
+
+            self.saveForm = function() {
+                var shopList = {
+                    "HotelID":self.form.HotelID,
+                    "ShopName":self.form.shopName,
+                    "ShopType":"wx"
+                }
+                var data = {
+                      "action": "addMgtHotelShop",
+                      "token": util.getParams("token"),
+                      "lang": self.langStyle
+                };
+                data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList','server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        self.hotelList = data.data.data.hotelList;
+                    }, function errorCallback(data, status, headers, config) {
+
+                    });
             }
 
         }

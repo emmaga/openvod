@@ -3,7 +3,11 @@
 (function () {
     var app = angular.module('app.services', [])
 
-        .factory('util', ['$cookies', 'CONFIG', function ($cookies, CONFIG) {
+
+        .factory('util', ['$cookies', '$translate', 'CONFIG', function ($cookies, $translate, CONFIG) {
+
+
+
             return {
                 /** 
                  * 调用接口，本地和服务器的接口切换，方便调试
@@ -59,7 +63,16 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
+
                     return $cookies.get(paramsName);
+
+                  
+                },
+                
+                // 当前系统 使用 的 语言
+                'langStyle': function(){
+                    return $translate.proposedLanguage() || $translate.use();
+
                 }
             }
         }])
