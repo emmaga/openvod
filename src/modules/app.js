@@ -32,8 +32,8 @@
         templateUrl: 'pages/app.html'
       })
       .state('app.shop', {
-        url: '/shop',
-        templateUrl: 'pages/shop.html'
+            url: '/shop',
+            templateUrl: 'pages/shop.html'
       })
       .state('app.shop.goods', {
         url: '/goods?shopId',
@@ -53,6 +53,6 @@
     serverUrl     : 'http://openvod.cleartv.cn/backend_mgt/v1/',
     testUrl       : 'test/',
     testExtesion  : '.json',
-    test          : false
+    test          : true
   })
 })();
