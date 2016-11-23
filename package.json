@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.5.8",
+    "angular-cookies": "^1.5.8",
     "angular-md5": "^0.1.10",
     "angular-translate": "^2.13.0",
     "angular-translate-loader-static-files": "^2.13.0",

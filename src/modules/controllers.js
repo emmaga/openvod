@@ -52,9 +52,10 @@
                     method: 'GET',
                     url: util.getApiUrl('', 'editLangs', 'local')
                 }).then(function successCallback(response) {
-                    util.setParams('editLangs', response.data.editLangs);
+                    util.setParams('editLangs', JSON.stringify(response.data.editLangs));
                     $state.go('app');
                 }, function errorCallback(response) {
+                    
                 });
             }
 
@@ -71,7 +72,7 @@
                 self.maskUrl = '';
                 self.maskParams = {};
 
-                console.log(util.getParams('editLangs').length)
+                console.log(util.getParams('editLangs'))
 
             }
 
@@ -107,7 +108,8 @@
             }
 
             self.logout = function(event) {
-
+                util.setParams('token', '');
+                $state.go('login');
             }
         }
     ])
