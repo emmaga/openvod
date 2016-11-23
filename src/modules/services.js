@@ -51,7 +51,7 @@
                  * @param value {String}
                  */
                 'setParams': function (paramsName, value) {
-                    $cookies.put(paramsName, value)
+                    $cookies.put(paramsName, JSON.stringify(value))
                 },
                 /**
                  * 获取变量
@@ -59,7 +59,7 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
-                    return $cookies.get(paramsName);
+                    return JSON.parse($cookies.get(paramsName));
                 }
             }
         }])

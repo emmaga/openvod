@@ -50,7 +50,7 @@
                     method: 'GET',
                     url: util.getApiUrl('', 'editLangs', 'local')
                 }).then(function successCallback(response) {
-                    util.setParams('editLangs', JSON.stringify(response.data.editLangs));
+                    util.setParams('editLangs', response.data.editLangs);
                     $state.go('app');
                 }, function errorCallback(response) {
                     
