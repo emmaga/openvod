@@ -49,6 +49,7 @@
                  *          "code": "en-US"
                  *      }
                  *    ]
+                 *  }
                  * @param value {String}
                  */
                 'setParams': function (paramsName, value) {
