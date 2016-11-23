@@ -44,7 +44,8 @@
             self.init = function() {
                 self.appPhase = 1;
                 self.appFramePhase = 1;
-                console.log(util.getParams('a'))
+                self.maskUrl = '';
+                self.maskParams = {};
             }
 
             // n: 以后换成后台读取，先随便写一个
@@ -113,19 +114,29 @@
                     });
             }
 
-
-            
-
             self.shopAdd = function(){
-                self.maskUrl = 'pages/shopAdd.html';
-            }
-            self.shopAddCancel = function(){
-                console.log('shopAddCancel')
-                self.maskUrl = '';
-                console.log('cancel');
+                $scope.app.maskParams = {'test': '12'};
+                $scope.app.maskUrl = 'pages/shopAdd.html';
             }
         }
     ]) 
+
+    .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
+            console.log('shopAddController');
+           
+            var self = this;
+            self.init = function() {
+                 console.log($scope.app.maskParams.test);
+            }
+
+            self.cancel = function(){
+                console.log('cancel')
+                $scope.app.maskUrl = '';
+            }
+
+        }
+    ])
 
     .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
         function($scope,$state,$http,$stateParams,$filter,util) {
@@ -135,24 +146,128 @@
             self.init = function() {
                 self.shopId = $stateParams.shopId;
             }
-            self.goodsEdit = function(){
-                $scope.shop.maskUrl = 'pages/goodsEdit.html';
+            self.goodsAdd = function(){
+                $scope.app.maskParams = {'test': '12'};
+                $scope.app.maskUrl = 'pages/goodsAdd.html';
+            }
+
+            self.categoryAdd = function(){
+               $scope.app.maskParams = {'test': '12'};
+               $scope.app.maskUrl = 'pages/categoryAdd.html';
             }
 
             self.categotyEdit = function(){
-                $scope.shop.maskUrl = 'pages/categoryEdit.html';
+               $scope.app.maskParams = {'test': '12'};
+               $scope.app.maskUrl = 'pages/categoryEdit.html';
+            }
+
+            self.shopEdit = function(){
+                console.log('shopEdit')
+                $scope.app.maskParams = {'test': '12'};
+                $scope.app.maskUrl = 'pages/shopEdit.html';
+            }
+
+
+        }
+    ])
+
+    .controller('goodsAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
+            console.log('goodsAddController');
+           
+            var self = this;
+            self.init = function() {
+                 console.log($scope.app.maskParams.test);
+            }
+
+            self.cancel = function(){
+                console.log('cancel')
+                $scope.app.maskUrl = '';
             }
 
         }
     ])
 
-    .controller('goodsListController', ['$stateParams',
-        function($stateParams) {
+    .controller('goodsEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
+            console.log('goodsEditController');
+           
+            var self = this;
+            self.init = function() {
+                 console.log($scope.app.maskParams.test);
+            }
+
+            self.cancel = function(){
+                console.log('goodsEditcancel')
+                $scope.app.maskUrl = '';
+            }
+
+        }
+    ])
+
+    .controller('shopEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
+            console.log('shopEditController');
+           
+            var self = this;
+            self.init = function() {
+                 console.log($scope.app.maskParams.test);
+            }
+
+            self.cancel = function(){
+                console.log('cancel')
+                $scope.app.maskUrl = '';
+            }
+
+        }
+    ])
+
+
+    .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
+            console.log('categoryAddController');
+            console.log($stateParams);
+            var self = this;
+            self.init = function() {
+                console.log($scope.app.maskParams.test);
+            }
+
+            self.cancel = function(){
+                console.log('cancel')
+                $scope.app.maskUrl = '';
+            }
+
+        }
+    ])
+
+    .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
+            console.log('categoryEditController');
+            var self = this;
+            self.init = function() {
+                 console.log($scope.app.maskParams.test);
+            }
+
+            self.cancel = function(){
+                console.log('cancel')
+                $scope.app.maskUrl = '';
+            }
+
+        }
+    ])
+
+    .controller('goodsListController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+        function($scope,$state,$http,$stateParams,$filter,util) {
             console.log('goodsListController');
             console.log($stateParams);
             var self = this;
             self.init = function() {
                 self.shopId = $stateParams.categoryId;
+            }
+
+            self.goodsEdit = function(){
+                $scope.app.maskParams = {'test': '12'};
+                $scope.app.maskUrl = 'pages/goodsEdit.html';
             }
         }
     ])

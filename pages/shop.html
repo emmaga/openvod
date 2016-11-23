@@ -4,6 +4,5 @@
     <button ng-click="shop.shopAdd()">添加商城</button>
     <span ui-sref="app.shop.goods({shopId:1})">shop1</span><br>
     <span ui-sref="app.shop.goods({shopId:2})">shop2</span><br>
-    <ui-view></ui-view>
-    <div ng-include="shop.maskUrl" class="autoscroll"></div>
+    <div ui-view></div>
 </div>
