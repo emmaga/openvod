@@ -48,7 +48,7 @@
             self.getEditLangs = function() {
                 $http({
                     method: 'GET',
-                    url: util.getApiUrl('', 'editLangs', 'local')
+                    url: util.getApiUrl('', 'editLangs.json', 'local')
                 }).then(function successCallback(response) {
                     util.setParams('editLangs', response.data.editLangs);
                     $state.go('app');
@@ -60,8 +60,8 @@
         }
     ])
 
-    .controller('appController', ['$state', 'util',
-        function($state, util) {
+    .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util', 
+        function($http, $scope, $state, $stateParams, util) {
             var self = this;
             self.init = function() {
                 // app 页面展开desktop
