@@ -43,6 +43,8 @@
                     }
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');
+                }).finally(function(value) {
+                    self.loading = false;
                 });
             }
             self.getEditLangs = function() {
