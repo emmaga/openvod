@@ -75,6 +75,41 @@
                     return $translate.proposedLanguage() || $translate.use();
 
 
+                },
+
+                /*
+                 * actionType: "normal" 普通上传, "transcode" 转码上传
+                 */
+                'uploadFileToUrl': function(xhr, file, uploadUrl, actionType, progressFn, succFn, failFn){
+                    
+                    var actionType = actionType ? actionType : 'normal';
+
+                    var fd = new FormData();
+                    fd.append('action', actionType);
+                    fd.append('file', file);
+                    
+                    // var xhr = new XMLHttpRequest();
+                    xhr.open('POST', uploadUrl, true);
+
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        progressFn(evt);
+                    }, false);
+
+                    xhr.onreadystatechange = function(response) {
+                        if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                            console.log(xhr.responseText);
+                            if(JSON.parse(xhr.responseText).result !== 0) {
+                              failFn(xhr);
+                            }
+                            else {
+                              succFn(xhr);
+                            }
+                        } else if (xhr.status != 200 && xhr.responseText) {
+                            failFn(xhr);
+                        }
+                    };
+
+                    xhr.send(fd);
                 }
             }
         }])
