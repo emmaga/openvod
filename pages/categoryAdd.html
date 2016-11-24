@@ -1,4 +1,12 @@
-<div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
- shopAdd
- <button ng-click="self.cancel()">X</button>
+<div ng-controller="categoryAddController as categoryAdd" ng-init="categoryAdd.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
+ categoryAddController
+ <button ng-click="categoryAdd.cancel()">X</button>
+
+ <form novalidate name="categoryAddForm" ng-submit="categoryAddForm.$valid && categoryAdd.saveForm()">
+ 	<input type="text" name="" placeholder="请输入分类名字" required ng-model="categoryAdd.form.shopName[lang.code]" ng-repeat="lang in categoryAdd.multiLang track by $index">
+ 
+    <br/>
+
+ 	<input type="submit" value="保存" class="button button-block button-positive" ng-disabled="categoryAddForm.$invalid ">
+ </form>
 </div>

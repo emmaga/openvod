@@ -1,5 +1,18 @@
 <div ng-controller="goodsListController as gl" ng-init="gl.init()">
-    goodsList {{gl.shopId}}
+    
     <button ng-click="gl.goodsAdd()">添加商品</button>
-    <button ng-click="gl.goodsEdit()">编辑商品属性</button>
+    
+
+    <button ng-click="gl.categoryEdit()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'">分类编辑</button>
+    <button ng-click="gl.categoryDelete()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'">删除分类</button><br>
+    
+    <table ng-table="gl.tableParams" class="table table-bordered table-striped table-condensed">
+        <tr ng-repeat="product in gl.productList">
+            <td data-title="'商品名'" >{{product.name[gl.langStyle]}}</td>
+            <td data-title="'库存'" >{{product.invetory}}</td>
+            <td data-title="'商品图'" ><Img ng-src="product.imgSrc"></td>
+            <td data-title="'单价'">{{product.price}}</td>
+            <td><button ng-click="gl.goodsEdit(product.produnctId)">编辑商品属性</button></td>
+        </tr>
+    </table>
 </div>

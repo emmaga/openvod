@@ -1,4 +1,11 @@
 <div ng-controller="categoryEditController as categoryEdit" ng-init="categoryEdit.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
-    categotyEdit<br>
- <button ng-click="categoryEdit.cancel()">X</button>
+    categotyEdit
+    <br>
+    <button ng-click="categoryEdit.cancel()">X</button>
+    <form novalidate name="categoryEditForm" ng-submit="categoryEditForm.$valid && categoryEdit.saveForm()">
+        <input type="text" name="" placeholder="请输入分类名字" required ng-model="categoryEdit.form.shopName[lang.code]" ng-repeat="lang in categoryEdit.multiLang track by $index">
+        <br/>
+        fjsklfdj
+        <input type="submit" value="保存" class="button button-block button-positive" ng-disabled="categoryEditForm.$invalid ">
+    </form>
 </div>
