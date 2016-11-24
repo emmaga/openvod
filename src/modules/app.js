@@ -9,9 +9,9 @@
         'app.directives',
         'app.services',
         'angular-md5',
-        'ngCookies'
+        'ngCookies',
+        'ngTable'
     ])
-
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';
             $translateProvider.preferredLanguage(lang);
@@ -29,7 +29,7 @@
                     templateUrl: 'pages/login.html'
                 })
                 .state('app', {
-                    url: '/app',
+                    url: '/app?appId',
                     templateUrl: 'pages/app.html'
                 })
                 .state('app.shop', {
@@ -37,11 +37,11 @@
                     templateUrl: 'pages/shop.html'
                 })
                 .state('app.shop.goods', {
-                    url: '/goods?shopId',
+                    url: '/goods?HotelID&ShopID&ShopName&HotelName',
                     templateUrl: 'pages/goods.html'
                 })
                 .state('app.shop.goods.goodsList', {
-                    url: '/goodsList?categoryId',
+                    url: '/goodsList?ShopGoodsCategoryID&ShopGoodsCategoryName',
                     templateUrl: 'pages/goodsList.html'
                 })
                 .state('app.hotelRoom', {
@@ -65,11 +65,17 @@
             })
         }])
 
+
+
+
+
+
         .constant('CONFIG', {
             serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',
             testUrl: 'test/',
-            testExtesion: '.json',
-            test: false
+            test: false,
+            uploadUrl: 'http://mres.cleartv.cn/upload'
         })
+
 })();

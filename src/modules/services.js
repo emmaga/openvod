@@ -3,7 +3,11 @@
 (function () {
     var app = angular.module('app.services', [])
 
-        .factory('util', ['$cookies', 'CONFIG', function ($cookies, CONFIG) {
+
+        .factory('util', ['$cookies', '$translate', 'CONFIG', function ($cookies, $translate, CONFIG) {
+
+
+
             return {
                 /** 
                  * 调用接口，本地和服务器的接口切换，方便调试
@@ -17,12 +21,12 @@
                             return CONFIG.serverUrl + url;
                         }
                         else {
-                            return CONFIG.testUrl + testUrl + CONFIG.testExtesion;
+                            return CONFIG.testUrl + testUrl;
                         }
                     }
                     else {
                         if (CONFIG.test) {
-                            return CONFIG.testUrl + testUrl + CONFIG.testExtesion;
+                            return CONFIG.testUrl + testUrl;
                         }
                         else {
                             return CONFIG.serverUrl + url;
@@ -67,7 +71,53 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
+
+
                     return JSON.parse($cookies.get(paramsName));
+
+                  
+                },
+                
+                // 当前系统 使用 的 语言
+                'langStyle': function(){
+                    return $translate.proposedLanguage() || $translate.use();
+
+
+                },
+
+                /*
+                 * actionType: "normal" 普通上传, "transcode" 转码上传
+                 */
+                'uploadFileToUrl': function(xhr, file, uploadUrl, actionType, progressFn, succFn, failFn){
+                    
+                    var actionType = actionType ? actionType : 'normal';
+
+                    var fd = new FormData();
+                    fd.append('action', actionType);
+                    fd.append('file', file);
+                    
+                    // var xhr = new XMLHttpRequest();
+                    xhr.open('POST', uploadUrl, true);
+
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        progressFn(evt);
+                    }, false);
+
+                    xhr.onreadystatechange = function(response) {
+                        if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                            console.log(xhr.responseText);
+                            if(JSON.parse(xhr.responseText).result !== 0) {
+                              failFn(xhr);
+                            }
+                            else {
+                              succFn(xhr);
+                            }
+                        } else if (xhr.status != 200 && xhr.responseText) {
+                            failFn(xhr);
+                        }
+                    };
+
+                    xhr.send(fd);
                 }
             }
         }])

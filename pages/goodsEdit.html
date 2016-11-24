@@ -1,4 +1,39 @@
-<div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);" ng-controller="goodsEditController as goodsEdit" ng-init="goodsEdit.init()">
- goodsEdit
- <button ng-click="goodsEdit.cancel()">X</button>
+<div style="position: absolute; left: 100px; top: 100px; right: 100px; bottom: 100px; background: rgba(255,255,255,0.8);" ng-controller="goodsEditController as goodsEdit" ng-init="goodsEdit.init()">
+ 编辑商品信息
+    <div ng-show="goodsEdit.loading">loadingGoodsInfo...</div>
+    <form name="goodsEditForm" ng-submit="goodsEditForm.$valid && goodsEdit.editGoods()">
+        <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
+            <ng-if ng-if="lang.default">
+             商品名 {{lang.name}}：<input ng-model="goodsEdit.name[lang.code]" required />
+            </ng-if>
+            <ng-if ng-if="lang.default !== true">
+             商品名 {{lang.name}}：<input ng-model="goodsEdit.name[lang.code]" />
+            </ng-if>
+        </ng-repeat>
+        <div ng-repeat="img in goodsEdit.imgs.data">
+            <img src="{{img.src}}" alt="{{img.fileName}}" />
+            大小： {{img.fileSize}}
+            进度： {{img.progress}}
+            剩余： {{img.leftSize}}
+            <a ng-click="goodsEdit.imgs.deleteById(img.id); ">
+             删除
+            </a>
+        </div>
+        <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
+        <a ng-click="goodsEdit.clickUpload('upload')">上传图片</a>
+        <a id="hidenUpload" style="display: none;" ng-click="goodsEdit.imgs.uploadFile('myFile')"></a>
+        单价(分)：<input ng-model="goodsEdit.price" required />
+        库存：<input ng-model="goodsEdit.invetory" required />
+        <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
+            <ng-if ng-if="lang.default == true">
+             简介 {{lang.name}}：<textarea ng-model="goodsEdit.intro[lang.code]" required ></textarea>
+            </ng-if>
+            <ng-if ng-if="lang.default !== true">
+             简介：{{lang.name}}：<textarea ng-model="goodsEdit.intro[lang.code]"></textarea>
+            </ng-if>
+        </ng-repeat>
+
+        <button type="submit" ng-disabled="goodsEdit.saving">保存</button>
+        <button ng-click="goodsEdit.cancel()">取消</button>
+    </form>
 </div>
