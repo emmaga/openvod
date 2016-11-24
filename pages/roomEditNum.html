@@ -1,0 +1,24 @@
+<div ng-controller="roomEditPriceController as roomEditPrice" ng-init="roomEditPrice.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
+    <div style="width: 500px; left: -50%; margin-left: 710px; margin-top: 200px; background-color: white;">
+        <span>可订数量</span>
+        <div>
+            <form name="roomEditPriceForm" ng-submit="roomEditPriceForm.$valid && roomEditPrice.login()">
+                <div>
+                    <div>平时：<input type="number"></div>
+                </div>
+                <div>
+                    <div>临时变动表<button>添加设置</button></div>
+                    <div>
+                        <div>删除</div>
+                        <div><input type="datetime"></div>
+                        <div><input type="number"></div>
+                    </div>
+                </div>
+                <div>
+                    <button ng-click="roomEditPrice.cancel()">{{'CANCEL' | translate}}</button>
+                    <button type="submit">{{'SAVE' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

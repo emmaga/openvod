@@ -30,12 +30,20 @@
                     }
                 },
                 /**
+                 * 获取上传URL
+                 * @returns {string}
+                 */
+                'getUploadUrl': function () {
+                    return CONFIG.uploadUrl;
+                },
+                /**
                  * 设置变量
                  * @param paramsName {String}
                  * {
                  *   userName: <String> 用户名,
                  *   projectName: <String> 项目名,
                  *   token: <String> token,
+                 *   lang: <String> 本地语言,
                  *   editLangs: <String> 语言
                  *   [
                  *      {

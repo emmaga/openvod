@@ -1,6 +1,7 @@
 <div ng-controller="roomController as room" ng-init="room.init()">
     <h2>{{room.hotelName}}</h2>
     <div>
+        <div><button ng-click="room.hotelRoomEdit()">编辑</button></div>
         <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotelAddress}}</div>
         <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotelDescription}}</div>
     </div>
@@ -12,6 +13,12 @@
                 <tr ng-repeat="item in room.rooms">
                     <td><img ng-src="{{item.imgURL}}"></td>
                     <td>{{item.roomTypeName}}</td>
+                    <td>
+                        <button>复制</button>
+                        <button ng-click="room.roomEditNum(item.roomId)">改数量</button>
+                        <button ng-click="room.roomEditPrice(item.roomId)">该价格</button>
+                        <button ng-click="room.roomEdit(item.roomId)">查看详情</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

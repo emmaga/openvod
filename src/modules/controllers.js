@@ -1,141 +1,141 @@
 'use strict';
 
-(function() {
+(function () {
     var app = angular.module('app.controllers', [])
 
-    .controller('indexController', ['$scope',
-        function($scope) {
-            var self = this;
-            self.init = function() {
-                this.maskUrl = '';
+        .controller('indexController', ['$scope',
+            function ($scope) {
+                var self = this;
+                self.init = function () {
+                    this.maskUrl = '';
+                }
             }
-        }
-    ])
+        ])
 
-    .controller('loginController', ['$scope', '$http', '$filter', '$state', 'md5', 'util',
-        function($scope, $http, $filter, $state, md5, util) {
-            var self = this;
-            self.init = function() {
+        .controller('loginController', ['$scope', '$http', '$filter', '$state', '$translate', 'md5', 'util',
+            function ($scope, $http, $filter, $state, $translate, md5, util) {
+                var self = this;
+                self.init = function () {
+                    util.setParams('lang', $translate.proposedLanguage() || $translate.use());
+                }
+
+                self.login = function () {
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        action: "GetToken",
+                        projectName: self.projectName,
+                        username: self.userName,
+                        password: md5.createHash(self.password)
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('logon', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            util.setParams('userName', self.userName);
+                            util.setParams('projectName', self.projectName);
+                            util.setParams('token', msg.token);
+                            self.getEditLangs();
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
+                self.getEditLangs = function () {
+                    $http({
+                        method: 'GET',
+                        url: util.getApiUrl('', 'editLangs', 'local')
+                    }).then(function successCallback(response) {
+                        util.setParams('editLangs', response.data.editLangs);
+                        $state.go('app');
+                    }, function errorCallback(response) {
+
+                    });
+                }
 
             }
+        ])
 
-            self.login = function () {
-                self.loading = true;
-                var data = JSON.stringify({
-                    action: "GetToken",
-                    projectName: self.projectName,
-                    username: self.userName,
-                    password: md5.createHash(self.password)
-                })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('logon', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var msg = response.data;
-                    if (msg.rescode == '200') {
-                        util.setParams('userName', self.userName);
-                        util.setParams('projectName', self.projectName);
-                        util.setParams('token', msg.token);
-                        self.getEditLangs();
-                    } else {
-                        alert(msg.rescode + ' ' + msg.errInfo);
+        .controller('appController', ['$state', 'util',
+            function ($state, util) {
+                var self = this;
+                self.init = function () {
+                    // app 页面展开desktop
+                    if ($state.current.name !== 'app') {
+                        self.appPhase = 2;
                     }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                });
-            }
-            self.getEditLangs = function() {
-                $http({
-                    method: 'GET',
-                    url: util.getApiUrl('', 'editLangs', 'local')
-                }).then(function successCallback(response) {
-                    util.setParams('editLangs', response.data.editLangs);
-                    $state.go('app');
-                }, function errorCallback(response) {
+                    // 其他页面收起desktop
+                    else {
+                        self.appPhase = 1;
+                    }
+                    self.appFramePhase = 1;
 
-                });
-            }
+                    self.maskUrl = '';
+                    self.maskParams = {};
 
-        }
-    ])
+                    console.log(util.getParams('editLangs'))
 
-    .controller('appController', ['$state', 'util',
-        function($state, util) {
-            var self = this;
-            self.init = function() {
-                // app 页面展开desktop
-                if($state.current.name !== 'app') {
-                   self.appPhase = 2; 
                 }
-                // 其他页面收起desktop
-                else {
+
+                // n: 以后换成后台读取，先随便写一个
+                // 0:酒店客房，1:移动商城
+                self.switchApp = function (n) {
+                    self.appPhase = 2;
+                    switch (n) {
+                        case 0:
+                            $state.go('app.hotelRoom');
+                            break;
+                        case 1:
+                            $state.go('app.shop');
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                self.showDesktop = function () {
                     self.appPhase = 1;
+                    setTimeout(function () {
+                        self.appFramePhase = 1;
+                    }, 530)
                 }
-                self.appFramePhase = 1;
 
-                self.maskUrl = '';
-                self.maskParams = {};
+                self.focusLauncher = function () {
+                    self.appFramePhase = 2;
+                }
 
-                console.log(util.getParams('editLangs'))
+                self.focusApp = function () {
+                    self.appFramePhase = 1;
+                }
 
+                self.logout = function (event) {
+                    util.setParams('token', '');
+                    $state.go('login');
+                }
             }
-
-            // n: 以后换成后台读取，先随便写一个
-            // 0:酒店客房，1:移动商城
-            self.switchApp = function(n) {
-              self.appPhase = 2;
-              switch(n) {
-                case 0:
-                  $state.go('app.hotelRoom');
-                  break;
-                case 1:
-                  $state.go('app.shop');
-                  break;
-                default:
-                  break;
-              }
-            }
-
-            self.showDesktop = function() {
-              self.appPhase = 1;
-              setTimeout(function(){
-                self.appFramePhase = 1;
-              },530)
-            }
-
-            self.focusLauncher = function() {
-              self.appFramePhase = 2;
-            }
-
-            self.focusApp = function() {
-              self.appFramePhase = 1;
-            }
-
-            self.logout = function(event) {
-                util.setParams('token', '');
-                $state.go('login');
-            }
-        }
-    ])
+        ])
 
 
-    .controller('shopController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('shopController')
+        .controller('shopController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('shopController')
 
-            var self = this;
-            self.init = function() {
-               self.searchShopList();
-            }
+                var self = this;
+                self.init = function () {
+                    self.searchShopList();
+                }
 
-            self.searchShopList = function() {
-                var data = {
-                    // 假数据
-                    // "hotelId": self.hotelId -0
-                    "shopId": 1
-                };
-                data = JSON.stringify(data);
+                self.searchShopList = function () {
+                    var data = {
+                        // 假数据
+                        // "hotelId": self.hotelId -0
+                        "shopId": 1
+                    };
+                    data = JSON.stringify(data);
 
                     $http({
                         method: $filter('ajaxMethod')(),
@@ -146,193 +146,189 @@
                     }, function errorCallback(data, status, headers, config) {
 
                     });
+                }
+
+
+                self.shopAdd = function () {
+                    $scope.app.maskParams = {'test': '12'};
+                    $scope.app.maskUrl = 'pages/shopAdd.html';
+                }
             }
+        ])
 
+        .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('shopAddController');
 
+                var self = this;
+                self.init = function () {
+                    console.log($scope.app.maskParams.test);
+                }
 
+                self.cancel = function () {
+                    console.log('cancel')
+                    $scope.app.maskUrl = '';
+                }
 
-
-
-            self.shopAdd = function(){
-                $scope.app.maskParams = {'test': '12'};
-                $scope.app.maskUrl = 'pages/shopAdd.html';
             }
-        }
-    ])
+        ])
 
-    .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('shopAddController');
+        .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('goodsController');
+                console.log($stateParams);
+                var self = this;
+                self.init = function () {
+                    self.shopId = $stateParams.shopId;
+                }
+                self.goodsAdd = function () {
+                    $scope.app.maskParams = {'test': '12'};
+                    $scope.app.maskUrl = 'pages/goodsAdd.html';
+                }
 
-            var self = this;
-            self.init = function() {
-                 console.log($scope.app.maskParams.test);
+                self.categoryAdd = function () {
+                    $scope.app.maskParams = {'test': '12'};
+                    $scope.app.maskUrl = 'pages/categoryAdd.html';
+                }
+
+                self.categotyEdit = function () {
+                    $scope.app.maskParams = {'test': '12'};
+                    $scope.app.maskUrl = 'pages/categoryEdit.html';
+                }
+
+                self.shopEdit = function () {
+                    console.log('shopEdit')
+                    $scope.app.maskParams = {'test': '12'};
+                    $scope.app.maskUrl = 'pages/shopEdit.html';
+                }
+
+
             }
+        ])
 
-            self.cancel = function(){
-                console.log('cancel')
-                $scope.app.maskUrl = '';
+        .controller('goodsAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('goodsAddController');
+
+                var self = this;
+                self.init = function () {
+                    console.log($scope.app.maskParams.test);
+                }
+
+                self.cancel = function () {
+                    console.log('cancel')
+                    $scope.app.maskUrl = '';
+                }
+
             }
+        ])
 
-        }
-    ])
+        .controller('goodsEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('goodsEditController');
 
-    .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('goodsController');
-            console.log($stateParams);
-            var self = this;
-            self.init = function() {
-                self.shopId = $stateParams.shopId;
+                var self = this;
+                self.init = function () {
+                    console.log($scope.app.maskParams.test);
+                }
+
+                self.cancel = function () {
+                    console.log('goodsEditcancel')
+                    $scope.app.maskUrl = '';
+                }
+
             }
-            self.goodsAdd = function(){
-                $scope.app.maskParams = {'test': '12'};
-                $scope.app.maskUrl = 'pages/goodsAdd.html';
+        ])
+
+        .controller('shopEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('shopEditController');
+
+                var self = this;
+                self.init = function () {
+                    console.log($scope.app.maskParams.test);
+                }
+
+                self.cancel = function () {
+                    console.log('cancel')
+                    $scope.app.maskUrl = '';
+                }
+
             }
+        ])
 
-            self.categoryAdd = function(){
-               $scope.app.maskParams = {'test': '12'};
-               $scope.app.maskUrl = 'pages/categoryAdd.html';
+
+        .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('categoryAddController');
+                console.log($stateParams);
+                var self = this;
+                self.init = function () {
+                    console.log($scope.app.maskParams.test);
+                }
+
+                self.cancel = function () {
+                    console.log('cancel')
+                    $scope.app.maskUrl = '';
+                }
+
             }
+        ])
 
-            self.categotyEdit = function(){
-               $scope.app.maskParams = {'test': '12'};
-               $scope.app.maskUrl = 'pages/categoryEdit.html';
+        .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('categoryEditController');
+                var self = this;
+                self.init = function () {
+                    console.log($scope.app.maskParams.test);
+                }
+
+                self.cancel = function () {
+                    console.log('cancel')
+                    $scope.app.maskUrl = '';
+                }
+
             }
+        ])
 
-            self.shopEdit = function(){
-                console.log('shopEdit')
-                $scope.app.maskParams = {'test': '12'};
-                $scope.app.maskUrl = 'pages/shopEdit.html';
+        .controller('goodsListController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('goodsListController');
+                console.log($stateParams);
+                var self = this;
+                self.init = function () {
+                    self.shopId = $stateParams.categoryId;
+                }
+
+                self.goodsEdit = function () {
+                    $scope.app.maskParams = {'test': '12'};
+                    $scope.app.maskUrl = 'pages/goodsEdit.html';
+                }
             }
+        ])
 
-
-        }
-    ])
-
-    .controller('goodsAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('goodsAddController');
-
-            var self = this;
-            self.init = function() {
-                 console.log($scope.app.maskParams.test);
+        .controller('hotelRoomController', ['$scope',
+            function ($scope) {
+                var self = this;
+                self.init = function () {
+                    self.queryHotelList()
+                }
+                self.queryHotelList = function () {
+                    var hotels = [];
+                    hotels = [{hotelId: 1, hotelName: 'testhotel1'},
+                        {hotelId: 2, hotelName: 'testhotel2'},
+                        {hotelId: 3, hotelName: 'testhotel3'}];
+                    self.hotels = hotels
+                }
             }
-
-            self.cancel = function(){
-                console.log('cancel')
-                $scope.app.maskUrl = '';
-            }
-
-        }
-    ])
-
-    .controller('goodsEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('goodsEditController');
-
-            var self = this;
-            self.init = function() {
-                 console.log($scope.app.maskParams.test);
-            }
-
-            self.cancel = function(){
-                console.log('goodsEditcancel')
-                $scope.app.maskUrl = '';
-            }
-
-        }
-    ])
-
-    .controller('shopEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('shopEditController');
-
-            var self = this;
-            self.init = function() {
-                 console.log($scope.app.maskParams.test);
-            }
-
-            self.cancel = function(){
-                console.log('cancel')
-                $scope.app.maskUrl = '';
-            }
-
-        }
-    ])
-
-
-    .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('categoryAddController');
-            console.log($stateParams);
-            var self = this;
-            self.init = function() {
-                console.log($scope.app.maskParams.test);
-            }
-
-            self.cancel = function(){
-                console.log('cancel')
-                $scope.app.maskUrl = '';
-            }
-
-        }
-    ])
-
-    .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('categoryEditController');
-            var self = this;
-            self.init = function() {
-                 console.log($scope.app.maskParams.test);
-            }
-
-            self.cancel = function(){
-                console.log('cancel')
-                $scope.app.maskUrl = '';
-            }
-
-        }
-    ])
-
-    .controller('goodsListController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('goodsListController');
-            console.log($stateParams);
-            var self = this;
-            self.init = function() {
-                self.shopId = $stateParams.categoryId;
-            }
-
-            self.goodsEdit = function(){
-                $scope.app.maskParams = {'test': '12'};
-                $scope.app.maskUrl = 'pages/goodsEdit.html';
-            }
-        }
-    ])
-
-    .controller('hotelRoomController', ['$scope',
-        function($scope) {
-            var self = this;
-            self.init = function() {
-                self.queryHotelList()
-            }
-            self.queryHotelList = function () {
-                var hotels = [];
-                hotels = [{hotelId: 1, hotelName: 'testhotel1'},
-                    {hotelId: 2, hotelName: 'testhotel2'},
-                    {hotelId: 3, hotelName: 'testhotel3'}];
-                self.hotels = hotels
-            }
-        }
-    ])
+        ])
 
         .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', 'util',
-            function($scope, $http, $stateParams, $translate, util) {
+            function ($scope, $http, $stateParams, $translate, util) {
                 var self = this;
                 var lang = $translate.proposedLanguage() || $translate.use();
                 console.log(lang)
-                self.init = function() {
+                self.init = function () {
                     self.hotelId = $stateParams.hotelId;
                     self.getHotelInfo()
                     self.getRoomList()
@@ -382,9 +378,10 @@
                         data: data
                     }).then(function successCallback(response) {
                         var msg = response.data;
-                        if (msg.rescode == '200') {
+                        if (msg.rescode == 200) {
                             msg.data.forEach(function (el) {
                                 rooms.push({
+                                    roomId: el.RoomID,
                                     imgURL: el.LogoImgURL,
                                     roomTypeName: el.RoomTypeName
                                 })
@@ -398,27 +395,255 @@
                     });
                 }
 
-                self.roomAdd = function(){
+                self.hotelRoomEdit = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId};
-                    $scope.app.maskUrl = 'pages/shopAdd.html';
+                    $scope.app.maskUrl = 'pages/hotelRoomEdit.html';
+                }
+
+                self.roomAdd = function () {
+                    $scope.app.maskParams = {'hotelId': self.hotelId};
+                    $scope.app.maskUrl = 'pages/roomAdd.html';
+                }
+
+                self.roomEdit = function (roomId) {
+                    $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
+                    $scope.app.maskUrl = 'pages/roomEdit.html';
+                }
+
+                self.roomEditPrice = function (roomId) {
+                    $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
+                    $scope.app.maskUrl = 'pages/roomEditPrice.html';
+                }
+
+                self.roomEditNum = function (roomId) {
+                    $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
+                    $scope.app.maskUrl = 'pages/roomEditNum.html';
+                }
+            }
+        ])
+
+        .controller('hotelRoomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                    self.editLangs = util.getParams('editLangs');
+                }
+
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
                 }
             }
         ])
 
         .controller('roomAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-            function($scope,$state,$http,$stateParams,$filter,util) {
+            function ($scope, $state, $http, $stateParams, $filter, util) {
                 var self = this;
-                var hotelId;
-                self.init = function() {
+                var hotelId,
+                    lang,
+                    token;
+                self.uploadId = 1;
+                self.init = function () {
                     hotelId = $scope.app.maskParams.hotelId;
+                    lang = util.getParams('lang');
+                    token = util.getParams('token');
+                    self.getRoomTags();
+                    self.editLangs = util.getParams('editLangs');
                 }
-
-                self.cancel = function(){
-                    console.log('cancel')
+                self.cancel = function () {
                     $scope.app.maskUrl = '';
                 }
 
+                /**
+                 * 获取客房标签
+                 */
+                self.getRoomTags = function () {
+                    var roomTags = [];
+                    var data = JSON.stringify({
+                        action: "getRoomTags",
+                        lang: lang,
+                        token: token,
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            msg.tags.forEach(function (el) {
+                                roomTags.push({
+                                    tagId: el.ID,
+                                    tagName: el.TagName
+                                })
+                            })
+                            self.roomTags = roomTags;
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
+                /**
+                 * 保存
+                 */
+                self.save = function () {
+                    var data = JSON.stringify({
+                        action: "addRoom",
+                        lang: lang,
+                        token: token,
+                        tags: [],
+                        IntroImgs: [],
+                        roomDetail: {
+                            HotelID: hotelId,
+                            RoomTypeName: {
+
+                            }
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            msg.tags.forEach(function (el) {
+                                roomTags.push({
+                                    tagId: el.ID,
+                                    tagName: el.TagName
+                                })
+                            })
+                            self.roomTags = roomTags;
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
             }
         ])
 
+        .controller('roomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                var self = this;
+                var hotelId,
+                    lang,
+                    token;
+                self.uploadId = 1;
+                self.init = function () {
+                    hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                    lang = util.getParams('lang');
+                    token = util.getParams('token');
+                    self.getRoomTags();
+                    self.editLangs = util.getParams('editLangs');
+                }
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
+                }
+
+                /**
+                 * 获取客房标签
+                 */
+                self.getRoomTags = function () {
+                    var roomTags = [];
+                    var data = JSON.stringify({
+                        action: "getRoomTags",
+                        lang: lang,
+                        token: token,
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            msg.tags.forEach(function (el) {
+                                roomTags.push({
+                                    tagId: el.ID,
+                                    tagName: el.TagName
+                                })
+                            })
+                            self.roomTags = roomTags;
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
+                /**
+                 * 保存
+                 */
+                self.save = function () {
+                    var data = JSON.stringify({
+                        action: "updateRoom",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId,
+                        tags: [],
+                        IntroImgs: [],
+                        roomDetail: {
+                            HotelID: hotelId,
+                            RoomTypeName: {
+
+                            }
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            msg.tags.forEach(function (el) {
+                                roomTags.push({
+                                    tagId: el.ID,
+                                    tagName: el.TagName
+                                })
+                            })
+                            self.roomTags = roomTags;
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
+            }
+        ])
+
+        .controller('roomEditPriceController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                }
+
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
+                }
+            }
+        ])
+
+        .controller('roomEditNumController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                }
+
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
+                }
+            }
+        ])
 })();
