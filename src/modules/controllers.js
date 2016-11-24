@@ -319,9 +319,7 @@
             self.init = function() {
                  self.shopId = $scope.app.maskParams.shopId;
                  self.shopGoodsCategoryId = $scope.app.maskParams.shopGoodsCategoryId;
-                 // self.imgs = new Imgs(["4.jpg","5.jpg"]);
                  self.imgs = new Imgs([]);
-                 self.imgs.initImgs();
                  self.editLangs = util.getParams('editLangs');
                  self.name = {};
                  self.intro = {};
@@ -346,7 +344,10 @@
                 var imgSrc = [];
                 var l = self.imgs.data;
                 for(var i = 0; i < l.length; i++){
-                    imgSrc[i] = l[i].src;
+                    imgSrc[i] = {};
+                    imgSrc[i].ImageURL = l[i].src;
+                    imgSrc[i].Seq = i;
+                    imgSrc[i].ImageSize = Number(l[i].fileSize);
                 }
                 var data = JSON.stringify({
                     "action": "addMgtProductDetail",
@@ -398,7 +399,7 @@
                 initImgs: function() {
                     var l = this.initImgList;
                     for (var i =0; i < l.length; i++) {
-                        this.data[i] = {"src": l[i], "id": this.maxId++, "progress": 100};
+                        this.data[i] = {"src": l[i].ImageURL, "fileSize":l[i].ImageSize, "id": this.maxId++, "progress": 100};
                     }
                 },
                 deleteById: function(id) {
@@ -438,10 +439,11 @@
                   }
                 },
 
-                setSrcByXhr: function(xhr, src) {
+                setSrcSizeByXhr: function(xhr, src, size) {
                     for (var i =0; i< this.data.length; i++) {
                         if(this.data[i].xhr == xhr) {
                             this.data[i].src = src;
+                            this.data[i].fileSize = size;
                             break;
                         }
                     }
@@ -468,7 +470,7 @@
                             var ret = JSON.parse(xhr.responseText);
                             console && console.log(ret);
                             $scope.$apply(function(){
-                              self.imgs.setSrcByXhr(xhr, ret.upload_path);
+                              self.imgs.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
                             });
                         },
                         function(xhr) {
@@ -492,11 +494,7 @@
 
             var self = this;
             self.init = function() {
-                 self.shopId = $scope.app.maskParams.shopId;
-                 self.shopGoodsCategoryId = $scope.app.maskParams.shopGoodsCategoryId;
-                 // self.imgs = new Imgs(["4.jpg","5.jpg"]);
-                 self.imgs = new Imgs([]);
-                 self.imgs.initImgs();
+                 self.productId = $scope.app.maskParams.productId;
                  self.editLangs = util.getParams('editLangs');
                  self.name = {};
                  self.intro = {};
@@ -506,7 +504,35 @@
 
             self.getGoodsInfo = function() {
                 self.loading = true;
-                
+
+                var data = JSON.stringify({
+                    "action": "getMgtProductDetail",
+                    "token": util.getParams('token'),
+                    "lang": util.langStyle(),
+                    "productId": self.productId
+                })
+
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('shopinfo', '', 'server'),
+                    data: data
+                }).then(function successCallback(data, status, headers, config) {
+                    if(data.data.rescode == "200"){
+                        var data = data.data.data;
+                        self.name = data.product.name;
+                        self.invetory = data.product.invetory;
+                        self.price = data.product.price;
+                        self.intro = data.product.intro;
+                        self.imgs = new Imgs(data.product.imgSrc);
+                        self.imgs.initImgs();
+                    }else {
+                        alert('读取商品失败' + data.data.rescode +'，' + data.data.errInfo);
+                    }
+                }, function errorCallback(data, status, headers, config) {
+                    alert('连接服务器出错');
+                }).finally(function(value) {
+                    self.loading = false;
+                });
             }
 
             self.cancel = function(){
@@ -514,7 +540,7 @@
                 $scope.app.maskUrl = '';
             }
 
-            self.addGoods = function() {
+            self.editGoods = function() {
                 // 图片不能为空
                 if(self.imgs.data.length == 0) {
                     alert('请上传图片');
@@ -528,15 +554,17 @@
                 var imgSrc = [];
                 var l = self.imgs.data;
                 for(var i = 0; i < l.length; i++){
-                    imgSrc[i] = l[i].src;
+                    imgSrc[i] = {};
+                    imgSrc[i].ImageURL = l[i].src;
+                    imgSrc[i].Seq = i;
+                    imgSrc[i].ImageSize = Number(l[i].fileSize);
                 }
                 var data = JSON.stringify({
-                    "action": "addMgtProductDetail",
+                    "action": "editMgtProductDetail",
                     "token": util.getParams('token'),
                     "lang": util.langStyle(),
                     "product": {
-                        "ShopID": self.shopId,
-                        "categoryId": self.shopGoodsCategoryId,
+                        "productID": self.productId,
                         "name": self.name,
                         "invetory": self.invetory,
                         "price": self.price,
@@ -544,7 +572,7 @@
                         "imgSrc": imgSrc
                     }
                 });
-
+                console.log(data);
                 self.saving = true;
                 $http({
                     method: 'POST',
@@ -552,10 +580,10 @@
                     data: data
                 }).then(function successCallback(data, status, headers, config) {
                     if(data.data.rescode == "200"){
-                        alert('添加成功');
+                        alert('修改成功');
                         $state.reload();
                     }else {
-                        alert('添加失败，错误编码：' + data.data.rescode +'，' + data.data.errInfo);
+                        alert('修改失败，错误编码：' + data.data.rescode +'，' + data.data.errInfo);
                     }
                 }, function errorCallback(data, status, headers, config) {
                     alert('连接服务器出错');
@@ -580,7 +608,7 @@
                 initImgs: function() {
                     var l = this.initImgList;
                     for (var i =0; i < l.length; i++) {
-                        this.data[i] = {"src": l[i], "id": this.maxId++, "progress": 100};
+                        this.data[i] = {"src": l[i].ImageURL, "fileSize":l[i].ImageSize, "id": this.maxId++, "progress": 100};
                     }
                 },
                 deleteById: function(id) {
@@ -620,10 +648,11 @@
                   }
                 },
 
-                setSrcByXhr: function(xhr, src) {
+                setSrcSizeByXhr: function(xhr, src, size) {
                     for (var i =0; i< this.data.length; i++) {
                         if(this.data[i].xhr == xhr) {
                             this.data[i].src = src;
+                            this.data[i].fileSize = size;
                             break;
                         }
                     }
@@ -650,7 +679,7 @@
                             var ret = JSON.parse(xhr.responseText);
                             console && console.log(ret);
                             $scope.$apply(function(){
-                              self.imgs.setSrcByXhr(xhr, ret.upload_path);
+                              self.imgs.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
                             });
                         },
                         function(xhr) {
@@ -734,7 +763,7 @@
             }
             
             self.goodsEdit = function(){
-                $scope.app.maskParams = {'productId': 1};
+                $scope.app.maskParams = {'productId': 16};
                 $scope.app.maskUrl = 'pages/goodsEdit.html';
             }
         }
