@@ -2,12 +2,15 @@
  shopAdd<br>
  <button ng-click="shopAdd.cancel()">X</button><br>
  <form novalidate name="shopAddForm" ng-submit="shopAddForm.$valid && shopAdd.saveForm()">
- 	<input type="text" name="" placeholder="请输入商城名字" required ng-model="shopAdd.form.shopName[lang.code]" ng-repeat="lang in shopAdd.multiLang track by $index"><br>
+	 <div ng-repeat="lang in shopAdd.multiLang track by $index">
+	 	商城名字：({{lang.name}}) <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]" >
+	 </div>
+ 	<br>
  	门店列表<br>
- 	<label ng-repeat="hotel in shopAdd.hotelList"><input type="radio" name="hotelName" value="{{hotel.HotelID}}" ng-model="shopAdd.form.HotelID">{{hotel.HotelName[shopAdd.langStyle]}}</label> <br>
-
+ 	<label ng-repeat="hotel in shopAdd.hotelList"><input type="radio" name="hotelName" value="{{hotel.ShopID}}" ng-model="shopAdd.form.ShopID">{{hotel.ShopName[shopAdd.langStyle]}}</label> <br>
  	<input type="submit" value="保存" class="button button-block button-positive" ng-disabled="shopAddForm.$invalid ">
  </form>
+ {{shopAdd.hotelList}}
  
  
 

@@ -154,19 +154,11 @@
             console.log('shopController')
             var self = this;
             self.init = function() {
-               self.langStyle = util.langStyle();
-               self.multiLang = [{
-                   "name": "中文",
-                   "code": "zh-CN"
-               }, {
-                   "name": "en",
-                   "code": "en-US"
-               }]
-               console.log(self.langStyle)
-               console.log(self.multiLang)
-               self.searchShopList();
-               
-
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    console.log(self.langStyle)
+                    console.log(self.multiLang)
+                    self.searchShopList();
             }
 
             self.searchShopList = function() {
@@ -207,15 +199,8 @@
             var self = this;
             self.init = function() {
                  self.langStyle = util.langStyle();
-                 // self.multiLang = util.getParams('editLangs');
-                 // 假数据
-                 self.multiLang = [{
-                     "name": "中文",
-                     "code": "zh-CN"
-                 }, {
-                     "name": "en",
-                     "code": "en-US"
-                 }]
+                 self.multiLang = util.getParams('editLangs');
+
                  console.log(self.langStyle)
                  self.searchHotelList();
                  // 表单提交 商城信息
@@ -231,25 +216,20 @@
 
             self.searchHotelList = function() {
                 var data = {
-                      "action": "getMgtHotelInfo",
+                      "action": "getHotelList",
                       "token": util.getParams("token"),
                       "lang": self.langStyle
                 };
                 data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList','server'),
+                        url: util.getApiUrl('hotelroom', 'shopList','server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
-                        self.hotelList = data.data.data.hotelList;
-                        // self.hotelList = [{
-                        //     "HotelID": 1,
-                        //     "HotelName": { "zh-CN": "上海门店" }
-                        // },{
-                        //     "HotelID": 2,
-                        //     "HotelName": { "zh-CN": "北京门店" }
-                        // }]
+                        self.hotelList = data.data.data;
+                        console.log(self.hotelList)
+
 
 
                     }, function errorCallback(data, status, headers, config) {
@@ -294,15 +274,8 @@
             self.init = function() {
                 self.stateParams = $stateParams;
                 self.langStyle = util.langStyle();
-                // self.multiLang = util.getParams('editLangs');
-                // 假数据
-                self.multiLang = [{
-                    "name": "中文",
-                    "code": "zh-CN"
-                }, {
-                    "name": "en",
-                    "code": "en-US"
-                }];
+                self.multiLang = util.getParams('editLangs');
+
                 self.getGoodsCategory();
             }
 
@@ -742,15 +715,8 @@
                  console.log(self.maskParams);
 
                  self.langStyle = util.langStyle();
-                 // self.multiLang = util.getParams('editLangs');
-                 // 假数据
-                 self.multiLang = [{
-                     "name": "中文",
-                     "code": "zh-CN"
-                 }, {
-                     "name": "en",
-                     "code": "en-US"
-                 }];
+                 self.multiLang = util.getParams('editLangs');
+
                  // 表单提交 商城信息
                  self.form = {};
                  // 多语言
@@ -766,31 +732,23 @@
 
             self.searchHotelList = function() {
                 var data = {
-                      "action": "getMgtHotelInfo",
+                      "action": "getHotelList",
                       "token": util.getParams("token"),
                       "lang": self.langStyle
                 };
                 data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList','server'),
+                        url: util.getApiUrl('hotelroom', 'shopList','server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
-                        // self.hotelList = data.data.data.hotelList;
-                        self.hotelList = [{
-                            "HotelID": 1,
-                            "HotelName": { "zh-CN": "上海门店" }
-                        },{
-                            "HotelID": 2,
-                            "HotelName": { "zh-CN": "北京门店" }
-                        }]
-
-
+                        self.hotelList = data.data.data.hotelList;
                     }, function errorCallback(data, status, headers, config) {
 
                     });
             }
+            
             self.saveForm = function() {
                 console.log(self.form.HotelID)
                 var shopList = {
@@ -799,12 +757,18 @@
                     "ShopType":"wx"
                 }
                 var data = {
-                      "action": "addMgtHotelShop",
+                      "action": "editMgtHotelShop",
                       "token": util.getParams("token"),
                       "lang": self.langStyle,
-                      "shopList": [shopList]
+                      "shop": {
+                          "ShopID": self.maskParams.ShopID,
+                          "ShopName": self.form.shopName,
+                          "ShopType": "wx"
+                      }
+
                 };
-                data = JSON.stringify(data);
+
+                data = JSON.stringify(data); console.log(data)
                 $http({
                     method: $filter('ajaxMethod')(),
                     url: util.getApiUrl('shopinfo', 'shopList','server'),
@@ -861,15 +825,8 @@
                 self.langStyle = util.langStyle();
                 self.maskParams = $scope.app.maskParams;
                 console.log(self.maskParams);
-                // self.multiLang = util.getParams('editLangs');
-                // 假数据
-                self.multiLang = [{
-                    "name": "中文",
-                    "code": "zh-CN"
-                }, {
-                    "name": "en",
-                    "code": "en-US"
-                }];
+                self.multiLang = util.getParams('editLangs');
+
                 // 表单提交 商城信息
                 self.form = {};
                 // 多语言
@@ -918,15 +875,8 @@
                 self.stateParams = $stateParams;
                 self.maskParams = $scope.app.maskParams;
                 self.langStyle = util.langStyle();
-                // self.multiLang = util.getParams('editLangs');
-                // 假数据
-                self.multiLang = [{
-                    "name": "中文",
-                    "code": "zh-CN"
-                }, {
-                    "name": "en",
-                    "code": "en-US"
-                }];
+                self.multiLang = util.getParams('editLangs');
+
                 // 表单提交 商城信息
                 self.form = {};
                 // 多语言
@@ -965,6 +915,58 @@
 
         }
     ])
+    
+    // 放在页面内
+    // .controller('goodsCategoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+    //     function($scope,$state,$http,$stateParams,$filter,util) {
+    //         console.log('goodsCategoryEditController');
+    //         console.log($stateParams);
+    //         console.log($scope.app.maskParams);
+    //         var self = this;
+    //         self.init = function() {
+    //             self.stateParams = $stateParams;
+    //             self.maskParams = $scope.app.maskParams;
+    //             self.langStyle = util.langStyle();
+    //             self.multiLang = util.getParams('editLangs');
+
+    //             // 表单提交 商城信息
+    //             self.form = {};
+    //             // 多语言
+    //             self.form.shopName = {};
+    //         }
+
+    //         self.cancel = function(){
+    //             console.log('cancel')
+    //             $scope.app.maskUrl = '';
+    //         }
+
+    //         // self.saveForm = function() {
+    //         //     console.log(self.form.HotelID)
+    //         //     console.log(self.form.HotelID)
+    //         //     var data = {
+    //         //           "action": "editMgtProductCategory",
+    //         //           "token": util.getParams("token"),
+    //         //           "lang": self.langStyle,
+    //         //           "ShopGoodsCategory":{
+    //         //                "ShopGoodsCategoryID":self.maskParams.ShopGoodsCategoryID,
+    //         //                "ShopGoodsCategoryName":self.form.shopName
+    //         //           }
+    //         //     };
+    //         //     data = JSON.stringify(data);
+    //         //     $http({
+    //         //         method: $filter('ajaxMethod')(),
+    //         //         url: util.getApiUrl('shopinfo', 'shopList','server'),
+    //         //         data: data
+    //         //     }).then(function successCallback(data, status, headers, config) {
+    //         //         alert('分类修改成功')
+    //         //         $state.reload();
+    //         //     }, function errorCallback(data, status, headers, config) {
+
+    //         //     });
+    //         // };
+
+    //     }
+    // ])
 
     .controller('goodsListController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
         function($scope,$state,$http,$stateParams,$filter,NgTableParams,util) {
@@ -975,28 +977,22 @@
             self.init = function() {
                 self.stateParams = $stateParams;
                 self.langStyle = util.langStyle();
-                // self.multiLang = util.getParams('editLangs');
-                // 假数据
-                self.multiLang = [{
-                    "name": "中文",
-                    "code": "zh-CN"
-                }, {
-                    "name": "en",
-                    "code": "en-US"
-                }];
-
+                self.multiLang = util.getParams('editLangs');
                 // 表单提交 商城信息
                 self.form = {};
                 // 多语言
                 self.form.shopName = {};
                 self.getProductList(self.stateParams.ShopGoodsCategoryID);
 
-            }
+                self.getGoodsCategory();
 
+            }
+            // 分类编辑
             self.categoryEdit = function(){
                $scope.app.maskParams = {'ShopGoodsCategoryID':self.stateParams.ShopGoodsCategoryID - 0 };
                $scope.app.maskUrl = 'pages/categoryEdit.html';
             }
+ 
 
             self.categoryDelete = function(){
                 var flag = confirm('确认删除？')
@@ -1032,6 +1028,30 @@
                 $scope.app.maskUrl = 'pages/goodsEdit.html';
             }
 
+            // 商品分类列表
+            self.getGoodsCategory = function() {
+                var data = {
+                      "action": "getMgtProductCategory",
+                      "token": util.getParams("token"),
+                      "lang": self.langStyle,
+                      "shopId": $stateParams.ShopID-0
+                };
+                data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList','server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        console.log(data)
+                        self.categoryList = data.data.data.categoryList;
+                        // 默认加载 全部分类
+                        $state.go('app.shop.goods.goodsList',{ShopGoodsCategoryID:'all',ShopGoodsCategoryName:'全部商品'})
+                    }, function errorCallback(data, status, headers, config) {
+
+                    });
+            }
+
+            // 商品列表
             self.getProductList = function(ShopGoodsCategoryID){
                 var data = {
                     "action": "getMgtShopProductList",
@@ -1041,7 +1061,8 @@
                 }
 
                 if (!(ShopGoodsCategoryID == "all")) {
-                    data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0
+                    data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
+                    data.action="getMgtProductList";
                 }
                 self.tableParams = new NgTableParams({
                     page: 1,
@@ -1068,6 +1089,37 @@
                 })
 
             }
+
+            // 更改商品分类
+            self.changeGoodsCategory = function(categoryid,productId) {
+                console.log('categoryid:'+categoryid +'productId'+productId)
+                var data = {
+                      "action": "editMgtProductPCategory",
+                      "token": util.getParams("token"),
+                      "lang": self.langStyle,
+                      "product":{
+                          "productID":productId -0,
+                          "categoryList": [
+                                categoryid-0
+                          ]
+                      }
+                };
+                data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList','server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        console.log(data)
+                        // 默认加载 全部分类
+                    }, function errorCallback(data, status, headers, config) {
+
+                    });
+            }
+
+
+
+
             
 
 

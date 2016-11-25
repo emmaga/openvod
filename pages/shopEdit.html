@@ -2,7 +2,7 @@
  shopEdit
  <button ng-click="shopEdit.cancel()">X</button>
  <form novalidate name="shopEditForm" ng-submit="shopEditForm.$valid && shopEdit.saveForm()">
- 	<input type="text" name="" placeholder="{{shopEdit.maskParams.ShopName}}" required ng-model="shopEdit.form.shopName[lang.code]" ng-repeat="lang in shopEdit.multiLang track by $index"><br>
+ 	<input type="text" name="" value="{{shopEdit.maskParams.ShopName}}" required ng-model="shopEdit.form.shopName[lang.code]" ng-repeat="lang in shopEdit.multiLang track by $index"><br>
  	门店列表<br>
  	<label ng-repeat="hotel in shopEdit.hotelList"><input type="radio" name="hotelName" value="{{hotel.HotelID}}" ng-model="shopEdit.form.HotelID" ng-checked="shopEdit.maskParams.HotelID==hotel.HotelID">{{hotel.HotelName[shopEdit.langStyle]}}</label> <br>
 
