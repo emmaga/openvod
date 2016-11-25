@@ -1,21 +1,22 @@
 <div ng-controller="roomController as room" ng-init="room.init()">
     <!--酒店详情-->
-    <h2>{{room.hotelName[room.defaultLangCode]}}</h2>
+    <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
+    <h2>{{room.hotel.Name[room.defaultLangCode]}}</h2>
     <div>
-        <div><button ng-click="room.hotelRoomEdit()">编辑</button></div>
+        <div><button ng-click="room.hotelEdit()">编辑</button></div>
         
-        <ng-repeat ng-repeat="img in room.hotelImgs">
+        <ng-repeat ng-repeat="img in room.hotel.Imgs">
             <img src="{{img.ImageURL}}" />
         </ng-repeat>
         
-        <ng-repeat ng-repeat="tag in room.hotelTags">
+        <ng-repeat ng-repeat="tag in room.hotel.Tags">
             {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
         </ng-repeat>
 
-        <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotelAddress[room.defaultLangCode]}}</div>
-        酒店坐标：{{room.hotelLocationX}} {{room.hotelLocationY}}
-        酒店logo图：{{room.hotelLogoImg}}
-        <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotelDescription[room.defaultLangCode]}}</div>
+        <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotel.Address[room.defaultLangCode]}}</div>
+        酒店坐标：{{room.hotel.LocationX}} {{room.hotel.LocationY}}
+        酒店logo图：{{room.hotel.LogoImg}}
+        <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotel.Description[room.defaultLangCode]}}</div>
     </div>
     <!--酒店详情-->
     <div>

@@ -1,0 +1,63 @@
+<div ng-controller="hotelEditController as hotelEdit" ng-init="hotelEdit.init()" style="position: absolute; left: 100px; top: 100px; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
+    <span>酒店详情</span>
+    <div>
+        <div ng-show="loading">loading</div>
+        <form name="hotelEditForm" ng-submit="hotelEditForm.$valid && hotelEdit.login()">
+            <div>
+                <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.name[lang.code]" required />
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.name[lang.code]" />
+                    </ng-if>
+                </ng-repeat>
+            </div>
+            <div>
+                <div>我是假图片</div>
+                <input id="upload" style="display: none;" type="file" file-model="myFile"/>
+                <button ng-click="hotelEdit.clickUpload()">upload</button>
+                <button id="hidenUpload" style="display: none;" ng-click="hotelEdit.uploadFile()"></button>
+            </div>
+            <div>
+                <ul>
+                    <li ng-repeat="item in hotelEdit.hotelTags"><input type="checkbox">{{item.tagName}}</li>
+                </ul>
+            </div>
+            <div>
+                <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.name[lang.code]" required />
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.name[lang.code]" />
+                    </ng-if>
+                </ng-repeat>
+                <div>
+                    X:<input type="text" onkeyup="value=value.replace(/[^\-?\d.]/g,'')">
+                    Y:<input type="text" onkeyup="value=value.replace(/[^\-?\d.]/g,'')">
+                </div>
+            </div>
+            <div>
+                <div>我是假图片</div>
+                <input id="" style="display: none;" type="file" file-model="myFile"/>
+                <button ng-click="">上传logo</button>
+                <button id="" style="display: none;" ng-click=""></button>
+            </div>
+            <div>
+                <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.name[lang.code]" required></textarea>
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.name[lang.code]"></textarea>
+                    </ng-if>
+                </ng-repeat>
+            </div>
+            <div>
+                <button ng-click="hotelEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <button type="submit">{{'SAVE' | translate}}</button>
+            </div>
+        </form>
+    </div>
+</div>

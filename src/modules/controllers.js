@@ -1109,6 +1109,7 @@
              * 获取酒店信息
              */
             self.getHotelInfo = function () {
+                self.loadingHotelInfo = true;
                 var data = JSON.stringify({
                     action: "getHotel",
                     token: util.getParams('token'),
@@ -1122,19 +1123,22 @@
                 }).then(function successCallback(response) {
                     var data = response.data;
                     if (data.rescode == '200') {
-                        self.hotelImgs = data.data.Gallery;
-                        self.hotelTags = data.data.Features;
-                        self.hotelName = data.data.Name;
-                        self.hotelAddress = data.data.Address;
-                        self.hotelDescription = data.data.Description;
-                        self.hotelLocationX = data.data.LocationX;
-                        self.hotelLocationY = data.data.LocationY;
-                        self.hotelLogoImg = data.data.LogoURL;
+                        self.hotel = {};
+                        self.hotel.Imgs = data.data.Gallery;
+                        self.hotel.Tags = data.data.Features;
+                        self.hotel.Name = data.data.Name;
+                        self.hotel.Address = data.data.Address;
+                        self.hotel.Description = data.data.Description;
+                        self.hotel.LocationX = data.data.LocationX;
+                        self.hotel.LocationY = data.data.LocationY;
+                        self.hotel.LogoImg = data.data.LogoURL;
                     } else {
                         alert(data.rescode + ' ' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');
+                }).finally(function(e) {
+                    self.loadingHotelInfo = false;
                 });
             }
 
@@ -1171,9 +1175,9 @@
                 });
             }
 
-            self.hotelRoomEdit = function () {
+            self.hotelEdit = function () {
                 $scope.app.maskParams = {'hotelId': self.hotelId};
-                $scope.app.maskUrl = 'pages/hotelRoomEdit.html';
+                $scope.app.maskUrl = 'pages/hotelEdit.html';
             }
 
             self.roomAdd = function () {
@@ -1198,12 +1202,11 @@
         }
     ])
 
-    .controller('hotelRoomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+    .controller('hotelEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
         function ($scope, $state, $http, $stateParams, $filter, util) {
             var self = this;
             self.init = function () {
                 self.hotelId = $scope.app.maskParams.hotelId;
-                self.roomId = $scope.app.maskParams.roomId;
                 self.editLangs = util.getParams('editLangs');
             }
 
