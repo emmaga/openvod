@@ -3,7 +3,6 @@
 (function () {
     var app = angular.module('app.services', [])
 
-
         .factory('util', ['$cookies', '$translate', 'CONFIG', function ($cookies, $translate, CONFIG) {
 
 

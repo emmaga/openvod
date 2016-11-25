@@ -14,12 +14,23 @@
                 </ng-repeat>
             </div>
             <div>
-                <ng-repeat ng-repeat="img in hotelEdit.hotel.Imgs">
-                    <img src="{{img.ImageURL}}" />
-                </ng-repeat>
-                <input id="upload" style="display: none;" type="file" file-model="myFile"/>
-                <button ng-click="hotelEdit.clickUpload()">上传图片</button>
-                <button id="hidenUpload" style="display: none;" ng-click="hotelEdit.uploadFile()"></button>
+                <!--酒店图片-->
+                <div ng-repeat="img in hotelEdit.imgs1.data">
+                    <img src="{{img.src}}" alt="{{img.fileName}}" />
+                    大小： {{img.fileSize}}
+                    进度： {{img.progress}}
+                    剩余： {{img.leftSize}}
+                    <a ng-click="hotelEdit.imgs1.deleteById(img.id); ">
+                     删除
+                    </a>
+                </div>
+                <!--酒店图片-->
+
+                <!-- 上传酒店图片按钮 -->
+                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
+                <a ng-click="hotelEdit.clickUpload('upload')">上传图片</a>
+                <a id="hidenUpload" style="display: none;" ng-click="hotelEdit.imgs1.uploadFile('myFile', hotelEdit.imgs1)"></a>
+                <!-- 上传酒店图片按钮 -->
             </div>
             <div>
                 <!--酒店标签-->
@@ -42,12 +53,24 @@
                     Y:<input type="text" ng-model="hotelEdit.hotel.LocationY" required />
                 </div>
             </div>
-            <div>
-                {{room.hotel.LogoImg}}
-                <input id="" style="display: none;" type="file" file-model="myFile"/>
-                <button ng-click="">上传LOGO</button>
-                <button id="" style="display: none;" ng-click=""></button>
+            <!-- 上传酒店LOGO按钮 -->
+            <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
+            <a ng-click="hotelEdit.clickUpload('upload2')">上传LOGO</a>
+            <a id="hidenUpload2" style="display: none;" ng-click="hotelEdit.imgs2.uploadFile('myFile', hotelEdit.imgs2)"></a>
+            <!-- 上传酒店LOGO按钮 -->
+
+            <!--酒店LOGO-->
+            <div ng-repeat="img in hotelEdit.imgs2.data">
+                <img src="{{img.src}}" alt="{{img.fileName}}" />
+                大小： {{img.fileSize}}
+                进度： {{img.progress}}
+                剩余： {{img.leftSize}}
+                <a ng-click="hotelEdit.imgs2.deleteById(img.id); ">
+                 删除
+                </a>
             </div>
+            <!--酒店LOGO-->
+
             <div>
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <ng-if ng-if="lang.default">
