@@ -13,7 +13,7 @@
             <td data-title="'商品图'" ><Img ng-src="product.imgSrc"></td>
             <td data-title="'单价'">{{product.price}}</td>
             <td data-title="'分类'"><span ng-repeat="category in gl.categoryList">{{category.name[gl.langStyle]}}<input type="checkbox" name=""  ng-click="gl.changeGoodsCategory(category.id,product.productId)" ng-checked="category.id ==product"></span> </td>
-            <td data-title="'上架下架'"><input type="checkbox" name="" ng-click="gl.changeGoodsStatus(product.productId)"> </td>
+            <td data-title="'上架下架'"><input type="checkbox"  ng-click="gl.changeGoodsStatus(product.productId,product.status)" ng-model="product.status" ng-checked='product.status==1'> </td>
             <td><button ng-click="gl.goodsEdit(product.productId)">编辑商品属性</button></td>
         </tr>
     </table>

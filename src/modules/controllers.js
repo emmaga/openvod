@@ -1117,6 +1117,38 @@
                     });
             }
 
+            // 商品 上下架
+            self.changeGoodsStatus = function(productId,status) {
+                console.log('productId:' + productId + ' status:' + status)
+                if (status == true) {
+                    status = 1;
+                } else {
+                    status = 0;
+                }
+
+                var data = {
+                    "action": "editMgtProductStatus",
+                    "token": util.getParams("token"),
+                    "lang": self.langStyle,
+                    "product": {
+                        "productID": productId - 0,
+                        "Status": status
+                    }
+                };
+
+
+                data = JSON.stringify(data);
+                $http({
+                    method: $filter('ajaxMethod')(),
+                    url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                    data: data
+                }).then(function successCallback(data, status, headers, config) {
+                    alert('修改成功')
+                }, function errorCallback(data, status, headers, config) {
+
+                });
+
+            }
 
 
 
