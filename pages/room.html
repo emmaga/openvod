@@ -1,10 +1,23 @@
 <div ng-controller="roomController as room" ng-init="room.init()">
-    <h2>{{room.hotelName}}</h2>
+    <!--酒店详情-->
+    <h2>{{room.hotelName[room.defaultLangCode]}}</h2>
     <div>
         <div><button ng-click="room.hotelRoomEdit()">编辑</button></div>
-        <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotelAddress}}</div>
-        <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotelDescription}}</div>
+        
+        <ng-repeat ng-repeat="img in room.hotelImgs">
+            <img src="{{img.ImageURL}}" />
+        </ng-repeat>
+        
+        <ng-repeat ng-repeat="tag in room.hotelTags">
+            {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
+        </ng-repeat>
+
+        <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotelAddress[room.defaultLangCode]}}</div>
+        酒店坐标：{{room.hotelLocationX}} {{room.hotelLocationY}}
+        酒店logo图：{{room.hotelLogoImg}}
+        <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotelDescription[room.defaultLangCode]}}</div>
     </div>
+    <!--酒店详情-->
     <div>
         <h3>{{'ROOM_LIST' | translate}}</h3>
         <div><button ng-click="room.roomAdd()">{{'ROOM_ADD' | translate}}</button></div>

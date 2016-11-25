@@ -79,6 +79,16 @@
                     return $translate.proposedLanguage() || $translate.use();
                 },
 
+                // 获取多语言编辑中的默认语言code
+                'getDefaultLangCode': function() {
+                    var langs = JSON.parse($cookies.get('editLangs'));
+                    for (var i = 0; i < langs.length; i++) {
+                        if(langs[i].default) {
+                            return langs[i].code;
+                        }
+                    }
+                },
+
                 /*
                  * actionType: "normal" 普通上传, "transcode" 转码上传
                  */
