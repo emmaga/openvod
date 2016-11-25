@@ -978,14 +978,10 @@
                 self.stateParams = $stateParams;
                 self.langStyle = util.langStyle();
                 self.multiLang = util.getParams('editLangs');
-                // 表单提交 商城信息
-                self.form = {};
-                // 多语言
-                self.form.shopName = {};
-                self.getProductList(self.stateParams.ShopGoodsCategoryID);
+
 
                 self.getGoodsCategory();
-
+                self.getProductList(self.stateParams.ShopGoodsCategoryID);
             }
             // 分类编辑
             self.categoryEdit = function(){
@@ -1044,8 +1040,6 @@
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
                         self.categoryList = data.data.data.categoryList;
-                        // 默认加载 全部分类
-                        $state.go('app.shop.goods.goodsList',{ShopGoodsCategoryID:'all',ShopGoodsCategoryName:'全部商品'})
                     }, function errorCallback(data, status, headers, config) {
 
                     });
@@ -1053,6 +1047,7 @@
 
             // 商品列表
             self.getProductList = function(ShopGoodsCategoryID){
+                console.log(ShopGoodsCategoryID)
                 var data = {
                     "action": "getMgtShopProductList",
                     "token": util.getParams("token"),
@@ -1066,9 +1061,9 @@
                 }
                 self.tableParams = new NgTableParams({
                     page: 1,
-                    count: 3
+                    count: 10
                 }, {
-                    counts: [3, 6],
+                    counts: [10, 20],
                     getData: function(params) {
                         var paramsUrl = params.url();
                         data.count =paramsUrl.count,
@@ -1090,20 +1085,41 @@
 
             }
 
+            // 商品分类，属于某分类则返回true
+            self.checkGoodsCategory = function(id,categoryList){
+                for (var i = 0; i < categoryList.length; i++) {
+                    if (id == categoryList[i]['ShopGoodsCategoryID'] ) {
+                        return true;
+                    }
+                }
+            }
+            
             // 更改商品分类
-            self.changeGoodsCategory = function(categoryid,productId) {
-                console.log('categoryid:'+categoryid +'productId'+productId)
+            self.changeGoodsCategory = function(productId,categoryId ,value,categoryList) {
+                console.log(' productId' + productId + ' categoryId' + categoryId + ' value' + value+' categoryList' + categoryList)
+                // 商品 的分类，保存在此对象
+                self.categoryObj = {};
+                self.categoryObj[productId] = [];    
+                for (var i = 0; i < categoryList.length; i++) {
+                   self.categoryObj[productId].push(categoryList[i]['ShopGoodsCategoryID']);
+                }
+                var index = self.categoryObj[productId].indexOf(categoryId);
+                // 没有，则添加此分类
+                if (index < 0) {
+                    self.categoryObj[productId].push(categoryId)
+                } else {
+                    self.categoryObj[productId].splice(index,1)
+                }
                 var data = {
-                      "action": "editMgtProductPCategory",
-                      "token": util.getParams("token"),
-                      "lang": self.langStyle,
-                      "product":{
-                          "productID":productId -0,
-                          "categoryList": [
-                                categoryid-0
-                          ]
-                      }
+                    "action": "editMgtProductPCategory",
+                    "token": util.getParams("token"),
+                    "lang": self.langStyle,
+                    "product": {
+                        "productID": productId - 0,
+                        "categoryList": self.categoryObj[productId]
+                    }
                 };
+
                 data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
@@ -1111,7 +1127,7 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
-                        // 默认加载 全部分类
+                        alert('修改分类成功')
                     }, function errorCallback(data, status, headers, config) {
 
                     });
