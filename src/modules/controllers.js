@@ -1277,7 +1277,6 @@
                         "Gallery":imgs
                     }
                 })
-                console&&console.log(data);
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('hotelroom', '', 'server'),
@@ -1288,7 +1287,7 @@
                         alert('修改成功');
                         $state.reload();
                     } else {
-                        alert('保存失败' + msg.rescode + ' ' + msg.errInfo);
+                        alert('保存失败' + data.rescode + ' ' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');
@@ -1315,7 +1314,7 @@
                         self.hotelTags = data.data;
                         self.initIfCheckedHotelTags();
                     } else {
-                        alert('读取酒店标签出错' + msg.rescode + ' ' + msg.errInfo);
+                        alert('读取酒店标签出错' + data.rescode + ' ' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');
@@ -1458,19 +1457,18 @@
         }
     ])
 
-    .controller('roomAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function ($scope, $state, $http, $stateParams, $filter, util) {
+    .controller('roomAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
             var self = this;
-            var hotelId,
-                lang,
-                token;
             self.uploadId = 1;
             self.init = function () {
-                hotelId = $scope.app.maskParams.hotelId;
-                lang = util.langStyle();
-                token = util.getParams('token');
-                self.getRoomTags();
+                self.hotelId = $scope.app.maskParams.hotelId;
+                self.room = {};
                 self.editLangs = util.getParams('editLangs');
+                self.defaultLangCode = util.getDefaultLangCode();
+                self.getRoomTags();
+                self.ifCheckedTags = [];
+                self.imgs = new Imgs([]);
             }
             self.cancel = function () {
                 $scope.app.maskUrl = '';
@@ -1480,70 +1478,206 @@
              * 获取客房标签
              */
             self.getRoomTags = function () {
-                var roomTags = [];
+                self.loading = true;
                 var data = JSON.stringify({
                     action: "getRoomTags",
-                    lang: lang,
-                    token: token,
+                    token: util.getParams('token'),
+                    lang: util.langStyle()
                 })
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('room', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
-                    var msg = response.data;
-                    if (msg.rescode == '200') {
-                        msg.tags.forEach(function (el) {
-                            roomTags.push({
-                                tagId: el.ID,
-                                tagName: el.TagName
-                            })
-                        })
-                        self.roomTags = roomTags;
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.tags = data.tags;
+                        for(var i = 0; i < self.tags.length; i++){
+                            self.ifCheckedTags[i] = {};
+                            self.ifCheckedTags[i].ID = self.tags[i].ID;
+                            self.ifCheckedTags[i].checked = false;
+                        }
                     } else {
-                        alert(msg.rescode + ' ' + msg.errInfo);
+                        alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');
+                }).finally(function(e) {
+                    self.loading = false;
                 });
             }
             /**
              * 保存
              */
             self.save = function () {
+                var tags = [];
+                for(var i =0; i < self.ifCheckedTags.length; i++){
+                    if(self.ifCheckedTags[i].checked){
+                        tags.push(self.ifCheckedTags[i].ID);
+                    }
+                }
+                var imgs = [];
+                for(var i =0; i<self.imgs.data.length; i++){
+                    imgs.push(
+                        {"Seq":i,
+                        "ImageURL":self.imgs.data[i].src,
+                        "ImageSize":self.imgs.data[i].fileSize}
+                    );
+                }
+
+                if(imgs.length == 0) {
+                    alert('请上传图片')
+                    return;
+                }
+
+                self.saving = true;
                 var data = JSON.stringify({
                     action: "addRoom",
-                    lang: lang,
-                    token: token,
-                    tags: [],
-                    IntroImgs: [],
-                    roomDetail: {
-                        HotelID: hotelId,
-                        RoomTypeName: {
-
-                        }
+                    token: util.getParams('token'),
+                    lang: util.langStyle(),
+                    "tags": tags,
+                    "IntroImgs": imgs,
+                    "roomDetail": {
+                        "HotelID": self.hotelId,
+                        "Description": self.room.Description,
+                        "RoomTypeName": self.room.RoomTypeName
                     }
                 })
+                console&&console.log(data);
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('room', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
-                    var msg = response.data;
-                    if (msg.rescode == '200') {
-                        msg.tags.forEach(function (el) {
-                            roomTags.push({
-                                tagId: el.ID,
-                                tagName: el.TagName
-                            })
-                        })
-                        self.roomTags = roomTags;
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('添加成功')
+                        $state.reload();
                     } else {
-                        alert(msg.rescode + ' ' + msg.errInfo);
+                        alert('添加失败' + data.rescode + ' ' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');
+                }).finally(function(e) {
+                    self.saving = false;
                 });
+            };
+
+            self.clickUpload = function(e) {
+              setTimeout(function() {
+                  document.getElementById(e).click();
+              }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single?true:false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function() {
+                    var l = this.initImgList;
+                    for (var i =0; i < l.length; i++) {
+                        this.data[i] = {"src": l[i].ImageURL, "fileSize":l[i].ImageSize, "id": this.maxId++, "progress": 100};
+                    }
+                },
+                deleteById: function(id) {
+                    var l = this.data;
+                    for(var i = 0; i <l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if(l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add : function (xhr, fileName, fileSize) {
+                  this.data.push({
+                    "xhr": xhr,
+                    "fileName": fileName,
+                    "fileSize": fileSize,
+                    "progress": 0,
+                    "id": this.maxId
+                  });
+                  return this.maxId++;
+                },
+
+                update : function (id, progress, leftSize, fileSize) {
+                  for(var i = 0; i < this.data.length; i++) {
+                    var f = this.data[i];
+                    if(f.id === id) {
+                      f.progress = progress;
+                      f.leftSize = leftSize;
+                      f.fileSize = fileSize;
+                      break;
+                    }
+                  }
+                },
+
+                setSrcSizeByXhr: function(xhr, src, size) {
+                    for (var i =0; i< this.data.length; i++) {
+                        if(this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function(e, o) {
+
+                    // 如果这个对象只允许上传一张图片
+                    if(this.single) {
+                        // 删除第二张以后的图片
+                        for(var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = $scope[e];
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function(evt) {
+                          $scope.$apply(function(){
+                            if (evt.lengthComputable) {
+                              var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                              o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                              console.log(percentComplete);
+                            }
+                          });
+                        },
+                        function(xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function(){
+                              o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                              // 如果这个对象只允许上传一张图片
+                              if(o.single) {
+                                // 删除第一站图片
+                                o.deleteById(o.data[0].id);
+                              }
+                            });
+                        },
+                        function(xhr) {
+                            $scope.$apply(function(){
+                              o.update(fileId, -1, '', '');
+                            });
+                            console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
+
             }
         }
     ])
