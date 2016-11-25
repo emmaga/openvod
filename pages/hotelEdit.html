@@ -4,6 +4,7 @@
         <div ng-show="loading">loading...</div>
         <form name="hotelEditForm" ng-submit="hotelEditForm.$valid && hotelEdit.save()">
             <div>
+                <!--酒店名-->
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <ng-if ng-if="lang.default">
                         酒店名 {{lang.name}}：<input ng-model="hotelEdit.hotel.Name[lang.code]" required />
@@ -12,7 +13,9 @@
                         酒店名 {{lang.name}}：<input ng-model="hotelEdit.hotel.Name[lang.code]" />
                     </ng-if>
                 </ng-repeat>
+                <!--酒店名-->
             </div>
+
             <div>
                 <!--酒店图片-->
                 <div ng-repeat="img in hotelEdit.imgs1.data">
@@ -40,6 +43,7 @@
                 <!--酒店标签-->
             </div>
             <div>
+                <!--酒店地址-->
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <ng-if ng-if="lang.default">
                         酒店地址 {{lang.name}}：<input ng-model="hotelEdit.hotel.Address[lang.code]" required />
@@ -48,10 +52,15 @@
                         酒店地址 {{lang.name}}：<input ng-model="hotelEdit.hotel.Address[lang.code]" />
                     </ng-if>
                 </ng-repeat>
+                <!--酒店地址-->
+
+                <!--酒店坐标-->
                 <div>
                     X:<input type="text" ng-model="hotelEdit.hotel.LocationX" required />
                     Y:<input type="text" ng-model="hotelEdit.hotel.LocationY" required />
                 </div>
+                <!--酒店坐标-->
+
             </div>
             <!-- 上传酒店LOGO按钮 -->
             <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
@@ -70,7 +79,8 @@
                 </a>
             </div>
             <!--酒店LOGO-->
-
+            
+            <!--酒店介绍-->
             <div>
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <ng-if ng-if="lang.default">
@@ -81,9 +91,11 @@
                     </ng-if>
                 </ng-repeat>
             </div>
+            <!--酒店介绍-->
             <div>
                 <button ng-click="hotelEdit.cancel()">{{'CANCEL' | translate}}</button>
                 <button type="submit">{{'SAVE' | translate}}</button>
+                <div ng-show="hotelEdit.saving">saving...</div>
             </div>
         </form>
     </div>

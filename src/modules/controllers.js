@@ -1233,7 +1233,68 @@
             }
 
             self.save = function() {
+                var imgs = [];
+                for(var i=0; i<self.imgs1.data.length; i++) {
+                    imgs[i] = {};
+                    imgs[i].Seq = i;
+                    imgs[i].ImageURL = self.imgs1.data[i].src;
+                    imgs[i].ImageSize = self.imgs1.data[i].fileSize;
+                }
+                //检查图片未上传
+                if(imgs.length == 0) {
+                    alert('请上传酒店图片')
+                    return;
+                }
+                //检查logo上传
+                if(self.imgs2.data.length == 0) {
+                    alert('请上传酒店LOGO')
+                    return;
+                }
 
+                var tags = [];
+                for(var i=0; i< self.ifCheckedHotelTags.length;i++){
+                    if(self.ifCheckedHotelTags[i].checked) {
+                        tags.push({"ID": self.ifCheckedHotelTags[i].ID});
+                    }
+                }
+                self.saving = true;
+                var data = JSON.stringify({
+                    action: "editHotel",
+                    token: util.getParams('token'),
+                    lang: util.langStyle(),
+                    "HotelID": Number(self.hotelId),
+                    "data":{
+                        "Name": self.hotel.Name,
+                        "CityID":1, //fix me 
+                        "LocationX": self.hotel.LocationX,
+                        "LocationY": self.hotel.LocationY,
+                        "LogoURL": self.imgs2.data[0].src,
+                        "Features": tags,
+                        "TelePhone": null,
+                        "Address": self.hotel.Address,
+                        "Description": self.hotel.Description,
+                        "OfficePhone": null,
+                        "Gallery":imgs
+                    }
+                })
+                console&&console.log(data);
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('hotelroom', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        $state.reload();
+                    } else {
+                        alert('保存失败' + msg.rescode + ' ' + msg.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert(response.status + ' 服务器出错');
+                }).finally(function(e) {
+                    self.saving = false;
+                });
             }
 
             self.getHotelTags = function() {
@@ -1267,6 +1328,7 @@
                 for(var i =0; i < self.hotelTags.length; i++) {
                     self.ifCheckedHotelTags[i] = {};
                     self.ifCheckedHotelTags[i].checked = false;
+                    self.ifCheckedHotelTags[i].ID = self.hotelTags[i].ID;
                     for (var j = 0; j<self.hotel.Tags.length; j++) {
                         if(self.hotel.Tags[j].ID == self.hotelTags[i].ID) {
                             self.ifCheckedHotelTags[i].checked = true;
