@@ -1165,27 +1165,255 @@
                     });
                 }
 
-                self.roomAdd = function(){
+                self.hotelRoomEdit = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId};
-                    $scope.app.maskUrl = 'pages/shopAdd.html';
+                    $scope.app.maskUrl = 'pages/hotelRoomEdit.html';
+                }
+
+                self.roomAdd = function () {
+                    $scope.app.maskParams = {'hotelId': self.hotelId};
+                    $scope.app.maskUrl = 'pages/roomAdd.html';
+                }
+
+                self.roomEdit = function (roomId) {
+                    $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
+                    $scope.app.maskUrl = 'pages/roomEdit.html';
+                }
+
+                self.roomEditPrice = function (roomId) {
+                    $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
+                    $scope.app.maskUrl = 'pages/roomEditPrice.html';
+                }
+
+                self.roomEditNum = function (roomId) {
+                    $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
+                    $scope.app.maskUrl = 'pages/roomEditNum.html';
+                }
+            }
+        ])
+
+        .controller('hotelRoomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                    self.editLangs = util.getParams('editLangs');
+                }
+
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
                 }
             }
         ])
 
         .controller('roomAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-            function($scope,$state,$http,$stateParams,$filter,util) {
+            function ($scope, $state, $http, $stateParams, $filter, util) {
                 var self = this;
-                var hotelId;
-                self.init = function() {
+                var hotelId,
+                    lang,
+                    token;
+                self.uploadId = 1;
+                self.init = function () {
                     hotelId = $scope.app.maskParams.hotelId;
+                    lang = util.getParams('lang');
+                    token = util.getParams('token');
+                    self.getRoomTags();
+                    self.editLangs = util.getParams('editLangs');
                 }
-
-                self.cancel = function(){
-                    console.log('cancel')
+                self.cancel = function () {
                     $scope.app.maskUrl = '';
                 }
 
+                /**
+                 * 获取客房标签
+                 */
+                self.getRoomTags = function () {
+                    var roomTags = [];
+                    var data = JSON.stringify({
+                        action: "getRoomTags",
+                        lang: lang,
+                        token: token,
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            msg.tags.forEach(function (el) {
+                                roomTags.push({
+                                    tagId: el.ID,
+                                    tagName: el.TagName
+                                })
+                            })
+                            self.roomTags = roomTags;
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
+                /**
+                 * 保存
+                 */
+                self.save = function () {
+                    var data = JSON.stringify({
+                        action: "addRoom",
+                        lang: lang,
+                        token: token,
+                        tags: [],
+                        IntroImgs: [],
+                        roomDetail: {
+                            HotelID: hotelId,
+                            RoomTypeName: {
+
+                            }
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            msg.tags.forEach(function (el) {
+                                roomTags.push({
+                                    tagId: el.ID,
+                                    tagName: el.TagName
+                                })
+                            })
+                            self.roomTags = roomTags;
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
             }
         ])
 
+        .controller('roomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                var self = this;
+                var hotelId,
+                    lang,
+                    token;
+                self.uploadId = 1;
+                self.init = function () {
+                    hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                    lang = util.getParams('lang');
+                    token = util.getParams('token');
+                    self.getRoomTags();
+                    self.editLangs = util.getParams('editLangs');
+                }
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
+                }
+
+                /**
+                 * 获取客房标签
+                 */
+                self.getRoomTags = function () {
+                    var roomTags = [];
+                    var data = JSON.stringify({
+                        action: "getRoomTags",
+                        lang: lang,
+                        token: token,
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            msg.tags.forEach(function (el) {
+                                roomTags.push({
+                                    tagId: el.ID,
+                                    tagName: el.TagName
+                                })
+                            })
+                            self.roomTags = roomTags;
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
+                /**
+                 * 保存
+                 */
+                self.save = function () {
+                    var data = JSON.stringify({
+                        action: "updateRoom",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId,
+                        tags: [],
+                        IntroImgs: [],
+                        roomDetail: {
+                            HotelID: hotelId,
+                            RoomTypeName: {
+
+                            }
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            msg.tags.forEach(function (el) {
+                                roomTags.push({
+                                    tagId: el.ID,
+                                    tagName: el.TagName
+                                })
+                            })
+                            self.roomTags = roomTags;
+                        } else {
+                            alert(msg.rescode + ' ' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    });
+                }
+            }
+        ])
+
+        .controller('roomEditPriceController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                }
+
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
+                }
+            }
+        ])
+
+        .controller('roomEditNumController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                }
+
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
+                }
+            }
+        ])
 })();
