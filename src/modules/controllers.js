@@ -1176,7 +1176,7 @@
             }
 
             self.hotelEdit = function () {
-                $scope.app.maskParams = {'hotelId': self.hotelId};
+                $scope.app.maskParams = {'hotelId': self.hotelId, 'hotelInfo': self.hotel};
                 $scope.app.maskUrl = 'pages/hotelEdit.html';
             }
 
@@ -1206,12 +1206,60 @@
         function ($scope, $state, $http, $stateParams, $filter, util) {
             var self = this;
             self.init = function () {
+                self.defaultLangCode = util.getDefaultLangCode();
                 self.hotelId = $scope.app.maskParams.hotelId;
+                self.hotel = $scope.app.maskParams.hotelInfo;
+                self.ifCheckedHotelTags = [];
                 self.editLangs = util.getParams('editLangs');
+                self.getHotelTags();
             }
 
             self.cancel = function () {
                 $scope.app.maskUrl = '';
+            }
+
+            self.save = function() {
+                
+            }
+
+            self.getHotelTags = function() {
+                self.loading = true;
+                var data = JSON.stringify({
+                    action: "getHotelFeatureTag",
+                    token: util.getParams('token'),
+                    lang: util.langStyle()
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('hotelroom', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        console&&console.log(data.data);
+                        self.hotelTags = data.data;
+                        self.initIfCheckedHotelTags();
+                    } else {
+                        alert('读取酒店标签出错' + msg.rescode + ' ' + msg.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert(response.status + ' 服务器出错');
+                }).finally(function(e) {
+                    self.loading = false;
+                });
+            }
+
+            self.initIfCheckedHotelTags = function() {
+                for(var i =0; i < self.hotelTags.length; i++) {
+                    self.ifCheckedHotelTags[i] = {};
+                    self.ifCheckedHotelTags[i].checked = false;
+                    for (var j = 0; j<self.hotel.Tags.length; j++) {
+                        if(self.hotel.Tags[j].ID == self.hotelTags[i].ID) {
+                            self.ifCheckedHotelTags[i].checked = true;
+                            break;
+                        } 
+                    }
+                }            
             }
         }
     ])

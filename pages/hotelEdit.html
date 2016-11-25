@@ -1,56 +1,60 @@
-<div ng-controller="hotelEditController as hotelEdit" ng-init="hotelEdit.init()" style="position: absolute; left: 100px; top: 100px; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
+<div ng-controller="hotelEditController as hotelEdit" ng-init="hotelEdit.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
     <span>酒店详情</span>
     <div>
-        <div ng-show="loading">loading</div>
-        <form name="hotelEditForm" ng-submit="hotelEditForm.$valid && hotelEdit.login()">
+        <div ng-show="loading">loading...</div>
+        <form name="hotelEditForm" ng-submit="hotelEditForm.$valid && hotelEdit.save()">
             <div>
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <ng-if ng-if="lang.default">
-                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.name[lang.code]" required />
+                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.hotel.Name[lang.code]" required />
                     </ng-if>
                     <ng-if ng-if="lang.default !== true">
-                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.name[lang.code]" />
+                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.hotel.Name[lang.code]" />
                     </ng-if>
                 </ng-repeat>
             </div>
             <div>
-                <div>我是假图片</div>
+                <ng-repeat ng-repeat="img in hotelEdit.hotel.Imgs">
+                    <img src="{{img.ImageURL}}" />
+                </ng-repeat>
                 <input id="upload" style="display: none;" type="file" file-model="myFile"/>
-                <button ng-click="hotelEdit.clickUpload()">upload</button>
+                <button ng-click="hotelEdit.clickUpload()">上传图片</button>
                 <button id="hidenUpload" style="display: none;" ng-click="hotelEdit.uploadFile()"></button>
             </div>
             <div>
-                <ul>
-                    <li ng-repeat="item in hotelEdit.hotelTags"><input type="checkbox">{{item.tagName}}</li>
-                </ul>
+                <!--酒店标签-->
+                <ng-repeat ng-repeat="tag in hotelEdit.hotelTags track by $index">
+                    <input type="checkbox" ng-model="hotelEdit.ifCheckedHotelTags[$index].checked" /> {{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[hotelEdit.defaultLangCode]}}
+                </ng-repeat>
+                <!--酒店标签-->
             </div>
             <div>
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <ng-if ng-if="lang.default">
-                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.name[lang.code]" required />
+                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.hotel.Address[lang.code]" required />
                     </ng-if>
                     <ng-if ng-if="lang.default !== true">
-                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.name[lang.code]" />
+                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.hotel.Address[lang.code]" />
                     </ng-if>
                 </ng-repeat>
                 <div>
-                    X:<input type="text" onkeyup="value=value.replace(/[^\-?\d.]/g,'')">
-                    Y:<input type="text" onkeyup="value=value.replace(/[^\-?\d.]/g,'')">
+                    X:<input type="text" ng-model="hotelEdit.hotel.LocationX" required />
+                    Y:<input type="text" ng-model="hotelEdit.hotel.LocationY" required />
                 </div>
             </div>
             <div>
-                <div>我是假图片</div>
+                {{room.hotel.LogoImg}}
                 <input id="" style="display: none;" type="file" file-model="myFile"/>
-                <button ng-click="">上传logo</button>
+                <button ng-click="">上传LOGO</button>
                 <button id="" style="display: none;" ng-click=""></button>
             </div>
             <div>
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <ng-if ng-if="lang.default">
-                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.name[lang.code]" required></textarea>
+                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.hotel.Description[lang.code]" required></textarea>
                     </ng-if>
                     <ng-if ng-if="lang.default !== true">
-                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.name[lang.code]"></textarea>
+                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.hotel.Description[lang.code]"></textarea>
                     </ng-if>
                 </ng-repeat>
             </div>
