@@ -1097,7 +1097,7 @@
         .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', 'util',
             function($scope, $http, $stateParams, $translate, util) {
                 var self = this;
-                var lang = $translate.proposedLanguage() || $translate.use();
+                var lang = util.langStyle();
                 console.log(lang)
                 self.init = function() {
                     self.hotelId = $stateParams.hotelId;
@@ -1216,7 +1216,7 @@
                 self.uploadId = 1;
                 self.init = function () {
                     hotelId = $scope.app.maskParams.hotelId;
-                    lang = util.getParams('lang');
+                    lang = util.langStyle();
                     token = util.getParams('token');
                     self.getRoomTags();
                     self.editLangs = util.getParams('editLangs');
@@ -1307,7 +1307,7 @@
                 self.init = function () {
                     hotelId = $scope.app.maskParams.hotelId;
                     self.roomId = $scope.app.maskParams.roomId;
-                    lang = util.getParams('lang');
+                    lang = util.langStyle();
                     token = util.getParams('token');
                     self.getRoomTags();
                     self.editLangs = util.getParams('editLangs');
