@@ -1734,7 +1734,8 @@
 
                 self.saving = true;
                 var data = JSON.stringify({
-                    action: "addRoom",
+                    action: "updateRoom",
+                    roomID: self.roomId,
                     token: util.getParams('token'),
                     lang: util.langStyle(),
                     "tags": tags,
@@ -1742,7 +1743,8 @@
                     "roomDetail": {
                         "HotelID": self.hotelId,
                         "Description": self.room.Description,
-                        "RoomTypeName": self.room.RoomTypeName
+                        "RoomTypeName": self.room.RoomTypeName,
+                        "Roomsummary": self.room.Roomsummary
                     }
                 })
                 console&&console.log(data);
@@ -1753,10 +1755,10 @@
                 }).then(function successCallback(response) {
                     var data = response.data;
                     if (data.rescode == '200') {
-                        alert('添加成功')
+                        alert('保存成功')
                         $state.reload();
                     } else {
-                        alert('添加失败' + data.rescode + ' ' + data.errInfo);
+                        alert('保存失败' + data.rescode + ' ' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');
@@ -1884,8 +1886,8 @@
         }
     ])
 
-    .controller('roomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function ($scope, $state, $http, $stateParams, $filter, util) {
+    .controller('roomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
             var self = this;
             
             self.init = function () {
