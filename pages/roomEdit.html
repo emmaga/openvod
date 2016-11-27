@@ -1,54 +1,79 @@
-<div ng-controller="roomEditController as roomEdit" ng-init="roomEdit.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
-    <div style="width: 500px; left: -50%; margin-left: 710px; margin-top: 200px; background-color: white;">
-        <span>{{'ROOM_DETAIL' | translate}}</span>
-        <div>
-            <form name="roomEditForm" ng-submit="roomEditForm.$valid && roomEdit.login()">
-                <div>
-                    <ng-repeat ng-repeat="lang in roomEdit.editLangs">
-                        <ng-if ng-if="lang.default">
-                            客房名 {{lang.name}}：<input ng-model="roomEdit.name[lang.code]" required />
-                        </ng-if></br>
-                        <ng-if ng-if="lang.default !== true">
-                            客房名 {{lang.name}}：<input ng-model="roomEdit.name[lang.code]" />
-                        </ng-if>
-                    </ng-repeat>
+<div ng-controller="roomEditController as roomEdit" ng-init="roomEdit.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; border:1px red solid; background: rgba(255,255,255,0.8);">
+
+    <span>客房详情</span>
+    <div>
+        <div ng-show="loading">loading...</div>
+        <form name="roomEditForm" ng-submit="roomEditForm.$valid && roomEdit.save()">
+            <div>
+                <!-- 客房名 -->
+                <ng-repeat ng-repeat="lang in roomEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        客房名 {{lang.name}}：<input ng-model="roomEdit.room.RoomTypeName[lang.code]" required />
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        客房名 {{lang.name}}：<input ng-model="roomEdit.room.RoomTypeName[lang.code]" />
+                    </ng-if>
+                </ng-repeat>
+                <!-- 客房名 -->
+            </div>
+            <div>
+
+                <!-- 客房图 -->
+                <div ng-repeat="img in roomEdit.imgs.data">
+                    <img src="{{img.src}}" alt="{{img.fileName}}" />
+                    大小： {{img.fileSize}}
+                    进度： {{img.progress}}
+                    剩余： {{img.leftSize}}
+                    <a ng-click="roomEdit.imgs.deleteById(img.id); ">
+                     删除
+                    </a>
                 </div>
-                <div>
-                    <div>我是假图片</div>
-                    <input id="upload" style="display: none;" type="file" file-model="myFile"/>
-                    <button ng-click="roomEdit.clickUpload()">upload</button>
-                    <button id="hidenUpload" style="display: none;" ng-click="roomEdit.uploadFile()"></button>
-                </div>
-                <div>
-                    <ul>
-                        <li ng-repeat="item in roomEdit.roomTags"><input type="checkbox">{{item.tagName}}</li>
-                    </ul>
-                </div>
-                <div>
-                    <ng-repeat ng-repeat="lang in roomEdit.editLangs">
-                        <ng-if ng-if="lang.default">
-                            客房简介 {{lang.name}}：<textarea ng-model="roomEdit.name[lang.code]" required rows="1" maxlength="50"></textarea>
-                        </ng-if></br>
-                        <ng-if ng-if="lang.default !== true">
-                            客房简介 {{lang.name}}：<textarea ng-model="roomEdit.name[lang.code]" rows="1" maxlength="50"></textarea>
-                        </ng-if>
-                    </ng-repeat>
-                </div>
-                <div>
-                    <ng-repeat ng-repeat="lang in roomEdit.editLangs">
-                        <ng-if ng-if="lang.default">
-                            客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.name[lang.code]" required></textarea>
-                        </ng-if></br>
-                        <ng-if ng-if="lang.default !== true">
-                            客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.name[lang.code]"></textarea>
-                        </ng-if>
-                    </ng-repeat>
-                </div>
-                <div>
-                    <button ng-click="roomEdit.cancel()">{{'CANCEL' | translate}}</button>
-                    <button type="submit">{{'SAVE' | translate}}</button>
-                </div>
-            </form>
-        </div>
+                <!-- 客房图 -->
+                
+                <!-- 上传图片按钮 -->
+                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
+                <a ng-click="roomEdit.clickUpload('upload')">上传图片</a>
+                <a id="hidenUpload" style="display: none;" ng-click="roomEdit.imgs.uploadFile('myFile', roomEdit.imgs)"></a>
+                <!-- 上传图片按钮 -->
+
+
+            </div>
+            <div>
+                <!-- 标签 -->
+                <ng-repeat ng-repeat="tag in roomEdit.tags track by $index">
+                    <input type="checkbox" ng-model="roomEdit.ifCheckedTags[$index].checked" /> {{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[roomEdit.defaultLangCode]}}
+                </ng-repeat>
+                <!-- 标签 -->
+            </div>
+            <div>
+                <!-- 客房介绍摘要 -->
+                <ng-repeat ng-repeat="lang in roomEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        客房介绍摘要 {{lang.name}}：<textarea ng-model="roomEdit.room.Roomsummary[lang.code]" required rows="1" maxlength="50"></textarea>
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        客房介绍摘要 {{lang.name}}：<textarea ng-model="roomEdit.room.Roomsummary[lang.code]" rows="1" maxlength="50"></textarea>
+                    </ng-if>
+                </ng-repeat>
+                <!-- 客房介绍摘要 -->
+            </div>
+            <div>
+                <!-- 客房介绍 -->
+                <ng-repeat ng-repeat="lang in roomEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.room.Description[lang.code]" required></textarea>
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.room.Description[lang.code]"></textarea>
+                    </ng-if>
+                </ng-repeat>
+                <!-- 客房介绍 -->
+            </div>
+            <div>
+                <button ng-click="roomEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <button type="submit">{{'SAVE' | translate}}</button>
+            </div>
+        </form>
+        <div ng-show="saving">saving</div>
     </div>
 </div>
