@@ -96,9 +96,7 @@
                     }).finally(function (value) {
                         self.loading = false;
                     });
-
                     console.log(util.getParams('editLangs'))
-
                 }
 
                 self.setFocusApp = function (id) {
@@ -150,103 +148,105 @@
             }
         ])
 
-
-    .controller('shopController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$translate,$http,$stateParams,$filter,util) {
-            console.log('shopController')
-            console.log($scope.app.maskParams);
-            var self = this;
-            self.init = function() {
-                self.langStyle = util.langStyle();
-                self.multiLang = util.getParams('editLangs');
-                self.loading = false;
-                self.noData = false;
-                self.searchShopList();
-            }
-
-
-            self.searchShopList = function() {
-                self.loading = true;
-                var data = {
-                      "action": "getMgtHotelShopInfo",
-                      "token": util.getParams("token"),
-                      "lang": self.langStyle
-                };
-                data = JSON.stringify(data);
-                $http({
-                    method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                    data: data
-                }).then(function successCallback(data, status, headers, config) {
-                    console.log(data)
-                    if (data.data.rescode == "200") {
-                        if (data.data.data.shopList.length == 0) {
-                            self.noData = true;
-                            return;
-                        }
-                        self.shopList = data.data.data.shopList;
-                        // 默认加载 第一个 商城
-                        self.shopFirst = self.shopList[0];
-                        $state.go('app.shop.goods', { ShopID: self.shopFirst.ShopID, HotelID: self.shopFirst.HotelID, ShopName: self.shopFirst.ShopName[self.langStyle], HotelName: self.shopFirst.HotelName[self.langStyle] });
-                    } else if (data.data.rescode == "401") {
-                        alert('访问超时，请重新登录');
-                        $state.go('login')
-                    } else {
-                        alert('添加失败， ' + data.data.errInfo);
-                    }
-                }, function errorCallback(data, status, headers, config) {
-                    alert('连接服务器出错');
-                }).finally(function(value) {
+        .controller('shopController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $translate, $http, $stateParams, $filter, util) {
+                console.log('shopController')
+                console.log($scope.app.maskParams);
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
                     self.loading = false;
-                });
+                    self.noData = false;
+                    self.searchShopList();
+                }
 
+                self.searchShopList = function () {
+                    self.loading = true;
+                    var data = {
+                        "action": "getMgtHotelShopInfo",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        console.log(data)
+                        if (data.data.rescode == "200") {
+                            if (data.data.data.shopList.length == 0) {
+                                self.noData = true;
+                                return;
+                            }
+                            self.shopList = data.data.data.shopList;
+                            // 默认加载 第一个 商城
+                            self.shopFirst = self.shopList[0];
+                            $state.go('app.shop.goods', {
+                                ShopID: self.shopFirst.ShopID,
+                                HotelID: self.shopFirst.HotelID,
+                                ShopName: self.shopFirst.ShopName[self.langStyle],
+                                HotelName: self.shopFirst.HotelName[self.langStyle]
+                            });
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+
+                }
+
+                self.shopAdd = function () {
+                    $scope.app.maskParams = {'ShopName': self.shopFirst.ShopName};
+                    $scope.app.maskUrl = 'pages/shopAdd.html';
+                }
             }
+        ])
 
-            self.shopAdd = function(){
-                $scope.app.maskParams = {'ShopName': self.shopFirst.ShopName};
-                $scope.app.maskUrl = 'pages/shopAdd.html';
-            }
-        }
-    ])
+        .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
+                console.log('shopAddController');
+                console.log($scope.app.maskParams);
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
 
-    .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$translate,$filter,util) {
-            console.log('shopAddController');
-            console.log($scope.app.maskParams);
-            var self = this;
-            self.init = function() {
-                 self.langStyle = util.langStyle();
-                 self.multiLang = util.getParams('editLangs');
-
-                 console.log(self.langStyle)
-                 self.searchHotelList();
-                 // 表单提交 商城信息
-                 self.form = {};
-                 // 多语言
-                 self.form.shopName = {};
-            }
+                    console.log(self.langStyle)
+                    self.searchHotelList();
+                    // 表单提交 商城信息
+                    self.form = {};
+                    // 多语言
+                    self.form.shopName = {};
+                }
 
                 self.cancel = function () {
                     console.log('cancel')
                     $scope.app.maskUrl = '';
                 }
 
-            self.searchHotelList = function() {
-                var data = {
-                      "action": "getHotelList",
-                      "token": util.getParams("token"),
-                      "lang": self.langStyle
-                };
-                data = JSON.stringify(data);
+                self.searchHotelList = function () {
+                    var data = {
+                        "action": "getHotelList",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle
+                    };
+                    data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('hotelroom', 'shopList','server'),
+                        url: util.getApiUrl('hotelroom', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
                         self.hotelList = data.data.data;
                         console.log(self.hotelList)
-
 
 
                     }, function errorCallback(data, status, headers, config) {
@@ -283,21 +283,21 @@
             }
         ])
 
-    .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('goodsController');
-            console.log($stateParams);
-            var self = this;
-            self.init = function() {
-                self.stateParams = $stateParams;
-                self.langStyle = util.langStyle();
-                self.multiLang = util.getParams('editLangs');
+        .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('goodsController');
+                console.log($stateParams);
+                var self = this;
+                self.init = function () {
+                    self.stateParams = $stateParams;
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
 
-                self.noData = false;
-                self.loading = false;
+                    self.noData = false;
+                    self.loading = false;
 
-                self.getGoodsCategory();
-            }
+                    self.getGoodsCategory();
+                }
 
                 self.categoryAdd = function () {
                     console.log('categoryAdd')
@@ -305,59 +305,63 @@
                     $scope.app.maskUrl = 'pages/categoryAdd.html';
                 }
 
-            self.shopEdit = function(){
-                console.log('shopEdit')
-                $scope.app.maskParams = {ShopID: $stateParams.ShopID, ShopName: $stateParams.ShopName,HotelID:$stateParams.HotelID};
-                $scope.app.maskUrl = 'pages/shopEdit.html';
-            }
-            // 商品分类列表
-            self.getGoodsCategory = function() {
-                self.loading = true ;
-                var data = {
-                    "action": "getMgtProductCategory",
-                    "token": util.getParams("token"),
-                    "lang": self.langStyle,
-                    "shopId": $stateParams.ShopID
-                };
-                data = JSON.stringify(data);
-                $http({
-                    method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                    data: data
-                }).then(function successCallback(data, status, headers, config) {
-                    if (data.data.rescode == "200") {
-                        if (data.data.data.categoryList.length == 0) {
-                            self.noData = true;
-                            return;
+                self.shopEdit = function () {
+                    console.log('shopEdit')
+                    $scope.app.maskParams = {
+                        ShopID: $stateParams.ShopID,
+                        ShopName: $stateParams.ShopName,
+                        HotelID: $stateParams.HotelID
+                    };
+                    $scope.app.maskUrl = 'pages/shopEdit.html';
+                }
+                // 商品分类列表
+                self.getGoodsCategory = function () {
+                    self.loading = true;
+                    var data = {
+                        "action": "getMgtProductCategory",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "shopId": $stateParams.ShopID
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            if (data.data.data.categoryList.length == 0) {
+                                self.noData = true;
+                                return;
+                            }
+                            self.categoryList = data.data.data.categoryList;
+                            // 默认加载 全部分类
+                            $state.go('app.shop.goods.goodsList', {
+                                ShopGoodsCategoryID: 'all',
+                                ShopGoodsCategoryName: '全部商品'
+                            })
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
                         }
-                        self.categoryList = data.data.data.categoryList;
-                        // 默认加载 全部分类
-                        $state.go('app.shop.goods.goodsList', { ShopGoodsCategoryID: 'all', ShopGoodsCategoryName: '全部商品' })
-                    } else if (data.data.rescode == "401") {
-                        alert('访问超时，请重新登录');
-                        $state.go('login')
-                    } else {
-                        alert('添加失败， ' + data.data.errInfo);
-                    }
-                }, function errorCallback(data, status, headers, config) {
-                    alert('连接服务器出错')
-                }).finally(function(value) {
-                    self.loading = false;
-                });
-            }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错')
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
 
-            self.JSONstringfy = function(data){
-                return JSON.stringify(data)
-            }
-            // 前往goodsList
-            self.goTo = function(categoryId, categoryName) {
-                $state.go('app.shop.goods.goodsList', { ShopGoodsCategoryID: categoryId });
-                // 参数 对象
-                $scope.app.maskParams = categoryName;
-            }
-
-
-
+                self.JSONstringfy = function (data) {
+                    return JSON.stringify(data)
+                }
+                // 前往goodsList
+                self.goTo = function (categoryId, categoryName) {
+                    $state.go('app.shop.goods.goodsList', {ShopGoodsCategoryID: categoryId});
+                    // 参数 对象
+                    $scope.app.maskParams = categoryName;
+                }
             }
         ])
 
@@ -761,79 +765,76 @@
             }
         ])
 
-    .controller('shopEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('shopEditController');
-            console.log('$stateParams: '+$stateParams);
-            console.log($scope.app.maskParams);
-            var self = this;
-            self.init = function() {
-                 self.maskParams = $scope.app.maskParams;
-                 self.langStyle = util.langStyle();
-                 self.multiLang = util.getParams('editLangs');
+        .controller('shopEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('shopEditController');
+                console.log('$stateParams: ' + $stateParams);
+                console.log($scope.app.maskParams);
+                var self = this;
+                self.init = function () {
+                    self.maskParams = $scope.app.maskParams;
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.noData = false;
+                    self.loading = false;
+                    self.saving = false;
+                    // 表单提交 商城信息
+                    self.form = {};
+                    // 多语言
+                    self.form.shopName = {};
 
-                 self.noData = false;
-                 self.loading = false;
-                 self.saving = false;
-                 // 表单提交 商城信息
-                 self.form = {};
-                 // 多语言
-                 self.form.shopName = {};
-
-                 self.searchHotelList();
-                 self.getShopInfo();
-            }
+                    self.searchHotelList();
+                    self.getShopInfo();
+                }
 
                 self.cancel = function () {
                     console.log('cancel')
                     $scope.app.maskUrl = '';
                 };
 
-            self.searchHotelList = function() {
-                self.loading = true;
-                var data = {
-                    "action": "getHotelList",
-                    "token": util.getParams("token"),
-                    "lang": self.langStyle
-                };
-                data = JSON.stringify(data);
-                $http({
-                    method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('hotelroom', 'shopList', 'server'),
-                    data: data
-                }).then(function successCallback(data, status, headers, config) {
-                        if (data.data.rescode == "200") {
-                            if (data.data.data.categoryList.length == 0) {
-                                self.noData = true;
-                                return;
+                self.searchHotelList = function () {
+                    self.loading = true;
+                    var data = {
+                        "action": "getHotelList",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('hotelroom', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                            if (data.data.rescode == "200") {
+                                if (data.data.data.categoryList.length == 0) {
+                                    self.noData = true;
+                                    return;
+                                }
+                                self.hotelList = data.data.data.hotelList;
+                            } else if (data.data.rescode == "401") {
+                                alert('访问超时，请重新登录');
+                                $state.go('login')
+                            } else {
+                                alert('失败， ' + data.data.errInfo);
                             }
-                            self.hotelList = data.data.data.hotelList;
+                            console.log(data)
+                        },
+                        function errorCallback(data, status, headers, config) {
+                            alert('连接服务器出错')
+                        }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
 
-                        } else if (data.data.rescode == "401") {
-                            alert('访问超时，请重新登录');
-                            $state.go('login')
-                        } else {
-                            alert('失败， ' + data.data.errInfo);
-                        }
-                        console.log(data)
-                    },
-                    function errorCallback(data, status, headers, config) {
-                        alert('连接服务器出错')
-                    }).finally(function(value) {
-                    self.loading = false;
-                });
-            }
-
-
-            self.getShopInfo = function() {
-                var data = {
-                      "action": "getMgtHotelShopDetail",
-                      "token": util.getParams("token"),
-                      "lang": self.langStyle,
-                      // "ShopID":1
-                      "ShopID":self.maskParams.ShopID - 0
-                };
-                data = JSON.stringify(data);
+                self.getShopInfo = function () {
+                    var data = {
+                        "action": "getMgtHotelShopDetail",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        // "ShopID":1
+                        "ShopID": self.maskParams.ShopID - 0
+                    };
+                    data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
@@ -845,229 +846,228 @@
                     }, function errorCallback(data, status, headers, config) {
 
                     });
-            }
-
-            self.saveForm = function() {
-                self.saving = true;
-                var shopList = {
-                    "HotelID": self.form.HotelID - 0,
-                    "ShopName": self.shopInfo.ShopName,
-                    "ShopType": "wx"
                 }
-                var data = {
-                    "action": "editMgtHotelShop",
-                    "token": util.getParams("token"),
-                    "lang": self.langStyle,
-                    "shop": {
-                        "ShopID": self.maskParams.ShopID,
+
+                self.saveForm = function () {
+                    self.saving = true;
+                    var shopList = {
+                        "HotelID": self.form.HotelID - 0,
                         "ShopName": self.shopInfo.ShopName,
                         "ShopType": "wx"
                     }
+                    var data = {
+                        "action": "editMgtHotelShop",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "shop": {
+                            "ShopID": self.maskParams.ShopID,
+                            "ShopName": self.shopInfo.ShopName,
+                            "ShopType": "wx"
+                        }
+                    };
+
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('保存成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('保存失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错')
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
                 };
 
-                data = JSON.stringify(data);
-                $http({
-                    method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                    data: data
-                }).then(function successCallback(data, status, headers, config) {
-                    if (data.data.rescode == "200") {
-                        alert('保存成功')
-                        $state.reload();
-                    } else if (data.data.rescode == "401") {
-                        alert('访问超时，请重新登录');
-                        $state.go('login')
-                    } else {
-                        alert('保存失败， ' + data.data.errInfo);
+                self.deleteShop = function () {
+                    var flag = confirm('确认删除？')
+                    if (!flag) {
+                        return;
                     }
-                }, function errorCallback(data, status, headers, config) {
-                    alert('连接服务器出错')
-                }).finally(function(value) {
+                    self.saving = true;
+                    var shopList = {
+                        "HotelID": self.form.HotelID - 0,
+                        "ShopName": self.form.shopName,
+                        "ShopType": "wx"
+                    }
+                    var data = {
+                        "action": "deleteMgtHotelShop",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "shop": {
+                            "ShopID": self.maskParams.ShopID - 0
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('删除成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('删除失败， ' + data.data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错')
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+
+            }
+        ])
+
+        .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('categoryAddController');
+                console.log($stateParams);
+                console.log($scope.app.maskParams);
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.maskParams = $scope.app.maskParams;
+                    self.ShopName = self.maskParams.ShopGoodsCategoryName;
+                    self.multiLang = util.getParams('editLangs');
+
                     self.saving = false;
-                });
-            };
 
-
-            self.deleteShop = function(){
-               var flag = confirm('确认删除？')
-               if(!flag){
-                 return;
-               }
-               self.saving = true;
-               var shopList = {
-                   "HotelID":self.form.HotelID - 0,
-                   "ShopName":self.form.shopName,
-                   "ShopType":"wx"
-               }
-               var data = {
-                     "action": "deleteMgtHotelShop",
-                     "token": util.getParams("token"),
-                     "lang": self.langStyle,
-                     "shop":{
-                          "ShopID":self.maskParams.ShopID -0
-                     }
-               };
-               data = JSON.stringify(data);
-               $http({
-                   method: $filter('ajaxMethod')(),
-                   url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                   data: data
-               }).then(function successCallback(data, status, headers, config) {
-                   if (data.data.rescode == "200") {
-                       alert('删除成功')
-                       $state.reload();
-                   } else if (data.data.rescode == "401") {
-                       alert('访问超时，请重新登录');
-                       $state.go('login')
-                   } else {
-                       alert('删除失败， ' + data.data.errInfo);
-                   }
-
-               }, function errorCallback(data, status, headers, config) {
-                   alert('连接服务器出错')
-               }).finally(function(value) {
-                   self.saving = false;
-               });
-            }
-
-        }
-    ])
-
-    .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('categoryAddController');
-            console.log($stateParams);
-            console.log($scope.app.maskParams);
-            var self = this;
-            self.init = function() {
-                self.langStyle = util.langStyle();
-                self.maskParams = $scope.app.maskParams;
-                self.ShopName = self.maskParams.ShopGoodsCategoryName;
-                self.multiLang = util.getParams('editLangs');
-
-                self.saving = false;
-
-                // 表单提交 商城信息
-                self.form = {};
-                // 多语言
-                self.form.shopName = {};
-            }
+                    // 表单提交 商城信息
+                    self.form = {};
+                    // 多语言
+                    self.form.shopName = {};
+                }
 
                 self.cancel = function () {
                     console.log('cancel')
                     $scope.app.maskUrl = '';
                 }
 
-            self.saveForm = function() {
-                self.saving = true;
-                var data = {
-                    "action": "addMgtProductCategory",
-                    "token": util.getParams("token"),
-                    "lang": self.langStyle,
-                    "ShopGoodsCategory": {
-                        "ShopGoodsCategoryName": self.form.shopName,
-                        "ShopID": self.maskParams.ShopID - 0
-                    }
+                self.saveForm = function () {
+                    self.saving = true;
+                    var data = {
+                        "action": "addMgtProductCategory",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "ShopGoodsCategory": {
+                            "ShopGoodsCategoryName": self.form.shopName,
+                            "ShopID": self.maskParams.ShopID - 0
+                        }
 
-                };
-                data = JSON.stringify(data);
-                $http({
-                    method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                    data: data
-                }).then(function successCallback(data, status, headers, config) {
-                    if (data.data.rescode == "200") {
-                        alert('分类添加成功');
-                        $state.reload();
-                    } else if (data.data.rescode == "401") {
-                        alert('访问超时，请重新登录');
-                        $state.go('login')
-                    } else {
-                        alert('添加失败， ' + data.data.errInfo);
-                    }
-                }, function errorCallback(data, status, headers, config) {
-                    alert('连接服务器出错')
-                }).finally(function(value) {
-                    self.saving = false;
-                });
-            }
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('分类添加成功');
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错')
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
 
 
             }
         ])
 
-    .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-        function($scope,$state,$http,$stateParams,$filter,util) {
-            console.log('categoryEditController');
-            console.log($state);
+        .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, util) {
+                console.log('categoryEditController');
+                console.log($state);
 
-            var self = this;
-            self.init = function() {
-                self.stateParams = $stateParams;
-                self.maskParams = $scope.app.maskParams;
-                self.langStyle = util.langStyle();
-                self.multiLang = util.getParams('editLangs');
+                var self = this;
+                self.init = function () {
+                    self.stateParams = $stateParams;
+                    self.maskParams = $scope.app.maskParams;
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
 
-                // 表单提交 商城信息
-                self.form = {};
-                // 多语言
-                self.form.shopName = {};
-                // self.getCategoryDetail();
-                self.categoryDetail = $scope.app.maskParams;
-            }
+                    // 表单提交 商城信息
+                    self.form = {};
+                    // 多语言
+                    self.form.shopName = {};
+                    // self.getCategoryDetail();
+                    self.categoryDetail = $scope.app.maskParams;
+                }
 
                 self.cancel = function () {
                     console.log('cancel')
                     $scope.app.maskUrl = '';
                 }
 
-            self.saveForm = function() {
-                console.log(self.form.HotelID)
-                console.log(self.form.HotelID)
-                var data = {
-                      "action": "editMgtProductCategory",
-                      "token": util.getParams("token"),
-                      "lang": self.langStyle,
-                      "ShopGoodsCategory":{
-                           "ShopGoodsCategoryID":self.maskParams.ShopGoodsCategoryID,
-                           "ShopGoodsCategoryName":self.categoryDetail
-                      }
-                };
-                data = JSON.stringify(data);
-                $http({
-                    method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('shopinfo', 'shopList','server'),
-                    data: data
-                }).then(function successCallback(data, status, headers, config) {
-                    alert('分类修改成功')
-                    $state.reload();
-                }, function errorCallback(data, status, headers, config) {
+                self.saveForm = function () {
+                    console.log(self.form.HotelID)
+                    console.log(self.form.HotelID)
+                    var data = {
+                        "action": "editMgtProductCategory",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "ShopGoodsCategory": {
+                            "ShopGoodsCategoryID": self.maskParams.ShopGoodsCategoryID,
+                            "ShopGoodsCategoryName": self.categoryDetail
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        alert('分类修改成功')
+                        $state.reload();
+                    }, function errorCallback(data, status, headers, config) {
 
                     });
                 };
-        }
-    ])
+            }
+        ])
 
-    .controller('goodsListController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
-        function($scope,$state,$http,$stateParams,$filter,NgTableParams,util) {
-            console.log('goodsListController');
-            console.log($state.current.name);
+        .controller('goodsListController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
+            function ($scope, $state, $http, $stateParams, $filter, NgTableParams, util) {
+                console.log('goodsListController');
+                console.log($state.current.name);
 
-            var self = this;
-            self.init = function() {
-                self.stateParams = $stateParams;
-                self.langStyle = util.langStyle();
-                self.multiLang = util.getParams('editLangs');
-                self.getGoodsCategory();
-                self.getProductList(self.stateParams.ShopGoodsCategoryID);
+                var self = this;
+                self.init = function () {
+                    self.stateParams = $stateParams;
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.getGoodsCategory();
+                    self.getProductList(self.stateParams.ShopGoodsCategoryID);
 
                 }
 
-            // 分类编辑
-            self.categoryEdit = function(){
-               // $scope.app.maskParams = {'ShopGoodsCategoryID':self.stateParams.ShopGoodsCategoryID - 0 ,ShopID:self.stateParams.ShopID};
-               $scope.app.maskUrl = 'pages/categoryEdit.html';
-            }
+                // 分类编辑
+                self.categoryEdit = function () {
+                    // $scope.app.maskParams = {'ShopGoodsCategoryID':self.stateParams.ShopGoodsCategoryID - 0 ,ShopID:self.stateParams.ShopID};
+                    $scope.app.maskUrl = 'pages/categoryEdit.html';
+                }
 
 
                 self.categoryDelete = function () {
@@ -1107,18 +1107,18 @@
                     $scope.app.maskUrl = 'pages/goodsEdit.html';
                 }
 
-            // 商品分类列表
-            self.getGoodsCategory = function() {
-                var data = {
-                      "action": "getMgtProductCategory",
-                      "token": util.getParams("token"),
-                      "lang": self.langStyle,
-                      "shopId": $stateParams.ShopID-0
-                };
-                data = JSON.stringify(data);
+                // 商品分类列表
+                self.getGoodsCategory = function () {
+                    var data = {
+                        "action": "getMgtProductCategory",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "shopId": $stateParams.ShopID - 0
+                    };
+                    data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList','server'),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
@@ -1126,18 +1126,18 @@
                     }, function errorCallback(data, status, headers, config) {
 
                     });
-            }
+                }
 
-            // 商品列表
-            self.getProductList = function(ShopGoodsCategoryID){
+                // 商品列表
+                self.getProductList = function (ShopGoodsCategoryID) {
 
-                self.tableParams = new NgTableParams({
-                    page: 1,
-                    count: 2,
-                    url: ''
-                }, {
-                    counts: [2,4],
-                    getData: function(params) {
+                    self.tableParams = new NgTableParams({
+                        page: 1,
+                        count: 2,
+                        url: ''
+                    }, {
+                        counts: [2, 4],
+                        getData: function (params) {
                             var data = {
                                 "action": "getMgtShopProductList",
                                 "token": util.getParams("token"),
@@ -1155,63 +1155,63 @@
                             data = JSON.stringify(data);
 
 
-                        return $http({
-                            method: $filter('ajaxMethod')(),
-                            url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                            data: data
-                        }).then(function successCallback(data, status, headers, config) {
-                            params.total(data.data.data.productTotal);
-                            var data = data.data.data.productList;
-                            return data;
+                            return $http({
+                                method: $filter('ajaxMethod')(),
+                                url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                                data: data
+                            }).then(function successCallback(data, status, headers, config) {
+                                params.total(data.data.data.productTotal);
+                                var data = data.data.data.productList;
+                                return data;
 
-                        }, function errorCallback(data, status, headers, config) {
+                            }, function errorCallback(data, status, headers, config) {
 
-                        })
+                            })
 
-                    }
-                });
+                        }
+                    });
 
-            }
+                }
 
-            // 商品分类，属于某分类则返回true
-            self.checkGoodsCategory = function(id,categoryList){
-                for (var i = 0; i < categoryList.length; i++) {
-                    if (id == categoryList[i]['ShopGoodsCategoryID'] ) {
-                        return true;
+                // 商品分类，属于某分类则返回true
+                self.checkGoodsCategory = function (id, categoryList) {
+                    for (var i = 0; i < categoryList.length; i++) {
+                        if (id == categoryList[i]['ShopGoodsCategoryID']) {
+                            return true;
+                        }
                     }
                 }
-            }
 
-            // 更改商品分类
-            self.changeGoodsCategory = function(productId,categoryId ,value,categoryList) {
-                console.log(' productId' + productId + ' categoryId' + categoryId + ' value' + value+' categoryList' + categoryList)
-                // 商品 的分类，保存在此对象
-                self.categoryObj = {};
-                self.categoryObj[productId] = [];
-                for (var i = 0; i < categoryList.length; i++) {
-                   self.categoryObj[productId].push(categoryList[i]['ShopGoodsCategoryID']);
-                }
-                var index = self.categoryObj[productId].indexOf(categoryId);
-                // 没有，则添加此分类
-                if (index < 0) {
-                    self.categoryObj[productId].push(categoryId)
-                } else {
-                    self.categoryObj[productId].splice(index,1)
-                }
-                var data = {
-                    "action": "editMgtProductPCategory",
-                    "token": util.getParams("token"),
-                    "lang": self.langStyle,
-                    "product": {
-                        "productID": productId - 0,
-                        "categoryList": self.categoryObj[productId]
+                // 更改商品分类
+                self.changeGoodsCategory = function (productId, categoryId, value, categoryList) {
+                    console.log(' productId' + productId + ' categoryId' + categoryId + ' value' + value + ' categoryList' + categoryList)
+                    // 商品 的分类，保存在此对象
+                    self.categoryObj = {};
+                    self.categoryObj[productId] = [];
+                    for (var i = 0; i < categoryList.length; i++) {
+                        self.categoryObj[productId].push(categoryList[i]['ShopGoodsCategoryID']);
                     }
-                };
+                    var index = self.categoryObj[productId].indexOf(categoryId);
+                    // 没有，则添加此分类
+                    if (index < 0) {
+                        self.categoryObj[productId].push(categoryId)
+                    } else {
+                        self.categoryObj[productId].splice(index, 1)
+                    }
+                    var data = {
+                        "action": "editMgtProductPCategory",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "product": {
+                            "productID": productId - 0,
+                            "categoryList": self.categoryObj[productId]
+                        }
+                    };
 
-                data = JSON.stringify(data);
+                    data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList','server'),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
@@ -1219,43 +1219,39 @@
                     }, function errorCallback(data, status, headers, config) {
 
                     });
-            }
-
-            // 商品 上下架
-            self.changeGoodsStatus = function(productId,status) {
-                console.log('productId:' + productId + ' status:' + status)
-                if (status == true) {
-                    status = 1;
-                } else {
-                    status = 0;
                 }
 
-                var data = {
-                    "action": "editMgtProductStatus",
-                    "token": util.getParams("token"),
-                    "lang": self.langStyle,
-                    "product": {
-                        "productID": productId - 0,
-                        "Status": status
+                // 商品 上下架
+                self.changeGoodsStatus = function (productId, status) {
+                    console.log('productId:' + productId + ' status:' + status)
+                    if (status == true) {
+                        status = 1;
+                    } else {
+                        status = 0;
                     }
-                };
+
+                    var data = {
+                        "action": "editMgtProductStatus",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "product": {
+                            "productID": productId - 0,
+                            "Status": status
+                        }
+                    };
 
 
-                data = JSON.stringify(data);
-                $http({
-                    method: $filter('ajaxMethod')(),
-                    url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                    data: data
-                }).then(function successCallback(data, status, headers, config) {
-                    alert('修改成功')
-                }, function errorCallback(data, status, headers, config) {
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        alert('修改成功')
+                    }, function errorCallback(data, status, headers, config) {
 
-                });
-
-            }
-
-
-
+                    });
+                }
             }
         ])
 
@@ -1275,56 +1271,56 @@
             }
         ])
 
-    .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', '$location', 'util',
-        function($scope, $http, $stateParams, $translate, $location, util) {
-            var self = this;
-            var lang = util.langStyle();
+        .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', '$location', 'util', 'NgTableParams',
+            function ($scope, $http, $stateParams, $translate, $location, util, NgTableParams) {
+                var self = this;
+                var lang;
 
-            self.init = function() {
-                self.defaultLangCode = util.getDefaultLangCode();
-                self.hotelId = $stateParams.hotelId;
-                self.getHotelInfo()
-                self.getRoomList()
-            }
-            /**
-             * 获取酒店信息
-             */
-            self.getHotelInfo = function () {
-                self.loadingHotelInfo = true;
-                var data = JSON.stringify({
-                    action: "getHotel",
-                    token: util.getParams('token'),
-                    lang: util.langStyle(),
-                    HotelID: Number(self.hotelId)
-                })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('hotelroom', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        self.hotel = {};
-                        self.hotel.Imgs = data.data.Gallery;
-                        self.hotel.Tags = data.data.Features;
-                        self.hotel.Name = data.data.Name;
-                        self.hotel.Address = data.data.Address;
-                        self.hotel.Description = data.data.Description;
-                        self.hotel.LocationX = data.data.LocationX;
-                        self.hotel.LocationY = data.data.LocationY;
-                        self.hotel.LogoImg = data.data.LogoURL;
-                    } else if (msg.rescode == '401') {
-                        alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
-                    } else {
-                        alert(data.rescode + ' ' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                }).finally(function(e) {
-                    self.loadingHotelInfo = false;
-                });
-            }
+                self.init = function () {
+                    lang = util.langStyle();
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.hotelId = $stateParams.hotelId;
+                    self.getHotelInfo();
+                }
+                /**
+                 * 获取酒店信息
+                 */
+                self.getHotelInfo = function () {
+                    self.loadingHotelInfo = true;
+                    var data = JSON.stringify({
+                        action: "getHotel",
+                        token: util.getParams('token'),
+                        lang: lang,
+                        HotelID: Number(self.hotelId)
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('hotelroom', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.hotel = {};
+                            self.hotel.Imgs = data.data.Gallery;
+                            self.hotel.Tags = data.data.Features;
+                            self.hotel.Name = data.data.Name;
+                            self.hotel.Address = data.data.Address;
+                            self.hotel.Description = data.data.Description;
+                            self.hotel.LocationX = data.data.LocationX;
+                            self.hotel.LocationY = data.data.LocationY;
+                            self.hotel.LogoImg = data.data.LogoURL;
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert(data.rescode + ' ' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.loadingHotelInfo = false;
+                    });
+                }
 
                 /**
                  * 获取客房列表
@@ -1348,7 +1344,7 @@
                                 var data = JSON.stringify({
                                     action: "getRoomList",
                                     token: util.getParams('token'),
-                                    lang: self.lang,
+                                    lang: lang,
                                     HotelID: Number(self.hotelId),
                                     page: Number(paramsUrl.page),
                                     per_page: Number(paramsUrl.count)
@@ -1409,754 +1405,770 @@
             }
         ])
 
-    .controller('hotelEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-        function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-            var self = this;
-            self.init = function () {
-                self.defaultLangCode = util.getDefaultLangCode();
-                self.hotelId = $scope.app.maskParams.hotelId;
-                self.hotel = $scope.app.maskParams.hotelInfo;
-                self.ifCheckedHotelTags = [];
-                self.editLangs = util.getParams('editLangs');
-                self.initImgs1();
-                self.initImgs2();
-                self.getHotelTags();
-            }
-
-            self.initImgs1 = function() {
-                // 初始化酒店图片多张
-                self.imgs1 = new Imgs(self.hotel.Imgs);
-                self.imgs1.initImgs();
-            }
-
-            self.initImgs2 = function() {
-                // 初始化酒店LOGO
-                self.imgs2 = new Imgs([{"ImageURL": self.hotel.LogoImg, "ImageSize": 0}], true);
-                self.imgs2.initImgs();
-            }
-
-            self.cancel = function () {
-                $scope.app.maskUrl = '';
-            }
-
-            self.save = function() {
-                var imgs = [];
-                for(var i=0; i<self.imgs1.data.length; i++) {
-                    imgs[i] = {};
-                    imgs[i].Seq = i;
-                    imgs[i].ImageURL = self.imgs1.data[i].src;
-                    imgs[i].ImageSize = self.imgs1.data[i].fileSize;
-                }
-                //检查图片未上传
-                if(imgs.length == 0) {
-                    alert('请上传酒店图片')
-                    return;
-                }
-                //检查logo上传
-                if(self.imgs2.data.length == 0) {
-                    alert('请上传酒店LOGO')
-                    return;
+        .controller('hotelEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                var self = this;
+                self.init = function () {
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.hotel = $scope.app.maskParams.hotelInfo;
+                    self.ifCheckedHotelTags = [];
+                    self.editLangs = util.getParams('editLangs');
+                    self.initImgs1();
+                    self.initImgs2();
+                    self.getHotelTags();
                 }
 
-                var tags = [];
-                for(var i=0; i< self.ifCheckedHotelTags.length;i++){
-                    if(self.ifCheckedHotelTags[i].checked) {
-                        tags.push({"ID": self.ifCheckedHotelTags[i].ID});
-                    }
+                self.initImgs1 = function () {
+                    // 初始化酒店图片多张
+                    self.imgs1 = new Imgs(self.hotel.Imgs);
+                    self.imgs1.initImgs();
                 }
-                self.saving = true;
-                var data = JSON.stringify({
-                    action: "editHotel",
-                    token: util.getParams('token'),
-                    lang: util.langStyle(),
-                    "HotelID": Number(self.hotelId),
-                    "data":{
-                        "Name": self.hotel.Name,
-                        "CityID":1, //fix me
-                        "LocationX": self.hotel.LocationX,
-                        "LocationY": self.hotel.LocationY,
-                        "LogoURL": self.imgs2.data[0].src,
-                        "Features": tags,
-                        "TelePhone": null,
-                        "Address": self.hotel.Address,
-                        "Description": self.hotel.Description,
-                        "OfficePhone": null,
-                        "Gallery":imgs
-                    }
-                })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('hotelroom', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('修改成功');
-                        $state.reload();
-                    } else {
-                        alert('保存失败' + data.rescode + ' ' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                }).finally(function(e) {
-                    self.saving = false;
-                });
-            }
 
-            self.getHotelTags = function() {
-                self.loading = true;
-                var data = JSON.stringify({
-                    action: "getHotelFeatureTag",
-                    token: util.getParams('token'),
-                    lang: util.langStyle()
-                })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('hotelroom', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        console&&console.log(data.data);
-                        self.hotelTags = data.data;
-                        self.initIfCheckedHotelTags();
-                    } else {
-                        alert('读取酒店标签出错' + data.rescode + ' ' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                }).finally(function(e) {
-                    self.loading = false;
-                });
-            }
+                self.initImgs2 = function () {
+                    // 初始化酒店LOGO
+                    self.imgs2 = new Imgs([{"ImageURL": self.hotel.LogoImg, "ImageSize": 0}], true);
+                    self.imgs2.initImgs();
+                }
 
-            self.initIfCheckedHotelTags = function() {
-                for(var i =0; i < self.hotelTags.length; i++) {
-                    self.ifCheckedHotelTags[i] = {};
-                    self.ifCheckedHotelTags[i].checked = false;
-                    self.ifCheckedHotelTags[i].ID = self.hotelTags[i].ID;
-                    for (var j = 0; j<self.hotel.Tags.length; j++) {
-                        if(self.hotel.Tags[j].ID == self.hotelTags[i].ID) {
-                            self.ifCheckedHotelTags[i].checked = true;
-                            break;
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
+                }
+
+                self.save = function () {
+                    var imgs = [];
+                    for (var i = 0; i < self.imgs1.data.length; i++) {
+                        imgs[i] = {};
+                        imgs[i].Seq = i;
+                        imgs[i].ImageURL = self.imgs1.data[i].src;
+                        imgs[i].ImageSize = self.imgs1.data[i].fileSize;
+                    }
+                    //检查图片未上传
+                    if (imgs.length == 0) {
+                        alert('请上传酒店图片')
+                        return;
+                    }
+                    //检查logo上传
+                    if (self.imgs2.data.length == 0) {
+                        alert('请上传酒店LOGO')
+                        return;
+                    }
+
+                    var tags = [];
+                    for (var i = 0; i < self.ifCheckedHotelTags.length; i++) {
+                        if (self.ifCheckedHotelTags[i].checked) {
+                            tags.push({"ID": self.ifCheckedHotelTags[i].ID});
                         }
                     }
+                    self.saving = true;
+                    var data = JSON.stringify({
+                        action: "editHotel",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        HotelID: Number(self.hotelId),
+                        data: {
+                            "Name": self.hotel.Name,
+                            "CityID": 1, //fix me
+                            "LocationX": self.hotel.LocationX,
+                            "LocationY": self.hotel.LocationY,
+                            "LogoURL": self.imgs2.data[0].src,
+                            "Features": tags,
+                            "TelePhone": null,
+                            "Address": self.hotel.Address,
+                            "Description": self.hotel.Description,
+                            "OfficePhone": null,
+                            "Gallery": imgs
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('hotelroom', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            $state.reload();
+                        } else {
+                            alert('保存失败' + data.rescode + ' ' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.saving = false;
+                    });
                 }
-            }
 
-            self.clickUpload = function(e) {
-              setTimeout(function() {
-                  document.getElementById(e).click();
-              }, 0);
-            }
+                self.getHotelTags = function () {
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        action: "getHotelFeatureTag",
+                        token: util.getParams('token'),
+                        lang: util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('hotelroom', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            console && console.log(data.data);
+                            self.hotelTags = data.data;
+                            self.initIfCheckedHotelTags();
+                        } else {
+                            alert('读取酒店标签出错' + data.rescode + ' ' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.loading = false;
+                    });
+                }
 
-            function Imgs(imgList, single) {
-                this.initImgList = imgList;
-                this.data = [];
-                this.maxId = 0;
-                this.single = single?true:false;
-            }
-
-            Imgs.prototype = {
-                initImgs: function() {
-                    var l = this.initImgList;
-                    for (var i =0; i < l.length; i++) {
-                        this.data[i] = {"src": l[i].ImageURL, "fileSize":l[i].ImageSize, "id": this.maxId++, "progress": 100};
-                    }
-                },
-                deleteById: function(id) {
-                    var l = this.data;
-                    for(var i = 0; i <l.length; i++) {
-                        if (l[i].id == id) {
-                            // 如果正在上传，取消上传
-                            if(l[i].progress < 100 && l[i].progress != -1) {
-                                l[i].xhr.abort();
+                self.initIfCheckedHotelTags = function () {
+                    for (var i = 0; i < self.hotelTags.length; i++) {
+                        self.ifCheckedHotelTags[i] = {};
+                        self.ifCheckedHotelTags[i].checked = false;
+                        self.ifCheckedHotelTags[i].ID = self.hotelTags[i].ID;
+                        for (var j = 0; j < self.hotel.Tags.length; j++) {
+                            if (self.hotel.Tags[j].ID == self.hotelTags[i].ID) {
+                                self.ifCheckedHotelTags[i].checked = true;
+                                break;
                             }
-                            l.splice(i, 1);
-                            break;
                         }
                     }
-                },
+                }
 
-                add : function (xhr, fileName, fileSize) {
-                  this.data.push({
-                    "xhr": xhr,
-                    "fileName": fileName,
-                    "fileSize": fileSize,
-                    "progress": 0,
-                    "id": this.maxId
-                  });
-                  return this.maxId++;
-                },
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
 
-                update : function (id, progress, leftSize, fileSize) {
-                  for(var i = 0; i < this.data.length; i++) {
-                    var f = this.data[i];
-                    if(f.id === id) {
-                      f.progress = progress;
-                      f.leftSize = leftSize;
-                      f.fileSize = fileSize;
-                      break;
-                    }
-                  }
-                },
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
 
-                setSrcSizeByXhr: function(xhr, src, size) {
-                    for (var i =0; i< this.data.length; i++) {
-                        if(this.data[i].xhr == xhr) {
-                            this.data[i].src = src;
-                            this.data[i].fileSize = size;
-                            break;
+                Imgs.prototype = {
+                    initImgs: function () {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
                         }
-                    }
-                },
-
-                uploadFile: function(e, o) {
-
-                    // 如果这个对象只允许上传一张图片
-                    if(this.single) {
-                        // 删除第二张以后的图片
-                        for(var i = 1; i < this.data.length; i++) {
-                            this.deleteById(this.data[i].id);
-                        }
-                    }
-
-                    var file = $scope[e];
-                    var uploadUrl = CONFIG.uploadUrl;
-                    var xhr = new XMLHttpRequest();
-                    var fileId = this.add(xhr, file.name, file.size, xhr);
-                    // self.search();
-
-                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                        function(evt) {
-                          $scope.$apply(function(){
-                            if (evt.lengthComputable) {
-                              var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                              o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                              console.log(percentComplete);
+                    },
+                    deleteById: function (id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
                             }
-                          });
-                        },
-                        function(xhr) {
-                            var ret = JSON.parse(xhr.responseText);
-                            console && console.log(ret);
-                            $scope.$apply(function(){
-                              o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
-                              // 如果这个对象只允许上传一张图片
-                              if(o.single) {
-                                // 删除第一站图片
-                                o.deleteById(o.data[0].id);
-                              }
-                            });
-                        },
-                        function(xhr) {
-                            $scope.$apply(function(){
-                              o.update(fileId, -1, '', '');
-                            });
-                            console.log('failure');
-                            xhr.abort();
                         }
-                    );
-                }
+                    },
 
-            }
+                    add: function (xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
 
-        }
-    ])
-
-    .controller('roomAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-        function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-            var self = this;
-
-            self.init = function () {
-                self.hotelId = $scope.app.maskParams.hotelId;
-                self.room = {};
-                self.editLangs = util.getParams('editLangs');
-                self.defaultLangCode = util.getDefaultLangCode();
-                self.getRoomTags();
-                self.ifCheckedTags = [];
-                self.imgs = new Imgs([]);
-            }
-            self.cancel = function () {
-                $scope.app.maskUrl = '';
-            }
-
-            /**
-             * 获取客房标签
-             */
-            self.getRoomTags = function () {
-                self.loading = true;
-                var data = JSON.stringify({
-                    action: "getRoomTags",
-                    token: util.getParams('token'),
-                    lang: util.langStyle()
-                })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('room', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        self.tags = data.tags;
-                        for(var i = 0; i < self.tags.length; i++){
-                            self.ifCheckedTags[i] = {};
-                            self.ifCheckedTags[i].ID = self.tags[i].ID;
-                            self.ifCheckedTags[i].checked = false;
-                        }
-                    } else {
-                        alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                }).finally(function(e) {
-                    self.loading = false;
-                });
-            }
-            /**
-             * 保存
-             */
-            self.save = function () {
-                var tags = [];
-                for(var i =0; i < self.ifCheckedTags.length; i++){
-                    if(self.ifCheckedTags[i].checked){
-                        tags.push(self.ifCheckedTags[i].ID);
-                    }
-                }
-                var imgs = [];
-                for(var i =0; i<self.imgs.data.length; i++){
-                    imgs.push(
-                        {"Seq":i,
-                        "ImageURL":self.imgs.data[i].src,
-                        "ImageSize":self.imgs.data[i].fileSize}
-                    );
-                }
-
-                if(imgs.length == 0) {
-                    alert('请上传图片')
-                    return;
-                }
-
-                self.saving = true;
-                var data = JSON.stringify({
-                    action: "updateRoom",
-                    roomID: self.roomId,
-                    token: util.getParams('token'),
-                    lang: util.langStyle(),
-                    "tags": tags,
-                    "IntroImgs": imgs,
-                    "roomDetail": {
-                        "HotelID": self.hotelId,
-                        "Description": self.room.Description,
-                        "RoomTypeName": self.room.RoomTypeName,
-                        "Roomsummary": self.room.Roomsummary
-                    }
-                })
-
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('room', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('保存成功')
-                        $state.reload();
-                    } else {
-                        alert('保存失败' + data.rescode + ' ' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                }).finally(function(e) {
-                    self.saving = false;
-                });
-            };
-
-            self.clickUpload = function(e) {
-              setTimeout(function() {
-                  document.getElementById(e).click();
-              }, 0);
-            }
-
-            function Imgs(imgList, single) {
-                this.initImgList = imgList;
-                this.data = [];
-                this.maxId = 0;
-                this.single = single?true:false;
-            }
-
-            Imgs.prototype = {
-                initImgs: function() {
-                    var l = this.initImgList;
-                    for (var i =0; i < l.length; i++) {
-                        this.data[i] = {"src": l[i].ImageURL, "fileSize":l[i].ImageSize, "id": this.maxId++, "progress": 100};
-                    }
-                },
-                deleteById: function(id) {
-                    var l = this.data;
-                    for(var i = 0; i <l.length; i++) {
-                        if (l[i].id == id) {
-                            // 如果正在上传，取消上传
-                            if(l[i].progress < 100 && l[i].progress != -1) {
-                                l[i].xhr.abort();
+                    update: function (id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
                             }
-                            l.splice(i, 1);
-                            break;
                         }
-                    }
-                },
+                    },
 
-                add : function (xhr, fileName, fileSize) {
-                  this.data.push({
-                    "xhr": xhr,
-                    "fileName": fileName,
-                    "fileSize": fileSize,
-                    "progress": 0,
-                    "id": this.maxId
-                  });
-                  return this.maxId++;
-                },
-
-                update : function (id, progress, leftSize, fileSize) {
-                  for(var i = 0; i < this.data.length; i++) {
-                    var f = this.data[i];
-                    if(f.id === id) {
-                      f.progress = progress;
-                      f.leftSize = leftSize;
-                      f.fileSize = fileSize;
-                      break;
-                    }
-                  }
-                },
-
-                setSrcSizeByXhr: function(xhr, src, size) {
-                    for (var i =0; i< this.data.length; i++) {
-                        if(this.data[i].xhr == xhr) {
-                            this.data[i].src = src;
-                            this.data[i].fileSize = size;
-                            break;
-                        }
-                    }
-                },
-
-                uploadFile: function(e, o) {
-
-                    // 如果这个对象只允许上传一张图片
-                    if(this.single) {
-                        // 删除第二张以后的图片
-                        for(var i = 1; i < this.data.length; i++) {
-                            this.deleteById(this.data[i].id);
-                        }
-                    }
-
-                    var file = $scope[e];
-                    var uploadUrl = CONFIG.uploadUrl;
-                    var xhr = new XMLHttpRequest();
-                    var fileId = this.add(xhr, file.name, file.size, xhr);
-                    // self.search();
-
-                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                        function(evt) {
-                          $scope.$apply(function(){
-                            if (evt.lengthComputable) {
-                              var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                              o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                              console.log(percentComplete);
+                    setSrcSizeByXhr: function (xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
                             }
-                          });
-                        },
-                        function(xhr) {
-                            var ret = JSON.parse(xhr.responseText);
-                            console && console.log(ret);
-                            $scope.$apply(function(){
-                              o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
-                              // 如果这个对象只允许上传一张图片
-                              if(o.single) {
-                                // 删除第一站图片
-                                o.deleteById(o.data[0].id);
-                              }
-                            });
-                        },
-                        function(xhr) {
-                            $scope.$apply(function(){
-                              o.update(fileId, -1, '', '');
-                            });
-                            console.log('failure');
-                            xhr.abort();
                         }
-                    );
+                    },
+
+                    uploadFile: function (e, o) {
+
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = $scope[e];
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function (evt) {
+                                $scope.$apply(function () {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function () {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 删除第一站图片
+                                        o.deleteById(o.data[0].id);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                $scope.$apply(function () {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
+                }
+            }
+        ])
+
+        .controller('roomAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                var self = this;
+
+                self.init = function () {
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.room = {};
+                    self.editLangs = util.getParams('editLangs');
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.getRoomTags();
+                    self.ifCheckedTags = [];
+                    self.imgs = new Imgs([]);
+                }
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
                 }
 
-            }
-        }
-    ])
-
-    .controller('roomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-        function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-            var self = this;
-
-            self.init = function () {
-                self.hotelId = $scope.app.maskParams.hotelId;
-                self.roomId = $scope.app.maskParams.roomId;
-                self.room = {};
-                self.editLangs = util.getParams('editLangs');
-                self.defaultLangCode = util.getDefaultLangCode();
-                self.ifCheckedTags = [];
-                self.getRoomTags();
-            }
-            self.cancel = function () {
-                $scope.app.maskUrl = '';
-            }
-
-            /**
-             * 获取客房标签
-             */
-            self.getRoomTags = function () {
-                self.loading = true;
-                var data = JSON.stringify({
-                    action: "getRoomTags",
-                    token: util.getParams('token'),
-                    lang: util.langStyle()
-                })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('room', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        self.tags = data.tags;
-                        for(var i = 0; i < self.tags.length; i++){
-                            self.ifCheckedTags[i] = {};
-                            self.ifCheckedTags[i].ID = self.tags[i].ID;
-                            self.ifCheckedTags[i].checked = false;
+                /**
+                 * 获取客房标签
+                 */
+                self.getRoomTags = function () {
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        action: "getRoomTags",
+                        token: util.getParams('token'),
+                        lang: util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.tags = data.tags;
+                            for (var i = 0; i < self.tags.length; i++) {
+                                self.ifCheckedTags[i] = {};
+                                self.ifCheckedTags[i].ID = self.tags[i].ID;
+                                self.ifCheckedTags[i].checked = false;
+                            }
+                        } else {
+                            alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
                         }
-                        // 读取客房信息
-                        self.getRoomInfo();
-                    } else {
-                        alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.loading = false;
+                    });
+                }
+                /**
+                 * 保存
+                 */
+                self.save = function () {
+                    var tags = [];
+                    for (var i = 0; i < self.ifCheckedTags.length; i++) {
+                        if (self.ifCheckedTags[i].checked) {
+                            tags.push(self.ifCheckedTags[i].ID);
+                        }
                     }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                }).finally(function(e) {
-                    self.loading = false;
-                });
+                    var imgs = [];
+                    for (var i = 0; i < self.imgs.data.length; i++) {
+                        imgs.push(
+                            {
+                                "Seq": i,
+                                "ImageURL": self.imgs.data[i].src,
+                                "ImageSize": self.imgs.data[i].fileSize
+                            }
+                        );
+                    }
+
+                    if (imgs.length == 0) {
+                        alert('请上传图片')
+                        return;
+                    }
+
+                    self.saving = true;
+                    var data = JSON.stringify({
+                        action: "addRoom",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        tags: tags,
+                        IntroImgs: imgs,
+                        roomDetail: {
+                            HotelID: self.hotelId,
+                            Description: self.room.Description,
+                            RoomTypeName: self.room.RoomTypeName,
+                            Roomsummary: self.room.Roomsummary
+                        }
+                    })
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('添加成功')
+                            $state.reload();
+                        } else {
+                            alert('添加失败' + data.rescode + ' ' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.saving = false;
+                    });
+                };
+
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
+
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
+
+                Imgs.prototype = {
+                    initImgs: function () {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
+                        }
+                    },
+                    deleteById: function (id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
+                            }
+                        }
+                    },
+
+                    add: function (xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
+
+                    update: function (id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
+                            }
+                        }
+                    },
+
+                    setSrcSizeByXhr: function (xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
+                            }
+                        }
+                    },
+
+                    uploadFile: function (e, o) {
+
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = $scope[e];
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function (evt) {
+                                $scope.$apply(function () {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function () {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 删除第一站图片
+                                        o.deleteById(o.data[0].id);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                $scope.$apply(function () {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
+                }
             }
+        ])
 
-            self.getRoomInfo = function() {
-                self.loading = true;
-                var data = JSON.stringify({
-                    action: "getRoomInfoByID",
-                    token: util.getParams('token'),
-                    lang: util.langStyle(),
-                    roomID: self.roomId
-                })
+        .controller('roomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                var self = this;
 
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('room', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    // console.log(data);
-                    if (data.rescode == '200') {
-                        self.room.RoomTypeName = data.RoomTypeName;
-                        self.room.Roomsummary = data.Roomsummary;
-                        self.room.Description = data.Description;
-                        for(var i = 0; i < self.ifCheckedTags.length; i++){
-                            for(var j =0; j < data.tags.length; j++) {
-                                if(self.ifCheckedTags[i].ID == data.tags[j].ID) {
-                                    self.ifCheckedTags[i].checked = true;
+                self.init = function () {
+                    self.hotelId = $scope.app.maskParams.hotelId;
+                    self.roomId = $scope.app.maskParams.roomId;
+                    self.room = {};
+                    self.editLangs = util.getParams('editLangs');
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.ifCheckedTags = [];
+                    self.getRoomTags();
+                }
+                self.cancel = function () {
+                    $scope.app.maskUrl = '';
+                }
+
+                /**
+                 * 获取客房标签
+                 */
+                self.getRoomTags = function () {
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        action: "getRoomTags",
+                        token: util.getParams('token'),
+                        lang: util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.tags = data.tags;
+                            for (var i = 0; i < self.tags.length; i++) {
+                                self.ifCheckedTags[i] = {};
+                                self.ifCheckedTags[i].ID = self.tags[i].ID;
+                                self.ifCheckedTags[i].checked = false;
+                            }
+                            // 读取客房信息
+                            self.getRoomInfo();
+                        } else {
+                            alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.loading = false;
+                    });
+                }
+
+                self.getRoomInfo = function () {
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        action: "getRoomInfoByID",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        roomID: self.roomId
+                    })
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        // console.log(data);
+                        if (data.rescode == '200') {
+                            self.room.RoomTypeName = data.RoomTypeName;
+                            self.room.Roomsummary = data.Roomsummary;
+                            self.room.Description = data.Description;
+                            for (var i = 0; i < self.ifCheckedTags.length; i++) {
+                                for (var j = 0; j < data.tags.length; j++) {
+                                    if (self.ifCheckedTags[i].ID == data.tags[j].ID) {
+                                        self.ifCheckedTags[i].checked = true;
+                                    }
                                 }
                             }
+                            self.imgs = new Imgs(data.imgs);
+                            self.imgs.initImgs();
+
+                        } else {
+                            alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
                         }
-                        self.imgs = new Imgs(data.imgs);
-                        self.imgs.initImgs();
-
-                    } else {
-                        alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                }).finally(function(e) {
-                    self.loading = false;
-                });
-            }
-
-            /**
-             * 保存
-             */
-            self.save = function () {
-                var tags = [];
-                for(var i =0; i < self.ifCheckedTags.length; i++){
-                    if(self.ifCheckedTags[i].checked){
-                        tags.push(self.ifCheckedTags[i].ID);
-                    }
-                }
-                var imgs = [];
-                for(var i =0; i<self.imgs.data.length; i++){
-                    imgs.push(
-                        {"Seq":i,
-                        "ImageURL":self.imgs.data[i].src,
-                        "ImageSize":self.imgs.data[i].fileSize}
-                    );
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.loading = false;
+                    });
                 }
 
-                if(imgs.length == 0) {
-                    alert('请上传图片')
-                    return;
-                }
-
-                self.saving = true;
-                var data = JSON.stringify({
-                    action: "addRoom",
-                    token: util.getParams('token'),
-                    lang: util.langStyle(),
-                    "tags": tags,
-                    "IntroImgs": imgs,
-                    "roomDetail": {
-                        "HotelID": self.hotelId,
-                        "Description": self.room.Description,
-                        "RoomTypeName": self.room.RoomTypeName
+                /**
+                 * 保存
+                 */
+                self.save = function () {
+                    var tags = [];
+                    for (var i = 0; i < self.ifCheckedTags.length; i++) {
+                        if (self.ifCheckedTags[i].checked) {
+                            tags.push(self.ifCheckedTags[i].ID);
+                        }
                     }
-                })
-                console&&console.log(data);
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('room', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('添加成功')
-                        $state.reload();
-                    } else {
-                        alert('添加失败' + data.rescode + ' ' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert(response.status + ' 服务器出错');
-                }).finally(function(e) {
-                    self.saving = false;
-                });
-            };
-
-            self.clickUpload = function(e) {
-              setTimeout(function() {
-                  document.getElementById(e).click();
-              }, 0);
-            }
-
-            function Imgs(imgList, single) {
-                this.initImgList = imgList;
-                this.data = [];
-                this.maxId = 0;
-                this.single = single?true:false;
-            }
-
-            Imgs.prototype = {
-                initImgs: function() {
-                    var l = this.initImgList;
-                    for (var i =0; i < l.length; i++) {
-                        this.data[i] = {"src": l[i].ImageURL, "fileSize":l[i].ImageSize, "id": this.maxId++, "progress": 100};
-                    }
-                },
-                deleteById: function(id) {
-                    var l = this.data;
-                    for(var i = 0; i <l.length; i++) {
-                        if (l[i].id == id) {
-                            // 如果正在上传，取消上传
-                            if(l[i].progress < 100 && l[i].progress != -1) {
-                                l[i].xhr.abort();
+                    var imgs = [];
+                    for (var i = 0; i < self.imgs.data.length; i++) {
+                        imgs.push(
+                            {
+                                "Seq": i,
+                                "ImageURL": self.imgs.data[i].src,
+                                "ImageSize": self.imgs.data[i].fileSize
                             }
-                            l.splice(i, 1);
-                            break;
+                        );
+                    }
+
+                    if (imgs.length == 0) {
+                        alert('请上传图片')
+                        return;
+                    }
+
+                    self.saving = true;
+                    var data = JSON.stringify({
+                        action: "updateRoom",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        roomID: self.roomId,
+                        tags: tags,
+                        IntroImgs: imgs,
+                        roomDetail: {
+                            "HotelID": self.hotelId,
+                            "Description": self.room.Description,
+                            "RoomTypeName": self.room.RoomTypeName
                         }
-                    }
-                },
-
-                add : function (xhr, fileName, fileSize) {
-                  this.data.push({
-                    "xhr": xhr,
-                    "fileName": fileName,
-                    "fileSize": fileSize,
-                    "progress": 0,
-                    "id": this.maxId
-                  });
-                  return this.maxId++;
-                },
-
-                update : function (id, progress, leftSize, fileSize) {
-                  for(var i = 0; i < this.data.length; i++) {
-                    var f = this.data[i];
-                    if(f.id === id) {
-                      f.progress = progress;
-                      f.leftSize = leftSize;
-                      f.fileSize = fileSize;
-                      break;
-                    }
-                  }
-                },
-
-                setSrcSizeByXhr: function(xhr, src, size) {
-                    for (var i =0; i< this.data.length; i++) {
-                        if(this.data[i].xhr == xhr) {
-                            this.data[i].src = src;
-                            this.data[i].fileSize = size;
-                            break;
+                    })
+                    console && console.log(data);
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('保存成功')
+                            $state.reload();
+                        } else {
+                            alert('保存失败' + data.rescode + ' ' + data.errInfo);
                         }
-                    }
-                },
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.saving = false;
+                    });
+                };
 
-                uploadFile: function(e, o) {
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
 
-                    // 如果这个对象只允许上传一张图片
-                    if(this.single) {
-                        // 删除第二张以后的图片
-                        for(var i = 1; i < this.data.length; i++) {
-                            this.deleteById(this.data[i].id);
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
+
+                Imgs.prototype = {
+                    initImgs: function () {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
                         }
-                    }
-
-                    var file = $scope[e];
-                    var uploadUrl = CONFIG.uploadUrl;
-                    var xhr = new XMLHttpRequest();
-                    var fileId = this.add(xhr, file.name, file.size, xhr);
-                    // self.search();
-
-                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                        function(evt) {
-                          $scope.$apply(function(){
-                            if (evt.lengthComputable) {
-                              var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                              o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                              console.log(percentComplete);
+                    },
+                    deleteById: function (id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
                             }
-                          });
-                        },
-                        function(xhr) {
-                            var ret = JSON.parse(xhr.responseText);
-                            console && console.log(ret);
-                            $scope.$apply(function(){
-                              o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
-                              // 如果这个对象只允许上传一张图片
-                              if(o.single) {
-                                // 删除第一站图片
-                                o.deleteById(o.data[0].id);
-                              }
-                            });
-                        },
-                        function(xhr) {
-                            $scope.$apply(function(){
-                              o.update(fileId, -1, '', '');
-                            });
-                            console.log('failure');
-                            xhr.abort();
                         }
-                    );
+                    },
+
+                    add: function (xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
+
+                    update: function (id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
+                            }
+                        }
+                    },
+
+                    setSrcSizeByXhr: function (xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
+                            }
+                        }
+                    },
+
+                    uploadFile: function (e, o) {
+
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = $scope[e];
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function (evt) {
+                                $scope.$apply(function () {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function () {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 删除第一站图片
+                                        o.deleteById(o.data[0].id);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                $scope.$apply(function () {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
                 }
             }
-        }
-    ])
+        ])
 
         .controller('roomEditPriceController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
             function ($scope, $state, $http, $stateParams, $location, util) {
@@ -2232,7 +2244,7 @@
                             self.roomDetail.PriceFriday = msg.PriceFriday;
                             self.roomDetail.PriceSaturday = msg.PriceSaturday;
                             self.roomDetail.PriceSunday = msg.PriceSunday;
-                            for(var i = 0; i < msg.SpecialPrice.length; i++) {
+                            for (var i = 0; i < msg.SpecialPrice.length; i++) {
                                 msg.SpecialPrice[i].PriceDate = new Date(msg.SpecialPrice[i].PriceDate);
                             }
                             self.SpecialPrice = msg.SpecialPrice;
@@ -2392,7 +2404,7 @@
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             self.roomDetail.AvailableNum = msg.AvailableNum;
-                            for(var i = 0; i < msg.SpecialNum.length; i++) {
+                            for (var i = 0; i < msg.SpecialNum.length; i++) {
                                 msg.SpecialNum[i].AvailableDate = new Date(msg.SpecialNum[i].AvailableDate);
                             }
                             self.SpecialNum = msg.SpecialNum;
@@ -2463,7 +2475,7 @@
                  * @returns {string}
                  */
                 function formatDate(date) {
-                    if (date.length != 10 ) {
+                    if (date.length != 10) {
                         var seperator1 = "-";
                         var month = date.getMonth() + 1;
                         var strDate = date.getDate();
