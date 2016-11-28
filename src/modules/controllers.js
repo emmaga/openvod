@@ -1065,17 +1065,8 @@
             // 商品列表
             self.getProductList = function(ShopGoodsCategoryID){
                 console.log(ShopGoodsCategoryID)
-                var data = {
-                    "action": "getMgtShopProductList",
-                    "token": util.getParams("token"),
-                    "lang": self.langStyle,
-                    "ShopID": self.stateParams.ShopID - 0,
-                }
-
-                if (!(ShopGoodsCategoryID == "all")) {
-                    data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
-                    data.action="getMgtProductList";
-                }
+                
+                
                 // self.tableParams = new NgTableParams({
                 //     page: 1,
                 //     count: 4,
@@ -1108,75 +1099,39 @@
 
                 self.tableParams = new NgTableParams({
                     page: 1,
-                    count: 5,
+                    count: 2,
                     url: ''
                 }, { 
                     counts: [2,4],
                     getData: function(params) {
+                        var data = {
+                            "action": "getMgtShopProductList",
+                            "token": util.getParams("token"),
+                            "lang": self.langStyle,
+                            "ShopID": self.stateParams.ShopID - 0,
+                        }
+
+                        if (!(ShopGoodsCategoryID == "all")) {
+                            data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
+                            data.action="getMgtProductList";
+                        }
                         var paramsUrl = params.url();
-                        data.count = paramsUrl.count,
-                            data.page = paramsUrl.page,
+                        data.count = paramsUrl.count;
+                            data.page = paramsUrl.page;
                             data = JSON.stringify(data);
-                        $http({
+                        
+                        return $http({
                             method: $filter('ajaxMethod')(),
                             url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                             data: data
                         }).then(function successCallback(data, status, headers, config) {
-                            // var data = data.data.data.productList;
-                            // console.log(params)
-                                
-                            // params.total(data.length)
-                            // return data;
-
-                            var data = [{
-                                "name": { "zh-CN": "大闸蟹" },
-                                "invetory": 93,
-                                "price": "1",
-                                "intro": {
-                                    "zh-CN": "阳澄湖大闸蟹现货实物788型 公蟹3.1-3.6两/只 母蟹2.0-2.5两/只 共10只螃蟹 礼盒装 自营海鲜水产"
-                                },
-                                "imgSrc": "2.jpg",
-                                "categoryList": [{
-                                    "ShopGoodsCategoryID": 1,
-                                    "ShopGoodsCategoryName": { "zh-CN": "生鲜" }
-                                }],
-                                "productId": 1,
-                                "status": "1"
-                            },{
-                                "name": { "zh-CN": "大闸蟹" },
-                                "invetory": 93,
-                                "price": "1",
-                                "intro": {
-                                    "zh-CN": "阳澄湖大闸蟹现货实物788型 公蟹3.1-3.6两/只 母蟹2.0-2.5两/只 共10只螃蟹 礼盒装 自营海鲜水产"
-                                },
-                                "imgSrc": "2.jpg",
-                                "categoryList": [{
-                                    "ShopGoodsCategoryID": 1,
-                                    "ShopGoodsCategoryName": { "zh-CN": "生鲜" }
-                                }],
-                                "productId": 1,
-                                "status": "1"
-                            },{
-                                "name": { "zh-CN": "大闸蟹" },
-                                "invetory": 93,
-                                "price": "1",
-                                "intro": {
-                                    "zh-CN": "阳澄湖大闸蟹现货实物788型 公蟹3.1-3.6两/只 母蟹2.0-2.5两/只 共10只螃蟹 礼盒装 自营海鲜水产"
-                                },
-                                "imgSrc": "2.jpg",
-                                "categoryList": [{
-                                    "ShopGoodsCategoryID": 1,
-                                    "ShopGoodsCategoryName": { "zh-CN": "生鲜" }
-                                }],
-                                "productId": 1,
-                                "status": "1"
-                            }];
-                            params.total(data.length);
+                            params.total(data.data.data.productTotal);
+                            var data = data.data.data.productList;
                             return data;
 
                         }, function errorCallback(data, status, headers, config) {
 
-                        });
+                        })
 
 
 
