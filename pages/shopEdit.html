@@ -12,10 +12,11 @@
 
 
  	门店列表<br>
-
+    <div ng-show="shopEdit.loading">loading...</div>
+    <div ng-show="shopEdit.noData">查无数据</div>
  	<label ng-repeat="hotel in shopEdit.hotelList"><input type="radio" name="hotelName" value="{{hotel.HotelID}}" ng-model="shopEdit.form.HotelID" ng-checked="shopEdit.maskParams.HotelID==hotel.HotelID">{{hotel.HotelName[shopEdit.langStyle]}}</label> <br>
 
- 	<input type="submit" value="保存" class="button button-block button-positive" ng-disabled="shopEditForm.$invalid">
+ 	<input type="submit" value="保存" class="button button-block button-positive" ng-disabled="shopEditForm.$invalid || shopEdit.saving">
  </form>
- <button ng-click="shopEdit.deleteShop()">删除该商城</button>
+ <button ng-click="shopEdit.deleteShop()" ng-disabled="shopEdit.saving">删除该商城</button>
 </div>

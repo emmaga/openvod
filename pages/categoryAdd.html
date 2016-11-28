@@ -7,6 +7,6 @@
             <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]">
         </div>
         <br/>
-        <input type="submit" value="保存" class="button button-block button-positive" ng-disabled="categoryAddForm.$invalid">
+        <input type="submit" value="保存" class="button button-block button-positive" ng-disabled="categoryAddForm.$invalid || categoryAdd.saving">
     </form>
 </div>
