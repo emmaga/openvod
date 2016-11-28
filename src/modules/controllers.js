@@ -1747,7 +1747,7 @@
                         "Roomsummary": self.room.Roomsummary
                     }
                 })
-                console&&console.log(data);
+                
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('room', '', 'server'),
@@ -1953,14 +1953,15 @@
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
+                    // console.log(data);
                     if (data.rescode == '200') {
                         self.room.RoomTypeName = data.RoomTypeName;
                         self.room.Roomsummary = data.Roomsummary;
                         self.room.Description = data.Description;
-                        for(var i = 0; i < self.tags.length; i++){
+                        for(var i = 0; i < self.ifCheckedTags.length; i++){
                             for(var j =0; j < data.tags.length; j++) {
-                                if(self.tags[i].ID == data.tags[j].ID) {
-                                    self.tags[i].checked = true;
+                                if(self.ifCheckedTags[i].ID == data.tags[j].ID) {
+                                    self.ifCheckedTags[i].checked = true;
                                 }
                             }
                         }
