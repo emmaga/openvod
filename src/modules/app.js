@@ -11,6 +11,7 @@
         'angular-md5',
         'ngCookies',
         'ngTable',
+        'ngAnimate',
         'ui.bootstrap'
     ])
         .config(['$translateProvider', function ($translateProvider) {

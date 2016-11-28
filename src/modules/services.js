@@ -3,7 +3,6 @@
 (function () {
     var app = angular.module('app.services', [])
 
-
         .factory('util', ['$cookies', '$translate', 'CONFIG', function ($cookies, $translate, CONFIG) {
 
 
@@ -77,6 +76,16 @@
                 // 当前系统 使用 的 语言
                 'langStyle': function(){
                     return $translate.proposedLanguage() || $translate.use();
+                },
+
+                // 获取多语言编辑中的默认语言code
+                'getDefaultLangCode': function() {
+                    var langs = JSON.parse($cookies.get('editLangs'));
+                    for (var i = 0; i < langs.length; i++) {
+                        if(langs[i].default) {
+                            return langs[i].code;
+                        }
+                    }
                 },
 
                 /*
