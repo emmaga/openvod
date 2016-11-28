@@ -311,7 +311,12 @@
                         console.log(data)
                         self.categoryList = data.data.data.categoryList;
                         // 默认加载 全部分类
-                        $state.go('app.shop.goods.goodsList',{ShopGoodsCategoryID:'all',ShopGoodsCategoryName:'全部商品'})
+
+                        self.focusCategoryName = '22';
+
+
+                        console.log(self.stateParams.ShopGoodsCategoryID)
+                        //$state.go('app.shop.goods.goodsList',{ShopGoodsCategoryID:'all',ShopGoodsCategoryName:'全部商品'})
                     }, function errorCallback(data, status, headers, config) {
 
                     });
@@ -976,6 +981,7 @@
             var self = this;
             self.init = function() {
                 self.stateParams = $stateParams;
+                console.log($scope.goods.focusCategoryName)
                 console.log(self.stateParams)
                 // 控制台打印出来的 不一样？
                 // self.stateParams.HotelID = "123123213213"
@@ -987,6 +993,9 @@
                 self.getProductList(self.stateParams.ShopGoodsCategoryID);
 
             }
+            // self.reload = function(){
+            //     $state.go('app.shop.goods.goodsList',{ShopGoodsCategoryID:self.stateParams.ShopGoodsCategoryID});
+            // }
             // 分类编辑
             self.categoryEdit = function(){
                $scope.app.maskParams = {'ShopGoodsCategoryID':self.stateParams.ShopGoodsCategoryID - 0 ,ShopID:self.stateParams.ShopID};
@@ -1063,29 +1072,115 @@
                     data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
                     data.action="getMgtProductList";
                 }
+                // self.tableParams = new NgTableParams({
+                //     page: 1,
+                //     count: 4,
+                //     url:''
+                // }, {
+                //     counts: [2,4],
+                //     getData: function(params) {
+                //         var paramsUrl = params.url();
+                //         data.count =paramsUrl.count,
+                //         data.page =paramsUrl.page,
+                //         data = JSON.stringify(data);
+                //         $http({
+                //             method: $filter('ajaxMethod')(),
+                //             url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                //             data: data
+                //         }).then(function successCallback(data, status, headers, config) {
+                //             console.log(data)
+                //             var data = data.data.data.productList;
+                //             console.log(data)
+                //             // params.total(self.productList.length)
+                //             params.total(data.length)
+                //             return  data;
+                //         }, function errorCallback(data, status, headers, config) {
+
+                //         });
+
+                //     }
+                // })
+                
+
                 self.tableParams = new NgTableParams({
                     page: 1,
-                    count: 10
-                }, {
-                    counts: [10, 20],
+                    count: 5,
+                    url: ''
+                }, { 
+                    counts: [2,4],
                     getData: function(params) {
                         var paramsUrl = params.url();
-                        data.count =paramsUrl.count,
-                        data.page =paramsUrl.page,
-                        data = JSON.stringify(data);
+                        data.count = paramsUrl.count,
+                            data.page = paramsUrl.page,
+                            data = JSON.stringify(data);
                         $http({
                             method: $filter('ajaxMethod')(),
                             url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                             data: data
                         }).then(function successCallback(data, status, headers, config) {
-                            console.log(data)
-                            self.productList = data.data.data.productList;
+                            // var data = data.data.data.productList;
+                            // console.log(params)
+                                
+                            // params.total(data.length)
+                            // return data;
+
+                            var data = [{
+                                "name": { "zh-CN": "大闸蟹" },
+                                "invetory": 93,
+                                "price": "1",
+                                "intro": {
+                                    "zh-CN": "阳澄湖大闸蟹现货实物788型 公蟹3.1-3.6两/只 母蟹2.0-2.5两/只 共10只螃蟹 礼盒装 自营海鲜水产"
+                                },
+                                "imgSrc": "2.jpg",
+                                "categoryList": [{
+                                    "ShopGoodsCategoryID": 1,
+                                    "ShopGoodsCategoryName": { "zh-CN": "生鲜" }
+                                }],
+                                "productId": 1,
+                                "status": "1"
+                            },{
+                                "name": { "zh-CN": "大闸蟹" },
+                                "invetory": 93,
+                                "price": "1",
+                                "intro": {
+                                    "zh-CN": "阳澄湖大闸蟹现货实物788型 公蟹3.1-3.6两/只 母蟹2.0-2.5两/只 共10只螃蟹 礼盒装 自营海鲜水产"
+                                },
+                                "imgSrc": "2.jpg",
+                                "categoryList": [{
+                                    "ShopGoodsCategoryID": 1,
+                                    "ShopGoodsCategoryName": { "zh-CN": "生鲜" }
+                                }],
+                                "productId": 1,
+                                "status": "1"
+                            },{
+                                "name": { "zh-CN": "大闸蟹" },
+                                "invetory": 93,
+                                "price": "1",
+                                "intro": {
+                                    "zh-CN": "阳澄湖大闸蟹现货实物788型 公蟹3.1-3.6两/只 母蟹2.0-2.5两/只 共10只螃蟹 礼盒装 自营海鲜水产"
+                                },
+                                "imgSrc": "2.jpg",
+                                "categoryList": [{
+                                    "ShopGoodsCategoryID": 1,
+                                    "ShopGoodsCategoryName": { "zh-CN": "生鲜" }
+                                }],
+                                "productId": 1,
+                                "status": "1"
+                            }];
+                            params.total(data.length);
+                            return data;
+
                         }, function errorCallback(data, status, headers, config) {
 
                         });
 
-                    }
-                })
+
+
+
+
+                        
+                    } 
+                });
 
             }
 
@@ -1179,6 +1274,7 @@
 
         }
     ])
+
     
     .controller('hotelRoomController', ['$scope',
         function($scope) {
