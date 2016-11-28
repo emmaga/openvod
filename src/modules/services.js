@@ -3,7 +3,6 @@
 (function () {
     var app = angular.module('app.services', [])
 
-
         .factory('util', ['$cookies', '$translate', 'CONFIG', function ($cookies, $translate, CONFIG) {
 
 
@@ -34,12 +33,20 @@
                     }
                 },
                 /**
+                 * 获取上传URL
+                 * @returns {string}
+                 */
+                'getUploadUrl': function () {
+                    return CONFIG.uploadUrl;
+                },
+                /**
                  * 设置变量
                  * @param paramsName {String}
                  * {
                  *   userName: <String> 用户名,
                  *   projectName: <String> 项目名,
                  *   token: <String> token,
+                 *   lang: <String> 本地语言,
                  *   editLangs: <String> 语言
                  *   [
                  *      {
@@ -63,18 +70,22 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
-
-
                     return JSON.parse($cookies.get(paramsName));
-
-                  
                 },
                 
                 // 当前系统 使用 的 语言
                 'langStyle': function(){
                     return $translate.proposedLanguage() || $translate.use();
+                },
 
-
+                // 获取多语言编辑中的默认语言code
+                'getDefaultLangCode': function() {
+                    var langs = JSON.parse($cookies.get('editLangs'));
+                    for (var i = 0; i < langs.length; i++) {
+                        if(langs[i].default) {
+                            return langs[i].code;
+                        }
+                    }
                 },
 
                 /*

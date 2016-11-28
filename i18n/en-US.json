@@ -4,5 +4,8 @@
   "HOTEL_ADDRESS": "Hotel Address",
   "HOTEL_DESCRUOTION": "Hotel Description",
   "ROOM_LIST": "Room List",
-  "ROOM_ADD": "Add Room"
+  "ROOM_ADD": "Add Room",
+  "ROOM_DETAIL": "Room details",
+  "CANCEL": "Cancel",
+  "SAVE": "Save"
 }

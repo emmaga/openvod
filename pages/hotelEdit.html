@@ -1,0 +1,102 @@
+<div ng-controller="hotelEditController as hotelEdit" ng-init="hotelEdit.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
+    <span>酒店详情</span>
+    <div>
+        <div ng-show="loading">loading...</div>
+        <form name="hotelEditForm" ng-submit="hotelEditForm.$valid && hotelEdit.save()">
+            <div>
+                <!--酒店名-->
+                <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.hotel.Name[lang.code]" required />
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.hotel.Name[lang.code]" />
+                    </ng-if>
+                </ng-repeat>
+                <!--酒店名-->
+            </div>
+
+            <div>
+                <!--酒店图片-->
+                <div ng-repeat="img in hotelEdit.imgs1.data">
+                    <img src="{{img.src}}" alt="{{img.fileName}}" />
+                    大小： {{img.fileSize}}
+                    进度： {{img.progress}}
+                    剩余： {{img.leftSize}}
+                    <a ng-click="hotelEdit.imgs1.deleteById(img.id); ">
+                     删除
+                    </a>
+                </div>
+                <!--酒店图片-->
+
+                <!-- 上传酒店图片按钮 -->
+                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
+                <a ng-click="hotelEdit.clickUpload('upload')">上传图片</a>
+                <a id="hidenUpload" style="display: none;" ng-click="hotelEdit.imgs1.uploadFile('myFile', hotelEdit.imgs1)"></a>
+                <!-- 上传酒店图片按钮 -->
+            </div>
+            <div>
+                <!--酒店标签-->
+                <ng-repeat ng-repeat="tag in hotelEdit.hotelTags track by $index">
+                    <input type="checkbox" ng-model="hotelEdit.ifCheckedHotelTags[$index].checked" /> {{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[hotelEdit.defaultLangCode]}}
+                </ng-repeat>
+                <!--酒店标签-->
+            </div>
+            <div>
+                <!--酒店地址-->
+                <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.hotel.Address[lang.code]" required />
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.hotel.Address[lang.code]" />
+                    </ng-if>
+                </ng-repeat>
+                <!--酒店地址-->
+
+                <!--酒店坐标-->
+                <div>
+                    X:<input type="text" ng-model="hotelEdit.hotel.LocationX" required />
+                    Y:<input type="text" ng-model="hotelEdit.hotel.LocationY" required />
+                </div>
+                <!--酒店坐标-->
+
+            </div>
+            <!-- 上传酒店LOGO按钮 -->
+            <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
+            <a ng-click="hotelEdit.clickUpload('upload2')">上传LOGO</a>
+            <a id="hidenUpload2" style="display: none;" ng-click="hotelEdit.imgs2.uploadFile('myFile', hotelEdit.imgs2)"></a>
+            <!-- 上传酒店LOGO按钮 -->
+
+            <!--酒店LOGO-->
+            <div ng-repeat="img in hotelEdit.imgs2.data">
+                <img src="{{img.src}}" alt="{{img.fileName}}" />
+                大小： {{img.fileSize}}
+                进度： {{img.progress}}
+                剩余： {{img.leftSize}}
+                <a ng-click="hotelEdit.imgs2.deleteById(img.id); ">
+                 删除
+                </a>
+            </div>
+            <!--酒店LOGO-->
+            
+            <!--酒店介绍-->
+            <div>
+                <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.hotel.Description[lang.code]" required></textarea>
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.hotel.Description[lang.code]"></textarea>
+                    </ng-if>
+                </ng-repeat>
+            </div>
+            <!--酒店介绍-->
+            <div>
+                <button ng-click="hotelEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <button type="submit">{{'SAVE' | translate}}</button>
+                <div ng-show="hotelEdit.saving">saving...</div>
+            </div>
+        </form>
+    </div>
+</div>

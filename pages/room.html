@@ -1,9 +1,24 @@
 <div ng-controller="roomController as room" ng-init="room.init()">
-    <h2>{{room.hotelName}}</h2>
+    <!--酒店详情-->
+    <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
+    <h2>{{room.hotel.Name[room.defaultLangCode]}}</h2>
     <div>
-        <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotelAddress}}</div>
-        <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotelDescription}}</div>
+        <div><button ng-click="room.hotelEdit()">编辑</button></div>
+        
+        <ng-repeat ng-repeat="img in room.hotel.Imgs">
+            <img src="{{img.ImageURL}}" />
+        </ng-repeat>
+        
+        <ng-repeat ng-repeat="tag in room.hotel.Tags">
+            {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
+        </ng-repeat>
+
+        <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotel.Address[room.defaultLangCode]}}</div>
+        酒店坐标：{{room.hotel.LocationX}} {{room.hotel.LocationY}}
+        酒店logo图：{{room.hotel.LogoImg}}
+        <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotel.Description[room.defaultLangCode]}}</div>
     </div>
+    <!--酒店详情-->
     <div>
         <h3>{{'ROOM_LIST' | translate}}</h3>
         <div><button ng-click="room.roomAdd()">{{'ROOM_ADD' | translate}}</button></div>
@@ -12,6 +27,12 @@
                 <tr ng-repeat="item in room.rooms">
                     <td><img ng-src="{{item.imgURL}}"></td>
                     <td>{{item.roomTypeName}}</td>
+                    <td>
+                        <button>复制</button>
+                        <button ng-click="room.roomEditNum(item.roomId)">改数量</button>
+                        <button ng-click="room.roomEditPrice(item.roomId)">该价格</button>
+                        <button ng-click="room.roomEdit(item.roomId)">查看详情</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

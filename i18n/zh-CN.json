@@ -4,5 +4,8 @@
   "HOTEL_ADDRESS": "酒店地址",
   "HOTEL_DESCRUOTION": "酒店简介",
   "ROOM_LIST": "客房列表",
-  "ROOM_ADD": "添加客房"
+  "ROOM_ADD": "添加客房",
+  "ROOM_DETAIL": "客房详情",
+  "CANCEL": "取消",
+  "SAVE": "保存"
 }
