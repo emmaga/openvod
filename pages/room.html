@@ -8,16 +8,17 @@
     <div>
         <h3>{{'ROOM_LIST' | translate}}</h3>
         <div><button ng-click="room.roomAdd()">{{'ROOM_ADD' | translate}}</button></div>
-        <table ng-table="">
+        <table ng-table="room.tableParams" ng-init="room.search()">
             <tbody>
-                <tr ng-repeat="item in room.rooms">
-                    <td><img ng-src="{{item.imgURL}}"></td>
-                    <td>{{item.roomTypeName}}</td>
+                <tr ng-repeat="item in $data">
+                    <td><img ng-src="{{item.LogoImgURL}}"></td>
+                    <td>{{item.RoomTypeName[room.lang]}}</td>
+                    <td></td>
                     <td>
                         <button>复制</button>
-                        <button ng-click="room.roomEditNum(item.roomId)">改数量</button>
-                        <button ng-click="room.roomEditPrice(item.roomId)">该价格</button>
-                        <button ng-click="room.roomEdit(item.roomId)">查看详情</button>
+                        <button ng-click="room.roomEditNum(item.RoomID)">改数量</button>
+                        <button ng-click="room.roomEditPrice(item.RoomID)">该价格</button>
+                        <button ng-click="room.roomEdit(item.RoomID)">查看详情</button>
                     </td>
                 </tr>
             </tbody>

@@ -10,7 +10,8 @@
         'app.services',
         'angular-md5',
         'ngCookies',
-        'ngTable'
+        'ngTable',
+        'ui.bootstrap'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';
@@ -75,7 +76,6 @@
             uploadUrl: 'http://mres.cleartv.cn/upload',
             testUrl: 'test/',
             test: false,
-            uploadUrl: 'http://mres.cleartv.cn/upload'
         })
 
 })();

@@ -1,28 +1,57 @@
-<div ng-controller="roomEditPriceController as roomEditPrice" ng-init="roomEditPrice.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
+<div ng-controller="roomEditPriceController as roomEditPrice" ng-init="roomEditPrice.init()"
+     style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
     <div style="width: 500px; left: -50%; margin-left: 710px; margin-top: 200px; background-color: white;">
         <span>价格</span>
         <div>
-            <form name="roomEditPriceForm" ng-submit="roomEditPriceForm.$valid && roomEditPrice.login()">
+            <div ng-show="loading">loading...</div>
+            <form name="roomEditPriceForm" ng-submit="roomEditPriceForm.$valid && roomEditPrice.save()">
                 <div>
-                    <div>周一：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"></div>
-                    <div>周二：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"></div>
-                    <div>周三：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"></div>
-                    <div>周四：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"></div>
-                    <div>周五：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"></div>
-                    <div>周六：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"></div>
-                    <div>周日：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"></div>
+                    <div>周一：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                   ng-model="roomEditPrice.roomDetail.PriceMonday" required></div>
+                    <div>周二：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                   ng-model="roomEditPrice.roomDetail.PriceTuesday" required></div>
+                    <div>周三：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                   ng-model="roomEditPrice.roomDetail.PriceWednesday" required></div>
+                    <div>周四：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                   ng-model="roomEditPrice.roomDetail.PriceThursday" required></div>
+                    <div>周五：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                   ng-model="roomEditPrice.roomDetail.PriceFriday" required></div>
+                    <div>周六：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                   ng-model="roomEditPrice.roomDetail.PriceSaturday" required></div>
+                    <div>周日：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                   ng-model="roomEditPrice.roomDetail.PriceSunday" required></div>
                 </div>
                 <div>
-                    <div>临时变动表<button>添加设置</button></div>
-                    <div>
-                        <div>删除</div>
-                        <div><input type="datetime"></div>
-                        <div><input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"></div>
+                    <div>临时变动表
+                        <button type="button" ng-click="roomEditPrice.addTemporary(0)">添加设置</button>
+                    </div>
+                    <div style=" max-height: 500px; overflow: auto;">
+                        <div ng-repeat="reply in roomEditPrice.SpecialPrice">
+                            <div>
+                                <button type="button" ng-click="roomEditPrice.deleteTemporary($index)">删除</button>
+                            </div>
+                            <div>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup
+                                           ng-model="roomEditPrice.SpecialPrice[$index].PriceDate"
+                                           is-open="roomEditPrice.SpecialPrice[$index].Opened"
+                                           datepicker-options="dateOptions"
+                                           required close-text="Close" placeholder="请选择日期"/>
+                                    <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="roomEditPrice.open($index)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                                </p>
+                            </div>
+                            <div><input type="text" placeholder="请输入价格" required
+                                        onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                        ng-model="roomEditPrice.SpecialPrice[$index].Price"></div>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <button ng-click="roomEditPrice.cancel()">{{'CANCEL' | translate}}</button>
-                    <button type="submit">{{'SAVE' | translate}}</button>
+                    <button type="submit" ng-disabled="roomEditPrice.saving">{{'SAVE' | translate}}</button>
                 </div>
             </form>
         </div>
