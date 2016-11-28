@@ -10,7 +10,9 @@
         'app.services',
         'angular-md5',
         'ngCookies',
-        'ngTable'
+        'ngTable',
+        'ngAnimate',
+        'ui.bootstrap'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';
