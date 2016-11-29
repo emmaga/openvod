@@ -1286,6 +1286,7 @@
 
         .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', '$location', 'util', 'NgTableParams',
             function ($scope, $http, $stateParams, $translate, $location, util, NgTableParams) {
+                console.log('roomController')
                 var self = this;
                 var lang;
 
@@ -1420,6 +1421,7 @@
 
         .controller('hotelEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
             function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                console.log('hotelEditController')
                 var self = this;
                 self.init = function () {
                     self.defaultLangCode = util.getDefaultLangCode();
@@ -1431,6 +1433,7 @@
                     self.initImgs2();
                     self.getHotelTags();
                 }
+
 
                 self.initImgs1 = function () {
                     // 初始化酒店图片多张
@@ -1481,7 +1484,7 @@
                         HotelID: Number(self.hotelId),
                         data: {
                             "Name": self.hotel.Name,
-                            "CityID": 1, //fix me
+                            "CityName": self.selectCity,
                             "LocationX": self.hotel.LocationX,
                             "LocationY": self.hotel.LocationY,
                             "LogoURL": self.imgs2.data[0].src,

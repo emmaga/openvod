@@ -4,7 +4,13 @@
         <div ng-show="loading">loading...</div>
         <form name="hotelEditForm" ng-submit="hotelEditForm.$valid && hotelEdit.save()">
             <div>
+                
                 <!--城市-->
+                <label  >
+                    请输入所在城市：<br>
+                    <input type="text" name="" ng-model="hotelEdit.selectCity">
+                </label>
+                <br>
                 
                 <!--城市-->
 
