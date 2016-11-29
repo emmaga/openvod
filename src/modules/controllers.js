@@ -184,7 +184,9 @@
                             self.shopList = data.data.data.shopList;
                             // 默认加载 第一个 商城
                             self.shopFirst = self.shopList[0];
-                            $state.go('app.shop.goods', { ShopID: self.shopFirst.ShopID, HotelID: self.shopFirst.HotelID, ShopName: self.shopFirst.ShopName[self.langStyle], HotelName: self.shopFirst.HotelName[self.langStyle] });
+                            $state.go('app.shop.goods', { ShopID: self.shopFirst.ShopID, HotelID: self.shopFirst.HotelID});
+                            $scope.app.maskParams.ShopName = self.shopFirst.ShopName;
+                            $scope.app.maskParams.HotelName = self.shopFirst.HotelName;
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -203,6 +205,14 @@
                     $scope.app.maskParams = {'ShopName': self.shopFirst.ShopName};
                     $scope.app.maskUrl = 'pages/shopAdd.html';
                 }
+
+                self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
+                    $state.go('app.shop.goods', { ShopID: ShopID, HotelID: HotelID })
+                    $scope.app.maskParams.ShopName = ShopName;
+                    $scope.app.maskParams.HotelName = HotelName;
+
+                }
+
             }
         ])
 
@@ -221,6 +231,9 @@
                      self.form = {};
                      // 多语言
                      self.form.shopName = {};
+
+                     self.saving = false;
+                     self.loading = false;
                 }
 
                 self.cancel = function(){
@@ -229,6 +242,7 @@
                 }
 
                 self.searchHotelList = function() {
+                    self.loading = true;
                     var data = {
                           "action": "getHotelList",
                           "token": util.getParams("token"),
@@ -240,15 +254,25 @@
                             url: util.getApiUrl('hotelroom', 'shopList','server'),
                             data: data
                         }).then(function successCallback(data, status, headers, config) {
-                            console.log(data)
-                            self.hotelList = data.data.data;
-                            console.log(self.hotelList)
-
-
+                            if (data.data.rescode == "200") {
+                                if (data.data.data.length == 0) {
+                                    self.noData = true;
+                                    return;
+                                }
+                                self.hotelList = data.data.data;
+                            } else if (data.data.rescode == "401") {
+                                alert('访问超时，请重新登录');
+                                $state.go('login')
+                            } else {
+                                alert('列表获取失败， ' + data.data.errInfo);
+                            }
 
                         }, function errorCallback(data, status, headers, config) {
-
+                            alert('获取失败， ' + data.data.errInfo);
+                        }).finally(function(value) {
+                            self.loading = false;
                         });
+
                 }
 
                 self.saveForm = function() {
@@ -272,8 +296,6 @@
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
-
-
                         if (data.data.rescode == "200") {
                             alert('添加成功')
                             $state.reload();
@@ -297,9 +319,12 @@
         .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
             function ($scope, $state, $http, $stateParams, $filter, util) {
                 console.log('goodsController');
-                console.log($stateParams);
+                
                 var self = this;
                 self.init = function () {
+                    self.maskParams = $scope.app.maskParams;
+                    console.log(self.maskParams);
+                    
                     self.stateParams = $stateParams;
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
@@ -320,7 +345,8 @@
                     console.log('shopEdit')
                     $scope.app.maskParams = {
                         ShopID: $stateParams.ShopID,
-                        ShopName: $stateParams.ShopName,
+                        ShopName: self.maskParams.ShopName,
+                        HotelName: self.maskParams.HotelName,
                         HotelID: $stateParams.HotelID
                     };
                     $scope.app.maskUrl = 'pages/shopEdit.html';
@@ -779,11 +805,11 @@
         .controller('shopEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
             function ($scope, $state, $http, $stateParams, $filter, util) {
                 console.log('shopEditController');
-                console.log('$stateParams: ' + $stateParams);
-                console.log($scope.app.maskParams);
+
                 var self = this;
                 self.init = function () {
                     self.maskParams = $scope.app.maskParams;
+                    console.log(self.maskParams);
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.noData = false;
@@ -795,7 +821,7 @@
                     self.form.shopName = {};
 
                     self.searchHotelList();
-                    self.getShopInfo();
+                    self.shopInfo = self.maskParams.ShopName;
                 }
 
                 self.cancel = function () {
@@ -817,7 +843,7 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                             if (data.data.rescode == "200") {
-                                if (data.data.data.categoryList.length == 0) {
+                                if (data.data.data.length == 0) {
                                     self.noData = true;
                                     return;
                                 }
@@ -828,7 +854,6 @@
                             } else {
                                 alert('失败， ' + data.data.errInfo);
                             }
-                            console.log(data)
                         },
                         function errorCallback(data, status, headers, config) {
                             alert('连接服务器出错')
@@ -837,33 +862,12 @@
                     });
                 }
 
-                self.getShopInfo = function () {
-                    var data = {
-                        "action": "getMgtHotelShopDetail",
-                        "token": util.getParams("token"),
-                        "lang": self.langStyle,
-                        // "ShopID":1
-                        "ShopID": self.maskParams.ShopID - 0
-                    };
-                    data = JSON.stringify(data);
-                    $http({
-                        method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                        data: data
-                    }).then(function successCallback(data, status, headers, config) {
-                        console.log(data)
-                        self.shopInfo = data.data.shop;
-                        console.log(self.shopInfo)
-                    }, function errorCallback(data, status, headers, config) {
-
-                    });
-                }
 
                 self.saveForm = function () {
                     self.saving = true;
                     var shopList = {
                         "HotelID": self.form.HotelID - 0,
-                        "ShopName": self.shopInfo.ShopName,
+                        "ShopName": self.shopInfo,
                         "ShopType": "wx"
                     }
                     var data = {
@@ -872,7 +876,7 @@
                         "lang": self.langStyle,
                         "shop": {
                             "ShopID": self.maskParams.ShopID,
-                            "ShopName": self.shopInfo.ShopName,
+                            "ShopName": self.shopInfo,
                             "ShopType": "wx"
                         }
                     };
@@ -1010,15 +1014,11 @@
         .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
             function ($scope, $state, $http, $stateParams, $filter, util) {
                 console.log('categoryEditController');
-                console.log($state);
-                console.log($stateParams);
-                console.log($scope.app.maskParams)
-                console.log($scope.app.maskParams.id)
+    
                 var self = this;
                 self.init = function () {
                     self.stateParams = $stateParams;
                     self.maskParams = $scope.app.maskParams;
-                    console.log(self.maskParams)
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
 
@@ -1028,6 +1028,8 @@
                     self.form.shopName = {};
                     // self.getCategoryDetail();
                     self.categoryDetail = $scope.app.maskParams.name;
+
+                    self.saving = false;
                 }
 
                 self.cancel = function () {
@@ -1036,8 +1038,7 @@
                 }
 
                 self.saveForm = function () {
-                    console.log(self.form.HotelID)
-                    console.log(self.form.HotelID)
+                    self.saving = true;
                     var data = {
                         "action": "editMgtProductCategory",
                         "token": util.getParams("token"),
@@ -1057,7 +1058,10 @@
                         $state.reload();
                     }, function errorCallback(data, status, headers, config) {
 
-                    });
+                    }).finally(function(value) {
+                        self.saving = false;
+                    })
+
                 };
             }
         ])
@@ -1074,6 +1078,8 @@
                     self.multiLang = util.getParams('editLangs');
                     self.getGoodsCategory();
                     self.getProductList(self.stateParams.ShopGoodsCategoryID);
+
+                    self.saving = false;
                 }
 
                 // 分类编辑
@@ -1088,6 +1094,7 @@
                     if (!flag) {
                         return;
                     }
+                    self.saving = true;
                     var data = {
                         "action": "deleteMgtProductCategory",
                         "token": util.getParams("token"),
@@ -1100,10 +1107,18 @@
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
-                        alert('分类删除成功')
-                        $state.reload();
+                        if (data.data.rescode == "200") {
+                            alert('分类删除成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('删除失败， ' + data.data.errInfo);
+                        }
+                        
                     }, function errorCallback(data, status, headers, config) {
-
+                        alert('添加失败， ' + data.data.errInfo);
                     });
                 }
 

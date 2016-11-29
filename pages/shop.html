@@ -1,8 +1,13 @@
 <div ng-controller="shopController as shop" ng-init="shop.init()">
-    shopController<br>
-    商城列表<button ng-click="shop.shopAdd()">添加商城</button><br>
+    shopController
+    <br> 商城列表
+    <button ng-click="shop.shopAdd()">添加商城</button>
+    <br>
     <div ng-show="shop.loading">loading...</div>
-    <div ng-repeat="shopItem in shop.shopList" ui-sref="app.shop.goods({ShopID:shopItem.ShopID,HotelID:shopItem.HotelID,ShopName:shopItem.ShopName[shop.langStyle],HotelName:shopItem.HotelName[shop.langStyle]})">{{shopItem.ShopName[shop.langStyle]}}+{{shopItem.HotelName[shop.langStyle]}}</div>
+   <!--  <div ng-repeat="shopItem in shop.shopList" ui-sref="app.shop.goods({ShopID:shopItem.ShopID,HotelID:shopItem.HotelID,ShopName:shopItem.ShopName[shop.langStyle],HotelName:shopItem.HotelName[shop.langStyle]})">{{shopItem.ShopName[shop.langStyle]}}+{{shopItem.HotelName[shop.langStyle]}}</div> -->
+
+
+   <div ng-repeat="shopItem in shop.shopList" ng-click="shop.goTo(shopItem.ShopID,shopItem.HotelID,shopItem.ShopName,shopItem.HotelName)">{{shopItem.ShopName[shop.langStyle]}}+{{shopItem.HotelName[shop.langStyle]}}</div>
     <div ng-show="shop.noData">查无数据</div>
     <div ui-view></div>
 </div>

@@ -3,10 +3,21 @@
     <br>
     <button ng-click="categoryEdit.cancel()">X</button>
     <form novalidate name="categoryEditForm" ng-submit="categoryEditForm.$valid && categoryEdit.saveForm()">
-        <div ng-repeat="lang in categoryEdit.multiLang track by $index">
+        <!-- <div ng-repeat="lang in categoryEdit.multiLang track by $index">
         	分类名字：({{lang.name}}) <input  required ng-model="categoryEdit.categoryDetail[lang.code]" >
+        </div> -->
+
+        <div ng-repeat="lang in categoryEdit.multiLang track by $index">
+            <div ng-show="lang.defaut==true">
+                分类名字：({{lang.name}})
+                <input type="text" name="" required ng-model="categoryEdit.categoryDetail[lang.code]">
+            </div>
+            <div ng-show="lang.defaut!==true">
+                分类名字：({{lang.name}})
+                <input type="text" name="" required ng-model="categoryEdit.categoryDetail[lang.code]">
+            </div>
         </div>
 
-        <input type="submit" value="保存" class="button button-block button-positive" ng-disabled="categoryEditForm.$invalid ">
+        <input type="submit" value="保存" class="btn btn-primary button-positive" ng-disabled="categoryEditForm.$invalid || categoryEdit.saving">
     </form>
 </div>

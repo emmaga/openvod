@@ -3,8 +3,8 @@
     <button ng-click="gl.goodsAdd()">添加商品</button>
     
 
-    <button ng-click="gl.categoryEdit()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'">编辑分类</button>
-    <button ng-click="gl.categoryDelete()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'">删除分类</button><br>
+    <button ng-click="gl.categoryEdit()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="btn btn-primary button-positive">编辑分类</button>
+    <button ng-click="gl.categoryDelete()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="btn btn-primary button-positive">删除分类</button><br>
 
     <table ng-table="gl.tableParams" class="table" show-filter="true">
         <tr ng-repeat="product in $data">

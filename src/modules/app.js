@@ -39,7 +39,7 @@
                     templateUrl: 'pages/shop.html'
                 })
                 .state('app.shop.goods', {
-                    url: '/goods?HotelID&ShopID&ShopName&HotelName',
+                    url: '/goods?HotelID&ShopID',
                     templateUrl: 'pages/goods.html'
                 })
                 .state('app.shop.goods.goodsList', {

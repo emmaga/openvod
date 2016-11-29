@@ -2,15 +2,28 @@
     <button ng-click="shopAdd.cancel()">X</button>
     <br>
     <form novalidate name="shopAddForm" ng-submit="shopAddForm.$valid && shopAdd.saveForm()">
-        <div ng-repeat="lang in shopAdd.multiLang track by $index">
+        <!--        <div ng-repeat="lang in shopAdd.multiLang track by $index">
             商城名字：({{lang.name}})
             <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]">
+        </div> -->
+        <div ng-repeat="lang in shopAdd.multiLang track by $index">
+            <div ng-show="lang.defaut==true">
+                商城名字：({{lang.name}})
+                <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]">
+            </div>
+            <div ng-show="lang.defaut!==true">
+                商城名字：({{lang.name}})
+                <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]">
+            </div>
         </div>
         <br> 门店列表
         <br>
+        <div ng-show="shop.loading">loading...</div>
         <label ng-repeat="hotel in shopAdd.hotelList">
-            <input type="radio" name="hotelName" value="{{hotel.ID}}" ng-model="shopAdd.form.HotelID">{{hotel.Name[shopAdd.langStyle]}}</label>
+            <input type="radio" name="hotelName" value="{{hotel.ID}}" ng-model="shopAdd.form.HotelID">{{hotel.Name[shopAdd.langStyle]}}
+        </label>
         <br>
-        <input type="submit" value="保存" class="button button-block button-positive" ng-disabled="shopAddForm.$invalid ">
+        <div ng-show="shop.noData">查无数据</div>
+        <input type="submit" value="保存" class="btn btn-primary button-positive" ng-disabled="shopAddForm.$invalid || shopAdd.saving">
     </form>
 </div>

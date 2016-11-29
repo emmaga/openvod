@@ -2,11 +2,22 @@
     categoryAddController
     <button ng-click="categoryAdd.cancel()">X</button>
     <form novalidate name="categoryAddForm" ng-submit="categoryAddForm.$valid && categoryAdd.saveForm()">
-        <div ng-repeat="lang in categoryAdd.multiLang track by $index">
+        <!-- <div ng-repeat="lang in categoryAdd.multiLang track by $index">
             分类名字：({{lang.name}})
             <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]">
+        </div> -->
+
+        <div ng-repeat="lang in categoryAdd.multiLang track by $index">
+            <div ng-show="lang.defaut==true">
+                分类名字：({{lang.name}})
+                <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]">
+            </div>
+            <div ng-show="lang.defaut!==true">
+                分类名字：({{lang.name}})
+                <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]">
+            </div>
         </div>
         <br/>
-        <input type="submit" value="保存" class="button button-block button-positive" ng-disabled="categoryAddForm.$invalid || categoryAdd.saving">
+        <input type="submit" value="保存" class="btn btn-primary button-block button-positive" ng-disabled="categoryAddForm.$invalid || categoryAdd.saving">
     </form>
 </div>
