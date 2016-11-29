@@ -9,7 +9,7 @@
         <br> 门店列表
         <br>
         <label ng-repeat="hotel in shopAdd.hotelList">
-            <input type="radio" name="hotelName" value="{{hotel.ID}}" ng-model="shopAdd.form.ShopID">{{hotel.Name[shopAdd.langStyle]}}</label>
+            <input type="radio" name="hotelName" value="{{hotel.ID}}" ng-model="shopAdd.form.HotelID">{{hotel.Name[shopAdd.langStyle]}}</label>
         <br>
         <input type="submit" value="保存" class="button button-block button-positive" ng-disabled="shopAddForm.$invalid ">
     </form>
