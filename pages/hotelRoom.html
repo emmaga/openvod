@@ -2,7 +2,7 @@
     {{'HOTEL_LIST' | translate}}
     <div>
         <ul>
-            <li ng-repeat="item in hotelRoom.hotels" ui-sref="app.hotelRoom.room({hotelId:{{item.hotelId}}})">{{item.hotelName}}</li>
+            <li ng-repeat="item in hotelRoom.hotels" ui-sref="app.hotelRoom.room({hotelId:{{item.ID}}})">{{item.Name[hotelRoom.defaultLangCode]}}</li>
         </ul>
     </div>
     <ui-view></ui-view>

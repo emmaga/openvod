@@ -1283,18 +1283,41 @@
             }
         ])
 
-        .controller('hotelRoomController', ['$scope',
-            function ($scope) {
+        .controller('hotelRoomController', ['$scope', '$http', '$state', 'util',
+            function ($scope, $http, $state, util) {
                 var self = this;
+                var lang;
                 self.init = function () {
-                    self.queryHotelList()
+                    lang = util.langStyle();
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.queryHotelList();
                 }
                 self.queryHotelList = function () {
-                    var hotels = [];
-                    hotels = [{hotelId: 1, hotelName: 'testhotel1'},
-                        {hotelId: 2, hotelName: 'testhotel2'},
-                        {hotelId: 3, hotelName: 'testhotel3'}];
-                    self.hotels = hotels
+                    var data = JSON.stringify({
+                        action: "getHotelList",
+                        token: util.getParams('token'),
+                        lang: lang,
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('hotelroom', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.hotels = data.data;
+                            $state.go('app.hotelRoom.room', {hotelId: self.hotels[0].ID})
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert(data.rescode + ' ' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.loadingHotelInfo = false;
+                    });
                 }
             }
         ])
@@ -2308,6 +2331,11 @@
                             PriceType: "basic"
                         })
                     }
+                    if(!countJson(specialPrice, 'PriceDate')) {
+                        alert('同一天不能重复设置');
+                        self.saving = false;
+                        return false;
+                    }
                     var data = JSON.stringify({
                         action: "setRoomPrice",
                         lang: lang,
@@ -2343,8 +2371,7 @@
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
-                    })
-                    ;
+                    });
                 }
 
                 /**
@@ -2364,6 +2391,31 @@
                     }
                     var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
                     return currentdate;
+                }
+
+                /**
+                 * 判断json是否的值是否重复
+                 * @param json
+                 * @param key
+                 * @returns {boolean}
+                 */
+                function countJson(json, key) {
+                    if (json.length == 0) {
+                        return false;
+                    }
+                    var len = json.length, result = new Array();
+                    for (var i = 0; i < len; i++) {
+                        var k = json[i][key];
+                        if (result[k]) {
+                            result[k] = result[k] + 1;
+                            if (result[k] > 1) {
+                                return false;
+                            }
+                        } else {
+                            result[k] = 1;
+                        }
+                    }
+                    return true;
                 }
             }
         ])
@@ -2468,6 +2520,11 @@
                             AvailableNumSet: 999
                         })
                     }
+                    if(!countJson(availableInfo, 'AvailableDate')) {
+                        alert('同一天不能重复设置');
+                        self.saving = false;
+                        return false;
+                    }
                     var data = JSON.stringify({
                         action: "setRoomNum",
                         lang: lang,
@@ -2521,6 +2578,31 @@
                         return currentdate;
                     }
                     return date;
+                }
+
+                /**
+                 * 判断json是否的值是否重复
+                 * @param json
+                 * @param key
+                 * @returns {boolean}
+                 */
+                function countJson(json, key) {
+                    if (json.length == 0) {
+                        return false;
+                    }
+                    var len = json.length, result = new Array();
+                    for (var i = 0; i < len; i++) {
+                        var k = json[i][key];
+                        if (result[k]) {
+                            result[k] = result[k] + 1;
+                            if (result[k] > 1) {
+                                return false;
+                            }
+                        } else {
+                            result[k] = 1;
+                        }
+                    }
+                    return true;
                 }
             }
         ])
