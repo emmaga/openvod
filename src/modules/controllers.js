@@ -110,16 +110,27 @@
                     }
                 }
 
-                // 1:酒店客房，3:移动商城
+                // 1:酒店客房，3:移动商城， 5:tv界面
                 self.switchApp = function (n) {
+                    // 收起桌面
                     self.appPhase = 2;
+
+                    // 缩小导航栏
+                    self.appFramePhase = 1;
                     self.setFocusApp(n);
                     switch (n) {
                         case 1:
-                            $state.go('app.hotelRoom', {'appId': n});
+                            if($state.current.name !== 'app.hotelRoom.room') {
+                                $state.go('app.hotelRoom', {'appId': n});
+                            }
                             break;
                         case 3:
-                            $state.go('app.shop', {'appId': n});
+                            if($state.current.name !== 'app.shop.goods.goodsList') {
+                                $state.go('app.shop', {'appId': n});
+                            }
+                            break;
+                        case 5:
+                            $state.go('app.tvAdmin', {'appId': n});
                             break;
                         default:
                             break;
@@ -2603,6 +2614,15 @@
                         }
                     }
                     return true;
+                }
+            }
+        ])
+
+        .controller('tvAdminController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;;
+                self.init = function () {
+                    
                 }
             }
         ])

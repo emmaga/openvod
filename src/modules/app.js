@@ -54,6 +54,10 @@
                     url: '/room?hotelId',
                     templateUrl: 'pages/room.html'
                 })
+                .state('app.tvAdmin', {
+                    url: '/tvAdmin',
+                    templateUrl: 'pages/tvAdmin.html'
+                })
         }])
 
         // 每次页面开始跳转时触发
@@ -66,11 +70,6 @@
                 }
             })
         }])
-
-
-
-
-
 
         .constant('CONFIG', {
             serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',

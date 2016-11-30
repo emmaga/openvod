@@ -23,6 +23,12 @@
       "name": "商城订单",
       "icon": "xx.jpg",
       "bgColor": "red"
+    },
+    {
+      "id": 5,
+      "name": "TV界面",
+      "icon": "xx.jpg",
+      "bgColor": "red"
     }
   ]
 }
