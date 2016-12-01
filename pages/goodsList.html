@@ -10,10 +10,10 @@
         <tr ng-repeat="product in $data">
             <td data-title="'商品名'" >{{product.name[gl.langStyle]}}</td>
             <td data-title="'库存'" >{{product.invetory}}</td>
-            <td data-title="'商品图'" ><Img ng-src="product.imgSrc"></td>
+            <td data-title="'商品图'" ><Img ng-src="{{product.imgSrc}}"></td>
             <td data-title="'单价'">{{product.price}}</td>
 
-            <td data-title="'分类'"><span ng-repeat="category in gl.categoryList">{{category.name[gl.langStyle]}}<input type="checkbox"  ng-checked="gl.checkGoodsCategory(category.id,product.categoryList)"  ng-model="this.value" ng-click="gl.changeGoodsCategory(product.productId,category.id,this.value,product.categoryList)"> </span> </td>
+            <td data-title="'分类'"><span ng-repeat="category in gl.categoryList">{{category.name[gl.langStyle]}}<input type="checkbox"  ng-checked="gl.checkGoodsCategory(category.id,product.categoryList)"  ng-model="this.value" ng-click="gl.changeGoodsCategory(product.productId,category.id,this.value,product.categoryList)"></span> </td>
 
 
             

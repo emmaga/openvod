@@ -43,7 +43,7 @@
                     templateUrl: 'pages/goods.html'
                 })
                 .state('app.shop.goods.goodsList', {
-                    url: '/goodsList?ShopGoodsCategoryID&ShopGoodsCategoryName',
+                    url: '/goodsList?ShopGoodsCategoryID',
                     templateUrl: 'pages/goodsList.html'
                 })
                 .state('app.hotelRoom', {
