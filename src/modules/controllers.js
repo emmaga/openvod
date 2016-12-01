@@ -206,7 +206,8 @@
                     $scope.app.maskUrl = 'pages/shopAdd.html';
                 }
 
-                self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
+                self.goTo = function(ShopID, HotelID, ShopName, HotelName,that) {
+                    
                     $state.go('app.shop.goods', { ShopID: ShopID, HotelID: HotelID })
                     $scope.app.maskParams.ShopName = ShopName;
                     $scope.app.maskParams.HotelName = HotelName;
@@ -1212,20 +1213,29 @@
 
                 // 更改商品分类
                 self.changeGoodsCategory = function (productId, categoryId, value, categoryList) {
-                    console.log(' productId' + productId + ' categoryId' + categoryId + ' value' + value + ' categoryList' + categoryList)
+                    console.log(' productId:' + productId + ' categoryId:' + categoryId + ' value:' + value + ' categoryList:' + categoryList)
                     // 商品 的分类，保存在此对象
                     self.categoryObj = {};
                     self.categoryObj[productId] = [];
+                    console.log('categoryList '+categoryList)
                     for (var i = 0; i < categoryList.length; i++) {
                         self.categoryObj[productId].push(categoryList[i]['ShopGoodsCategoryID']);
                     }
                     var index = self.categoryObj[productId].indexOf(categoryId);
+                    console.log(index)
                     // 没有，则添加此分类
-                    if (index < 0) {
-                        self.categoryObj[productId].push(categoryId)
-                    } else {
+                    if (value == false) {
                         self.categoryObj[productId].splice(index, 1)
+                    } else {
+                        self.categoryObj[productId].push(categoryId)
                     }
+                    // if (index < 0) {
+                    //     self.categoryObj[productId].push(categoryId)
+                    // } else {
+                    //     self.categoryObj[productId].splice(index, 1)
+                    // }
+                    console.log(self.categoryObj[productId])
+                    return;
                     var data = {
                         "action": "editMgtProductPCategory",
                         "token": util.getParams("token"),
@@ -1233,9 +1243,9 @@
                         "product": {
                             "productID": productId - 0,
                             "categoryList": self.categoryObj[productId]
+                            // "categoryList": []
                         }
                     };
-
                     data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
@@ -1468,6 +1478,7 @@
                     self.hotel = $scope.app.maskParams.hotelInfo;
                     self.ifCheckedHotelTags = [];
                     self.editLangs = util.getParams('editLangs');
+
                     self.initImgs1();
                     self.initImgs2();
                     self.getHotelTags();
