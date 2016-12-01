@@ -16,7 +16,6 @@
             function ($scope, $http, $filter, $state, md5, util) {
                 var self = this;
                 self.init = function () {
-
                 }
 
                 self.login = function () {
@@ -218,9 +217,14 @@
                 }
 
                 self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
-                    $state.go('app.shop.goods', { ShopID: ShopID, HotelID: HotelID })
                     $scope.app.maskParams.ShopName = ShopName;
                     $scope.app.maskParams.HotelName = HotelName;
+                    if($state.current.name="app.shop.goods.goodsList") {
+                        $state.go('app.shop.goods.goodsList', { ShopID: ShopID, HotelID: HotelID })
+                    }
+                    else{
+                        $state.go('.goods', { ShopID: ShopID, HotelID: HotelID })
+                    }
 
                 }
 
@@ -1080,7 +1084,6 @@
         .controller('goodsListController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
             function ($scope, $state, $http, $stateParams, $filter, NgTableParams, util) {
                 console.log('goodsListController');
-                console.log($state.current.name);
                 console.log($scope.app.maskParams)
                 var self = this;
                 self.init = function () {
@@ -2622,7 +2625,7 @@
             function ($scope, $state, $http, $stateParams, $location, util) {
                 var self = this;;
                 self.init = function () {
-                    
+
                 }
             }
         ])
