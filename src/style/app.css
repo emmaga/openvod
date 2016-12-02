@@ -1,10 +1,19 @@
+body{
+    font-family: "Microsoft YaHei UI","PingHei","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
+    color: #666;
+}
+
+h1,h2,h3,h4,h5,h6{
+    color: #212121;
+}
+
 body, .app {
     position: absolute;
     margin: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: black;
+    background-color: white;
 }
 
 .bg{
@@ -154,7 +163,7 @@ body, .app {
     position: absolute;
     top: 0;
     left: 0;
-    width: 25%;
+    width: 75%;
     height: 56px;    
 }
 
@@ -217,7 +226,9 @@ body, .app {
     left: 0;
     right: 0;
     bottom: 0;
+    padding-top: 72px;
     background-color: white;
+    overflow-y: auto;
 }
 
 .app-view-mask{
@@ -332,4 +343,58 @@ body, .app {
     transition-duration: .33s;
     width: 84px;
     height: 112px;
+}
+
+
+/*modify*/
+/*bs*/
+.container{
+    max-width: 980px;
+}
+
+.nav>li>a{
+    padding: 5px 15px;
+}
+/*bs-like*/
+.btn-clipboard {
+    position: relative;
+    top: -1px;
+    right: -1px;
+    float: right;
+    display: block;
+    padding: 5px 8px;
+    font-size: 12px;
+    color: #777;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #e1e1e8;
+    border-radius: 0 4px 0 4px;
+}
+/*private*/
+.nav-left{
+    position: fixed;
+    top: 184px;
+    width: 160px;
+    float: left;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.content-right{
+    position: relative;
+    left: 160px;
+    width: calc(100% - 160px);
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.panel-body{
+    border-bottom: solid 1px #ddd;
+}
+
+.thumbnails{
+
 }

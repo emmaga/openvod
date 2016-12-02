@@ -1,9 +1,33 @@
-<div ng-controller="hotelRoomController as hotelRoom" ng-init="hotelRoom.init()">
-    {{'HOTEL_LIST' | translate}}
-    <div>
-        <ul>
-            <li ng-repeat="item in hotelRoom.hotels" ui-sref="app.hotelRoom.room({hotelId:{{item.ID}}})">{{item.Name[hotelRoom.defaultLangCode]}}</li>
-        </ul>
+<!-- 酒店/客房管理 -->
+<div ng-controller="hotelRoomController as hotelRoom" ng-init="hotelRoom.init()" class="container">
+    <!-- {{'HOTEL_LIST' | translate}} -->
+    
+    <div class="row">
+    	<!-- 左侧菜单 -->
+	    <div class="nav-left ">
+	        <ul class="nav nav-stacked">
+	            <li class="nav-header" ng-repeat="item in hotelRoom.hotels" >
+	            	<a class="theme" ui-sref="app.hotelRoom.room({hotelId:{{item.ID}}})">
+	            		{{item.Name[hotelRoom.defaultLangCode]}}
+	            	</a>
+	            </li>
+	        </ul>
+	    </div>
+    
+    
+	   <!-- 右侧 -->
+	    <ui-view></ui-view>
+    	
     </div>
-    <ui-view></ui-view>
+
+    <!-- 主题样式 -->
+    <style type="text/css">
+    	a.theme{
+    		color:rgb(151,151,151);
+    	}
+    	a.theme:hover{
+    		color: rgb(255,100,55);
+    	}
+    </style>
+
 </div>
