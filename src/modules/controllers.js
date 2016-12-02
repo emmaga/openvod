@@ -2631,13 +2631,4 @@
                 }
             }
         ])
-
-        .controller('tvAdminController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
-            function ($scope, $state, $http, $stateParams, $location, util) {
-                var self = this;;
-                self.init = function () {
-
-                }
-            }
-        ])
 })();
