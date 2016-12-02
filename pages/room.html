@@ -25,9 +25,14 @@
         <table ng-table="room.tableParams" ng-init="room.search()">
             <tbody>
                 <tr ng-repeat="item in $data">
-                    <td><img ng-src="{{item.LogoImgURL}}"></td>
-                    <td>{{item.RoomTypeName[room.lang]}}</td>
-                    <td></td>
+                    <td><img ng-src="{{item.imgs[0].ImageURL}}"></td>
+                    <td>{{item.RoomTypeName[room.defaultLangCode]}}</td>
+                    <td><ul>
+                        <li ng-repeat="tags in item.tags">{{tags.TagName[room.defaultLangCode]}}</li>
+                    </ul></td>
+                    <td>今日可订量：</td>
+                    <td>今日余量：</td>
+                    <td>今日房价：{{item.todayPrice}}</td>
                     <td>
                         <button>复制</button>
                         <button ng-click="room.roomEditNum(item.RoomID)">改数量</button>

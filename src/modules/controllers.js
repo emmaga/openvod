@@ -1419,7 +1419,7 @@
                                     searchName = self.searchName;
                                 }
                                 var data = JSON.stringify({
-                                    action: "getRoomList",
+                                    action: "getAllRoomInfo",
                                     token: util.getParams('token'),
                                     lang: lang,
                                     HotelID: Number(self.hotelId),
@@ -1431,14 +1431,14 @@
 
                                 return $http({
                                     method: 'POST',
-                                    url: util.getApiUrl('hotelroom', '', 'server'),
+                                    url: util.getApiUrl('room', '', 'server'),
                                     data: data
                                 }).then(function successCallback(response) {
                                     var msg = response.data;
                                     if (msg.rescode == '200') {
-                                        params.total(msg.data.total);
-                                        self.rooms = msg.data.roomList;
-                                        return msg.data.roomList;
+                                        params.total(msg.total);
+                                        self.rooms = msg.roomsInfo;
+                                        return msg.roomsInfo;
                                     } else if (msg.rescode == '401') {
                                         alert('访问超时，请重新登录');
                                         $location.path("pages/login.html");
