@@ -12,7 +12,8 @@
         'ngCookies',
         'ngTable',
         'ngAnimate',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ui.toggle'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';

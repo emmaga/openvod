@@ -1,43 +1,70 @@
-<div ng-controller="roomController as room" ng-init="room.init()">
+<!-- 酒店/客房管理>右侧部分 -->
+<div ng-controller="roomController as room" ng-init="room.init()" class="content-right">
     <!--酒店详情-->
     <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
-    <h2>{{room.hotel.Name[room.defaultLangCode]}}</h2>
-    <div>
-        <div><button ng-click="room.hotelEdit()">编辑</button></div>
-        
-        <ng-repeat ng-repeat="img in room.hotel.Imgs">
-            <img src="{{img.ImageURL}}" />
-        </ng-repeat>
-        
-        <ng-repeat ng-repeat="tag in room.hotel.Tags">
-            {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
-        </ng-repeat>
+    <h3>{{room.hotel.Name[room.defaultLangCode]}}</h3>
+    <hr>
+    <!-- 标题: 酒店信息 -->
+    <h4>酒店信息</h4>
+    <div class="panel panel-default">
+        <!-- 按钮: 编辑酒店信息 -->
+        <button ng-click="room.hotelEdit()" class="btn btn-clipboard">编辑</button>
+        <div class="panel-body">
 
-        <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotel.Address[room.defaultLangCode]}}</div>
-        酒店坐标：{{room.hotel.LocationX}} {{room.hotel.LocationY}}
-        酒店logo图：{{room.hotel.LogoImg}} 酒店城市:{{room.hotel.CityName}}
-        <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotel.Description[room.defaultLangCode]}}</div>
+            <!-- 内容: 酒店图 -->
+            <ng-repeat ng-repeat="img in room.hotel.Imgs">
+                <img src="{{img.ImageURL}}" />
+            </ng-repeat>
+        </div>
+
+        <div class="panel-body">
+            <!-- 内容: 酒店标签 -->
+            <ng-repeat ng-repeat="tag in room.hotel.Tags">
+                {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
+            </ng-repeat>
+            <!-- 内容: 客房列表 -->
+            <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotel.Address[room.defaultLangCode]}}</div>
+            <!-- 内容: 酒店坐标 -->
+            酒店坐标：{{room.hotel.LocationX}} {{room.hotel.LocationY}}
+            <!-- 内容: 酒店logo图 -->
+            酒店logo图：{{room.hotel.LogoImg}} 酒店城市:{{room.hotel.CityName}}
+            <!-- 内容: 酒店介绍 -->
+            <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotel.Description[room.defaultLangCode]}}</div>
+        </div>
     </div>
     <!--酒店详情-->
-    <div>
-        <h3>{{'ROOM_LIST' | translate}}</h3>
-        <div><button ng-click="room.roomAdd()">{{'ROOM_ADD' | translate}}</button></div>
-        <table ng-table="room.tableParams" ng-init="room.search()">
+    <hr>
+    <!-- 标题: 客房列表 -->
+    <h4>{{'ROOM_LIST' | translate}}</h4>
+    <div class="">
+        <!-- 按钮: 添加客房 -->
+        <div><button ng-click="room.roomAdd()" class="btn btn-clipboard">{{'ROOM_ADD' | translate}}</button></div>
+        <!-- 列表: 客房列表 -->
+        <table ng-table="room.tableParams" ng-init="room.search()" class="table">
             <tbody>
                 <tr ng-repeat="item in $data">
+                    <!-- 内容: 客房图 -->
                     <td><img ng-src="{{item.imgs[0].ImageURL}}"></td>
+                    <!-- 内容: 客房名 -->
                     <td>{{item.RoomTypeName[room.defaultLangCode]}}</td>
-                    <td><ul>
-                        <li ng-repeat="tags in item.tags">{{tags.TagName[room.defaultLangCode]}}</li>
-                    </ul></td>
+                    <!-- 内容: 客房标签 -->
+                    <td>
+                        <ul>
+                            <li ng-repeat="tags in item.tags">{{tags.TagName[room.defaultLangCode]}}</li>
+                        </ul>
+                    </td>
                     <td>今日可订量：</td>
                     <td>今日余量：</td>
                     <td>今日房价：{{item.todayPrice}}</td>
                     <td>
-                        <button>复制</button>
-                        <button ng-click="room.roomEditNum(item.RoomID)">改数量</button>
-                        <button ng-click="room.roomEditPrice(item.RoomID)">该价格</button>
-                        <button ng-click="room.roomEdit(item.RoomID)">查看详情</button>
+                        <!-- 按钮: 复制 -->
+                        <button class="btn btn-sm">复制</button>
+                        <!-- 按钮: 改数量 -->
+                        <button ng-click="room.roomEditNum(item.RoomID)" class="btn btn-sm">改数量</button>
+                        <!-- 按钮: 改价格 -->
+                        <button ng-click="room.roomEditPrice(item.RoomID)" class="btn btn-sm">该价格</button>
+                        <!-- 按钮: 详情 -->
+                        <button ng-click="room.roomEdit(item.RoomID)" class="btn btn-sm">查看详情</button>
                     </td>
                 </tr>
             </tbody>
