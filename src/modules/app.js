@@ -61,7 +61,7 @@
                     url: '/tvAdmin',
                     templateUrl: 'pages/tvAdmin.html',
                     resolve: {
-                        resA: function($http, util) {
+                        resA: function($http, $state, util) {
                             var data = JSON.stringify({
                                 "token": util.getParams('token'),
                                 "action": "getMainMenu",
@@ -136,8 +136,11 @@
                                     
                                     
                                     
-                                } else {
-                                    alert('加载菜单信息失败，' + msg.errInfo);
+                                } else if(data.rescode == '401'){
+                                    alert('访问超时，请重新登录');
+                                    $state.go('login');
+                                } else{
+                                    alert('加载菜单信息失败，' + data.errInfo);
                                 }
                             }, function errorCallback(response) {
                                 alert('连接服务器出错');
