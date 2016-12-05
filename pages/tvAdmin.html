@@ -9,7 +9,7 @@
 
         <!--右侧容器-->
         <div class="col-xs-9">
-            <ng-if ng-if="tvAdmin.menuRoot">
+            <ng-if ng-if="my_tree.get_selected_branch().data.type=='menuRoot'">
             <!--主菜单-->
                 
                 <!--菜单风格图-->
@@ -32,13 +32,16 @@
             </ng-if>
 
 
-            <ng-if ng-if="tvAdmin.module || tvAdmin.menuExceptRoot">
+            <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu' 
+            || my_tree.get_selected_branch().data.type=='Live'
+            || my_tree.get_selected_branch().data.type=='MovieCommon'">
             <!-- 一/二级菜单 -->
-                <ng-if ng-if="tvAdmin.menuExceptRoot">
+                
                     <!--菜单风格图-->
                     菜单风格图<br>
                     <!--菜单风格图-->
-
+                
+                <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu'">
                     <!--添加子菜单-->
                     添加子菜单<br>
                     <!--添加子菜单-->

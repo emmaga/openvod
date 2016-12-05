@@ -14,13 +14,6 @@
                 self.MainMenu_THJ_SecondMenu = false;
             }
 
-            // 重置设置菜单显示的页面
-            self.hideMenuEdit = function() {
-                self.menuRoot = false;
-                self.menuExceptRoot = false;
-                self.module = false;
-            }
-
             // 添加菜单
             self.addMenu = function(menuLv, parentMenuId) {
                 $scope.app.maskParams = {'xx': 'xx'};
@@ -36,7 +29,6 @@
             // 菜单点击
             $scope.my_tree_handler = function(branch) {
                 console.log('select ' + branch.label);
-                self.hideMenuEdit();
 
                 // welcome
                 if(branch.data.type == "welcome") {
@@ -50,25 +42,21 @@
 
                 // live
                 if(branch.data.type == 'Live') {
-                    self.module = true;
                     $state.go('app.tvAdmin.live', {moduleId: branch.data.moduleId});
                 }
 
                 // movieCommon
                 if(branch.data.type == 'MovieCommon') {
-                    self.module = true;
                     $state.go('app.tvAdmin.movieCommon');
                 }
 
                 // menuRoot
                 if(branch.data.type == 'menuRoot') {
-                    self.menuRoot = true;
                     $state.go('app.tvAdmin.blank');
                 }
 
                 // MainMenu_THJ_SecondMenu
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu') {
-                    self.menuExceptRoot = true;
                     $state.go('app.tvAdmin.blank');
                 }
             }
