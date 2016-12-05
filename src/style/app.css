@@ -3,7 +3,7 @@ body{
     color: #666;
 }
 
-h1,h2,h3,h4,h5,h6{
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
     color: #212121;
 }
 
@@ -347,14 +347,30 @@ body, .app {
 
 
 /*modify*/
-/*bs*/
+/*bs-cover*/
 .container{
     max-width: 980px;
 }
-
 .nav>li>a{
     padding: 5px 15px;
 }
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+
+/*bs-extend*/
+.list-group-item span>.badge,.list-group-item span>p{
+    line-height: 1.1;
+    margin-top:10px;
+    margin-bottom: 0px;
+    margin-right: 5px;
+}
+
 /*bs-like*/
 .btn-clipboard {
     position: relative;
@@ -390,11 +406,31 @@ body, .app {
     padding-right: 15px;
     padding-left: 15px;
 }
-
-.panel-body{
-    border-bottom: solid 1px #ddd;
+    /*用于表、表单里面的缩略图*/
+.form-thumbnail{
+    position: relative;
+    margin-right: 5px;
+    float: left;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #ddd;
+    border-radius: 3px;
 }
 
-.thumbnails{
+.form-thumbnail:after{
+    content: ' '; 
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,.125)
+}
 
+.cursor-pointer{
+    cursor: pointer;
 }
