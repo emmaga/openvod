@@ -7,7 +7,6 @@
       return {
           restrict: 'A',
           link: function(scope, element, attrs) {
-
               var model = $parse(attrs.fileModel);
               var modelSetter = model.assign;
               

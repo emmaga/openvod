@@ -95,7 +95,7 @@
                     }).finally(function (value) {
                         self.loading = false;
                     });
-                    console.log(util.getParams('editLangs'))
+                    // console.log(util.getParams('editLangs'))
                 }
 
                 self.setFocusApp = function (id) {
