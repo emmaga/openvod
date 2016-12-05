@@ -95,7 +95,7 @@
                     }).finally(function (value) {
                         self.loading = false;
                     });
-                    console.log(util.getParams('editLangs'))
+                    // console.log(util.getParams('editLangs'))
                 }
 
                 self.setFocusApp = function (id) {
@@ -1404,55 +1404,43 @@
                  */
                 // ngtable
                 self.search = function () {
-                    self.tableParams = new NgTableParams(
-                        {
-                            page: 1,
-                            count: 15,
-                            url: ''
-                        },
-                        {
-                            counts: false,
-                            getData: function (params) {
-                                var paramsUrl = params.url();
-                                var searchName = "";
-                                if (self.searchName) {
-                                    searchName = self.searchName;
-                                }
-                                var data = JSON.stringify({
-                                    action: "getAllRoomInfo",
-                                    token: util.getParams('token'),
-                                    lang: lang,
-                                    HotelID: Number(self.hotelId),
-                                    page: Number(paramsUrl.page),
-                                    per_page: Number(paramsUrl.count)
-                                })
-                                self.loading = true;
-                                self.noData = false;
 
-                                return $http({
-                                    method: 'POST',
-                                    url: util.getApiUrl('room', '', 'server'),
-                                    data: data
-                                }).then(function successCallback(response) {
-                                    var msg = response.data;
-                                    if (msg.rescode == '200') {
-                                        params.total(msg.total);
-                                        self.rooms = msg.roomsInfo;
-                                        return msg.roomsInfo;
-                                    } else if (msg.rescode == '401') {
-                                        alert('访问超时，请重新登录');
-                                        $location.path("pages/login.html");
-                                    } else {
-                                        alert('读取数据出错，' + msg.errInfo);
-                                    }
-                                }, function errorCallback(response) {
-                                    alert(response.status + ' 服务器出错');
-                                }).finally(function () {
-                                    self.loading = false;
-                                });
-                            }
+                    var searchName = "";
+                    if (self.searchName) {
+                        searchName = self.searchName;
+                    }
+                    var data = JSON.stringify({
+                        action: "getAllRoomInfo",
+                        token: util.getParams('token'),
+                        lang: lang,
+                        HotelID: Number(self.hotelId),
+                        page: 1,
+                        per_page: 100
+                    })
+                    self.loading = true;
+                    self.noData = false;
+
+                    return $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            self.rooms = msg.roomsInfo;
+                            // return msg.roomsInfo;
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('读取数据出错，' + msg.errInfo);
                         }
-                    );
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function () {
+                        self.loading = false;
+                    });
+
                 }
 
                 self.hotelEdit = function () {
