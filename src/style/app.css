@@ -362,6 +362,27 @@ hr {
     border-top: 1px solid #eee;
 }
 
+.list-group-item{
+    border-left: none;
+    border-right: none;
+}
+
+
+.tab-content>.tab-pane{
+    position: absolute;
+    width: 100%;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: none;
+    border-bottom:solid 2px;
+}
+
+.nav-tabs>li>a{
+    color: #818181
+}
 
 /*bs-extend*/
 .list-group-item span>.badge,.list-group-item span>p{
@@ -400,8 +421,7 @@ hr {
     position: relative;
     left: 160px;
     width: calc(100% - 160px);
-    float: left;
-    position: relative;
+    height: 100%;
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
