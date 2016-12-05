@@ -1402,7 +1402,6 @@
                 /**
                  * 获取客房列表
                  */
-                // ngtable
                 self.search = function () {
                     self.tableParams = new NgTableParams(
                         {
