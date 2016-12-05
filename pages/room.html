@@ -142,6 +142,8 @@
                         <li>余30间</li>
                         <!-- 内容: 今天可订 -->
                         <li>26间</li>
+                        <!-- 内容: 是否可用 -->
+                        <li><toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged(item.ID, item.RoomAvailable)"  size="btn-xs"></toggle></li>
                         <!-- 内容: 操作 -->
                         <li>
                             <!-- 按钮: 复制 -->

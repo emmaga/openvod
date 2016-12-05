@@ -1439,7 +1439,36 @@
                     }).finally(function () {
                         self.loading = false;
                     });
+                }
+                
+                self.RAChanged = function (roomId, roomAvailable) {
+                    var data = JSON.stringify({
+                        action: "setRoomAvailable",
+                        token: util.getParams('token'),
+                        lang: lang,
+                        roomID: roomId,
+                        RoomAvailable: roomAvailable == true ? 1 : 0
+                    })
+                    self.loading = true;
 
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('操作失败，' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function () {
+                        self.loading = false;
+                    });
                 }
 
                 self.hotelEdit = function () {

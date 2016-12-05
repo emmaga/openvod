@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dfbf04ca-5177-46c3-aee6-3c34d6143b43" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/room.html" afterPath="$PROJECT_DIR$/pages/room.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/modules/controllers.js" afterPath="$PROJECT_DIR$/src/modules/controllers.js" />
     </list>
     <list id="c2352c44-121c-48b8-9913-1232d5e431d9" name="Failed commit: Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;index.html&#10;#&#9;src/modules/app.js&#10;" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -72,8 +74,8 @@
       <file leaf-file-name="room.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/room.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4374">
-              <caret line="162" column="10" lean-forward="false" selection-start-line="162" selection-start-column="10" selection-end-line="162" selection-end-column="10" />
+            <state relative-caret-position="513">
+              <caret line="145" column="151" lean-forward="true" selection-start-line="145" selection-start-column="151" selection-end-line="145" selection-end-column="151" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#span#1;n#div#0;n#li#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#span#1;n#div#0;n#li#4;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -100,8 +102,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="702">
-              <caret line="26" column="85" lean-forward="false" selection-start-line="26" selection-start-column="85" selection-end-line="26" selection-end-column="85" />
+            <state relative-caret-position="540">
+              <caret line="26" column="85" lean-forward="true" selection-start-line="26" selection-start-column="85" selection-end-line="26" selection-end-column="85" />
               <folding />
             </state>
           </provider>
@@ -124,8 +126,8 @@
       <file leaf-file-name="hotelRoom.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/hotelRoom.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+            <state relative-caret-position="108">
+              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding>
                 <marker date="1480922385331" expanded="true" signature="843:849" ph="..." />
               </folding>
@@ -146,310 +148,9 @@
       <file leaf-file-name="controllers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/modules/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="1405" column="0" lean-forward="true" selection-start-line="1405" selection-start-column="0" selection-end-line="1405" selection-end-column="0" />
-              <folding>
-                <marker date="1480925022652" expanded="true" signature="28:112619" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="61971:61989" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="61971:63116" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="61971:63126" ph="[...]" />
-                <marker date="1480925022652" expanded="true" signature="62036:62216" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="62261:62414" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="62466:62638" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="62695:62872" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="62927:63102" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="63172:74570" ph="[...]" />
-                <marker date="1480925022652" expanded="true" signature="63329:74560" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="63455:63910" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="63958:64113" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="64160:64356" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="64400:64464" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="64506:67316" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="64612:64854" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="64927:65023" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="65108:65206" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="65320:65513" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="65386:65491" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="65600:66496" ph="{&quot;action&quot;: &quot;editHotel&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="65836:66474" ph="{&quot;Name&quot;: self.hotel.Name...}" />
-                <marker date="1480925022652" expanded="true" signature="66524:66694" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="66736:67088" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="66839:66954" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="66960:67066" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="67123:67205" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="67228:67296" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="67366:68550" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="67455:67635" ph="{&quot;action&quot;: &quot;getHotelFeatureTag&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="67663:67833" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="67875:68321" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="67978:68183" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="68189:68299" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="68356:68438" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="68461:68530" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="68610:69250" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="68680:69232" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="68958:69210" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="69039:69184" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="69300:69451" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="69345:69428" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="69500:69696" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="69731:74546" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="69775:70225" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="69886:70203" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="69931:70176" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="70273:70809" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="70377:70787" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="70426:70761" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="70555:70644" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="70872:71237" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="70913:71168" ph="{&quot;xhr&quot;: xhr...}" />
-                <marker date="1480925022652" expanded="true" signature="71312:71761" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="71381:71739" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="71478:71713" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="71827:72191" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="71896:72169" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="71955:72143" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="72242:74528" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="72329:72567" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="72444:72541" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="72971:73484" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="73031:73452" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="73095:73418" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="73529:74140" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="73722:74108" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="73916:74074" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="74185:74479" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="74245:74346" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="74614:84544" ph="[...]" />
-                <marker date="1480925022652" expanded="true" signature="74771:84534" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="74847:75235" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="75278:75342" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="75360:75409" ph="/** 获取客房标签 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="75457:76810" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="75546:75719" ph="{&quot;action&quot;: &quot;getRoomTags&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="75747:75912" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="75954:76581" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="76057:76445" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="76181:76419" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="76451:76559" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="76616:76698" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="76721:76790" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="76827:76872" ph="/** 保存 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="76913:79223" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="77022:77197" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="77083:77175" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="77301:77627" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="77366:77578" ph="{&quot;Seq&quot;: i...}" />
-                <marker date="1480925022652" expanded="true" signature="77671:77765" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="77853:78408" ph="{&quot;action&quot;: &quot;addRoom&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="78115:78386" ph="{&quot;HotelID&quot;: self.hotelId...}" />
-                <marker date="1480925022652" expanded="true" signature="78437:78602" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="78644:78995" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="78747:78861" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="78867:78973" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79030:79112" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79135:79203" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79274:79425" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79319:79402" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79474:79670" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79705:84520" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79749:80199" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79860:80177" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="79905:80150" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="80247:80783" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="80351:80761" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="80400:80735" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="80529:80618" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="80846:81211" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="80887:81142" ph="{&quot;xhr&quot;: xhr...}" />
-                <marker date="1480925022652" expanded="true" signature="81286:81735" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="81355:81713" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="81452:81687" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="81801:82165" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="81870:82143" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="81929:82117" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="82216:84502" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="82303:82541" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="82418:82515" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="82945:83458" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="83005:83426" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="83069:83392" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="83503:84114" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="83696:84082" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="83890:84048" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="84159:84453" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="84219:84320" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="84589:96552" ph="[...]" />
-                <marker date="1480925022652" expanded="true" signature="84746:96542" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="84822:85228" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="85271:85335" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="85353:85402" ph="/** 获取客房标签 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="85450:86889" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="85539:85712" ph="{&quot;action&quot;: &quot;getRoomTags&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="85740:85905" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="85947:86660" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="86050:86524" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="86174:86412" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="86530:86638" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="86695:86777" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="86800:86869" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="86938:88778" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="87027:87249" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="87278:87443" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="87485:88549" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="87634:88411" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="87928:88273" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="88005:88243" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="88092:88209" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="88417:88527" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="88584:88666" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="88689:88758" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="88796:88841" ph="/** 保存 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="88882:91231" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="88991:89166" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="89052:89144" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="89270:89596" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="89335:89547" ph="{&quot;Seq&quot;: i...}" />
-                <marker date="1480925022652" expanded="true" signature="89640:89734" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="89822:90367" ph="{&quot;action&quot;: &quot;updateRoom&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="90132:90345" ph="{&quot;HotelID&quot;: self.hotelId...}" />
-                <marker date="1480925022652" expanded="true" signature="90445:90610" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="90652:91003" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="90755:90869" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="90875:90981" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91038:91120" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91143:91211" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91282:91433" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91327:91410" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91482:91678" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91713:96528" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91757:92207" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91868:92185" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="91913:92158" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="92255:92791" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="92359:92769" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="92408:92743" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="92537:92626" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="92854:93219" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="92895:93150" ph="{&quot;xhr&quot;: xhr...}" />
-                <marker date="1480925022652" expanded="true" signature="93294:93743" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="93363:93721" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="93460:93695" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="93809:94173" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="93878:94151" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="93937:94125" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="94224:96510" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="94311:94549" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="94426:94523" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="94953:95466" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="95013:95434" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="95077:95400" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="95511:96122" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="95704:96090" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="95898:96056" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="96167:96461" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="96227:96328" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="96602:104796" ph="[...]" />
-                <marker date="1480925022652" expanded="true" signature="96745:104786" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="96873:97239" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="97283:97347" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="97365:97417" ph="/** datepiker ...*/" />
-                <marker date="1480925022652" expanded="true" signature="97465:97554" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="97602:97682" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="97701:97750" ph="/** 添加临时设置 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="97805:98114" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="97863:98094" ph="{&quot;RoomID&quot;: self.roomId...}" />
-                <marker date="1480925022652" expanded="true" signature="98132:98181" ph="/** 删除临时设置 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="98239:98315" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="98333:98382" ph="/** 载入价格信息 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="98423:100436" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="98471:98663" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="98732:98897" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="98939:100178" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="99040:99889" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="99661:99797" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="99921:100061" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="100067:100156" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="100213:100295" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="100318:100395" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="100454:100503" ph="/** 保存价格信息 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="100544:103146" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="100700:101055" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="100744:101032" ph="{&quot;PriceType&quot;: &quot;basic&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="101118:101268" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="101315:102182" ph="{&quot;action&quot;: &quot;setRoomPrice&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="101572:102160" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="102210:102375" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="102417:102918" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="102518:102633" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="102665:102805" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="102811:102896" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="102953:103035" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="103058:103126" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="103164:103292" ph="/** 转换格式为‘yyyy-MM-dd’ ...*/" />
-                <marker date="1480925022652" expanded="true" signature="103335:103887" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="103532:103600" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="103655:103727" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="103905:104061" ph="/** 判断json是否的值是否重复 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="104108:104772" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="104152:104213" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="104329:104721" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="104416:104623" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="104520:104597" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="104629:104699" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="104844:112309" ph="[...]" />
-                <marker date="1480925022652" expanded="true" signature="104987:112299" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="105115:105479" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="105523:105587" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="105605:105657" ph="/** datepiker ...*/" />
-                <marker date="1480925022652" expanded="true" signature="105705:105792" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="105840:105918" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="105937:105986" ph="/** 添加临时设置 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="106041:106368" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="106097:106348" ph="{&quot;RoomID&quot;: self.roomId...}" />
-                <marker date="1480925022652" expanded="true" signature="106386:106435" ph="/** 删除临时设置 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="106493:106567" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="106585:106636" ph="/** 载入客房数量信息 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="106677:108224" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="106725:106917" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="106986:107151" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="107193:107966" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="107294:107677" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="107449:107589" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="107709:107849" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="107855:107944" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="108001:108083" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="108106:108183" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="108242:108293" ph="/** 保存客房数量信息 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="108334:110515" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="108489:108879" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="108534:108856" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="108947:109097" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="109144:109530" ph="{&quot;action&quot;: &quot;setRoomNum&quot;...}" />
-                <marker date="1480925022652" expanded="true" signature="109401:109508" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="109558:109723" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1480925022652" expanded="true" signature="109765:110266" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="109866:109981" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="110013:110153" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="110159:110244" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="110301:110383" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="110406:110474" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="110533:110661" ph="/** 转换格式为‘yyyy-MM-dd’ ...*/" />
-                <marker date="1480925022652" expanded="true" signature="110704:111400" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="110749:111349" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="110962:111038" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="111097:111177" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="111418:111574" ph="/** 判断json是否的值是否重复 ...*/" />
-                <marker date="1480925022652" expanded="true" signature="111621:112285" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="111665:111726" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="111842:112234" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="111929:112136" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="112033:112110" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="112142:112212" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="112353:112616" ph="[...]" />
-                <marker date="1480925022652" expanded="true" signature="112496:112606" ph="{...}" />
-                <marker date="1480925022652" expanded="true" signature="112572:112592" ph="{...}" />
-              </folding>
+            <state relative-caret-position="110">
+              <caret line="1445" column="49" lean-forward="false" selection-start-line="1445" selection-start-column="33" selection-end-line="1445" selection-end-column="49" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -516,8 +217,8 @@
         <option value="$PROJECT_DIR$/src/modules/app.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/pages/hotelRoom.html" />
-        <option value="$PROJECT_DIR$/src/modules/controllers.js" />
         <option value="$PROJECT_DIR$/pages/room.html" />
+        <option value="$PROJECT_DIR$/src/modules/controllers.js" />
       </list>
     </option>
   </component>
@@ -582,6 +283,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="openvod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="openvod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="openvod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="openvod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="openvod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="angular-bootstrap-toggle" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -716,7 +449,7 @@
       <workItem from="1480663825493" duration="90000" />
       <workItem from="1480664210256" duration="3871000" />
       <workItem from="1480922365595" duration="176000" />
-      <workItem from="1480922730737" duration="2743000" />
+      <workItem from="1480922730737" duration="6607000" />
     </task>
     <task id="LOCAL-00001" summary="2016-11-22 cxb">
       <created>1479799269155</created>
@@ -883,7 +616,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="133576000" />
+    <option name="totallyTimeSpent" value="137440000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -975,308 +708,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="18" column="13" lean-forward="true" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding>
-            <marker date="1480925022652" expanded="true" signature="28:112619" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="61971:61989" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="61971:63116" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="61971:63126" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="62036:62216" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="62261:62414" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="62466:62638" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="62695:62872" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="62927:63102" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="63172:74570" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="63329:74560" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="63455:63910" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="63958:64113" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64160:64356" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64400:64464" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64506:67316" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64612:64854" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64927:65023" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="65108:65206" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="65320:65513" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="65386:65491" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="65600:66496" ph="{&quot;action&quot;: &quot;editHotel&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="65836:66474" ph="{&quot;Name&quot;: self.hotel.Name...}" />
-            <marker date="1480925022652" expanded="true" signature="66524:66694" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="66736:67088" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="66839:66954" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="66960:67066" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67123:67205" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67228:67296" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67366:68550" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67455:67635" ph="{&quot;action&quot;: &quot;getHotelFeatureTag&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="67663:67833" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="67875:68321" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67978:68183" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68189:68299" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68356:68438" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68461:68530" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68610:69250" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68680:69232" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68958:69210" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69039:69184" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69300:69451" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69345:69428" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69500:69696" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69731:74546" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69775:70225" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69886:70203" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69931:70176" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70273:70809" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70377:70787" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70426:70761" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70555:70644" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70872:71237" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70913:71168" ph="{&quot;xhr&quot;: xhr...}" />
-            <marker date="1480925022652" expanded="true" signature="71312:71761" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71381:71739" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71478:71713" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71827:72191" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71896:72169" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71955:72143" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="72242:74528" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="72329:72567" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="72444:72541" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="72971:73484" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73031:73452" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73095:73418" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73529:74140" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73722:74108" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73916:74074" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="74185:74479" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="74245:74346" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="74614:84544" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="74771:84534" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="74847:75235" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="75278:75342" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="75360:75409" ph="/** 获取客房标签 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="75457:76810" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="75546:75719" ph="{&quot;action&quot;: &quot;getRoomTags&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="75747:75912" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="75954:76581" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76057:76445" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76181:76419" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76451:76559" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76616:76698" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76721:76790" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76827:76872" ph="/** 保存 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="76913:79223" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77022:77197" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77083:77175" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77301:77627" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77366:77578" ph="{&quot;Seq&quot;: i...}" />
-            <marker date="1480925022652" expanded="true" signature="77671:77765" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77853:78408" ph="{&quot;action&quot;: &quot;addRoom&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="78115:78386" ph="{&quot;HotelID&quot;: self.hotelId...}" />
-            <marker date="1480925022652" expanded="true" signature="78437:78602" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="78644:78995" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="78747:78861" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="78867:78973" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79030:79112" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79135:79203" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79274:79425" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79319:79402" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79474:79670" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79705:84520" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79749:80199" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79860:80177" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79905:80150" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80247:80783" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80351:80761" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80400:80735" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80529:80618" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80846:81211" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80887:81142" ph="{&quot;xhr&quot;: xhr...}" />
-            <marker date="1480925022652" expanded="true" signature="81286:81735" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81355:81713" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81452:81687" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81801:82165" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81870:82143" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81929:82117" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="82216:84502" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="82303:82541" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="82418:82515" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="82945:83458" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83005:83426" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83069:83392" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83503:84114" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83696:84082" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83890:84048" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="84159:84453" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="84219:84320" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="84589:96552" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="84746:96542" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="84822:85228" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="85271:85335" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="85353:85402" ph="/** 获取客房标签 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="85450:86889" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="85539:85712" ph="{&quot;action&quot;: &quot;getRoomTags&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="85740:85905" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="85947:86660" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86050:86524" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86174:86412" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86530:86638" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86695:86777" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86800:86869" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86938:88778" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="87027:87249" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="87278:87443" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="87485:88549" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="87634:88411" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="87928:88273" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88005:88243" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88092:88209" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88417:88527" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88584:88666" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88689:88758" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88796:88841" ph="/** 保存 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="88882:91231" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88991:89166" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="89052:89144" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="89270:89596" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="89335:89547" ph="{&quot;Seq&quot;: i...}" />
-            <marker date="1480925022652" expanded="true" signature="89640:89734" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="89822:90367" ph="{&quot;action&quot;: &quot;updateRoom&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="90132:90345" ph="{&quot;HotelID&quot;: self.hotelId...}" />
-            <marker date="1480925022652" expanded="true" signature="90445:90610" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="90652:91003" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="90755:90869" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="90875:90981" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91038:91120" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91143:91211" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91282:91433" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91327:91410" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91482:91678" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91713:96528" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91757:92207" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91868:92185" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91913:92158" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92255:92791" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92359:92769" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92408:92743" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92537:92626" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92854:93219" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92895:93150" ph="{&quot;xhr&quot;: xhr...}" />
-            <marker date="1480925022652" expanded="true" signature="93294:93743" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93363:93721" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93460:93695" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93809:94173" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93878:94151" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93937:94125" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="94224:96510" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="94311:94549" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="94426:94523" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="94953:95466" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95013:95434" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95077:95400" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95511:96122" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95704:96090" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95898:96056" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="96167:96461" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="96227:96328" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="96602:104796" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="96745:104786" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="96873:97239" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97283:97347" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97365:97417" ph="/** datepiker ...*/" />
-            <marker date="1480925022652" expanded="true" signature="97465:97554" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97602:97682" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97701:97750" ph="/** 添加临时设置 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="97805:98114" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97863:98094" ph="{&quot;RoomID&quot;: self.roomId...}" />
-            <marker date="1480925022652" expanded="true" signature="98132:98181" ph="/** 删除临时设置 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="98239:98315" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="98333:98382" ph="/** 载入价格信息 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="98423:100436" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="98471:98663" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="98732:98897" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="98939:100178" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="99040:99889" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="99661:99797" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="99921:100061" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100067:100156" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100213:100295" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100318:100395" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100454:100503" ph="/** 保存价格信息 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="100544:103146" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100700:101055" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100744:101032" ph="{&quot;PriceType&quot;: &quot;basic&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="101118:101268" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="101315:102182" ph="{&quot;action&quot;: &quot;setRoomPrice&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="101572:102160" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102210:102375" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="102417:102918" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102518:102633" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102665:102805" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102811:102896" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102953:103035" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103058:103126" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103164:103292" ph="/** 转换格式为‘yyyy-MM-dd’ ...*/" />
-            <marker date="1480925022652" expanded="true" signature="103335:103887" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103532:103600" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103655:103727" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103905:104061" ph="/** 判断json是否的值是否重复 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="104108:104772" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104152:104213" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104329:104721" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104416:104623" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104520:104597" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104629:104699" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104844:112309" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="104987:112299" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105115:105479" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105523:105587" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105605:105657" ph="/** datepiker ...*/" />
-            <marker date="1480925022652" expanded="true" signature="105705:105792" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105840:105918" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105937:105986" ph="/** 添加临时设置 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="106041:106368" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="106097:106348" ph="{&quot;RoomID&quot;: self.roomId...}" />
-            <marker date="1480925022652" expanded="true" signature="106386:106435" ph="/** 删除临时设置 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="106493:106567" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="106585:106636" ph="/** 载入客房数量信息 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="106677:108224" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="106725:106917" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="106986:107151" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="107193:107966" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="107294:107677" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="107449:107589" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="107709:107849" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="107855:107944" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108001:108083" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108106:108183" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108242:108293" ph="/** 保存客房数量信息 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="108334:110515" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108489:108879" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108534:108856" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108947:109097" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="109144:109530" ph="{&quot;action&quot;: &quot;setRoomNum&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="109401:109508" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="109558:109723" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="109765:110266" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="109866:109981" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110013:110153" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110159:110244" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110301:110383" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110406:110474" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110533:110661" ph="/** 转换格式为‘yyyy-MM-dd’ ...*/" />
-            <marker date="1480925022652" expanded="true" signature="110704:111400" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110749:111349" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110962:111038" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111097:111177" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111418:111574" ph="/** 判断json是否的值是否重复 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="111621:112285" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111665:111726" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111842:112234" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111929:112136" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="112033:112110" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="112142:112212" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="112353:112616" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="112496:112606" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="112572:112592" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1510,18 +942,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/roomEditPrice.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="10" column="90" lean-forward="false" selection-start-line="10" selection-start-column="90" selection-end-line="10" selection-end-column="90" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/angular-ui-bootstrap/template/datepickerPopup/popup.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1537,14 +957,6 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Desktop/controllers.js" />
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
-          <caret line="26" column="85" lean-forward="false" selection-start-line="26" selection-start-column="85" selection-end-line="26" selection-end-column="85" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/angular-translate/dist/angular-translate.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
@@ -1615,327 +1027,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/hotelRoom.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+        <state relative-caret-position="108">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <marker date="1480922385331" expanded="true" signature="843:849" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="26" column="85" lean-forward="true" selection-start-line="26" selection-start-column="85" selection-end-line="26" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/roomEditPrice.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="10" column="90" lean-forward="false" selection-start-line="10" selection-start-column="90" selection-end-line="10" selection-end-column="90" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="1405" column="0" lean-forward="true" selection-start-line="1405" selection-start-column="0" selection-end-line="1405" selection-end-column="0" />
-          <folding>
-            <marker date="1480925022652" expanded="true" signature="28:112619" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="61971:61989" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="61971:63116" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="61971:63126" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="62036:62216" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="62261:62414" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="62466:62638" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="62695:62872" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="62927:63102" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="63172:74570" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="63329:74560" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="63455:63910" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="63958:64113" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64160:64356" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64400:64464" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64506:67316" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64612:64854" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="64927:65023" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="65108:65206" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="65320:65513" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="65386:65491" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="65600:66496" ph="{&quot;action&quot;: &quot;editHotel&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="65836:66474" ph="{&quot;Name&quot;: self.hotel.Name...}" />
-            <marker date="1480925022652" expanded="true" signature="66524:66694" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="66736:67088" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="66839:66954" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="66960:67066" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67123:67205" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67228:67296" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67366:68550" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67455:67635" ph="{&quot;action&quot;: &quot;getHotelFeatureTag&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="67663:67833" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="67875:68321" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="67978:68183" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68189:68299" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68356:68438" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68461:68530" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68610:69250" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68680:69232" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="68958:69210" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69039:69184" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69300:69451" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69345:69428" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69500:69696" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69731:74546" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69775:70225" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69886:70203" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="69931:70176" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70273:70809" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70377:70787" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70426:70761" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70555:70644" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70872:71237" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="70913:71168" ph="{&quot;xhr&quot;: xhr...}" />
-            <marker date="1480925022652" expanded="true" signature="71312:71761" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71381:71739" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71478:71713" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71827:72191" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71896:72169" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="71955:72143" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="72242:74528" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="72329:72567" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="72444:72541" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="72971:73484" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73031:73452" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73095:73418" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73529:74140" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73722:74108" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="73916:74074" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="74185:74479" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="74245:74346" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="74614:84544" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="74771:84534" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="74847:75235" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="75278:75342" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="75360:75409" ph="/** 获取客房标签 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="75457:76810" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="75546:75719" ph="{&quot;action&quot;: &quot;getRoomTags&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="75747:75912" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="75954:76581" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76057:76445" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76181:76419" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76451:76559" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76616:76698" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76721:76790" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="76827:76872" ph="/** 保存 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="76913:79223" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77022:77197" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77083:77175" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77301:77627" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77366:77578" ph="{&quot;Seq&quot;: i...}" />
-            <marker date="1480925022652" expanded="true" signature="77671:77765" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="77853:78408" ph="{&quot;action&quot;: &quot;addRoom&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="78115:78386" ph="{&quot;HotelID&quot;: self.hotelId...}" />
-            <marker date="1480925022652" expanded="true" signature="78437:78602" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="78644:78995" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="78747:78861" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="78867:78973" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79030:79112" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79135:79203" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79274:79425" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79319:79402" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79474:79670" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79705:84520" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79749:80199" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79860:80177" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="79905:80150" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80247:80783" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80351:80761" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80400:80735" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80529:80618" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80846:81211" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="80887:81142" ph="{&quot;xhr&quot;: xhr...}" />
-            <marker date="1480925022652" expanded="true" signature="81286:81735" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81355:81713" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81452:81687" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81801:82165" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81870:82143" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="81929:82117" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="82216:84502" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="82303:82541" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="82418:82515" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="82945:83458" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83005:83426" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83069:83392" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83503:84114" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83696:84082" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="83890:84048" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="84159:84453" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="84219:84320" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="84589:96552" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="84746:96542" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="84822:85228" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="85271:85335" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="85353:85402" ph="/** 获取客房标签 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="85450:86889" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="85539:85712" ph="{&quot;action&quot;: &quot;getRoomTags&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="85740:85905" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="85947:86660" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86050:86524" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86174:86412" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86530:86638" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86695:86777" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86800:86869" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="86938:88778" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="87027:87249" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="87278:87443" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="87485:88549" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="87634:88411" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="87928:88273" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88005:88243" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88092:88209" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88417:88527" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88584:88666" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88689:88758" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88796:88841" ph="/** 保存 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="88882:91231" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="88991:89166" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="89052:89144" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="89270:89596" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="89335:89547" ph="{&quot;Seq&quot;: i...}" />
-            <marker date="1480925022652" expanded="true" signature="89640:89734" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="89822:90367" ph="{&quot;action&quot;: &quot;updateRoom&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="90132:90345" ph="{&quot;HotelID&quot;: self.hotelId...}" />
-            <marker date="1480925022652" expanded="true" signature="90445:90610" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="90652:91003" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="90755:90869" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="90875:90981" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91038:91120" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91143:91211" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91282:91433" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91327:91410" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91482:91678" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91713:96528" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91757:92207" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91868:92185" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="91913:92158" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92255:92791" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92359:92769" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92408:92743" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92537:92626" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92854:93219" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="92895:93150" ph="{&quot;xhr&quot;: xhr...}" />
-            <marker date="1480925022652" expanded="true" signature="93294:93743" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93363:93721" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93460:93695" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93809:94173" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93878:94151" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="93937:94125" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="94224:96510" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="94311:94549" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="94426:94523" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="94953:95466" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95013:95434" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95077:95400" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95511:96122" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95704:96090" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="95898:96056" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="96167:96461" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="96227:96328" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="96602:104796" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="96745:104786" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="96873:97239" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97283:97347" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97365:97417" ph="/** datepiker ...*/" />
-            <marker date="1480925022652" expanded="true" signature="97465:97554" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97602:97682" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97701:97750" ph="/** 添加临时设置 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="97805:98114" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="97863:98094" ph="{&quot;RoomID&quot;: self.roomId...}" />
-            <marker date="1480925022652" expanded="true" signature="98132:98181" ph="/** 删除临时设置 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="98239:98315" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="98333:98382" ph="/** 载入价格信息 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="98423:100436" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="98471:98663" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="98732:98897" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="98939:100178" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="99040:99889" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="99661:99797" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="99921:100061" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100067:100156" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100213:100295" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100318:100395" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100454:100503" ph="/** 保存价格信息 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="100544:103146" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100700:101055" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="100744:101032" ph="{&quot;PriceType&quot;: &quot;basic&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="101118:101268" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="101315:102182" ph="{&quot;action&quot;: &quot;setRoomPrice&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="101572:102160" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102210:102375" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="102417:102918" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102518:102633" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102665:102805" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102811:102896" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="102953:103035" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103058:103126" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103164:103292" ph="/** 转换格式为‘yyyy-MM-dd’ ...*/" />
-            <marker date="1480925022652" expanded="true" signature="103335:103887" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103532:103600" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103655:103727" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="103905:104061" ph="/** 判断json是否的值是否重复 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="104108:104772" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104152:104213" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104329:104721" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104416:104623" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104520:104597" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104629:104699" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="104844:112309" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="104987:112299" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105115:105479" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105523:105587" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105605:105657" ph="/** datepiker ...*/" />
-            <marker date="1480925022652" expanded="true" signature="105705:105792" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105840:105918" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="105937:105986" ph="/** 添加临时设置 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="106041:106368" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="106097:106348" ph="{&quot;RoomID&quot;: self.roomId...}" />
-            <marker date="1480925022652" expanded="true" signature="106386:106435" ph="/** 删除临时设置 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="106493:106567" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="106585:106636" ph="/** 载入客房数量信息 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="106677:108224" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="106725:106917" ph="{&quot;action&quot;: &quot;getRoomInfoByID&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="106986:107151" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="107193:107966" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="107294:107677" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="107449:107589" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="107709:107849" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="107855:107944" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108001:108083" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108106:108183" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108242:108293" ph="/** 保存客房数量信息 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="108334:110515" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108489:108879" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108534:108856" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="108947:109097" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="109144:109530" ph="{&quot;action&quot;: &quot;setRoomNum&quot;...}" />
-            <marker date="1480925022652" expanded="true" signature="109401:109508" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="109558:109723" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1480925022652" expanded="true" signature="109765:110266" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="109866:109981" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110013:110153" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110159:110244" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110301:110383" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110406:110474" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110533:110661" ph="/** 转换格式为‘yyyy-MM-dd’ ...*/" />
-            <marker date="1480925022652" expanded="true" signature="110704:111400" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110749:111349" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="110962:111038" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111097:111177" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111418:111574" ph="/** 判断json是否的值是否重复 ...*/" />
-            <marker date="1480925022652" expanded="true" signature="111621:112285" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111665:111726" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111842:112234" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="111929:112136" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="112033:112110" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="112142:112212" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="112353:112616" ph="[...]" />
-            <marker date="1480925022652" expanded="true" signature="112496:112606" ph="{...}" />
-            <marker date="1480925022652" expanded="true" signature="112572:112592" ph="{...}" />
-          </folding>
+        <state relative-caret-position="110">
+          <caret line="1445" column="49" lean-forward="false" selection-start-line="1445" selection-start-column="33" selection-end-line="1445" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/room.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4374">
-          <caret line="162" column="10" lean-forward="false" selection-start-line="162" selection-start-column="10" selection-end-line="162" selection-end-column="10" />
+        <state relative-caret-position="513">
+          <caret line="145" column="151" lean-forward="true" selection-start-line="145" selection-start-column="151" selection-end-line="145" selection-end-column="151" />
           <folding>
             <element signature="n#style#0;n#div#0;n#span#1;n#div#0;n#li#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#span#1;n#div#0;n#li#4;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
