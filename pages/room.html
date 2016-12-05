@@ -1,5 +1,5 @@
 <!-- 酒店/客房管理>右侧部分 -->
-<div ng-controller="roomController as room" ng-init="room.init(); room.roomList=true; room.hotelInfo=false;" class="content-right">
+<div ng-controller="roomController as room" ng-init="room.init(); room.roomList=true; room.hotelInfo=false; room.modal=false" class="content-right">
     <!--酒店详情-->
     <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
     <h4>{{room.hotel.Name[room.defaultLangCode]}}</h4>
@@ -116,6 +116,8 @@
 
 
 
+
+
         <!-- 标签页: 客房列表 -->
         <div class="tab-pane active fade in" ng-class="{'in':(room.roomList)}">
             <!-- 按钮: 添加客房 -->
@@ -145,13 +147,13 @@
                         <!-- 内容: 操作 -->
                         <td>
                             <!-- 按钮: 复制 -->
-                            <a class="cursor-pointer">复制</a><br>
+                            <!-- <a class="cursor-pointer">复制</a><br> -->
                             <!-- 按钮: 改数量 -->
-                            <a ng-click="room.roomEditNum(item.RoomID)" class="cursor-pointer">改数量</a><br>
+                            <a ng-click="room.roomEditNum(item.RoomID)" class="cursor-pointer">修改数量</a><br>
                             <!-- 按钮: 改价格 -->
-                            <a ng-click="room.roomEditPrice(item.RoomID)" class="cursor-pointer">该价格</a><br>
+                            <a ng-click="room.roomEditPrice(item.RoomID)" class="cursor-pointer">修改价格</a><br>
                             <!-- 按钮: 详情 -->
-                            <a ng-click="room.roomEdit(item.RoomID)" class="cursor-pointer">查看详情</a>
+                            <a ng-click="room.roomEdit(item.RoomID)" class="cursor-pointer">详情</a>
                         </td>
                     </tr>
                 </tbody>
