@@ -1,7 +1,8 @@
 <!-- 酒店/客房管理>右侧部分 -->
 <div ng-controller="roomController as room" ng-init="room.init(); room.roomList=true; room.hotelInfo=false; room.modal=false" class="content-right">
-    <!--酒店详情-->
+    <!-- loading -->
     <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
+    <!--tab-->
     <h4>{{room.hotel.Name[room.defaultLangCode]}}</h4>
     <hr>
     <ul class="nav nav-tabs">
@@ -12,10 +13,15 @@
             <a role="tab" ng-click="room.hotelInfo=true; room.roomList=false;">酒店信息</a>
         </li>
     </ul>
-    <!-- 按钮: 编辑酒店信息 -->
+    <!-- tab-content start -->
     <div class="tab-content">
-        <div class="tab-pane active fade" ng-class="{'in':(room.hotelInfo)}">
-            <button ng-click="room.hotelEdit()" class="btn btn-clipboard">编辑</button>
+        <!-- 标签页: 酒店信息 -->
+        <div class="tab-pane" ng-class="{'in active':(room.hotelInfo)}">
+            <!-- 按钮: 编辑酒店信息 -->
+            <button ng-click="room.hotelEdit()" class="button button-light">
+                <i class="icon ion-ios-compose-outline"></i>
+                编辑信息
+            </button>
             <div class="clearfix"></div>
             <ul class="list-group">
                 <!-- 内容: 酒店图片 -->
@@ -23,24 +29,24 @@
                     <div class="row">
                         <!-- 标题: 酒店图片 -->
                         <span class="col-xs-2">
-                    <h5>酒店图片</h5>
-                </span>
+                            <h5>酒店图片</h5>
+                        </span>
                         <!-- 内容: 酒店图片列表 -->
                         <span class="col-xs-10">
-                    <div ng-repeat="img in room.hotel.Imgs" style="background-image: url({{img.ImageURL}})" class="form-thumbnail"></div>
-                </span>
+                            <div ng-repeat="img in room.hotel.Imgs" style="background-image: url({{img.ImageURL}})" class="form-thumbnail"></div>
+                        </span>
                     </div>
                 </li>
                 <!-- 内容: 酒店标签 -->
                 <li class="list-group-item">
                     <div class="row">
                         <span class="col-xs-2">
-                    <h5>酒店标签</h5>
-                </span>
+                            <h5>酒店标签</h5>
+                        </span>
                         <span class="col-xs-10">
-                    <span ng-repeat="tag in room.hotel.Tags" class="badge badge-warn">
-                        {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
-                    </span>
+                            <i ng-repeat="tag in room.hotel.Tags" class="badge badge-warn">
+                                {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
+                            </i>
                         </span>
                     </div>
                 </li>
@@ -49,11 +55,11 @@
                     <div class="row">
                         <!-- 标题: 酒店地址 -->
                         <span class="col-xs-2">
-                    <h5>酒店地址</h5>
-                </span>
+                            <h5>酒店地址</h5>
+                        </span>
                         <span class="col-xs-10">
-                    <p>{{'HOTEL_ADDRESS' | translate}}:{{room.hotel.Address[room.defaultLangCode]}}</p>
-                </span>
+                            <p>{{'HOTEL_ADDRESS' | translate}}:{{room.hotel.Address[room.defaultLangCode]}}</p>
+                        </span>
                     </div>
                 </li>
                 <!-- 内容: 酒店坐标 -->
@@ -61,11 +67,11 @@
                     <div class="row">
                         <!-- 标题: 酒店地址 -->
                         <span class="col-xs-2">
-                    <h5>酒店坐标</h5>
-                </span>
+                            <h5>酒店坐标</h5>
+                        </span>
                         <span class="col-xs-10">
-                    <p>{{room.hotel.LocationX}} {{room.hotel.LocationY}}</p>
-                </span>
+                            <p>{{room.hotel.LocationX}} {{room.hotel.LocationY}}</p>
+                        </span>
                     </div>
                 </li>
                 <!-- 内容: 酒店logo图 -->
@@ -73,11 +79,11 @@
                     <div class="row">
                         <!-- 标题: 酒店logo图 -->
                         <span class="col-xs-2">
-                    <h5>LOGO</h5>
-                </span>
+                            <h5>LOGO</h5>
+                        </span>
                         <span class="col-xs-10">
-                    <div style="background-image: url({{room.hotel.LogoImg}})" class="form-thumbnail"></div>
-                </span>
+                            <div style="background-image: url({{room.hotel.LogoImg}})" class="form-thumbnail"></div>
+                        </span>
                     </div>
                 </li>
                 <!-- 内容: 酒店城市 -->
@@ -85,11 +91,11 @@
                     <div class="row">
                         <!-- 标题: 酒店城市 -->
                         <span class="col-xs-2">
-                    <h5>酒店城市</h5>
-                </span>
+                            <h5>酒店城市</h5>
+                        </span>
                         <span class="col-xs-10">
-                    <p>{{room.hotel.CityName}}</p>
-                </span>
+                            <p>{{room.hotel.CityName}}</p>
+                        </span>
                     </div>
                 </li>
                 <!-- 内容: 酒店介绍 -->
@@ -97,61 +103,58 @@
                     <div class="row">
                         <!-- 标题: 酒店介绍 -->
                         <span class="col-xs-2">
-                    <h5>{{'HOTEL_DESCRUOTION' | translate}}</h5>
-                </span>
+                            <h5>{{'HOTEL_DESCRUOTION' | translate}}</h5>
+                        </span>
                         <span class="col-xs-10">
-                    <p>{{room.hotel.Description[room.defaultLangCode]}}</p>
-                </span>
+                            <p>{{room.hotel.Description[room.defaultLangCode]}}</p>
+                        </span>
                     </div>
                 </li>
             </ul>
         </div>
-        <!--酒店详情-->
         <!-- 标签页: 客房列表 -->
-        <div class="tab-pane active fade in" ng-class="{'in':(room.roomList)}">
+        <div class="tab-pane" ng-class="{'in active':(room.roomList)}">
             <!-- 按钮: 添加客房 -->
-            <div>
-                <button ng-click="room.roomAdd()" class="btn btn-clipboard">{{'ROOM_ADD' | translate}}</button>
+            <div class="row">
+                <button ng-click="room.roomAdd()" class="button button-light">
+                    <i class="icon ion-ios-plus-outline"></i>
+                    {{'ROOM_ADD' | translate}}
+                </button>
             </div>
             <!-- 列表: 客房列表 -->
-            <div ng-init="room.search()" class="table">
-                <div>
-                    <ul ng-repeat="item in room.rooms">
-                        <!-- 内容: 客房图 -->
-                        <li>
-                            <div style="background-image: url({{item.LogoImgURL}})" class="form-thumbnail"></div>
-                        </li>
-                        <!-- 内容: 客房名 -->
-                        <li>
+            <ul ng-init="room.search()" class="list-group">
+                <li ng-repeat="item in room.rooms" class="list-group-item thumbnail-left">
+                    <!-- 内容: 客房图 -->
+                    <div style="background-image: url({{item.LogoImgURL}})" class="form-thumbnail"></div>
+                    <div class="row">
+                        <!-- 第一列 -->
+                        <span class="col-xs-5">   
+                            <!-- 内容: 客房名 -->
                             <h5>客房名{{item.RoomTypeName[room.lang]}}</h5>
-                        </li>
-                        <!-- 内容: 标签 -->
-                        <li>
-                            <span class="badge badge-warn">wifi</span>
-                            <span class="badge badge-warn">含早</span>
-                            <span class="badge badge-warn">叫醒</span>
-                        </li>
-                        <!-- 内容: 今天房价 -->
-                        <li>￥266</li>
-                        <!-- 内容: 今天可订 -->
-                        <li>26</li>
-                        <!-- 内容: 操作 -->
-                        <li>
-                            <!-- 按钮: 复制 -->
-                            <a class="cursor-pointer">复制</a>
-                            <br>
+                            <!-- 内容: 标签 -->
+                            <p class="">标签：wifi、含早、叫醒</p>
+                        </span>
+                        <span class="col-xs-4">
+                            <!-- 内容: 今天房价 -->
+                            <p>今日价格：￥266</p>
+                            <!-- 内容: 今天可订 -->
+                            <p>今日剩余：26间</p>
+                        </span>
+                        <span class="col-xs-3">
                             <!-- 按钮: 改数量 -->
-                            <a ng-click="room.roomEditNum(item.RoomID)" class="cursor-pointer">改数量</a>
+                            <a ng-click="room.roomEditNum(item.RoomID)" class="cursor-pointer">数量</a>
                             <br>
                             <!-- 按钮: 改价格 -->
-                            <a ng-click="room.roomEditPrice(item.RoomID)" class="cursor-pointer">该价格</a>
+                            <a ng-click="room.roomEditPrice(item.RoomID)" class="cursor-pointer">价格</a>
                             <br>
                             <!-- 按钮: 详情 -->
                             <a ng-click="room.roomEdit(item.RoomID)" class="cursor-pointer">查看详情</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                        </span>
+                    </div>
+                    
+                </li>
+            </ul>
         </div>
     </div>
+    <!-- tab-content end-->
 </div>
