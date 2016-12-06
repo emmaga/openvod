@@ -8782,7 +8782,7 @@ progress {
 .button {
   border-color: transparent;
   background-color: #f8f8f8;
-  color: #444;
+  /*color: #444;*/
   position: relative;
   display: inline-block;
   margin: 0;
@@ -8804,6 +8804,7 @@ progress {
   .button.active, .button.activated {
     border-color: #a2a2a2;
     background-color: #e5e5e5; }
+    /*
   .button:after {
     position: absolute;
     top: -6px;
@@ -8811,6 +8812,7 @@ progress {
     bottom: -6px;
     left: -6px;
     content: ' '; }
+    */
   .button .icon {
     vertical-align: top;
     pointer-events: none; }
@@ -8835,9 +8837,10 @@ progress {
   .button.button-light {
     border-color: transparent;
     background-color: #fff;
-    color: #444; }
+    /*color: #444; */
+    }
     .button.button-light:hover {
-      color: #444;
+      /*color: #444;*/
       text-decoration: none; }
     .button.button-light.active, .button.button-light.activated {
       border-color: #a2a2a2;

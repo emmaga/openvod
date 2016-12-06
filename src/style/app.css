@@ -387,7 +387,9 @@ hr {
     border-right: none;
 }
 
-
+.nav.nav-tabs{
+    margin-bottom: 20px;
+}
 .tab-content{
         position: relative;
 }

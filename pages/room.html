@@ -18,10 +18,10 @@
         <!-- 标签页: 酒店信息 -->
         <div class="tab-pane" ng-class="{'in active':(room.hotelInfo)}">
             <!-- 按钮: 编辑酒店信息 -->
-            <button ng-click="room.hotelEdit()" class="button button-light">
+            <a ng-click="room.hotelEdit()" class="button button-light">
                 <i class="icon ion-ios-compose-outline"></i>
                 编辑信息
-            </button>
+            </a>
             <div class="clearfix"></div>
             <ul class="list-group">
                 <!-- 内容: 酒店图片 -->
@@ -116,10 +116,10 @@
         <div class="tab-pane" ng-class="{'in active':(room.roomList)}">
             <!-- 按钮: 添加客房 -->
             <div class="row">
-                <button ng-click="room.roomAdd()" class="button button-light">
+                <a ng-click="room.roomAdd()" class="button button-light">
                     <i class="icon ion-ios-plus-outline"></i>
                     {{'ROOM_ADD' | translate}}
-                </button>
+                </a>
             </div>
             <!-- 列表: 客房列表 -->
             <ul ng-init="room.search()" class="list-group">
