@@ -92,7 +92,8 @@
                                           label: '首页',
                                           data: {
                                             type: "menuRoot",
-                                            styleImg: data.data.ViewTemplateImage
+                                            styleImg: data.data.ViewTemplateImage,
+                                            viewName: data.data.ViewType
                                           },
                                           children: menu
                                         }, 

@@ -7,29 +7,28 @@
         <div ng-show="tvModuleAdd.loading">获取模版示意信息...</div>
         <!--模版示意信息获取中的提示信息-->
        
-        <!--模版示意信息-->
-        <ng-repeat ng-repeat="module in tvModuleAdd.modules">
-            
-            <!--单选框-->
-            <input type="radio" ng-model="tvModuleAdd.module" value="{{module.Name}}" required>
-            <!--单选框-->
-
-            <!--模版模版名称-->
-            {{module.DescName}}<br>
-            <!--模版模版名称-->
-
-            <!--模版模版风格图-->
-            <img src="{{module.SamplePic}}">
-            <!--模版模版风格图-->
-        </ng-repeat>
-        <!--模版示意信息-->
-
 
         <!--保存中的提示信息-->
         <div ng-show="tvModuleAdd.saving">saving...</div>
         <!--保存中的提示信息-->
 
         <form name="tvModuleAddForm" ng-submit="tvModuleAddForm.$valid && tvModuleAdd.save()">
+            <!--模版示意信息-->
+            <ng-repeat ng-repeat="module in tvModuleAdd.modules">
+                
+                <!--单选框-->
+                <input type="radio" ng-model="tvModuleAdd.module" value="{{module.Name}}" required>
+                <!--单选框-->
+
+                <!--模版模版名称-->
+                {{module.DescName}}<br>
+                <!--模版模版名称-->
+
+                <!--模版模版风格图-->
+                <img src="{{module.SamplePic}}">
+                <!--模版模版风格图-->
+            </ng-repeat>
+            <!--模版示意信息-->
 
             <!--模版名称（多语言）-->
             <ng-repeat ng-repeat="lang in tvModuleAdd.editLangs">

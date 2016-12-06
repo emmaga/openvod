@@ -70,7 +70,13 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
-                    return JSON.parse($cookies.get(paramsName));
+                    if($cookies.get(paramsName)) {
+                        return JSON.parse($cookies.get(paramsName));
+                    }
+                    else {
+                        return false;
+                    }
+                    
                 },
                 
                 // 当前系统 使用 的 语言

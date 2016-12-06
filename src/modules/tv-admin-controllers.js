@@ -90,7 +90,7 @@
 
             // 修改首页风格
             self.changeMainStyle = function() {
-                $scope.app.maskParams = {'xx': xx};
+                $scope.app.maskParams = {'viewName': my_tree.get_selected_branch().data.viewName};
                 $scope.app.maskUrl = 'pages/tv/styleChange.html';
             }
 
@@ -134,28 +134,32 @@
 
                 // live
                 if(branch.data.type == 'Live') {
-                    self.changeMenuInfo();
                     $state.go('app.tvAdmin.live', {moduleId: branch.data.moduleId});
-
+                    self.changeMenuInfo();        
                 }
 
                 // movieCommon
                 if(branch.data.type == 'MovieCommon') {
-                    self.changeMenuInfo();
+                    
                     $state.go('app.tvAdmin.movieCommon', {moduleId: branch.data.moduleId});
+                    self.changeMenuInfo();
                 }
 
                 // MainMenu_THJ_SecondMenu
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu') {
-                    self.changeMenuInfo();
+                    
                     $state.go('app.tvAdmin.blank');
+                    self.changeMenuInfo();
                 }
 
                 
             }
 
             self.changeMenuInfo = function() {
-                self.menu.name = my_tree.get_selected_branch().data.name;
+                // 诡异的问题，如果直接赋值，会变成双向绑定，改成以下
+                var name = JSON.stringify(my_tree.get_selected_branch().data.name);
+                self.menu.name = JSON.parse(name);
+                // 以上
                 self.imgs3 = new Imgs([{"ImageURL": my_tree.get_selected_branch().data.img, "ImageSize": 0}], true);
                 self.imgs3.initImgs();
                 self.imgs4 = new Imgs([{"ImageURL": my_tree.get_selected_branch().data.focusImg, "ImageSize": 0}], true);
@@ -200,7 +204,7 @@
                     if (data.rescode == '200') {
                         alert('保存成功');
                         $state.go('app.tvAdmin', 
-                            {initS: my_tree.get_selected_branch().label}, 
+                            {initS: self.menu.name[util.getDefaultLangCode()]}, 
                             {reload: true, inherit: false, notify: true }
                         );
                     } else if(data.rescode == '401'){
@@ -881,17 +885,20 @@
             self.init = function() {
                 
                 // 目前菜单已选风格
-                self.menuLv = $scope.app.maskParams.menuLv;
+                self.viewName = $scope.app.maskParams.viewName;
+
+                // 获取首页风格图片列表
+                self.getViewList();
             }
 
-            self.getModuleInfo = function() {
+            self.getViewList = function() {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
-                    "action": "getCommonTemplate",
+                    "action": "getMainMenuTemplateList",
                     "lang": util.langStyle()
                 });
                 self.loading = true;
-                // 获取模块类型名称、风格图
+                
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('mainmenu', '', 'server'),
@@ -899,14 +906,13 @@
                 }).then(function successCallback(response) {
                     var data = response.data;
                     if (data.rescode == '200') {
-                        self.modules = data.data;
-                        console.log(self.modules[0].Name)
-                        self.module = self.modules[0].Name;
+                        self.styles = data.data;
+                        self.style = self.viewName;
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
                     } else{
-                        alert('加载模版信息失败，' + data.errInfo);
+                        alert('加载首页风格列表失败，' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
@@ -922,35 +928,12 @@
 
             self.save = function() {
 
-                //菜单图片必填验证
-                if(self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100) {
-                    alert('请上传菜单图片');
-                    return;
-                }
-
-                //菜单高亮图片必填验证
-                if(self.imgs2.data.length == 0 || self.imgs2.data[0].progress < 100) {
-                    alert('请上传菜单高亮图片');
-                    return;
-                }
-
-                var action = self.menuLv == 1 ? 'addMainMenuFirstMenu' : 'addMainMenuSecondMenu';
-                var firstMenuID = self.menuLv == 1 ? '' : self.parentMenu.id;
-
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
-                    "action": action,
+                    "action": "createMainMenu",
                     "viewID": 1,     //主菜单模板ViewID都为1
                     "data":{
-                      "isMenu":0,     //0不是主菜单，1是主菜单
-                      "firstMenuID" : firstMenuID,
-                      "viewType": self.module,
-                      "Name":self.menuName,
-                      "IconURL":self.imgs1.data[0].src,
-                      "IconSize":self.imgs1.data[0].fileSize,
-                      "IconFocusURL":self.imgs2.data[0].src,
-                      "IconFocusSize":self.imgs2.data[0].fileSize,
-                      "Seq":self.seq  //在一级菜单中的排序号，从1开始
+                      "ViewType": self.style
                     },
                     "lang": ""
                 })
@@ -963,15 +946,15 @@
                 }).then(function successCallback(response) {
                     var data = response.data;
                     if (data.rescode == '200') {
-                        alert('添加成功');
-                        $state.go('app.tvAdmin', {initS: self.menuLv == 1 ? '首页' : self.parentMenu.name}, { 
+                        alert('修改成功');
+                        $state.go('app.tvAdmin', {initS: '首页'}, { 
                           reload: true, inherit: false, notify: true 
                         });
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
                     } else{
-                        alert('加载菜单示意信息失败，' + data.errInfo);
+                        alert('修改失败，' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert('连接服务器出错');

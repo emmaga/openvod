@@ -6,24 +6,6 @@
         <!--风格列表获取中的提示信息-->
         <div ng-show="tvStyleChange.loading">风格列表获取中...</div>
         <!--风格列表获取中的提示信息-->
-       
-        <!--风格图列表-->
-        <ng-repeat ng-repeat="module in tvStyleChange.modules">
-            
-            <!--单选框-->
-            <input type="radio" ng-model="tvStyleChange.module" value="{{module.Name}}" required>
-            <!--单选框-->
-
-            <!--模版模版名称-->
-            {{module.DescName}}<br>
-            <!--模版模版名称-->
-
-            <!--模版模版风格图-->
-            <img src="{{module.SamplePic}}">
-            <!--模版模版风格图-->
-        </ng-repeat>
-        <!--风格图列表-->
-
 
         <!--保存中的提示信息-->
         <div ng-show="tvStyleChange.saving">saving...</div>
@@ -31,50 +13,22 @@
 
         <form name="tvStyleChangeForm" ng-submit="tvStyleChangeForm.$valid && tvStyleChange.save()">
 
-            <!--模版名称（多语言）-->
-            <ng-repeat ng-repeat="lang in tvStyleChange.editLangs">
-                <ng-if ng-if="lang.default">
-                    模版名称 {{lang.name}}：<input ng-model="tvStyleChange.menuName[lang.code]" required />
-                </ng-if>
-                <ng-if ng-if="lang.default !== true">
-                    模版名称 {{lang.name}}：<input ng-model="tvStyleChange.menuName[lang.code]" />
-                </ng-if>
+            <!--风格图列表-->
+            <ng-repeat ng-repeat="style in tvStyleChange.styles">
+                
+                <!--单选框-->
+                <input type="radio" ng-model="tvStyleChange.style" value="{{style.Name}}" required>
+                <!--单选框-->
+
+                <!--风格名称-->
+                {{style.DescName}}<br>
+                <!--风格名称-->
+
+                <!--风格图-->
+                <img src="{{style.SamplePic}}">
+                <!--风格图-->
             </ng-repeat>
-            <!--模版名称（多语言）-->
-
-            <!--模版图片-->
-            <div ng-repeat="img in tvStyleChange.imgs1.data">
-                <img src="{{img.src}}" alt="{{img.fileName}}" />
-                进度： {{img.progress}} <!-- -1代表失败 -->
-                <!-- 大小： {{img.fileSize}}
-                剩余： {{img.leftSize}} -->
-            </div>
-            <!--模版图片-->
-
-            <!--修改模版图片按钮-->
-            <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-            <a ng-click="tvStyleChange.clickUpload('upload1')">上传模版图片</a>
-            <a id="hidenUpload1" style="display: none;" ng-click="tvStyleChange.imgs1.uploadFile('myFile', tvStyleChange.imgs1)"></a>
-            <!--修改模版图片按钮-->
-
-            <!--模版高亮图片-->
-            <div ng-repeat="img in tvStyleChange.imgs2.data">
-                <img src="{{img.src}}" alt="{{img.fileName}}" />
-                进度： {{img.progress}} <!-- -1代表失败 -->
-                <!-- 大小： {{img.fileSize}}
-                剩余： {{img.leftSize}} -->
-            </div>
-            <!--模版高亮图片-->
-
-            <!--修改模版高亮图片按钮-->
-            <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
-            <a ng-click="tvStyleChange.clickUpload('upload2')">上传模版高亮图片</a>
-            <a id="hidenUpload2" style="display: none;" ng-click="tvStyleChange.imgs2.uploadFile('myFile', tvStyleChange.imgs2)"></a>
-            <!--修改模版高亮图片按钮-->
-
-            <!--模版排序-->
-            模版序号 <input type="number" ng-model="tvStyleChange.seq" min="1" required/>
-            <!--模版排序-->
+            <!--风格图列表-->
 
             <!--保存按钮-->
             <button type="submit">保存</button>
