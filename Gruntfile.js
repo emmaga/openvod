@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         cssmin: {
           combine: {
             files: {
-              'dist/style/app.min.css': ['src/style/app.css']
+              'dist/style/app.min.css': ['src/style/app.css','src/style/ionic.parts.css']
             }
           }
         },

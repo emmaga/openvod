@@ -44,9 +44,9 @@
                             <h5>酒店标签</h5>
                         </span>
                         <span class="col-xs-10">
-                            <i ng-repeat="tag in room.hotel.Tags" class="badge badge-warn">
+                            <p ng-repeat="tag in room.hotel.Tags" class="">
                                 {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
-                            </i>
+                            </p>
                         </span>
                     </div>
                 </li>
@@ -115,12 +115,10 @@
         <!-- 标签页: 客房列表 -->
         <div class="tab-pane" ng-class="{'in active':(room.roomList)}">
             <!-- 按钮: 添加客房 -->
-            <div class="row">
-                <a ng-click="room.roomAdd()" class="button button-light">
-                    <i class="icon ion-ios-plus-outline"></i>
-                    {{'ROOM_ADD' | translate}}
-                </a>
-            </div>
+            <a ng-click="room.roomAdd()" class="button button-light">
+                <i class="icon ion-ios-plus-outline"></i>
+                {{'ROOM_ADD' | translate}}
+            </a>
             <!-- 列表: 客房列表 -->
             <ul ng-init="room.search()" class="list-group">
                 <li ng-repeat="item in room.rooms" class="list-group-item thumbnail-left">
