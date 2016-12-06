@@ -131,7 +131,7 @@
                     <div style="background-image: url({{item.imgs[0].ImageURL}})" class="form-thumbnail"></div>
                     <div class="row">
                         <!-- 第一列 -->
-                        <div class="col-xs-5">
+                        <span class="col-xs-5">
                             <!-- 内容: 客房名 -->
                             <h5>客房名{{item.RoomTypeName[room.defaultLangCode]}}</h5>
                             <!-- 内容: 标签 -->
@@ -141,7 +141,11 @@
                             <!-- 内容: 今天房价 -->
                             <p>今日价格：￥{{item.todayPrice}}</p>
                             <!-- 内容: 今天可订 -->
+                            <p>今日可订：26间</p>
+                            <!-- 内容: 今天剩余 -->
                             <p>今日剩余：26间</p>
+
+
                         </span>
                         <span class="col-xs-3">
                             <!-- 按钮: 改数量 -->
@@ -153,7 +157,7 @@
                             <!-- 按钮: 详情 -->
                             <a ng-click="room.roomEdit(item.ID)" class="cursor-pointer">查看详情</a>
                             <!-- 内容: 是否可用 -->
-                            <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged(item.ID, item.RoomAvailable)"
+                            <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged(item.ID, item.RoomAvailable)"></toggle>
                         </span>
                     </div>
                     
