@@ -58,7 +58,7 @@
                     templateUrl: 'pages/room.html'
                 })
                 .state('app.tvAdmin', {
-                    url: '/tvAdmin',
+                    url: '/tvAdmin?initS',
                     templateUrl: 'pages/tvAdmin.html',
                     resolve: {
                         resA: function($http, $state, util) {
@@ -79,6 +79,7 @@
                                 if (data.rescode == '200') {
                                     var defaultLang = util.getDefaultLangCode();
                                     var preData = data.data.Content;
+
                                     var menu = [];
                                     var treedata = [
                                         {
@@ -90,7 +91,8 @@
                                         {
                                           label: '首页',
                                           data: {
-                                            type: "menuRoot"
+                                            type: "menuRoot",
+                                            styleImg: data.data.ViewTemplateImage
                                           },
                                           children: menu
                                         }, 
@@ -110,8 +112,13 @@
                                             "data": {
                                                 "type": preData[i].NextViewType,
                                                 "moduleId": preData[i].NextViewID,
-                                                "menuId": preData[i].MenuID,
-                                                "menuLevel": 1
+                                                "menuId": preData[i].FirstMenuID,
+                                                "menuLevel": 1,
+                                                "styleImg": preData[i].ViewTemplateImage,
+                                                "name": preData[i].Name,
+                                                "img": preData[i].IconURL,
+                                                "focusImg": preData[i].IconFocusURL,
+                                                "seq": preData[i].Seq
                                               }
                                         });
                                         // 添加二级菜单
@@ -124,8 +131,13 @@
                                                     "data": {
                                                         "type": secondMenu[j].NextViewType,
                                                         "moduleId": secondMenu[j].NextViewID,
-                                                        "menuId": preData[i].MenuID,
-                                                        "menuLevel": 2
+                                                        "menuId": secondMenu[j].SecondMenuID,
+                                                        "menuLevel": 2,
+                                                        "styleImg": secondMenu[j].ViewTemplateImage,
+                                                        "name": secondMenu[j].Name,
+                                                        "img": secondMenu[j].IconURL,
+                                                        "focusImg":secondMenu[j].IconFocusURL,
+                                                        "seq": secondMenu[j].Seq
                                                     }
                                                 })
                                             }

@@ -12,6 +12,8 @@
               var modelSetter = model.assign;
               
               element.bind('change', function(){
+                  console.log('ddd');
+                  console.log(scope);
                   scope.$apply(function(){
                       modelSetter(scope, element[0].files[0]);
                   });
