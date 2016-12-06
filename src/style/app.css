@@ -1,3 +1,26 @@
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 9px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-left: solid 2px #777;
+}
+
+/*button*/
+::-webkit-scrollbar-button{
+    height: 18px;
+}
+
+
+
 body{
     font-family: "Microsoft YaHei UI","PingHei","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
     color: #666;
@@ -228,7 +251,7 @@ body, .app {
     bottom: 0;
     padding-top: 72px;
     background-color: white;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .app-view-mask{
@@ -356,10 +379,7 @@ body, .app {
 }
 
 hr {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    border: 0;
-    border-top: 1px solid #eee;
+    
 }
 
 .list-group-item{
@@ -367,7 +387,12 @@ hr {
     border-right: none;
 }
 
-
+.nav.nav-tabs{
+    margin-bottom: 20px;
+}
+.tab-content{
+        position: relative;
+}
 .tab-content>.tab-pane{
     position: absolute;
     width: 100%;
@@ -407,6 +432,7 @@ hr {
     border: 1px solid #e1e1e8;
     border-radius: 0 4px 0 4px;
 }
+
 /*private*/
 .nav-left{
     position: fixed;
@@ -449,6 +475,14 @@ hr {
     right: 0;
     bottom: 0;
     box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,.125)
+}
+
+.list-group-item.thumbnail-left{
+    padding-left: 80px;
+}
+.list-group-item.thumbnail-left>.form-thumbnail{
+    position: absolute;
+    left: 10px;
 }
 
 .cursor-pointer{

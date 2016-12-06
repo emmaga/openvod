@@ -1,7 +1,8 @@
 <!-- 酒店/客房管理>右侧部分 -->
 <div ng-controller="roomController as room" ng-init="room.init(); room.roomList=true; room.hotelInfo=false;" class="content-right">
-    <!--酒店详情-->
+    <!--loading-->
     <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
+    <!--tab-->
     <h4>{{room.hotel.Name[room.defaultLangCode]}}</h4>
     <hr>
 
@@ -13,13 +14,15 @@
             <a role="tab" ng-click="room.hotelInfo=true; room.roomList=false;">酒店信息</a>
         </li>
     </ul>
-
-    <!-- 标签页: 酒店信息 -->
+    <!-- tab-content start -->
     <div class="tab-content">
-        
-        <div ng-show="room.hotelInfo" class="tab-pane active fade" ng-class="{'in':(room.hotelInfo)}">
+        <!-- 标签页: 酒店信息 -->
+        <div class="tab-pane" ng-class="{'in active':(room.hotelInfo)}">
             <!-- 按钮: 编辑酒店信息 -->
-            <button ng-click="room.hotelEdit()" class="btn btn-clipboard">编辑</button>
+            <a ng-click="room.hotelEdit()" class="button button-light">
+                <i class="icon ion-ios-compose-outline"></i>
+                编辑信息
+            </a>
             <div class="clearfix"></div>
             <ul class="list-group">
                 <!-- 内容: 酒店图片 -->
@@ -42,9 +45,9 @@
                             <h5>酒店标签</h5>
                         </span>
                         <span class="col-xs-10">
-                            <span ng-repeat="tag in room.hotel.Tags" class="badge badge-warn">
+                            <p ng-repeat="tag in room.hotel.Tags" class="">
                                 {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
-                            </span>
+                            </p>
                         </span>
                     </div>
                 </li>
@@ -114,53 +117,48 @@
         </div>
 
 
-
-
         <!-- 标签页: 客房列表 -->
-        <div class="tab-pane active fade in" ng-class="{'in':(room.roomList)}">
+        <div class="tab-pane" ng-class="{'in active':(room.roomList)}">
             <!-- 按钮: 添加客房 -->
-            <div><button ng-click="room.roomAdd()" class="btn btn-clipboard">{{'ROOM_ADD' | translate}}</button></div>
+            <a ng-click="room.roomAdd()" class="button button-light">
+                <i class="icon ion-ios-plus-outline"></i>
+                {{'ROOM_ADD' | translate}}
+            </a>
             <!-- 列表: 客房列表 -->
-            <div ng-init="room.search()" class="table">
-                <div>
-                    <ul ng-repeat="item in room.rooms">
-                        <!-- 内容: 客房图 -->
-                        <li>
-                            <div style="background-image: url({{item.imgs[0].ImageURL}})" class="form-thumbnail"></div>
-                        </li>
-                        <!-- 内容: 客房名 -->
-                        <li>
-                            <h5>{{item.RoomTypeName[room.defaultLangCode]}}</h5>
-                        </li>
-                        <!-- 内容: 标签 -->
-                        <li>
-                            <span class="badge badge-warn" ng-repeat="tag in item.tags">{{tag.TagName[room.defaultLangCode]}}</span>
-                        </li>
-                        <!-- 内容: 今天房价 -->
-                        <li>￥{{item.todayPrice}}</li>
-                        <!-- 内容: 今天余量 -->
-                        <li>余30间</li>
-                        <!-- 内容: 今天可订 -->
-                        <li>26间</li>
-                        <!-- 内容: 是否可用 -->
-                        <li><toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged(item.ID, item.RoomAvailable)"  size="btn-xs"></toggle></li>
-                        <!-- 内容: 操作 -->
-                        <li>
-                            <!-- 按钮: 复制 -->
-                            <a class="cursor-pointer">复制</a>
-                            <br>
+            <ul ng-init="room.search()" class="list-group">
+                <li ng-repeat="item in room.rooms" class="list-group-item thumbnail-left">
+                    <!-- 内容: 客房图 -->
+                    <div style="background-image: url({{item.LogoImgURL}})" class="form-thumbnail"></div>
+                    <div class="row">
+                        <!-- 第一列 -->
+                        <span class="col-xs-5">   
+                            <!-- 内容: 客房名 -->
+                            <h5>客房名{{item.RoomTypeName[room.lang]}}</h5>
+                            <!-- 内容: 标签 -->
+                            <p class="">标签：wifi、含早、叫醒</p>
+                        </span>
+                        <span class="col-xs-4">
+                            <!-- 内容: 今天房价 -->
+                            <p>今日价格：￥266</p>
+                            <!-- 内容: 今天可订 -->
+                            <p>今日剩余：26间</p>
+                        </span>
+                        <span class="col-xs-3">
                             <!-- 按钮: 改数量 -->
-                            <a ng-click="room.roomEditNum(item.ID)" class="cursor-pointer">改数量</a>
+                            <a ng-click="room.roomEditNum(item.RoomID)" class="cursor-pointer">数量</a>
                             <br>
                             <!-- 按钮: 改价格 -->
-                            <a ng-click="room.roomEditPrice(item.ID)" class="cursor-pointer">该价格</a>
+                            <a ng-click="room.roomEditPrice(item.RoomID)" class="cursor-pointer">价格</a>
                             <br>
                             <!-- 按钮: 详情 -->
-                            <a ng-click="room.roomEdit(item.ID)" class="cursor-pointer">查看详情</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                            <a ng-click="room.roomEdit(item.RoomID)" class="cursor-pointer">查看详情</a>
+                        </span>
+                    </div>
+                    
+                </li>
+            </ul>
         </div>
     </div>
+    <!-- tab-content end-->
 </div>
+
