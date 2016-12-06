@@ -1,11 +1,12 @@
 <!-- 酒店/客房管理>右侧部分 -->
-<div ng-controller="roomController as room" ng-init="room.init(); room.roomList=true; room.hotelInfo=false; room.modal=false" class="content-right">
-    <!-- loading -->
+<div ng-controller="roomController as room" ng-init="room.init(); room.roomList=true; room.hotelInfo=false;" class="content-right">
+    <!--loading-->
     <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
     <!--tab-->
     <h4>{{room.hotel.Name[room.defaultLangCode]}}</h4>
     <hr>
-    <ul class="nav nav-tabs">
+
+    <ul id="myTab" class="nav nav-tabs">
         <li ng-class="{'active':(room.roomList)}" class="cursor-pointer">
             <a ng-click="room.hotelInfo=false; room.roomList=true;">{{'ROOM_LIST' | translate}}</a>
         </li>
@@ -86,7 +87,8 @@
                         </span>
                     </div>
                 </li>
-                <!-- 内容: 酒店城市 -->
+
+                 <!-- 内容: 酒店城市 -->
                 <li class="list-group-item">
                     <div class="row">
                         <!-- 标题: 酒店城市 -->
@@ -98,6 +100,7 @@
                         </span>
                     </div>
                 </li>
+
                 <!-- 内容: 酒店介绍 -->
                 <li class="list-group-item">
                     <div class="row">
@@ -112,6 +115,8 @@
                 </li>
             </ul>
         </div>
+
+
         <!-- 标签页: 客房列表 -->
         <div class="tab-pane" ng-class="{'in active':(room.roomList)}">
             <!-- 按钮: 添加客房 -->
@@ -156,3 +161,4 @@
     </div>
     <!-- tab-content end-->
 </div>
+
