@@ -155,6 +155,19 @@
                     util.setParams('token', '');
                     $state.go('login');
                 }
+
+                // 添加 删除 弹窗，增加一个样式的class
+                self.showHideMask = function(bool,url){
+                    // bool 为true时，弹窗出现
+                    if (bool) {
+                        $scope.app.maskUrl = url;
+                        $scope.app.showMaskClass = true;
+                    } else {
+                        $scope.app.maskUrl = '';
+                        $scope.app.showMaskClass = false;
+                    }
+                    
+                }
             }
         ])
 
@@ -210,11 +223,13 @@
                     });
 
                 }
-
+                
                 self.shopAdd = function(){
                     $scope.app.maskParams = {'ShopName': self.shopFirst.ShopName};
-                    $scope.app.maskUrl = 'pages/shopAdd.html';
+                    $scope.app.showHideMask(true,'pages/shopAdd.html');
                 }
+
+                 
 
 
                 self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
@@ -254,7 +269,7 @@
 
                 self.cancel = function(){
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.searchHotelList = function() {
@@ -354,7 +369,8 @@
                 self.categoryAdd = function () {
                     console.log('categoryAdd')
                     $scope.app.maskParams = {'ShopID': self.stateParams.ShopID - 0};
-                    $scope.app.maskUrl = 'pages/categoryAdd.html';
+
+                    $scope.app.showHideMask(true,'pages/categoryAdd.html');
                 }
 
                 self.shopEdit = function () {
@@ -365,7 +381,7 @@
                         HotelName: self.maskParams.HotelName,
                         HotelID: $stateParams.HotelID
                     };
-                    $scope.app.maskUrl = 'pages/shopEdit.html';
+                    $scope.app.showHideMask(true,'pages/shopEdit.html');
                 }
                 // 商品分类列表
                 self.getGoodsCategory = function () {
@@ -434,7 +450,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.addGoods = function () {
@@ -651,7 +667,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.editGoods = function () {
@@ -842,7 +858,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 };
 
                 self.searchHotelList = function () {
@@ -986,7 +1002,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.saveForm = function () {
@@ -1050,7 +1066,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.saveForm = function () {
@@ -1099,8 +1115,7 @@
 
                 // 分类编辑
                 self.categoryEdit = function () {
-                    // $scope.app.maskParams = {'ShopGoodsCategoryID':self.stateParams.ShopGoodsCategoryID - 0 ,ShopID:self.stateParams.ShopID};
-                    $scope.app.maskUrl = 'pages/categoryEdit.html';
+                    $scope.app.showHideMask(true,'pages/categoryEdit.html');
                 }
 
 
@@ -1142,12 +1157,12 @@
                         'shopId': self.stateParams.ShopID,
                         'shopGoodsCategoryId': self.stateParams.ShopGoodsCategoryID
                     }; //全部分类 ShopGoodsCategoryID －1
-                    $scope.app.maskUrl = 'pages/goodsAdd.html';
+                    $scope.app.showHideMask(true,'pages/goodsAdd.html');
                 }
 
                 self.goodsEdit = function (goodsId) {
                     $scope.app.maskParams = {'productId': goodsId};
-                    $scope.app.maskUrl = 'pages/goodsEdit.html';
+                    $scope.app.showHideMask(true,'pages/goodsEdit.html');
                 }
 
                 // 商品分类列表
@@ -1473,28 +1488,27 @@
 
                 self.hotelEdit = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'hotelInfo': self.hotel};
-                    $scope.app.maskUrl = 'pages/hotelEdit.html';
+                    $scope.app.showHideMask(true,'pages/hotelEdit.html');
                 }
 
                 self.roomAdd = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId};
-                    $scope.app.maskUrl = 'pages/roomAdd.html';
-                    $scope.app.showMaskClass = true;
+                    $scope.app.showHideMask(true,'pages/roomAdd.html');
                 }
 
                 self.roomEdit = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.maskUrl = 'pages/roomEdit.html';
+                    $scope.app.showHideMask(true,'pages/roomEdit.html');
                 }
 
                 self.roomEditPrice = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.maskUrl = 'pages/roomEditPrice.html';
+                    $scope.app.showHideMask(true,'pages/roomEditPrice.html');
                 }
 
                 self.roomEditNum = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.maskUrl = 'pages/roomEditNum.html';
+                    $scope.app.showHideMask(true,'pages/roomEditNum.html');
                 }
             }
         ])
@@ -1529,7 +1543,7 @@
                 }
 
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.save = function () {
@@ -1774,7 +1788,7 @@
                     self.imgs = new Imgs([]);
                 }
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 /**
@@ -2006,7 +2020,7 @@
                     self.getRoomTags();
                 }
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 /**
@@ -2283,7 +2297,7 @@
                 }
 
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 /**
@@ -2478,7 +2492,7 @@
                 }
 
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 /**
