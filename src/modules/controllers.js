@@ -1479,6 +1479,7 @@
                 self.roomAdd = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId};
                     $scope.app.maskUrl = 'pages/roomAdd.html';
+                    $scope.app.showMaskClassIn = true;
                 }
 
                 self.roomEdit = function (roomId) {

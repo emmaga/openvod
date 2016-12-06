@@ -408,6 +408,13 @@ hr {
 .nav-tabs>li>a{
     color: #818181
 }
+.modal{
+    display: block;
+    pointer-events: none;    
+}
+.modal-backdrop{
+    z-index: 0;
+}
 
 /*bs-extend*/
 .list-group-item span>.badge,.list-group-item span>p{
@@ -415,6 +422,9 @@ hr {
     margin-top:10px;
     margin-bottom: 0px;
     margin-right: 5px;
+}
+.modal.fade.in{
+    pointer-events: auto;
 }
 
 /*bs-like*/

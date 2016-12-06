@@ -55,7 +55,6 @@
             </div>
         </div>
 
-
         <div ng-click="app.focusLauncher()" class="app-launcher-mask phase1" data-phase="1"></div>
         
         <!-- view -->
@@ -64,5 +63,17 @@
         </div>
         <div ng-click="app.focusApp()" class="app-view-mask"></div>
     </div>
-    <div ng-include="app.maskUrl" class="autoscroll"></div>
+
+    <!-- 弹窗层 -->
+    <div class="modal fade" ng-class="{'in':(app.showMaskClassIn)}">
+        <div class="modal-backdrop fade in"></div>
+        <div class="autoscroll modal-dialog">
+            <div ng-include="app.maskUrl" class="modal-content">
+            </div>
+            
+        </div>
+        
+
+    </div>
+
 </div>
