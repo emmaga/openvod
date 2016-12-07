@@ -1,25 +1,32 @@
 <div ng-controller="roomEditPriceController as roomEditPrice" ng-init="roomEditPrice.init()"
      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
-    <div style="width: 500px; left: -50%; margin-left: 710px; margin-top: 200px; background-color: white;">
+    <div style="background-color: white;">
         <span>价格</span>
         <div>
             <div ng-show="loading">loading...</div>
             <form name="roomEditPriceForm" ng-submit="roomEditPriceForm.$valid && roomEditPrice.save()">
                 <div>
                     <div>周一：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                   ng-model="roomEditPrice.roomDetail.PriceMonday" required></div>
+                                   ng-model="roomEditPrice.roomDetail.PriceMonday" required>
+                        {{roomEditPrice.roomDetail.PriceMonday | currency : '￥'}}</div>
                     <div>周二：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                   ng-model="roomEditPrice.roomDetail.PriceTuesday" required></div>
+                                   ng-model="roomEditPrice.roomDetail.PriceTuesday" required>
+                        {{roomEditPrice.roomDetail.PriceTuesday | currency : '￥'}}</div>
                     <div>周三：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                   ng-model="roomEditPrice.roomDetail.PriceWednesday" required></div>
+                                   ng-model="roomEditPrice.roomDetail.PriceWednesday" required>
+                        {{roomEditPrice.roomDetail.PriceWednesday | currency : '￥'}}</div>
                     <div>周四：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                   ng-model="roomEditPrice.roomDetail.PriceThursday" required></div>
+                                   ng-model="roomEditPrice.roomDetail.PriceThursday" required>
+                        {{roomEditPrice.roomDetail.PriceThursday | currency : '￥'}}</div>
                     <div>周五：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                   ng-model="roomEditPrice.roomDetail.PriceFriday" required></div>
+                                   ng-model="roomEditPrice.roomDetail.PriceFriday" required>
+                        {{roomEditPrice.roomDetail.PriceFriday | currency : '￥'}}</div>
                     <div>周六：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                   ng-model="roomEditPrice.roomDetail.PriceSaturday" required></div>
+                                   ng-model="roomEditPrice.roomDetail.PriceSaturday" required>
+                        {{roomEditPrice.roomDetail.PriceSaturday | currency : '￥'}}</div>
                     <div>周日：<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                   ng-model="roomEditPrice.roomDetail.PriceSunday" required></div>
+                                   ng-model="roomEditPrice.roomDetail.PriceSunday" required>
+                        {{roomEditPrice.roomDetail.PriceSunday | currency : '￥'}}</div>
                 </div>
                 <div>
                     <div>临时变动表
@@ -45,7 +52,8 @@
                             </div>
                             <div><input type="text" placeholder="请输入价格" required
                                         onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                        ng-model="roomEditPrice.SpecialPrice[$index].Price"></div>
+                                        ng-model="roomEditPrice.SpecialPrice[$index].Price">
+                                {{roomEditPrice.SpecialPrice[$index].Price | currency : '￥'}}</div>
                         </div>
                     </div>
                 </div>

@@ -139,13 +139,11 @@
                         </span>
                         <span class="col-xs-4">
                             <!-- 内容: 今天房价 -->
-                            <p>今日价格：￥{{item.todayPrice}}</p>
+                            <p>今日价格：{{item.todayPrice/100 | currency : '￥'}}</p>
                             <!-- 内容: 今天可订 -->
                             <p>今日可订：26间</p>
                             <!-- 内容: 今天剩余 -->
                             <p>今日剩余：26间</p>
-
-
                         </span>
                         <span class="col-xs-3">
                             <!-- 按钮: 改数量 -->
@@ -156,15 +154,14 @@
                             <br>
                             <!-- 按钮: 详情 -->
                             <a ng-click="room.roomEdit(item.ID)" class="cursor-pointer">查看详情</a>
+                            <br>
                             <!-- 内容: 是否可用 -->
-                            <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged(item.ID, item.RoomAvailable)"></toggle>
+                            <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged($index)"></toggle>
                         </span>
                     </div>
-                    
                 </li>
             </ul>
         </div>
     </div>
     <!-- tab-content end-->
 </div>
-
