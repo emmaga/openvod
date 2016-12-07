@@ -928,6 +928,17 @@
 
             self.save = function() {
 
+                // 确认修改提示
+                if(confirm('修改主菜单风格会导致所有主菜单全部清空，确认修改？')) {
+                    if(confirm('再次确认：修改主菜单风格会导致所有主菜单全部清空，确认修改？')) {
+                    }
+                    else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
                     "action": "createMainMenu",
@@ -937,7 +948,7 @@
                     },
                     "lang": ""
                 })
-
+                console.log(data)
                 self.saving = true;
                 $http({
                     method: 'POST',

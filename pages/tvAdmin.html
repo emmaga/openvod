@@ -14,6 +14,22 @@
 
         <!--右侧容器-->
         <div class="col-xs-9">
+
+            <ng-if ng-if="my_tree.get_selected_branch().data.type=='welcome'">
+            <!--欢迎页-->
+                
+                <!--欢迎页风格图-->
+                <img src="{{my_tree.get_selected_branch().data.styleImg}}"><br>
+                <!--欢迎页风格图-->
+
+                <!--更改风格按钮-->
+                <a ng-click="tvAdmin.changeWelStyle()">更改风格</a><br>
+                <!--更改风格按钮-->
+
+            <!--欢迎页-->
+            </ng-if>
+
+
             <ng-if ng-if="my_tree.get_selected_branch().data.type=='menuRoot'">
             <!--主菜单-->
                 
