@@ -2457,7 +2457,7 @@
                  */
                 function countJson(json, key) {
                     if (json.length == 0) {
-                        return false;
+                        return true;
                     }
                     var len = json.length, result = new Array();
                     for (var i = 0; i < len; i++) {
@@ -2644,7 +2644,7 @@
                  */
                 function countJson(json, key) {
                     if (json.length == 0) {
-                        return false;
+                        return true;
                     }
                     var len = json.length, result = new Array();
                     for (var i = 0; i < len; i++) {
