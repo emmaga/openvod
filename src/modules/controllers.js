@@ -2613,7 +2613,7 @@
                         availableInfo.push({
                             RoomID: self.roomId.toString(),
                             AvailableDate: formatDate(self.SpecialNum[i].AvailableDate),
-                            AvailableNumCurrent: Number(self.SpecialNum[i].AvailableNumCurrent),
+                            // AvailableNumCurrent: Number(self.SpecialNum[i].AvailableNumCurrent),
                             AvailableNumSet: 999
                         })
                     }
