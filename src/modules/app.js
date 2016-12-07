@@ -81,29 +81,16 @@
                                     var preData = data.data.Content;
 
                                     var menu = [];
-                                    var treedata = [
-                                        {
-                                          label: '欢迎页面',
-                                          data: {
-                                            type: "welcome"
-                                          }
-                                        }, 
-                                        {
-                                          label: '首页',
-                                          data: {
-                                            type: "menuRoot",
-                                            styleImg: data.data.ViewTemplateImage,
-                                            viewName: data.data.ViewType
-                                          },
-                                          children: menu
-                                        }, 
-                                        {
-                                          label: '提交版本',
-                                          data: {
-                                            type: "version"
-                                          }
-                                        }
-                                    ];
+                                    var mainMenu = 
+                                    {
+                                      label: '首页',
+                                      data: {
+                                        type: "menuRoot",
+                                        styleImg: data.data.ViewTemplateImage,
+                                        viewName: data.data.ViewType
+                                      },
+                                      children: menu
+                                    };
 
                                     // 添加菜单data
                                     for(var i = 0; i < preData.length; i++) {
@@ -145,7 +132,50 @@
                                         }
                                     }
                                     // type: MainMenu_THJ_SecondMenu, Live, MovieCommon
-                                    return{value: treedata};
+                                    return{value: mainMenu};
+                                    
+                                    
+                                    
+                                } else if(data.rescode == '401'){
+                                    alert('访问超时，请重新登录');
+                                    $state.go('login');
+                                } else{
+                                    alert('加载菜单信息失败，' + data.errInfo);
+                                }
+                            }, function errorCallback(response) {
+                                alert('连接服务器出错');
+                            }).finally(function (value) {
+                                
+                            });
+                        },
+                        resWelcome: function($http, $state, util) {
+                            var data = JSON.stringify({
+                                "token": util.getParams('token'),
+                                "action": "getWelcomePageTemplate",
+                                "lang": util.langStyle()
+                            });
+
+                            // 加载服务器树的数据
+                            return $http({
+                                method: 'POST',
+                                url: util.getApiUrl('welcomepage', '', 'server'),
+                                data: data
+                            }).then(function successCallback(response) {
+                                var data = response.data;
+                                if (data.rescode == '200') {
+                                    var defaultLang = util.getDefaultLangCode();
+                                    var preData = data.data.Content;
+
+                                    var welMenu = 
+                                    {
+                                      label: '欢迎页面',
+                                      data: {
+                                        type: "welcome",
+                                        styleImg: data.data.SamplePic,
+                                        viewName: data.data.Name
+                                      }
+                                    };
+                                    return{value: welMenu};
                                     
                                     
                                     
@@ -162,8 +192,18 @@
                             });
                         }
                     },
-                    controller: function($scope, resA){
-                      $scope.my_data = resA.value;
+                    controller: function($scope, resA, resWelcome){
+                        var treedata = [
+                            resWelcome.value, 
+                            resA.value, 
+                            {
+                              label: '提交版本',
+                              data: {
+                                type: "version"
+                              }
+                            }
+                        ];
+                        $scope.my_data = treedata;
                     }
                 })
                 .state('app.tvAdmin.welcome', {

@@ -88,6 +88,12 @@
                 });
             }
 
+            // 修改欢迎页风格按钮
+            self.changeWelStyle = function() {
+                $scope.app.maskParams = {'viewName': my_tree.get_selected_branch().data.viewName};
+                $scope.app.maskUrl = 'pages/tv/welStyleChange.html';
+            }
+
             // 修改首页风格
             self.changeMainStyle = function() {
                 $scope.app.maskParams = {'viewName': my_tree.get_selected_branch().data.viewName};
@@ -348,12 +354,262 @@
         }
     ])
 
-    .controller('tvWelcomeController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
-        function ($scope, $state, $http, $stateParams, $location, util) {
+    .controller('tvWelcomeController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
             
             self.init = function() {
+                self.editLangs = util.getParams('editLangs');
+                self.getWelInfo();
+            }
+
+            self.getWelInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getWelcomePage",
+                    "lang": util.langStyle()
+                });
                 
+                self.loading = true;
+                // 获取欢迎页信息
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('welcomepage', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    
+                    if (data.rescode == '200') {
+                        // 酒店logo图
+                        self.imgs1 = new Imgs([{"ImageURL": data.data.LogoURL, "ImageSize": data.data.LogoSize}], true);
+                        self.imgs1.initImgs();
+
+                        // 酒店欢迎辞
+                        self.welcomeText = data.data.WelcomeText;
+
+                        // 酒店客人称呼
+                        self.guestName = data.data.GuestName;
+
+                        // 酒店经理
+                        self.hotelManagerName = data.data.HotelManagerName;
+
+                        // 酒店经理签名图
+                        self.imgs2 = new Imgs([{"ImageURL": data.data.HotelManageSignURL, "ImageSize": data.data.HotelManageSignSize}], true);
+                        self.imgs2.initImgs();
+
+                        // 背景视频
+                        self.imgs3 = new Imgs([{"ImageURL": data.data.BackgroundVideoURL, "ImageSize": data.data.BackgroundVideoSize}], true);
+                        self.imgs3.initImgs();
+
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载欢迎页信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+
+            self.cancel = function() {
+                $scope.app.maskUrl = '';
+            }
+
+            self.save = function() {
+
+                // 酒店logo图
+                if(self.imgs1.data.length == 0) {
+                    alert('请上传酒店logo图');
+                    return;
+                }
+
+                // 酒店经理签名图
+                if(self.imgs2.data.length == 0) {
+                    alert('请上传酒店经理签名图');
+                    return;
+                }
+
+                // 背景视频
+                if(
+                    (self.imgs3.data.length == 0 )/*|| 
+                    (self.imgs3.data.length > 1 && (self.imgs3.data[1].progress < 100 || self.imgs3.data[1].progress == -1))*/
+                ) {
+                    alert('请上传背景视频');
+                    return;
+                }
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "editWelcomePage",
+                    "viewID": 0,
+                    "data":{
+                      "LogoURL":self.imgs1.data[0].src,
+                      "LogoSize":self.imgs1.data[0].fileSize,
+                      "WelcomeText": self.welcomeText,
+                      "GuestName":self.guestName,
+                      "HotelManagerName":self.hotelManagerName,
+                      "HotelManageSignURL":self.imgs2.data[0].src,
+                      "HotelManageSignSize":self.imgs2.data[0].fileSize,
+                      "BackgroundVideoURL":self.imgs3.data[0].src,
+                      "BackgroundVideoSize":self.imgs3.data[0].fileSize
+                    },
+                    "lang": ""
+                })
+                console&&console.log(data);
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('welcomepage', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        $state.go('app.tvAdmin', {initS: '欢迎页面'}, { 
+                          reload: true, inherit: false, notify: true 
+                        });
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载菜单示意信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+
+            }
+
+            // 图片上传相关
+            self.clickUpload = function (e) {
+                setTimeout(function () {
+                    document.getElementById(e).click();
+                }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single ? true : false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function () {
+                    var l = this.initImgList;
+                    for (var i = 0; i < l.length; i++) {
+                        this.data[i] = {
+                            "src": l[i].ImageURL,
+                            "fileSize": l[i].ImageSize,
+                            "id": this.maxId++,
+                            "progress": 100
+                        };
+                    }
+                },
+                deleteById: function (id) {
+                    var l = this.data;
+                    for (var i = 0; i < l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if (l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add: function (xhr, fileName, fileSize) {
+                    this.data.push({
+                        "xhr": xhr,
+                        "fileName": fileName,
+                        "fileSize": fileSize,
+                        "progress": 0,
+                        "id": this.maxId
+                    });
+                    return this.maxId++;
+                },
+
+                update: function (id, progress, leftSize, fileSize) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        var f = this.data[i];
+                        if (f.id === id) {
+                            f.progress = progress;
+                            f.leftSize = leftSize;
+                            f.fileSize = fileSize;
+                            break;
+                        }
+                    }
+                },
+
+                setSrcSizeByXhr: function (xhr, src, size) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        if (this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function (e, o) {
+
+                    // 如果这个对象只允许上传一张图片
+                    if (this.single) {
+                        // 删除第二张以后的图片
+                        for (var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = e;
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function (evt) {
+                            $scope.$apply(function () {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console.log(percentComplete);
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function () {
+                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                // 如果这个对象只允许上传一张图片
+                                if (o.single) {
+                                    // 如果长度大于1张图片，删除前几张图片
+                                    if(o.data.length > 1) {
+                                        for(var i=0; i<o.data.length-1;i++) {
+                                            o.deleteById(o.data[i].id);
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            $scope.$apply(function () {
+                                o.update(fileId, -1, '', '');
+                            });
+                            console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
             }
 
         }
@@ -912,7 +1168,7 @@
                         alert('访问超时，请重新登录');
                         $state.go('login');
                     } else{
-                        alert('加载首页风格列表失败，' + data.errInfo);
+                        alert('加载首页模版失败，' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
@@ -929,8 +1185,8 @@
             self.save = function() {
 
                 // 确认修改提示
-                if(confirm('修改主菜单风格会导致所有主菜单全部清空，确认修改？')) {
-                    if(confirm('再次确认：修改主菜单风格会导致所有主菜单全部清空，确认修改？')) {
+                if(confirm('修改会导致所有主菜单全部清空，确认修改？')) {
+                    if(confirm('再次确认：修改会导致所有主菜单全部清空，确认修改？')) {
                     }
                     else {
                         return;
@@ -943,16 +1199,14 @@
                     "token": util.getParams('token'),
                     "action": "createMainMenu",
                     "viewID": 1,     //主菜单模板ViewID都为1
-                    "data":{
-                      "ViewType": self.style
-                    },
+                    "viewType": self.style,
                     "lang": ""
                 })
                 console.log(data)
                 self.saving = true;
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
+                    url: util.getApiUrl('mainmenu', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -970,12 +1224,98 @@
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
                 }).finally(function (value) {
-                    self.loading = false;
+                    self.saving = false;
                 });
 
             }
 
         }
     ])  
+
+    .controller('tvWelStyleChangeController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+
+            self.init = function() {
+                
+                // 目前欢迎页已选风格
+                self.viewName = $scope.app.maskParams.viewName;
+
+                // 获取欢迎页风格图片列表
+                self.getViewList();
+            }
+
+            self.getViewList = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getWelcomePageTemplateList",
+                    "lang": util.langStyle()
+                });
+                self.loading = true;
+                
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('welcomepage', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.styles = data.data;
+                        self.style = self.viewName;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载欢迎页模版失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+
+            self.cancel = function() {
+                $scope.app.maskUrl = '';
+            }
+
+            self.save = function() {
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "createWelcomePage",
+                    "viewType": self.style,
+                    "lang": ""
+                })
+
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('welcomepage', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        $state.go('app.tvAdmin', {initS: '欢迎页面'}, { 
+                          reload: true, inherit: false, notify: true 
+                        });
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            }
+
+        }
+    ]) 
 
 })();
