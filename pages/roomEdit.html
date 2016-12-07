@@ -1,7 +1,7 @@
 <div ng-controller="roomEditController as roomEdit" ng-init="roomEdit.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; border:1px red solid; background: rgba(255,255,255,0.8);">
 
     <span>客房详情</span>
-    <div>
+    <div style="background-color: white">
         <div ng-show="loading">loading...</div>
         <form name="roomEditForm" ng-submit="roomEditForm.$valid && roomEdit.save()">
             <div>
@@ -68,6 +68,9 @@
                     </ng-if>
                 </ng-repeat>
                 <!-- 客房介绍 -->
+            </div>
+            <div>
+                <button type="button" ng-click="roomEdit.deleteRoom()">{{'DELETE' | translate}}</button>
             </div>
             <div>
                 <button ng-click="roomEdit.cancel()">{{'CANCEL' | translate}}</button>
