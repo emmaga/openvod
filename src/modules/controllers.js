@@ -1883,7 +1883,8 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('添加成功')
-                            $state.reload();
+                            $state.reload('app.hotelRoom.room');
+                            self.cancel();
                         } else {
                             alert('添加失败' + data.rescode + ' ' + data.errInfo);
                         }
