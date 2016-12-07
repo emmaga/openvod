@@ -105,7 +105,9 @@
                                                 "styleImg": preData[i].ViewTemplateImage,
                                                 "name": preData[i].Name,
                                                 "img": preData[i].IconURL,
+                                                "imgSize": preData[i].IconSize,
                                                 "focusImg": preData[i].IconFocusURL,
+                                                "focusImgSize": preData[i].IconFocusSize,
                                                 "seq": preData[i].Seq
                                               }
                                         });
@@ -124,7 +126,9 @@
                                                         "styleImg": secondMenu[j].ViewTemplateImage,
                                                         "name": secondMenu[j].Name,
                                                         "img": secondMenu[j].IconURL,
+                                                        "imgSize": preData[i].IconSize,
                                                         "focusImg":secondMenu[j].IconFocusURL,
+                                                        "focusImgSize": preData[i].IconFocusSize,
                                                         "seq": secondMenu[j].Seq
                                                     }
                                                 })
