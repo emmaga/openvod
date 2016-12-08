@@ -91,19 +91,19 @@
             // 修改欢迎页风格按钮
             self.changeWelStyle = function() {
                 $scope.app.maskParams = {'viewName': my_tree.get_selected_branch().data.viewName};
-                $scope.app.maskUrl = 'pages/tv/welStyleChange.html';
+                $scope.app.showHideMask(true,'pages/tv/welStyleChange.html');
             }
 
             // 修改首页风格
             self.changeMainStyle = function() {
                 $scope.app.maskParams = {'viewName': my_tree.get_selected_branch().data.viewName};
-                $scope.app.maskUrl = 'pages/tv/styleChange.html';
+                $scope.app.showHideMask(true,'pages/tv/styleChange.html');
             }
 
             // 添加菜单
             self.addMenu = function(menuLv, parentMenuId) {
                 $scope.app.maskParams = {'menuLv': menuLv};
-                $scope.app.maskUrl = 'pages/tv/menuAdd.html';
+                $scope.app.showHideMask(true,'pages/tv/menuAdd.html');
             }
 
             // 主菜单模块
@@ -116,7 +116,7 @@
                     }
                 }
                 $scope.app.maskParams = {'menuLv': menuLv, 'parentMenu': parentMenu};
-                $scope.app.maskUrl = 'pages/tv/moduleAdd.html';
+                $scope.app.showHideMask(true,'pages/tv/moduleAdd.html');
             }
 
             // 菜单点击
@@ -416,7 +416,7 @@
 
 
             self.cancel = function() {
-                $scope.app.maskUrl = '';
+                $scope.app.showHideMask(false);
             }
 
             self.save = function() {
@@ -634,7 +634,7 @@
 
 
             self.cancel = function() {
-                $scope.app.maskUrl = '';
+                $scope.app.showHideMask(false);
             }
 
             self.setInfo = function () {
@@ -844,7 +844,7 @@
 
 
             self.cancel = function() {
-                $scope.app.maskUrl = '';
+                $scope.app.showHideMask(false);
             }
 
             self.save = function() {
@@ -1039,7 +1039,7 @@
                 $scope.app.maskParams.viewId = self.viewId;
                 $scope.app.maskParams.labelName = self.labelName;
                 $scope.app.maskParams.liveInfo = self.lives[index];
-                $scope.app.maskUrl = 'pages/tv/liveEdit.html';
+                $scope.app.showHideMask(true,'pages/tv/liveEdit.html');
             }
 
             self.del = function(id, index) {
@@ -1081,7 +1081,7 @@
             self.add = function() {
                 $scope.app.maskParams.viewId = self.viewId;
                 $scope.app.maskParams.labelName = self.labelName;
-                $scope.app.maskUrl = 'pages/tv/liveAdd.html';
+                $scope.app.showHideMask(true,'pages/tv/liveAdd.html');
             }
 
             self.loadLiveList = function() {
@@ -1242,7 +1242,7 @@
 
 
             self.cancel = function() {
-                $scope.app.maskUrl = '';
+                $scope.app.showHideMask(false);
             }
 
             self.save = function() {
@@ -1490,7 +1490,7 @@
 
 
             self.cancel = function() {
-                $scope.app.maskUrl = '';
+                $scope.app.showHideMask(false);
             }
 
             self.save = function() {
@@ -1729,7 +1729,7 @@
 
 
             self.cancel = function() {
-                $scope.app.maskUrl = '';
+                $scope.app.showHideMask(false);
             }
 
             self.save = function() {
@@ -1827,7 +1827,7 @@
 
 
             self.cancel = function() {
-                $scope.app.maskUrl = '';
+                $scope.app.showHideMask(false);
             }
 
             self.save = function() {
