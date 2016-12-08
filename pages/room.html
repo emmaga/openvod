@@ -171,14 +171,14 @@
                         <!-- 第1列 -->
                         <span class="col-xs-5">
                             <!-- 内容: 客房名 -->
-                            <h5>客房名{{item.RoomTypeName[room.defaultLangCode]}}</h5>
+                            <h5>{{item.RoomTypeName[room.defaultLangCode]}}</h5>
                             <!-- 内容: 标签 -->
-                            <p class="">标签：<ng-repeat ng-repeat="tag in item.tags">、{{tag.TagName[room.defaultLangCode]}}</ng-repeat></p>
+                            <p class="">标签：<ng-repeat ng-repeat="tag in item.tags">{{tag.TagName[room.defaultLangCode]}}</ng-repeat></p>
                         </span>
                         <!-- 第2列 -->
                         <span class="col-xs-4">
                             <!-- 内容: 今天房价 -->
-                            <p>今日价格：￥{{item.todayPrice}}</p>
+                            <p>今日价格：{{item.todayPrice/100 | currency : '￥'}}</p>
                             <!-- 内容: 今天可订 -->
                             <p>今日可订：26间</p>
                             <!-- 内容: 今天剩余 -->
@@ -194,12 +194,13 @@
                             <br>
                             <!-- 按钮: 详情 -->
                             <a ng-click="room.roomEdit(item.ID)" class="cursor-pointer">查看详情</a>
+
                         </span>
                         <!-- 第4列 -->
                         <span class="col-xs-1">
                             <!-- 内容: 是否可用 -->
-                            <small>启用</small>
-                            <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged(item.ID, item.RoomAvailable)"></toggle>
+                            <small>启用</small>                     
+                            <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged($index)"></toggle>
                         </span>
                     </div>
                 </li>

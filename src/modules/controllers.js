@@ -1455,35 +1455,46 @@
                         self.loading = false;
                     });
                 }
-                
-                self.RAChanged = function (roomId, roomAvailable) {
-                    var data = JSON.stringify({
-                        action: "setRoomAvailable",
-                        token: util.getParams('token'),
-                        lang: lang,
-                        roomID: roomId,
-                        RoomAvailable: roomAvailable == true ? 1 : 0
-                    })
-                    self.loading = true;
 
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl('room', '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        var msg = response.data;
-                        if (msg.rescode == '200') {
-                        } else if (msg.rescode == '401') {
-                            alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
-                        } else {
-                            alert('操作失败，' + msg.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        alert(response.status + ' 服务器出错');
-                    }).finally(function () {
-                        self.loading = false;
-                    });
+                self.RAChanged = function (index) {
+                    var roomObj = self.rooms[index];
+                    if (roomObj.PriceMonday == null || roomObj.PriceTuesday == null || roomObj.PriceWednesday == null
+                        || roomObj.PriceThursday == null || roomObj.PriceFriday == null || roomObj.PriceSaturday == null
+                        || roomObj.PriceSunday == null || roomObj.AvailableNum == null) {
+                        roomObj.RoomAvailable = 0;
+                        alert("未设置房间价格或数量，请设好后重试");
+                        return false;
+                    } else {
+                        var roomId = roomObj.ID,
+                            roomAvailable = roomObj.RoomAvailable
+                        var data = JSON.stringify({
+                            action: "setRoomAvailable",
+                            token: util.getParams('token'),
+                            lang: lang,
+                            roomID: roomId,
+                            RoomAvailable: roomAvailable == true ? 1 : 0
+                        })
+                        self.loading = true;
+
+                        $http({
+                            method: 'POST',
+                            url: util.getApiUrl('room', '', 'server'),
+                            data: data
+                        }).then(function successCallback(response) {
+                            var msg = response.data;
+                            if (msg.rescode == '200') {
+                            } else if (msg.rescode == '401') {
+                                alert('访问超时，请重新登录');
+                                $location.path("pages/login.html");
+                            } else {
+                                alert('操作失败，' + msg.errInfo);
+                            }
+                        }, function errorCallback(response) {
+                            alert(response.status + ' 服务器出错');
+                        }).finally(function () {
+                            self.loading = false;
+                        });
+                    }
                 }
 
                 self.hotelEdit = function () {
@@ -1872,7 +1883,8 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('添加成功')
-                            $state.reload();
+                            $state.reload('app.hotelRoom.room');
+                            self.cancel();
                         } else {
                             alert('添加失败' + data.rescode + ' ' + data.errInfo);
                         }
@@ -2096,6 +2108,35 @@
                     }).finally(function (e) {
                         self.loading = false;
                     });
+                }
+                
+                self.deleteRoom = function () {
+                    if (confirm("确定要此客房吗？")) {
+                        var data = JSON.stringify({
+                            action: "delRooms",
+                            token: util.getParams('token'),
+                            lang: util.langStyle(),
+                            roomList: [self.roomId],
+
+                        })
+                        $http({
+                            method: 'POST',
+                            url: util.getApiUrl('room', '', 'server'),
+                            data: data
+                        }).then(function successCallback(response) {
+                            var data = response.data;
+                            if (data.rescode == '200') {
+                                alert('删除成功')
+                                $state.reload();
+                            } else {
+                                alert('删除失败' + data.rescode + ' ' + data.errInfo);
+                            }
+                        }, function errorCallback(response) {
+                            alert(response.status + ' 服务器出错');
+                        }).finally(function (e) {
+                            self.saving = false;
+                        });
+                    }
                 }
 
                 /**
@@ -2348,15 +2389,16 @@
                     }).then(function successCallback(response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
-                            self.roomDetail.PriceMonday = msg.PriceMonday;
-                            self.roomDetail.PriceTuesday = msg.PriceTuesday;
-                            self.roomDetail.PriceWednesday = msg.PriceWednesday;
-                            self.roomDetail.PriceThursday = msg.PriceThursday;
-                            self.roomDetail.PriceFriday = msg.PriceFriday;
-                            self.roomDetail.PriceSaturday = msg.PriceSaturday;
-                            self.roomDetail.PriceSunday = msg.PriceSunday;
+                            self.roomDetail.PriceMonday = msg.PriceMonday / 100;
+                            self.roomDetail.PriceTuesday = msg.PriceTuesday / 100;
+                            self.roomDetail.PriceWednesday = msg.PriceWednesday / 100;
+                            self.roomDetail.PriceThursday = msg.PriceThursday / 100;
+                            self.roomDetail.PriceFriday = msg.PriceFriday / 100;
+                            self.roomDetail.PriceSaturday = msg.PriceSaturday / 100;
+                            self.roomDetail.PriceSunday = msg.PriceSunday / 100;
                             for (var i = 0; i < msg.SpecialPrice.length; i++) {
                                 msg.SpecialPrice[i].PriceDate = new Date(msg.SpecialPrice[i].PriceDate);
+                                msg.SpecialPrice[i].Price = msg.SpecialPrice[i].Price / 100;
                             }
                             self.SpecialPrice = msg.SpecialPrice;
                         } else if (msg.rescode == '401') {
@@ -2383,7 +2425,7 @@
                         specialPrice.push({
                             RoomID: self.roomId.toString(),
                             PriceDate: formatDate(self.SpecialPrice[i].PriceDate),
-                            Price: Number(self.SpecialPrice[i].Price),
+                            Price: Number(self.SpecialPrice[i].Price) * 100,
                             PriceType: "basic"
                         })
                     }
@@ -2399,13 +2441,13 @@
                         roomID: self.roomId,
                         SpecialPrice: specialPrice,
                         roomDetail: {
-                            PriceMonday: Number(self.roomDetail.PriceMonday),
-                            PriceTuesday: Number(self.roomDetail.PriceTuesday),
-                            PriceWednesday: Number(self.roomDetail.PriceWednesday),
-                            PriceThursday: Number(self.roomDetail.PriceThursday),
-                            PriceFriday: Number(self.roomDetail.PriceFriday),
-                            PriceSaturday: Number(self.roomDetail.PriceSaturday),
-                            PriceSunday: Number(self.roomDetail.PriceSunday)
+                            PriceMonday: Number(self.roomDetail.PriceMonday) * 100,
+                            PriceTuesday: Number(self.roomDetail.PriceTuesday) * 100,
+                            PriceWednesday: Number(self.roomDetail.PriceWednesday) * 100,
+                            PriceThursday: Number(self.roomDetail.PriceThursday) * 100,
+                            PriceFriday: Number(self.roomDetail.PriceFriday) * 100,
+                            PriceSaturday: Number(self.roomDetail.PriceSaturday) * 100,
+                            PriceSunday: Number(self.roomDetail.PriceSunday) * 100
                         }
                     })
                     $http({
@@ -2457,7 +2499,7 @@
                  */
                 function countJson(json, key) {
                     if (json.length == 0) {
-                        return false;
+                        return true;
                     }
                     var len = json.length, result = new Array();
                     for (var i = 0; i < len; i++) {
@@ -2572,7 +2614,7 @@
                         availableInfo.push({
                             RoomID: self.roomId.toString(),
                             AvailableDate: formatDate(self.SpecialNum[i].AvailableDate),
-                            AvailableNumCurrent: Number(self.SpecialNum[i].AvailableNumCurrent),
+                            // AvailableNumCurrent: Number(self.SpecialNum[i].AvailableNumCurrent),
                             AvailableNumSet: 999
                         })
                     }
@@ -2644,7 +2686,7 @@
                  */
                 function countJson(json, key) {
                     if (json.length == 0) {
-                        return false;
+                        return true;
                     }
                     var len = json.length, result = new Array();
                     for (var i = 0; i < len; i++) {

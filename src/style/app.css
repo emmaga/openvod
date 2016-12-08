@@ -341,7 +341,7 @@ body, .app {
     transition-delay: 0s;
 }
 .app-frame.phase2 .app-name{
-    transition-duration: .33s;s
+    transition-duration: .33s;
     opacity: 1;
     transition-delay: .15s;
 }
