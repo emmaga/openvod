@@ -15,7 +15,10 @@
 
 </head>
 <body ng-app="openvod">
+
+  <div class="bg" style="background-image: url('dist/imgs/bg.jpg'); "></div>
   <ui-view></ui-view>
+
   <div ng-include="index.maskUrl" class="autoscroll"></div>
   <script src="node_modules/angular/angular.min.js"></script>
   <script src="node_modules/angular-md5/angular-md5.min.js"></script>
@@ -30,7 +33,9 @@
   <script src="node_modules/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.min.js"></script>
   <script src="dist/js/app.min.js"></script>
 
-  <!-- <script src="src/modules/app.js"></script>
+  <script type="text/javascript" src="src/js/responsive_waterfall.js"></script>
+  
+ <!--  <script src="src/modules/app.js"></script>
   <script src="src/modules/controllers.js"></script>
   <script src="src/modules/directives.js"></script>
   <script src="src/modules/filters.js"></script>
