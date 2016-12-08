@@ -14,10 +14,9 @@
                         客房名 {{lang.name}}：<input ng-model="roomEdit.room.RoomTypeName[lang.code]" />
                     </ng-if>
                 </ng-repeat>
-                <!-- 客房名 -->
+                <!-- /客房名 -->
             </div>
             <div>
-
                 <!-- 客房图 -->
                 <div ng-repeat="img in roomEdit.imgs.data">
                     <img ng-src="{{img.src}}" alt="{{img.fileName}}" />
@@ -28,15 +27,13 @@
                      删除
                     </a>
                 </div>
-                <!-- 客房图 -->
+                <!-- /客房图 -->
                 
                 <!-- 上传图片按钮 -->
                 <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
                 <a ng-click="roomEdit.clickUpload('upload')">上传图片</a>
                 <a id="hidenUpload" style="display: none;" ng-click="roomEdit.imgs.uploadFile('myFile', roomEdit.imgs)"></a>
-                <!-- 上传图片按钮 -->
-
-
+                <!-- /上传图片按钮 -->
             </div>
             <div>
                 <!-- 标签 -->
@@ -44,7 +41,7 @@
                     <input type="checkbox" ng-model="roomEdit.ifCheckedTags[$index].checked" />
                     <label class="btn btn-success" ng-model="roomEdit.ifCheckedTags[$index].checked" uib-btn-checkbox>{{tag.TagName[roomEdit.defaultLangCode]}}</label>
                 </ng-repeat>
-                <!-- 标签 -->
+                <!-- /标签 -->
             </div>
             <div>
                 <!-- 客房介绍摘要 -->
@@ -56,7 +53,7 @@
                         客房介绍摘要 {{lang.name}}：<textarea ng-model="roomEdit.room.Roomsummary[lang.code]" rows="1" maxlength="50"></textarea>
                     </ng-if>
                 </ng-repeat>
-                <!-- 客房介绍摘要 -->
+                <!-- /客房介绍摘要 -->
             </div>
             <div>
                 <!-- 客房介绍 -->
@@ -68,7 +65,7 @@
                         客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.room.Description[lang.code]"></textarea>
                     </ng-if>
                 </ng-repeat>
-                <!-- 客房介绍 -->
+                <!-- /客房介绍 -->
             </div>
             <div>
                 <button type="button" ng-click="roomEdit.deleteRoom()" class="btn btn-danger">{{'DELETE' | translate}}</button>

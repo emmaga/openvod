@@ -1,4 +1,5 @@
-<div style="position: absolute;left: 200px;" ng-controller="goodsController as goods" ng-init="goods.init()">
+<!-- 商城管理>右侧部分 -->
+<div ng-controller="goodsController as goods" ng-init="goods.init()" class="content-right">
     {{goods.maskParams.ShopName[goods.langStyle]}} + {{goods.maskParams.HotelName[goods.langStyle]}} <button ng-click="goods.shopEdit()">编辑商城属性</button><br>
     <div ng-show="goods.loading">loading...</div>
 
