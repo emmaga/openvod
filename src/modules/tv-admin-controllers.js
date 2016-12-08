@@ -65,16 +65,14 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         // 删除树元素
-                        var b, p;
+                        var b, p, l, state;
                         b = my_tree.get_selected_branch();
                         p = my_tree.get_parent_branch(b);
                         p.children.splice(p.children.indexOf(b) , 1);
 
                         alert('已删除');
-                        $state.go('app.tvAdmin', 
-                            {initS: my_tree.select_parent_branch().label}, 
-                            {reload: true, inherit: false, notify: true }
-                        );
+                        $state.go('app.tvAdmin.blank', {label: p.label}, {reload:true});
+
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -209,10 +207,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('保存成功');
-                        $state.go('app.tvAdmin', 
-                            {initS: self.menu.name[util.getDefaultLangCode()]}, 
-                            {reload: true, inherit: false, notify: true }
-                        );
+                        $state.reload();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -469,9 +464,6 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.go('app.tvAdmin', {initS: '欢迎页面'}, { 
-                          reload: true, inherit: false, notify: true 
-                        });
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -1276,9 +1268,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('添加成功');
-                        $state.go('app.tvAdmin', {initS: '首页'}, { 
-                          reload: true, inherit: false, notify: true 
-                        });
+                        $state.reload();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -1528,9 +1518,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('添加成功');
-                        $state.go('app.tvAdmin', {initS: self.menuLv == 1 ? '首页' : self.parentMenu.name}, { 
-                          reload: true, inherit: false, notify: true 
-                        });
+                        $state.reload();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -1753,9 +1741,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.go('app.tvAdmin', {initS: '首页'}, { 
-                          reload: true, inherit: false, notify: true 
-                        });
+                        $state.reload();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -1839,9 +1825,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.go('app.tvAdmin', {initS: '欢迎页面'}, { 
-                          reload: true, inherit: false, notify: true 
-                        });
+                        $state.reload();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
