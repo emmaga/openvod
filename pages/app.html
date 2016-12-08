@@ -1,5 +1,5 @@
 <div ng-controller="appController as app" ng-init="app.init()" class="app phase{{app.appPhase}}">
-    <div class="bg" style="background-image: url('dist/imgs/bg.jpg'); "></div>
+    
     <!-- desktop -->
     <div class="desktop ">
         
@@ -66,14 +66,26 @@
 
     <!-- 弹窗层 -->
     <div class="modal fade" ng-class="{'in':(app.showMaskClass)}">
+        <!-- 弹窗背景 -->
         <div class="modal-backdrop fade in"></div>
-        <div class="autoscroll modal-dialog">
-            <div ng-include="app.maskUrl" class="modal-content">
-            </div>
-            
-        </div>
-        
-
+        <ng-include src="app.maskUrl">
+            <!--
+            -
+            - 
+                弹窗内容
+            -
+            -
+            -->
+        </ng-include>
     </div>
+
+    <style type="text/css">
+        
+    .bg{
+        -webkit-filter: blur(0px);
+        filter: blur(0px);
+    }
+
+    </style>
 
 </div>

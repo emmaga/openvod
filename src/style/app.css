@@ -24,6 +24,7 @@
 body{
     font-family: "Microsoft YaHei UI","PingHei","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
     color: #666;
+    background: rgb(33,33,33);
 }
 
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
@@ -36,7 +37,7 @@ body, .app {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: white;
+    /*background-color: white;*/
 }
 
 .bg{
@@ -48,6 +49,12 @@ body, .app {
     background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
+    z-index: -1;
+    -webkit-transition-duration: .5s;
+    transition-duration: .5s;
+    -webkit-filter: blur(14px);
+    filter: blur(14px);
+    will-change: transform;
 }
 
 .bg:before{
@@ -88,7 +95,6 @@ body, .app {
     padding: 180px 60px 0px;
     display: flex;
     justify-content: center;
-
 }
 
 .app-grid-wrapper{
@@ -335,7 +341,7 @@ body, .app {
     transition-delay: 0s;
 }
 .app-frame.phase2 .app-name{
-    transition-duration: .33s;s
+    transition-duration: .33s;
     opacity: 1;
     transition-delay: .15s;
 }
@@ -370,7 +376,7 @@ body, .app {
 
 
 /*modify*/
-/*bs-cover*/
+/*bs cover*/
 .container{
     max-width: 980px;
 }
@@ -443,6 +449,52 @@ hr {
     border-radius: 0 4px 0 4px;
 }
 
+/* bs-toggle cover */
+.toggle{
+    position: relative;
+    display: inline-block;
+}
+.toggle.btn{
+    min-height: 15px;
+    min-width: 15px;
+    height: 20px !important;
+    width: 32px !important;
+    border-radius: 100px;
+}
+.toggle.btn.btn-default,.toggle.btn.btn-primary{
+    background-color: transparent !important;
+    border:solid 2px #ddd;
+}
+.toggle-group{
+    transition-duration: .15s;
+    -webkit-transition-duration: .15s;
+    padding: 0;
+}
+.toggle-on.btn{
+    background-color: #4cd964
+}
+
+.toggle-on,.toggle-off{
+    color: transparent !important;
+    padding: 0;
+    box-shadow: none !important;
+    line-height: 1;
+}
+
+.toggle-handle{
+    top:0;
+    border-radius: 100px;
+    vertical-align: top;
+    width:32px;
+    height: 16px;
+    border:none
+}
+
+.toggle-handle:hover{
+    background-color: white
+}
+
+
 /*private*/
 .nav-left{
     position: fixed;
@@ -468,8 +520,10 @@ hr {
     margin-right: 5px;
     float: left;
     display: inline-block;
-    width: 60px;
-    height: 60px;
+    /*width: 60px;*/
+    /*height: 60px;*/
+    width: 80px;
+    height: 80px;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -488,7 +542,9 @@ hr {
 }
 
 .list-group-item.thumbnail-left{
-    padding-left: 80px;
+    /*padding-left: 80px;*/
+    padding-left: 100px;
+    min-height: 101px;
 }
 .list-group-item.thumbnail-left>.form-thumbnail{
     position: absolute;
@@ -497,4 +553,16 @@ hr {
 
 .cursor-pointer{
     cursor: pointer;
+}
+
+/* waterfall */
+.wf-container:before,.wf-container:after {
+    content: '';
+    display: table;
+}
+.wf-container:after {
+    clear: both;
+}
+.wf-column {
+    float: left;
 }

@@ -1358,7 +1358,6 @@
 
         .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', '$location', 'util', 'NgTableParams',
             function ($scope, $http, $stateParams, $translate, $location, util, NgTableParams) {
-                console.log('roomController')
                 var self = this;
                 var lang;
 
@@ -1424,7 +1423,9 @@
                         lang: lang,
                         HotelID: Number(self.hotelId),
                         page: 1,
-                        per_page: 100
+                        per_page: 10000,
+                        bookStartDate: util.getToday(),
+                        bookEndDate: util.getTomorrow()
                     })
                     self.loading = true;
                     self.noData = false;
@@ -2016,7 +2017,7 @@
         .controller('roomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
             function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 var self = this;
-
+                self.alerts = [];
                 self.init = function () {
                     self.hotelId = $scope.app.maskParams.hotelId;
                     self.roomId = $scope.app.maskParams.roomId;
@@ -2029,6 +2030,27 @@
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
                 }
+
+                /**
+                 * 添加alert
+                 * @param msg {String} 提示信息
+                 * @param reload {Boolean} 是否重载
+                 * @param type {String} alert类型
+                 */
+                self.addAlert = function(msg, reload, type) {
+                    self.alerts.push({type: type, msg: msg, reload: reload});
+                };
+                /**
+                 * 移除alert
+                 * @param index 位置
+                 * @param reload {Boolean} 是否重载
+                 */
+                self.closeAlert = function(index, reload) {
+                    self.alerts.splice(index, 1);
+                    if (reload) {
+                        $state.reload();
+                    }
+                };
 
                 /**
                  * 获取客房标签
@@ -2056,10 +2078,12 @@
                             // 读取客房信息
                             self.getRoomInfo();
                         } else {
-                            alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
+                            // alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
+                            self.addAlert('读取标签失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                         }
                     }, function errorCallback(response) {
-                        alert(response.status + ' 服务器出错');
+                        // alert(response.status + ' 服务器出错');
+                        self.addAlert(response.status + ' 服务器出错', false, 'warning');
                     }).finally(function (e) {
                         self.loading = false;
                     });
@@ -2071,7 +2095,9 @@
                         action: "getRoomInfoByID",
                         token: util.getParams('token'),
                         lang: util.langStyle(),
-                        roomID: self.roomId
+                        roomID: self.roomId,
+                        bookStartDate: util.getToday(),
+                        bookEndDate: util.getTomorrow()
                     })
 
                     $http({
@@ -2096,7 +2122,8 @@
                             self.imgs.initImgs();
 
                         } else {
-                            alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
+                            // alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
+                            self.addAlert('读取客房信息失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                         }
                     }, function errorCallback(response) {
                         alert(response.status + ' 服务器出错');
@@ -2121,13 +2148,16 @@
                         }).then(function successCallback(response) {
                             var data = response.data;
                             if (data.rescode == '200') {
-                                alert('删除成功')
-                                $state.reload();
+                                self.addAlert('删除成功', true, 'success');
+                                // alert('删除成功')
+                                // $state.reload();
                             } else {
-                                alert('删除失败' + data.rescode + ' ' + data.errInfo);
+                                // alert('删除失败' + data.rescode + ' ' + data.errInfo);
+                                self.addAlert('删除失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                             }
                         }, function errorCallback(response) {
-                            alert(response.status + ' 服务器出错');
+                            // alert(response.status + ' 服务器出错');
+                            self.addAlert(response.status + ' 服务器出错', false, 'warning');
                         }).finally(function (e) {
                             self.saving = false;
                         });
@@ -2156,7 +2186,8 @@
                     }
 
                     if (imgs.length == 0) {
-                        alert('请上传图片')
+                        // alert('请上传图片')
+                        self.addAlert(response.status + ' 服务器出错', false, 'warning');
                         return;
                     }
 
@@ -2174,7 +2205,6 @@
                             "RoomTypeName": self.room.RoomTypeName
                         }
                     })
-                    console && console.log(data);
                     $http({
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
@@ -2182,13 +2212,15 @@
                     }).then(function successCallback(response) {
                         var data = response.data;
                         if (data.rescode == '200') {
-                            alert('保存成功')
-                            $state.reload();
+                            self.addAlert('保存成功', true, 'success');
+                            // alert('保存成功')
+                            // $state.reload();
                         } else {
                             alert('保存失败' + data.rescode + ' ' + data.errInfo);
                         }
                     }, function errorCallback(response) {
-                        alert(response.status + ' 服务器出错');
+                        // alert(response.status + ' 服务器出错');
+                        self.addAlert(response.status + ' 服务器出错', false, 'danger');
                     }).finally(function (e) {
                         self.saving = false;
                     });
@@ -2374,7 +2406,9 @@
                         action: "getRoomInfoByID",
                         lang: lang,
                         token: token,
-                        roomID: self.roomId
+                        roomID: self.roomId,
+                        bookStartDate: util.getToday(),
+                        bookEndDate: util.getTomorrow()
                     })
                     self.loading = true;
                     $http({
@@ -2419,7 +2453,7 @@
                     for (var i = 0; i < self.SpecialPrice.length; i++) {
                         specialPrice.push({
                             RoomID: self.roomId.toString(),
-                            PriceDate: formatDate(self.SpecialPrice[i].PriceDate),
+                            PriceDate: util.format_yyyyMMdd(self.SpecialPrice[i].PriceDate),
                             Price: Number(self.SpecialPrice[i].Price) * 100,
                             PriceType: "basic"
                         })
@@ -2465,25 +2499,6 @@
                     }).finally(function (e) {
                         self.saving = false;
                     });
-                }
-
-                /**
-                 * 转换格式为‘yyyy-MM-dd’
-                 * @param date
-                 * @returns {string}
-                 */
-                function formatDate(date) {
-                    var seperator1 = "-";
-                    var month = date.getMonth() + 1;
-                    var strDate = date.getDate();
-                    if (month >= 1 && month <= 9) {
-                        month = "0" + month;
-                    }
-                    if (strDate >= 0 && strDate <= 9) {
-                        strDate = "0" + strDate;
-                    }
-                    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-                    return currentdate;
                 }
 
                 /**
@@ -2570,7 +2585,9 @@
                         action: "getRoomInfoByID",
                         lang: lang,
                         token: token,
-                        roomID: self.roomId
+                        roomID: self.roomId,
+                        bookStartDate: util.getToday(),
+                        bookEndDate: util.getTomorrow()
                     })
                     self.loading = true;
                     $http({
@@ -2608,9 +2625,9 @@
                     for (var i = 0; i < self.SpecialNum.length; i++) {
                         availableInfo.push({
                             RoomID: self.roomId.toString(),
-                            AvailableDate: formatDate(self.SpecialNum[i].AvailableDate),
-                            // AvailableNumCurrent: Number(self.SpecialNum[i].AvailableNumCurrent),
-                            AvailableNumSet: 999
+                            AvailableDate: util.format_yyyyMMdd(self.SpecialNum[i].AvailableDate),
+                            AvailableNumCurrent: Number(self.SpecialNum[i].AvailableNumCurrent),
+                            AvailableNumSet: Number(self.SpecialNum[i].AvailableNumCurrent)
                         })
                     }
                     if(!countJson(availableInfo, 'AvailableDate')) {
@@ -2649,28 +2666,6 @@
                         self.saving = false;
                     })
                     ;
-                }
-
-                /**
-                 * 转换格式为‘yyyy-MM-dd’
-                 * @param date
-                 * @returns {string}
-                 */
-                function formatDate(date) {
-                    if (date.length != 10) {
-                        var seperator1 = "-";
-                        var month = date.getMonth() + 1;
-                        var strDate = date.getDate();
-                        if (month >= 1 && month <= 9) {
-                            month = "0" + month;
-                        }
-                        if (strDate >= 0 && strDate <= 9) {
-                            strDate = "0" + strDate;
-                        }
-                        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-                        return currentdate;
-                    }
-                    return date;
                 }
 
                 /**
