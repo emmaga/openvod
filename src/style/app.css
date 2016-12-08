@@ -1,9 +1,33 @@
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 9px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-left: solid 2px #777;
+}
+
+/*button*/
+::-webkit-scrollbar-button{
+    height: 18px;
+}
+
+
+
 body{
     font-family: "Microsoft YaHei UI","PingHei","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
     color: #666;
+    background: rgb(33,33,33);
 }
 
-h1,h2,h3,h4,h5,h6{
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
     color: #212121;
 }
 
@@ -13,7 +37,7 @@ body, .app {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: white;
+    /*background-color: white;*/
 }
 
 .bg{
@@ -25,6 +49,12 @@ body, .app {
     background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
+    z-index: -1;
+    -webkit-transition-duration: .5s;
+    transition-duration: .5s;
+    -webkit-filter: blur(14px);
+    filter: blur(14px);
+    will-change: transform;
 }
 
 .bg:before{
@@ -65,7 +95,6 @@ body, .app {
     padding: 180px 60px 0px;
     display: flex;
     justify-content: center;
-
 }
 
 .app-grid-wrapper{
@@ -228,7 +257,7 @@ body, .app {
     bottom: 0;
     padding-top: 72px;
     background-color: white;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .app-view-mask{
@@ -312,7 +341,7 @@ body, .app {
     transition-delay: 0s;
 }
 .app-frame.phase2 .app-name{
-    transition-duration: .33s;s
+    transition-duration: .33s;
     opacity: 1;
     transition-delay: .15s;
 }
@@ -347,14 +376,63 @@ body, .app {
 
 
 /*modify*/
-/*bs*/
+/*bs cover*/
 .container{
     max-width: 980px;
 }
-
 .nav>li>a{
     padding: 5px 15px;
 }
+
+hr {
+    
+}
+
+.list-group-item{
+    border-left: none;
+    border-right: none;
+}
+
+.nav.nav-tabs{
+    margin-bottom: 20px;
+}
+.tab-content{
+        position: relative;
+}
+.tab-content>.tab-pane{
+    position: absolute;
+    width: 100%;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: none;
+    border-bottom:solid 2px;
+}
+
+.nav-tabs>li>a{
+    color: #818181
+}
+.modal{
+    display: block;
+    pointer-events: none;    
+}
+.modal-backdrop{
+    z-index: 0;
+}
+
+/*bs-extend*/
+.list-group-item span>.badge,.list-group-item span>p{
+    line-height: 1.1;
+    margin-top:10px;
+    margin-bottom: 0px;
+    margin-right: 5px;
+}
+.modal.fade.in{
+    pointer-events: auto;
+}
+
 /*bs-like*/
 .btn-clipboard {
     position: relative;
@@ -370,10 +448,57 @@ body, .app {
     border: 1px solid #e1e1e8;
     border-radius: 0 4px 0 4px;
 }
+
+/* bs-toggle cover */
+.toggle{
+    position: relative;
+    display: inline-block;
+}
+.toggle.btn{
+    min-height: 15px;
+    min-width: 15px;
+    height: 20px !important;
+    width: 32px !important;
+    border-radius: 100px;
+}
+.toggle.btn.btn-default,.toggle.btn.btn-primary{
+    background-color: transparent !important;
+    border:solid 2px #ddd;
+}
+.toggle-group{
+    transition-duration: .15s;
+    -webkit-transition-duration: .15s;
+    padding: 0;
+}
+.toggle-on.btn{
+    background-color: #4cd964
+}
+
+.toggle-on,.toggle-off{
+    color: transparent !important;
+    padding: 0;
+    box-shadow: none !important;
+    line-height: 1;
+}
+
+.toggle-handle{
+    top:0;
+    border-radius: 100px;
+    vertical-align: top;
+    width:32px;
+    height: 16px;
+    border:none
+}
+
+.toggle-handle:hover{
+    background-color: white
+}
+
+
 /*private*/
 .nav-left{
     position: fixed;
-    top: 184px;
+    padding-top: 37px;
     width: 160px;
     float: left;
     min-height: 1px;
@@ -384,17 +509,60 @@ body, .app {
     position: relative;
     left: 160px;
     width: calc(100% - 160px);
-    float: left;
-    position: relative;
+    height: 100%;
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
 }
-
-.panel-body{
-    border-bottom: solid 1px #ddd;
+    /*用于表、表单里面的缩略图*/
+.form-thumbnail{
+    position: relative;
+    margin-right: 5px;
+    float: left;
+    display: inline-block;
+    /*width: 60px;*/
+    /*height: 60px;*/
+    width: 80px;
+    height: 80px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #ddd;
+    border-radius: 3px;
 }
 
-.thumbnails{
+.form-thumbnail:after{
+    content: ' '; 
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,.125)
+}
 
+.list-group-item.thumbnail-left{
+    /*padding-left: 80px;*/
+    padding-left: 100px;
+    min-height: 101px;
+}
+.list-group-item.thumbnail-left>.form-thumbnail{
+    position: absolute;
+    left: 10px;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+/* waterfall */
+.wf-container:before,.wf-container:after {
+    content: '';
+    display: table;
+}
+.wf-container:after {
+    clear: both;
+}
+.wf-column {
+    float: left;
 }

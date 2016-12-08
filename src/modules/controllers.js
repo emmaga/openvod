@@ -95,7 +95,7 @@
                     }).finally(function (value) {
                         self.loading = false;
                     });
-                    console.log(util.getParams('editLangs'))
+                    // console.log(util.getParams('editLangs'))
                 }
 
                 self.setFocusApp = function (id) {
@@ -155,6 +155,19 @@
                     util.setParams('token', '');
                     $state.go('login');
                 }
+
+                // 添加 删除 弹窗，增加一个样式的class
+                self.showHideMask = function(bool,url){
+                    // bool 为true时，弹窗出现
+                    if (bool) {
+                        $scope.app.maskUrl = url;
+                        $scope.app.showMaskClass = true;
+                    } else {
+                        $scope.app.maskUrl = '';
+                        $scope.app.showMaskClass = false;
+                    }
+                    
+                }
             }
         ])
 
@@ -210,11 +223,13 @@
                     });
 
                 }
-
+                
                 self.shopAdd = function(){
                     $scope.app.maskParams = {'ShopName': self.shopFirst.ShopName};
-                    $scope.app.maskUrl = 'pages/shopAdd.html';
+                    $scope.app.showHideMask(true,'pages/shopAdd.html');
                 }
+
+                 
 
 
                 self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
@@ -254,7 +269,7 @@
 
                 self.cancel = function(){
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.searchHotelList = function() {
@@ -339,7 +354,6 @@
                 var self = this;
                 self.init = function () {
                     self.maskParams = $scope.app.maskParams;
-                    console.log(self.maskParams);
                     
                     self.stateParams = $stateParams;
                     self.langStyle = util.langStyle();
@@ -352,20 +366,18 @@
                 }
 
                 self.categoryAdd = function () {
-                    console.log('categoryAdd')
                     $scope.app.maskParams = {'ShopID': self.stateParams.ShopID - 0};
-                    $scope.app.maskUrl = 'pages/categoryAdd.html';
+                    $scope.app.showHideMask(true,'pages/categoryAdd.html');
                 }
 
                 self.shopEdit = function () {
-                    console.log('shopEdit')
                     $scope.app.maskParams = {
                         ShopID: $stateParams.ShopID,
                         ShopName: self.maskParams.ShopName,
                         HotelName: self.maskParams.HotelName,
                         HotelID: $stateParams.HotelID
                     };
-                    $scope.app.maskUrl = 'pages/shopEdit.html';
+                    $scope.app.showHideMask(true,'pages/shopEdit.html');
                 }
                 // 商品分类列表
                 self.getGoodsCategory = function () {
@@ -434,7 +446,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.addGoods = function () {
@@ -651,7 +663,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.editGoods = function () {
@@ -697,7 +709,8 @@
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('修改成功');
-                            $state.reload();
+                            $state.reload('app.shop.goods.goodsList');
+                            self.cancel();
                         } else {
                             alert('修改失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
@@ -836,56 +849,52 @@
                     // 多语言
                     self.form.shopName = {};
 
-                    self.searchHotelList();
+                    // self.searchHotelList();
                     self.shopInfo = self.maskParams.ShopName;
                 }
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 };
 
-                self.searchHotelList = function () {
-                    self.loading = true;
-                    var data = {
-                        "action": "getHotelList",
-                        "token": util.getParams("token"),
-                        "lang": self.langStyle
-                    };
-                    data = JSON.stringify(data);
-                    $http({
-                        method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('hotelroom', 'shopList', 'server'),
-                        data: data
-                    }).then(function successCallback(data, status, headers, config) {
-                            if (data.data.rescode == "200") {
-                                if (data.data.data.length == 0) {
-                                    self.noData = true;
-                                    return;
-                                }
-                                self.hotelList = data.data.data.hotelList;
-                            } else if (data.data.rescode == "401") {
-                                alert('访问超时，请重新登录');
-                                $state.go('login')
-                            } else {
-                                alert('失败， ' + data.data.errInfo);
-                            }
-                        },
-                        function errorCallback(data, status, headers, config) {
-                            alert('连接服务器出错')
-                        }).finally(function (value) {
-                        self.loading = false;
-                    });
-                }
+                // self.searchHotelList = function () {
+                //     self.loading = true;
+                //     var data = {
+                //         "action": "getHotelList",
+                //         "token": util.getParams("token"),
+                //         "lang": self.langStyle
+                //     };
+                //     data = JSON.stringify(data);
+                //     $http({
+                //         method: $filter('ajaxMethod')(),
+                //         url: util.getApiUrl('hotelroom', 'shopList', 'server'),
+                //         data: data
+                //     }).then(function successCallback(data, status, headers, config) {
+                //             if (data.data.rescode == "200") {
+                //                 if (data.data.data.length == 0) {
+                //                     self.noData = true;
+                //                     return;
+                //                 }
+                //                 self.hotelList = data.data.data.hotelList;
+                //             } else if (data.data.rescode == "401") {
+                //                 alert('访问超时，请重新登录');
+                //                 $state.go('login')
+                //             } else {
+                //                 alert('失败， ' + data.data.errInfo);
+                //             }
+                //         },
+                //         function errorCallback(data, status, headers, config) {
+                //             alert('连接服务器出错')
+                //         }).finally(function (value) {
+                //         self.loading = false;
+                //     });
+                // }
 
 
                 self.saveForm = function () {
                     self.saving = true;
-                    var shopList = {
-                        "HotelID": self.form.HotelID - 0,
-                        "ShopName": self.shopInfo,
-                        "ShopType": "wx"
-                    }
+                    
                     var data = {
                         "action": "editMgtHotelShop",
                         "token": util.getParams("token"),
@@ -986,7 +995,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.saveForm = function () {
@@ -1009,7 +1018,8 @@
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('分类添加成功');
-                            $state.reload();
+                            $state.reload('app.shop.goods');
+                            self.cancel();
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -1050,7 +1060,7 @@
 
                 self.cancel = function () {
                     console.log('cancel')
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.saveForm = function () {
@@ -1099,8 +1109,7 @@
 
                 // 分类编辑
                 self.categoryEdit = function () {
-                    // $scope.app.maskParams = {'ShopGoodsCategoryID':self.stateParams.ShopGoodsCategoryID - 0 ,ShopID:self.stateParams.ShopID};
-                    $scope.app.maskUrl = 'pages/categoryEdit.html';
+                    $scope.app.showHideMask(true,'pages/categoryEdit.html');
                 }
 
 
@@ -1142,12 +1151,12 @@
                         'shopId': self.stateParams.ShopID,
                         'shopGoodsCategoryId': self.stateParams.ShopGoodsCategoryID
                     }; //全部分类 ShopGoodsCategoryID －1
-                    $scope.app.maskUrl = 'pages/goodsAdd.html';
+                    $scope.app.showHideMask(true,'pages/goodsAdd.html');
                 }
 
                 self.goodsEdit = function (goodsId) {
                     $scope.app.maskParams = {'productId': goodsId};
-                    $scope.app.maskUrl = 'pages/goodsEdit.html';
+                    $scope.app.showHideMask(true,'pages/goodsEdit.html');
                 }
 
                 // 商品分类列表
@@ -1238,18 +1247,17 @@
                     var index = self.categoryObj[productId].indexOf(categoryId);
                     console.log(index)
                     // 没有，则添加此分类
-                    if (value == false) {
-                        self.categoryObj[productId].splice(index, 1)
-                    } else {
-                        self.categoryObj[productId].push(categoryId)
-                    }
-                    // if (index < 0) {
-                    //     self.categoryObj[productId].push(categoryId)
-                    // } else {
+                    // if (value == false) {
                     //     self.categoryObj[productId].splice(index, 1)
+                    // } else {
+                    //     self.categoryObj[productId].push(categoryId)
                     // }
+                    if (index < 0) {
+                        self.categoryObj[productId].push(categoryId)
+                    } else {
+                        self.categoryObj[productId].splice(index, 1)
+                    }
                     console.log(self.categoryObj[productId])
-                    return;
                     var data = {
                         "action": "editMgtProductPCategory",
                         "token": util.getParams("token"),
@@ -1267,19 +1275,20 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
-                        alert('修改分类成功')
+                        alert('修改分类成功');
+                        $state.reload('app.shop.goods.goodsList')
                     }, function errorCallback(data, status, headers, config) {
 
                     });
                 }
 
                 // 商品 上下架
-                self.changeGoodsStatus = function (productId, status) {
-                    console.log('productId:' + productId + ' status:' + status)
-                    if (status == true) {
+                self.changeGoodsStatus = function (productId, status, value) {
+                    console.log('productId:' + productId + ' status:' + status + ' value:' + value)
+                    if (status == 0) {
                         status = 1;
                     } else {
-                        status = 0;
+                        status =0;
                     }
 
                     var data = {
@@ -1300,6 +1309,7 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         alert('修改成功')
+                        $state.reload('app.shop.goods.goodsList')
                     }, function errorCallback(data, status, headers, config) {
 
                     });
@@ -1348,7 +1358,6 @@
 
         .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', '$location', 'util', 'NgTableParams',
             function ($scope, $http, $stateParams, $translate, $location, util, NgTableParams) {
-                console.log('roomController')
                 var self = this;
                 var lang;
 
@@ -1402,82 +1411,111 @@
                 /**
                  * 获取客房列表
                  */
-                // ngtable
                 self.search = function () {
-                    self.tableParams = new NgTableParams(
-                        {
-                            page: 1,
-                            count: 15,
-                            url: ''
-                        },
-                        {
-                            counts: false,
-                            getData: function (params) {
-                                var paramsUrl = params.url();
-                                var searchName = "";
-                                if (self.searchName) {
-                                    searchName = self.searchName;
-                                }
-                                var data = JSON.stringify({
-                                    action: "getRoomList",
-                                    token: util.getParams('token'),
-                                    lang: lang,
-                                    HotelID: Number(self.hotelId),
-                                    page: Number(paramsUrl.page),
-                                    per_page: Number(paramsUrl.count)
-                                })
-                                self.loading = true;
-                                self.noData = false;
 
-                                return $http({
-                                    method: 'POST',
-                                    url: util.getApiUrl('hotelroom', '', 'server'),
-                                    data: data
-                                }).then(function successCallback(response) {
-                                    var msg = response.data;
-                                    if (msg.rescode == '200') {
-                                        params.total(msg.data.total);
-                                        self.rooms = msg.data.roomList;
-                                        return msg.data.roomList;
-                                    } else if (msg.rescode == '401') {
-                                        alert('访问超时，请重新登录');
-                                        $location.path("pages/login.html");
-                                    } else {
-                                        alert('读取数据出错，' + msg.errInfo);
-                                    }
-                                }, function errorCallback(response) {
-                                    alert(response.status + ' 服务器出错');
-                                }).finally(function () {
-                                    self.loading = false;
-                                });
-                            }
+                    var searchName = "";
+                    if (self.searchName) {
+                        searchName = self.searchName;
+                    }
+                    var data = JSON.stringify({
+                        action: "getAllRoomInfo",
+                        token: util.getParams('token'),
+                        lang: lang,
+                        HotelID: Number(self.hotelId),
+                        page: 1,
+                        per_page: 10000,
+                        bookStartDate: util.getToday(),
+                        bookEndDate: util.getTomorrow()
+                    })
+                    self.loading = true;
+                    self.noData = false;
+
+                    return $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            self.rooms = msg.roomsInfo;
+                            // return msg.roomsInfo;
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('读取数据出错，' + msg.errInfo);
                         }
-                    );
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function () {
+                        self.loading = false;
+                    });
+                }
+
+                self.RAChanged = function (index) {
+                    var roomObj = self.rooms[index];
+                    if (roomObj.PriceMonday == null || roomObj.PriceTuesday == null || roomObj.PriceWednesday == null
+                        || roomObj.PriceThursday == null || roomObj.PriceFriday == null || roomObj.PriceSaturday == null
+                        || roomObj.PriceSunday == null || roomObj.AvailableNum == null) {
+                        roomObj.RoomAvailable = 0;
+                        alert("未设置房间价格或数量，请设好后重试");
+                        return false;
+                    } else {
+                        var roomId = roomObj.ID,
+                            roomAvailable = roomObj.RoomAvailable
+                        var data = JSON.stringify({
+                            action: "setRoomAvailable",
+                            token: util.getParams('token'),
+                            lang: lang,
+                            roomID: roomId,
+                            RoomAvailable: roomAvailable == true ? 1 : 0
+                        })
+                        self.loading = true;
+
+                        $http({
+                            method: 'POST',
+                            url: util.getApiUrl('room', '', 'server'),
+                            data: data
+                        }).then(function successCallback(response) {
+                            var msg = response.data;
+                            if (msg.rescode == '200') {
+                            } else if (msg.rescode == '401') {
+                                alert('访问超时，请重新登录');
+                                $location.path("pages/login.html");
+                            } else {
+                                alert('操作失败，' + msg.errInfo);
+                            }
+                        }, function errorCallback(response) {
+                            alert(response.status + ' 服务器出错');
+                        }).finally(function () {
+                            self.loading = false;
+                        });
+                    }
                 }
 
                 self.hotelEdit = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'hotelInfo': self.hotel};
-                    $scope.app.maskUrl = 'pages/hotelEdit.html';
+                    $scope.app.showHideMask(true,'pages/hotelEdit.html');
                 }
 
                 self.roomAdd = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId};
-                    $scope.app.maskUrl = 'pages/roomAdd.html';
+                    $scope.app.showHideMask(true,'pages/roomAdd.html');
                 }
 
                 self.roomEdit = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.maskUrl = 'pages/roomEdit.html';
+                    $scope.app.showHideMask(true,'pages/roomEdit.html');
                 }
 
                 self.roomEditPrice = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.maskUrl = 'pages/roomEditPrice.html';
+                    $scope.app.showHideMask(true,'pages/roomEditPrice.html');
                 }
 
                 self.roomEditNum = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.maskUrl = 'pages/roomEditNum.html';
+                    $scope.app.showHideMask(true,'pages/roomEditNum.html');
                 }
             }
         ])
@@ -1512,7 +1550,7 @@
                 }
 
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 self.save = function () {
@@ -1757,7 +1795,7 @@
                     self.imgs = new Imgs([]);
                 }
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 /**
@@ -1841,7 +1879,8 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('添加成功')
-                            $state.reload();
+                            $state.reload('app.hotelRoom.room');
+                            self.cancel();
                         } else {
                             alert('添加失败' + data.rescode + ' ' + data.errInfo);
                         }
@@ -1978,7 +2017,7 @@
         .controller('roomEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
             function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 var self = this;
-
+                self.alerts = [];
                 self.init = function () {
                     self.hotelId = $scope.app.maskParams.hotelId;
                     self.roomId = $scope.app.maskParams.roomId;
@@ -1989,8 +2028,29 @@
                     self.getRoomTags();
                 }
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
+
+                /**
+                 * 添加alert
+                 * @param msg {String} 提示信息
+                 * @param reload {Boolean} 是否重载
+                 * @param type {String} alert类型
+                 */
+                self.addAlert = function(msg, reload, type) {
+                    self.alerts.push({type: type, msg: msg, reload: reload});
+                };
+                /**
+                 * 移除alert
+                 * @param index 位置
+                 * @param reload {Boolean} 是否重载
+                 */
+                self.closeAlert = function(index, reload) {
+                    self.alerts.splice(index, 1);
+                    if (reload) {
+                        $state.reload();
+                    }
+                };
 
                 /**
                  * 获取客房标签
@@ -2018,10 +2078,12 @@
                             // 读取客房信息
                             self.getRoomInfo();
                         } else {
-                            alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
+                            // alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
+                            self.addAlert('读取标签失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                         }
                     }, function errorCallback(response) {
-                        alert(response.status + ' 服务器出错');
+                        // alert(response.status + ' 服务器出错');
+                        self.addAlert(response.status + ' 服务器出错', false, 'warning');
                     }).finally(function (e) {
                         self.loading = false;
                     });
@@ -2033,7 +2095,9 @@
                         action: "getRoomInfoByID",
                         token: util.getParams('token'),
                         lang: util.langStyle(),
-                        roomID: self.roomId
+                        roomID: self.roomId,
+                        bookStartDate: util.getToday(),
+                        bookEndDate: util.getTomorrow()
                     })
 
                     $http({
@@ -2058,13 +2122,46 @@
                             self.imgs.initImgs();
 
                         } else {
-                            alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
+                            // alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
+                            self.addAlert('读取客房信息失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                         }
                     }, function errorCallback(response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loading = false;
                     });
+                }
+                
+                self.deleteRoom = function () {
+                    if (confirm("确定要此客房吗？")) {
+                        var data = JSON.stringify({
+                            action: "delRooms",
+                            token: util.getParams('token'),
+                            lang: util.langStyle(),
+                            roomList: [self.roomId],
+
+                        })
+                        $http({
+                            method: 'POST',
+                            url: util.getApiUrl('room', '', 'server'),
+                            data: data
+                        }).then(function successCallback(response) {
+                            var data = response.data;
+                            if (data.rescode == '200') {
+                                self.addAlert('删除成功', true, 'success');
+                                // alert('删除成功')
+                                // $state.reload();
+                            } else {
+                                // alert('删除失败' + data.rescode + ' ' + data.errInfo);
+                                self.addAlert('删除失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
+                            }
+                        }, function errorCallback(response) {
+                            // alert(response.status + ' 服务器出错');
+                            self.addAlert(response.status + ' 服务器出错', false, 'warning');
+                        }).finally(function (e) {
+                            self.saving = false;
+                        });
+                    }
                 }
 
                 /**
@@ -2089,7 +2186,8 @@
                     }
 
                     if (imgs.length == 0) {
-                        alert('请上传图片')
+                        // alert('请上传图片')
+                        self.addAlert(response.status + ' 服务器出错', false, 'warning');
                         return;
                     }
 
@@ -2107,7 +2205,6 @@
                             "RoomTypeName": self.room.RoomTypeName
                         }
                     })
-                    console && console.log(data);
                     $http({
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
@@ -2115,13 +2212,15 @@
                     }).then(function successCallback(response) {
                         var data = response.data;
                         if (data.rescode == '200') {
-                            alert('保存成功')
-                            $state.reload();
+                            self.addAlert('保存成功', true, 'success');
+                            // alert('保存成功')
+                            // $state.reload();
                         } else {
                             alert('保存失败' + data.rescode + ' ' + data.errInfo);
                         }
                     }, function errorCallback(response) {
-                        alert(response.status + ' 服务器出错');
+                        // alert(response.status + ' 服务器出错');
+                        self.addAlert(response.status + ' 服务器出错', false, 'danger');
                     }).finally(function (e) {
                         self.saving = false;
                     });
@@ -2266,7 +2365,7 @@
                 }
 
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 /**
@@ -2307,7 +2406,9 @@
                         action: "getRoomInfoByID",
                         lang: lang,
                         token: token,
-                        roomID: self.roomId
+                        roomID: self.roomId,
+                        bookStartDate: util.getToday(),
+                        bookEndDate: util.getTomorrow()
                     })
                     self.loading = true;
                     $http({
@@ -2317,15 +2418,16 @@
                     }).then(function successCallback(response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
-                            self.roomDetail.PriceMonday = msg.PriceMonday;
-                            self.roomDetail.PriceTuesday = msg.PriceTuesday;
-                            self.roomDetail.PriceWednesday = msg.PriceWednesday;
-                            self.roomDetail.PriceThursday = msg.PriceThursday;
-                            self.roomDetail.PriceFriday = msg.PriceFriday;
-                            self.roomDetail.PriceSaturday = msg.PriceSaturday;
-                            self.roomDetail.PriceSunday = msg.PriceSunday;
+                            self.roomDetail.PriceMonday = msg.PriceMonday / 100;
+                            self.roomDetail.PriceTuesday = msg.PriceTuesday / 100;
+                            self.roomDetail.PriceWednesday = msg.PriceWednesday / 100;
+                            self.roomDetail.PriceThursday = msg.PriceThursday / 100;
+                            self.roomDetail.PriceFriday = msg.PriceFriday / 100;
+                            self.roomDetail.PriceSaturday = msg.PriceSaturday / 100;
+                            self.roomDetail.PriceSunday = msg.PriceSunday / 100;
                             for (var i = 0; i < msg.SpecialPrice.length; i++) {
                                 msg.SpecialPrice[i].PriceDate = new Date(msg.SpecialPrice[i].PriceDate);
+                                msg.SpecialPrice[i].Price = msg.SpecialPrice[i].Price / 100;
                             }
                             self.SpecialPrice = msg.SpecialPrice;
                         } else if (msg.rescode == '401') {
@@ -2351,8 +2453,8 @@
                     for (var i = 0; i < self.SpecialPrice.length; i++) {
                         specialPrice.push({
                             RoomID: self.roomId.toString(),
-                            PriceDate: formatDate(self.SpecialPrice[i].PriceDate),
-                            Price: Number(self.SpecialPrice[i].Price),
+                            PriceDate: util.format_yyyyMMdd(self.SpecialPrice[i].PriceDate),
+                            Price: Number(self.SpecialPrice[i].Price) * 100,
                             PriceType: "basic"
                         })
                     }
@@ -2368,13 +2470,13 @@
                         roomID: self.roomId,
                         SpecialPrice: specialPrice,
                         roomDetail: {
-                            PriceMonday: Number(self.roomDetail.PriceMonday),
-                            PriceTuesday: Number(self.roomDetail.PriceTuesday),
-                            PriceWednesday: Number(self.roomDetail.PriceWednesday),
-                            PriceThursday: Number(self.roomDetail.PriceThursday),
-                            PriceFriday: Number(self.roomDetail.PriceFriday),
-                            PriceSaturday: Number(self.roomDetail.PriceSaturday),
-                            PriceSunday: Number(self.roomDetail.PriceSunday)
+                            PriceMonday: Number(self.roomDetail.PriceMonday) * 100,
+                            PriceTuesday: Number(self.roomDetail.PriceTuesday) * 100,
+                            PriceWednesday: Number(self.roomDetail.PriceWednesday) * 100,
+                            PriceThursday: Number(self.roomDetail.PriceThursday) * 100,
+                            PriceFriday: Number(self.roomDetail.PriceFriday) * 100,
+                            PriceSaturday: Number(self.roomDetail.PriceSaturday) * 100,
+                            PriceSunday: Number(self.roomDetail.PriceSunday) * 100
                         }
                     })
                     $http({
@@ -2400,25 +2502,6 @@
                 }
 
                 /**
-                 * 转换格式为‘yyyy-MM-dd’
-                 * @param date
-                 * @returns {string}
-                 */
-                function formatDate(date) {
-                    var seperator1 = "-";
-                    var month = date.getMonth() + 1;
-                    var strDate = date.getDate();
-                    if (month >= 1 && month <= 9) {
-                        month = "0" + month;
-                    }
-                    if (strDate >= 0 && strDate <= 9) {
-                        strDate = "0" + strDate;
-                    }
-                    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-                    return currentdate;
-                }
-
-                /**
                  * 判断json是否的值是否重复
                  * @param json
                  * @param key
@@ -2426,7 +2509,7 @@
                  */
                 function countJson(json, key) {
                     if (json.length == 0) {
-                        return false;
+                        return true;
                     }
                     var len = json.length, result = new Array();
                     for (var i = 0; i < len; i++) {
@@ -2461,7 +2544,7 @@
                 }
 
                 self.cancel = function () {
-                    $scope.app.maskUrl = '';
+                    $scope.app.showHideMask(false);
                 }
 
                 /**
@@ -2502,7 +2585,9 @@
                         action: "getRoomInfoByID",
                         lang: lang,
                         token: token,
-                        roomID: self.roomId
+                        roomID: self.roomId,
+                        bookStartDate: util.getToday(),
+                        bookEndDate: util.getTomorrow()
                     })
                     self.loading = true;
                     $http({
@@ -2540,9 +2625,9 @@
                     for (var i = 0; i < self.SpecialNum.length; i++) {
                         availableInfo.push({
                             RoomID: self.roomId.toString(),
-                            AvailableDate: formatDate(self.SpecialNum[i].AvailableDate),
+                            AvailableDate: util.format_yyyyMMdd(self.SpecialNum[i].AvailableDate),
                             AvailableNumCurrent: Number(self.SpecialNum[i].AvailableNumCurrent),
-                            AvailableNumSet: 999
+                            AvailableNumSet: Number(self.SpecialNum[i].AvailableNumCurrent)
                         })
                     }
                     if(!countJson(availableInfo, 'AvailableDate')) {
@@ -2584,28 +2669,6 @@
                 }
 
                 /**
-                 * 转换格式为‘yyyy-MM-dd’
-                 * @param date
-                 * @returns {string}
-                 */
-                function formatDate(date) {
-                    if (date.length != 10) {
-                        var seperator1 = "-";
-                        var month = date.getMonth() + 1;
-                        var strDate = date.getDate();
-                        if (month >= 1 && month <= 9) {
-                            month = "0" + month;
-                        }
-                        if (strDate >= 0 && strDate <= 9) {
-                            strDate = "0" + strDate;
-                        }
-                        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-                        return currentdate;
-                    }
-                    return date;
-                }
-
-                /**
                  * 判断json是否的值是否重复
                  * @param json
                  * @param key
@@ -2613,7 +2676,7 @@
                  */
                 function countJson(json, key) {
                     if (json.length == 0) {
-                        return false;
+                        return true;
                     }
                     var len = json.length, result = new Array();
                     for (var i = 0; i < len; i++) {

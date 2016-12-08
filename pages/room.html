@@ -1,67 +1,217 @@
 <!-- 酒店/客房管理>右侧部分 -->
-<div ng-controller="roomController as room" ng-init="room.init()" class="content-right">
-    <!--酒店详情-->
+<div ng-controller="roomController as room" ng-init="room.init(); room.roomList=true; room.hotelInfo=false;" class="content-right">
+    <!--loading-->
     <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
-    <h3>{{room.hotel.Name[room.defaultLangCode]}}</h3>
+    <!--tab-->
+    <h4>{{room.hotel.Name[room.defaultLangCode]}}</h4>
     <hr>
-    <!-- 标题: 酒店信息 -->
-    <h4>酒店信息</h4>
-    <div class="panel panel-default">
-        <!-- 按钮: 编辑酒店信息 -->
-        <button ng-click="room.hotelEdit()" class="btn btn-clipboard">编辑</button>
-        <div class="panel-body">
-            
-            <!-- 内容: 酒店图 -->
-            <ng-repeat ng-repeat="img in room.hotel.Imgs">
-                <img src="{{img.ImageURL}}" />
-            </ng-repeat>
+    <ul id="myTab" class="nav nav-tabs">
+        <li ng-class="{'active':(room.roomList)}" class="cursor-pointer">
+            <a ng-click="room.hotelInfo=false; room.roomList=true;">{{'ROOM_LIST' | translate}}</a>
+        </li>
+        <li ng-class="{'active':(room.hotelInfo)}" class="cursor-pointer">
+            <a role="tab" ng-click="room.hotelInfo=true; room.roomList=false;">酒店信息</a>
+        </li>
+    </ul>
+    <!-- tab-content start -->
+    <div class="tab-content">
+        <!-- 标签页: 酒店信息 -->
+        <div class="tab-pane" ng-class="{'in active':(room.hotelInfo)}">
+            <!-- 按钮: 编辑酒店信息 -->
+            <a ng-click="room.hotelEdit()" class="button button-light">
+                <i class="icon ion-ios-compose-outline"></i> 编辑信息
+            </a>
+            <div class="clearfix"></div>
+            <ul class="list-group">
+                <!-- 内容: 酒店图片 -->
+                <li class="list-group-item">
+                    <div class="row">
+                        <!-- 标题: 酒店图片 -->
+                        <span class="col-xs-2">
+                            <h5>酒店图片</h5>
+                        </span>
+                        <!-- 内容: 酒店图片列表 -->
+                        <span class="col-xs-10">
+                            <div ng-repeat="img in room.hotel.Imgs" style="background-image: url({{img.ImageURL}})" class="form-thumbnail"></div>
+                        </span>
+                    </div>
+                </li>
+                <!-- 内容: 酒店标签 -->
+                <li class="list-group-item">
+                    <div class="row">
+                        <span class="col-xs-2">
+                            <h5>酒店标签</h5>
+                        </span>
+                        <span class="col-xs-10">
+                            <p ng-repeat="tag in room.hotel.Tags" class="">
+                                {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
+                            </p>
+                        </span>
+                    </div>
+                </li>
+                <!-- 内容: 酒店地址 -->
+                <li class="list-group-item">
+                    <div class="row">
+                        <!-- 标题: 酒店地址 -->
+                        <span class="col-xs-2">
+                            <h5>酒店地址</h5>
+                        </span>
+                        <span class="col-xs-10">
+                            <p>{{'HOTEL_ADDRESS' | translate}}:{{room.hotel.Address[room.defaultLangCode]}}</p>
+                        </span>
+                    </div>
+                </li>
+                <!-- 内容: 酒店坐标 -->
+                <li class="list-group-item">
+                    <div class="row">
+                        <!-- 标题: 酒店地址 -->
+                        <span class="col-xs-2">
+                            <h5>酒店坐标</h5>
+                        </span>
+                        <span class="col-xs-10">
+                            <p>{{room.hotel.LocationX}} {{room.hotel.LocationY}}</p>
+                        </span>
+                    </div>
+                </li>
+                <!-- 内容: 酒店logo图 -->
+                <li class="list-group-item">
+                    <div class="row">
+                        <!-- 标题: 酒店logo图 -->
+                        <span class="col-xs-2">
+                            <h5>LOGO</h5>
+                        </span>
+                        <span class="col-xs-10">
+                            <div style="background-image: url({{room.hotel.LogoImg}})" class="form-thumbnail"></div>
+                        </span>
+                    </div>
+                </li>
+                <!-- 内容: 酒店城市 -->
+                <li class="list-group-item">
+                    <div class="row">
+                        <!-- 标题: 酒店城市 -->
+                        <span class="col-xs-2">
+                            <h5>酒店城市</h5>
+                        </span>
+                        <span class="col-xs-10">
+                            <p>{{room.hotel.CityName}}</p>
+                        </span>
+                    </div>
+                </li>
+                <!-- 内容: 酒店介绍 -->
+                <li class="list-group-item">
+                    <div class="row">
+                        <!-- 标题: 酒店介绍 -->
+                        <span class="col-xs-2">
+                            <h5>{{'HOTEL_DESCRUOTION' | translate}}</h5>
+                        </span>
+                        <span class="col-xs-10">
+                            <p>{{room.hotel.Description[room.defaultLangCode]}}</p>
+                        </span>
+                    </div>
+                </li>
+            </ul>
         </div>
+        <!-- 标签页: 客房列表 -->
+        <div class="tab-pane" ng-class="{'in active':(room.roomList)}">
+            <!-- 按钮: 添加客房 -->
+            <a ng-click="room.roomAdd()" class="button button-light">
+                <i class="icon ion-ios-plus-outline"></i> {{'ROOM_ADD' | translate}}
+            </a>
+            <!-- 列表: 客房列表 -->
             
-        <div class="panel-body">
-            <!-- 内容: 酒店标签 -->
-            <ng-repeat ng-repeat="tag in room.hotel.Tags">
-                {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
-            </ng-repeat>
-            <!-- 内容: 客房列表 -->
-            <div>{{'HOTEL_ADDRESS' | translate}}:{{room.hotel.Address[room.defaultLangCode]}}</div>
-            <!-- 内容: 酒店坐标 -->
-            酒店坐标：{{room.hotel.LocationX}} {{room.hotel.LocationY}}
-            <!-- 内容: 酒店logo图 -->
-            酒店logo图：{{room.hotel.LogoImg}} 酒店城市:{{room.hotel.CityName}}
-            <!-- 内容: 酒店介绍 -->
-            <div>{{'HOTEL_DESCRUOTION' | translate}}:{{room.hotel.Description[room.defaultLangCode]}}</div>
-        </div>
-    </div>
-    <!--酒店详情-->
-    <hr>
-    <!-- 标题: 客房列表 -->
-    <h4>{{'ROOM_LIST' | translate}}</h4>
-    <div class="">
-        <!-- 按钮: 添加客房 -->
-        <div><button ng-click="room.roomAdd()" class="btn btn-clipboard">{{'ROOM_ADD' | translate}}</button></div>
-        <!-- 列表: 客房列表 -->
-        <table ng-table="room.tableParams" ng-init="room.search()" class="table">
-            <tbody>
-                <tr ng-repeat="item in $data">
-                    <!-- 内容: 客房图 -->
-                    <td><img ng-src="{{item.LogoImgURL}}"></td>
-                    <!-- 内容: 客房名 -->
-                    <td>{{item.RoomTypeName[room.lang]}}</td>
-                    <td></td>
-                    <td>
-                        <!-- 按钮: 复制 -->
-                        <button class="btn btn-sm">复制</button>
-                        <!-- 按钮: 改数量 -->
-                        <button ng-click="room.roomEditNum(item.RoomID)" class="btn btn-sm">改数量</button>
-                        <!-- 按钮: 改价格 -->
-                        <button ng-click="room.roomEditPrice(item.RoomID)" class="btn btn-sm">该价格</button>
-                        <!-- 按钮: 详情 -->
-                        <button ng-click="room.roomEdit(item.RoomID)" class="btn btn-sm">查看详情</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<!--
+            <div class="row wf-container">                
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title1</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title2</div><div class="panel-body">Panel conasdfasdfa<br>sdfadfasdfasdf<br>asdfadftent</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title3</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title4</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title5</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title6</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title7</div><div class="panel-body">Panel conasdfasdfa<br>sdfadfasdfasdf<br>asdfadftent</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title8</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title9</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title10</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title11</div><div class="panel-body">Panel conasdfasdfa<br>sdfadfasdfasdf<br>asdfadftent</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title12</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title13</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title14</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
+                <style type="text/css">
+                    .test-001{
+                        display: table-cell;
+                    }
+                </style>
+                <script type="text/javascript">
+                    
+                </script>
+            </div>
+-->
+            <div ng-init="room.search()" class="row wf-container">
 
-    
+                <div class="wf-box" style="width:25%; display: inline-block;padding: 10px" ng-repeat="item in room.rooms">
+                    <div class="panel panel-default" >
+                        
+                        <div class="panel-body">
+                            
+                            <img class="img-responsive" ng-src="{{item.imgs[0].ImageURL}}">
+                            <hr>
+                        
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
+
+            
+            <ul ng-init="room.search()" class="list-group">
+                <li ng-repeat="item in room.rooms" class="list-group-item thumbnail-left">
+                    <!-- 内容: 客房图 -->
+                    <div ng-style="{'background-image':'url({{item.imgs[0].ImageURL}})'}" class="form-thumbnail"></div>
+                    <div class="row">
+                        <!-- 第1列 -->
+                        <span class="col-xs-5">
+                            <!-- 内容: 客房名 -->
+                            <h5>{{item.RoomTypeName[room.defaultLangCode]}}</h5>
+                            <!-- 内容: 标签 -->
+                            <p class="">标签：<ng-repeat ng-repeat="tag in item.tags">{{tag.TagName[room.defaultLangCode]}}</ng-repeat></p>
+                        </span>
+                        <!-- 第2列 -->
+                        <span class="col-xs-4">
+                            <!-- 内容: 今天房价 -->
+                            <p>今日价格：{{item.todayPrice/100 | currency : '￥'}}</p>
+                            <!-- 内容: 今天可订 -->
+                            <p>今日可订：{{item.AvailableNumCurrent}}</p>
+                            <!-- 内容: 今天剩余 -->
+                            <!--<p>今日剩余：26间</p>-->
+                        </span>
+                        <!-- 第3列 -->
+                        <span class="col-xs-2">
+                            <!-- 按钮: 改数量 -->
+                            <a ng-click="room.roomEditNum(item.ID)" class="cursor-pointer">数量</a>
+                            <br>
+                            <!-- 按钮: 改价格 -->
+                            <a ng-click="room.roomEditPrice(item.ID)" class="cursor-pointer">价格</a>
+                            <br>
+                            <!-- 按钮: 详情 -->
+                            <a ng-click="room.roomEdit(item.ID)" class="cursor-pointer">查看详情</a>
+
+                        </span>
+                        <!-- 第4列 -->
+                        <span class="col-xs-1">
+                            <!-- 内容: 是否可用 -->
+                            <small>启用</small>                     
+                            <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged($index)"></toggle>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+
+
+
+
+
+
+        </div>
+    </div>
+    <!-- tab-content end-->
 </div>

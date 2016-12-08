@@ -1,79 +1,94 @@
-<div ng-controller="roomEditController as roomEdit" ng-init="roomEdit.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; border:1px red solid; background: rgba(255,255,255,0.8);">
-
-    <span>客房详情</span>
-    <div>
-        <div ng-show="loading">loading...</div>
-        <form name="roomEditForm" ng-submit="roomEditForm.$valid && roomEdit.save()">
-            <div>
-                <!-- 客房名 -->
-                <ng-repeat ng-repeat="lang in roomEdit.editLangs">
-                    <ng-if ng-if="lang.default">
-                        客房名 {{lang.name}}：<input ng-model="roomEdit.room.RoomTypeName[lang.code]" required />
-                    </ng-if>
-                    <ng-if ng-if="lang.default !== true">
-                        客房名 {{lang.name}}：<input ng-model="roomEdit.room.RoomTypeName[lang.code]" />
-                    </ng-if>
-                </ng-repeat>
-                <!-- 客房名 -->
-            </div>
-            <div>
-
-                <!-- 客房图 -->
-                <div ng-repeat="img in roomEdit.imgs.data">
-                    <img src="{{img.src}}" alt="{{img.fileName}}" />
-                    大小： {{img.fileSize}}
-                    进度： {{img.progress}}
-                    剩余： {{img.leftSize}}
-                    <a ng-click="roomEdit.imgs.deleteById(img.id); ">
-                     删除
-                    </a>
+<div ng-controller="roomEditController as roomEdit" ng-init="roomEdit.init()" class="autoscroll modal-dialog">
+    <div class="modal-content">
+        <span>客房详情</span>
+        <div style="background-color: white">
+            <div ng-show="loading">loading...</div>
+            <form name="roomEditForm" ng-submit="roomEditForm.$valid && roomEdit.save()">
+                <div>
+                    <!-- 客房名 -->
+                    <ng-repeat ng-repeat="lang in roomEdit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            客房名 {{lang.name}}：<input ng-model="roomEdit.room.RoomTypeName[lang.code]" required/>
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            客房名 {{lang.name}}：<input ng-model="roomEdit.room.RoomTypeName[lang.code]"/>
+                        </ng-if>
+                    </ng-repeat>
+                    <!-- /客房名 -->
                 </div>
-                <!-- 客房图 -->
-                
-                <!-- 上传图片按钮 -->
-                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
-                <a ng-click="roomEdit.clickUpload('upload')">上传图片</a>
-                <a id="hidenUpload" style="display: none;" ng-click="roomEdit.imgs.uploadFile('myFile', roomEdit.imgs)"></a>
-                <!-- 上传图片按钮 -->
+                <div>
+                    <!-- 客房图 -->
+                    <div ng-repeat="img in roomEdit.imgs.data">
+                        <img ng-src="{{img.src}}" alt="{{img.fileName}}"/>
+                        大小： {{img.fileSize}}
+                        进度： {{img.progress}}
+                        剩余： {{img.leftSize}}
+                        <a ng-click="roomEdit.imgs.deleteById(img.id); ">
+                            删除
+                        </a>
+                    </div>
+                    <!-- /客房图 -->
 
+                    <!-- 上传图片按钮 -->
+                    <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
+                    <a ng-click="roomEdit.clickUpload('upload')">上传图片</a>
+                    <a id="hidenUpload" style="display: none;"
+                       ng-click="roomEdit.imgs.uploadFile('myFile', roomEdit.imgs)"></a>
+                    <!-- /上传图片按钮 -->
+                </div>
+                <div>
+                    <!-- 标签 -->
+                    <ng-repeat ng-repeat="tag in roomEdit.tags track by $index">
+                        <input type="checkbox" ng-model="roomEdit.ifCheckedTags[$index].checked"/>
+                        <label class="btn btn-success" ng-model="roomEdit.ifCheckedTags[$index].checked"
+                               uib-btn-checkbox>{{tag.TagName[roomEdit.defaultLangCode]}}</label>
+                    </ng-repeat>
+                    <!-- /标签 -->
+                </div>
+                <div>
+                    <!-- 客房介绍摘要 -->
+                    <ng-repeat ng-repeat="lang in roomEdit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            客房介绍摘要 {{lang.name}}：<textarea ng-model="roomEdit.room.Roomsummary[lang.code]" required
+                                                           rows="1" maxlength="50"></textarea>
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            客房介绍摘要 {{lang.name}}：<textarea ng-model="roomEdit.room.Roomsummary[lang.code]" rows="1"
+                                                           maxlength="50"></textarea>
+                        </ng-if>
+                    </ng-repeat>
+                    <!-- /客房介绍摘要 -->
+                </div>
+                <div>
+                    <!-- 客房介绍 -->
+                    <ng-repeat ng-repeat="lang in roomEdit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.room.Description[lang.code]"
+                                                         required></textarea>
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.room.Description[lang.code]"></textarea>
+                        </ng-if>
+                    </ng-repeat>
+                    <!-- /客房介绍 -->
+                </div>
+                <div>
+                    <button type="button" ng-click="roomEdit.deleteRoom()" class="btn btn-danger">{{'DELETE' |
+                        translate}}
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-default" ng-click="roomEdit.cancel()">{{'CANCEL' |
+                        translate}}
+                    </button>
+                    <button type="submit" class="btn btn-primary">{{'SAVE' | translate}}</button>
+                </div>
+            </form>
+            <div ng-show="saving">saving</div>
+        </div>
+    </div>
 
-            </div>
-            <div>
-                <!-- 标签 -->
-                <ng-repeat ng-repeat="tag in roomEdit.tags track by $index">
-                    <input type="checkbox" ng-model="roomEdit.ifCheckedTags[$index].checked" /> {{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[roomEdit.defaultLangCode]}}
-                </ng-repeat>
-                <!-- 标签 -->
-            </div>
-            <div>
-                <!-- 客房介绍摘要 -->
-                <ng-repeat ng-repeat="lang in roomEdit.editLangs">
-                    <ng-if ng-if="lang.default">
-                        客房介绍摘要 {{lang.name}}：<textarea ng-model="roomEdit.room.Roomsummary[lang.code]" required rows="1" maxlength="50"></textarea>
-                    </ng-if>
-                    <ng-if ng-if="lang.default !== true">
-                        客房介绍摘要 {{lang.name}}：<textarea ng-model="roomEdit.room.Roomsummary[lang.code]" rows="1" maxlength="50"></textarea>
-                    </ng-if>
-                </ng-repeat>
-                <!-- 客房介绍摘要 -->
-            </div>
-            <div>
-                <!-- 客房介绍 -->
-                <ng-repeat ng-repeat="lang in roomEdit.editLangs">
-                    <ng-if ng-if="lang.default">
-                        客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.room.Description[lang.code]" required></textarea>
-                    </ng-if>
-                    <ng-if ng-if="lang.default !== true">
-                        客房介绍 {{lang.name}}：<textarea ng-model="roomEdit.room.Description[lang.code]"></textarea>
-                    </ng-if>
-                </ng-repeat>
-                <!-- 客房介绍 -->
-            </div>
-            <div>
-                <button ng-click="roomEdit.cancel()">{{'CANCEL' | translate}}</button>
-                <button type="submit">{{'SAVE' | translate}}</button>
-            </div>
-        </form>
-        <div ng-show="saving">saving</div>
+    <div uib-alert ng-repeat="alert in roomEdit.alerts" ng-class="'alert-' + (alert.type || 'warning')"
+         close="roomEdit.closeAlert($index, alert.reload)">{{alert.msg}}
     </div>
 </div>
