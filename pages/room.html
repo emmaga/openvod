@@ -152,7 +152,7 @@
                         
                         <div class="panel-body">
                             
-                            <img class="img-responsive" src="{{item.imgs[0].ImageURL}}">
+                            <img class="img-responsive" ng-src="{{item.imgs[0].ImageURL}}">
                             <hr>
                         
                         </div>
@@ -166,7 +166,7 @@
             <ul ng-init="room.search()" class="list-group">
                 <li ng-repeat="item in room.rooms" class="list-group-item thumbnail-left">
                     <!-- 内容: 客房图 -->
-                    <div style="background-image: url({{item.imgs[0].ImageURL}})" class="form-thumbnail"></div>
+                    <div ng-style="{'background-image':'url({{item.imgs[0].ImageURL}})'}" class="form-thumbnail"></div>
                     <div class="row">
                         <!-- 第1列 -->
                         <span class="col-xs-5">
@@ -180,9 +180,9 @@
                             <!-- 内容: 今天房价 -->
                             <p>今日价格：{{item.todayPrice/100 | currency : '￥'}}</p>
                             <!-- 内容: 今天可订 -->
-                            <p>今日可订：26间</p>
+                            <p>今日可订：{{item.AvailableNumCurrent}}</p>
                             <!-- 内容: 今天剩余 -->
-                            <p>今日剩余：26间</p>
+                            <!--<p>今日剩余：26间</p>-->
                         </span>
                         <!-- 第3列 -->
                         <span class="col-xs-2">

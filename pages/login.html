@@ -25,11 +25,11 @@
         <!-- 输入框容器 -->
         <div class="login-inputs">
         	<!-- 账号 -->
-            <input ng-model="login.userName" type="text" required title="Username required" placeholder="账号">
+            <input ng-model="login.userName" type="text" required placeholder="账号">
             <!-- 密码 -->
-            <input ng-model="login.password" type="password" required title="Password required" placeholder="密码">
+            <input ng-model="login.password" type="password" required placeholder="密码">
             <!-- 项目 -->
-            <input ng-model="login.projectName" type="text" required title="" placeholder="项目">
+            <input ng-model="login.projectName" type="text" required placeholder="项目">
         </div>
         <!-- 提交按钮 -->
     	<button class="login-submit button  button-light">
@@ -43,7 +43,7 @@
         stroke: #fff;
         fill: #fff;
     }
-    
+
     .spinner>svg {
         width: 36px;
         height: 36px;
@@ -56,7 +56,7 @@
     	letter-spacing: -7px;
     	font-weight: 100;
     }
-    
+
     form{
     	display: flex;
     	justify-content: center;
@@ -69,7 +69,7 @@
         justify-content: center;
         align-items: center;
     }
-    
+
     input {
     	text-indent: 0.25em;
         margin: 4px;
@@ -82,10 +82,10 @@
         font-size: 16px;
         width: 140px;
     }
-    
+
     input::-webkit-input-placeholder,textarea::-webkit-input-placeholder { color: rgba(255,255,255,.33); }
 	input:-ms-input-placeholder,textarea:-ms-input-placeholder {color: rgba(255,255,255,.33);}
-	
+
 	.login-submit{
 		position: absolute;
 		display: inline-block;
@@ -95,7 +95,7 @@
 		color: rgba() !important;
 		font-size: 14px;
 		border: solid 1px rgb(255,255,255) !important;
-		width:60px; 
+		width:60px;
 		height: 60px;
 		border-radius: 60px;
 	}
