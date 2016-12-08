@@ -868,7 +868,6 @@
                     },
                     "lang": ""
                 })
-                console.log(data)
                 self.saving = true;
                 $http({
                     method: 'POST',
