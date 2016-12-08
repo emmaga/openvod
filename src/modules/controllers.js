@@ -2023,7 +2023,6 @@
             function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 var self = this;
                 self.alerts = [];
-
                 self.init = function () {
                     self.hotelId = $scope.app.maskParams.hotelId;
                     self.roomId = $scope.app.maskParams.roomId;
