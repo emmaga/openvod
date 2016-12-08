@@ -140,7 +140,7 @@
 
                 // live
                 if(branch.data.type == 'Live') {
-                    $state.go('app.tvAdmin.live', {moduleId: branch.data.moduleId});
+                    $state.go('app.tvAdmin.live', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();        
                 }
 
@@ -623,6 +623,7 @@
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
                 self.liveInfo = $scope.app.maskParams.liveInfo;
+                self.labelName = $scope.app.maskParams.labelName;
 
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
@@ -677,7 +678,9 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.reload();
+                        $state.go($state.current, {initS: self.labelName, moduleId: self.viewId},{ 
+                          reload: true, inherit: false, notify: true 
+                        });
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -829,6 +832,7 @@
 
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
+                self.labelName = $scope.app.maskParams.labelName;
 
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
@@ -874,7 +878,9 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('添加成功');
-                        $state.reload();
+                        $state.go($state.current, {initS: self.labelName, moduleId: self.viewId},{ 
+                          reload: true, inherit: false, notify: true 
+                        });
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -1025,12 +1031,14 @@
 
             self.init = function() {
                 self.viewId = $stateParams.moduleId;
+                self.labelName = $stateParams.label;
                 self.defaultLangCode = util.getDefaultLangCode();
                 self.loadLiveList();
             }
 
             self.edit = function(index) {
                 $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.labelName = self.labelName;
                 $scope.app.maskParams.liveInfo = self.lives[index];
                 $scope.app.maskUrl = 'pages/tv/liveEdit.html';
             }
@@ -1073,6 +1081,7 @@
 
             self.add = function() {
                 $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.labelName = self.labelName;
                 $scope.app.maskUrl = 'pages/tv/liveAdd.html';
             }
 
@@ -1111,10 +1120,73 @@
     .controller('tvMovieCommonController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
             var self = this;
-            var id = $stateParams.moduleId;
 
             self.init = function() {
-                // console.log(id);
+                self.viewId = $stateParams.moduleId;
+                self.getInfo();
+            }
+
+            self.getInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getAPIInfo",
+                    "viewID": self.viewId-0,
+                    "lang": ""
+                });
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.MovieContentAPIParam = data.data.MovieContentAPIParam;
+                        self.MovieContentAPIURL = data.data.MovieContentAPIURL;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载电影信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "updateAPIInfo",
+                    "viewID": self.viewId-0,
+                    "data": {
+                      "MovieContentAPIParam": self.MovieContentAPIParam,
+                      "MovieContentAPIURL": self.MovieContentAPIURL
+                    },
+                    "lang": ""
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
             }
 
         }

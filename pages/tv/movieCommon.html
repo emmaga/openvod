@@ -1,3 +1,21 @@
 <div ng-controller="tvMovieCommonController as tvMovieCommon" ng-init="tvMovieCommon.init()">
-    movieCommon
+    
+    <!--loading-->
+    <div ng-show="tvMovieCommon.loading"></div>
+    <!--loading-->
+
+    <form name="tvMovieCommonForm" ng-submit="tvMovieCommonForm.$valid && tvMovieCommon.save()">
+        <!--API参数-->
+        API参数  <input type="text" ng-model="tvMovieCommon.MovieContentAPIParam" required/>
+        <!--API参数-->
+
+        <!--API URL-->
+        API URL <input type="text" ng-model="tvMovieCommon.MovieContentAPIURL" required/>
+        <!--API URL-->
+        
+        <!--保存按钮-->
+            <button type="submit" ng-disabled="tvMovieCommon.saving">保存</button>
+        <!--保存按钮-->
+    </form>
+
 </div>

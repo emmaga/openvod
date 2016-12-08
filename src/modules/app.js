@@ -227,7 +227,7 @@
                     templateUrl: 'pages/tv/version.html'
                 })
                 .state('app.tvAdmin.live', {
-                    url: '/live?moduleId',
+                    url: '/live?moduleId&label',
                     templateUrl: 'pages/tv/live.html'
                 })
                 .state('app.tvAdmin.movieCommon', {
