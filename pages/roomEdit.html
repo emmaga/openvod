@@ -20,7 +20,7 @@
 
                 <!-- 客房图 -->
                 <div ng-repeat="img in roomEdit.imgs.data">
-                    <img src="{{img.src}}" alt="{{img.fileName}}" />
+                    <img ng-src="{{img.src}}" alt="{{img.fileName}}" />
                     大小： {{img.fileSize}}
                     进度： {{img.progress}}
                     剩余： {{img.leftSize}}
@@ -41,7 +41,8 @@
             <div>
                 <!-- 标签 -->
                 <ng-repeat ng-repeat="tag in roomEdit.tags track by $index">
-                    <input type="checkbox" ng-model="roomEdit.ifCheckedTags[$index].checked" /> {{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[roomEdit.defaultLangCode]}}
+                    <input type="checkbox" ng-model="roomEdit.ifCheckedTags[$index].checked" />
+                    <label class="btn btn-success" ng-model="roomEdit.ifCheckedTags[$index].checked" uib-btn-checkbox>{{tag.TagName[roomEdit.defaultLangCode]}}</label>
                 </ng-repeat>
                 <!-- 标签 -->
             </div>
@@ -79,4 +80,6 @@
         </form>
         <div ng-show="saving">saving</div>
     </div>
+
+    <div uib-alert ng-repeat="alert in roomEdit.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="roomEdit.closeAlert($index, alert.reload)">{{alert.msg}}</div>
 </div>

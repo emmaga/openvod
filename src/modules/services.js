@@ -72,13 +72,18 @@
                 'getParams': function (paramsName) {
                     return JSON.parse($cookies.get(paramsName) || '[]');
                 },
-                
-                // 当前系统 使用 的 语言
+
+                /**
+                 * 当前系统 使用 的 语言
+                 * @returns {string|Object|string}
+                 */
                 'langStyle': function(){
                     return $translate.proposedLanguage() || $translate.use();
                 },
 
-                // 获取多语言编辑中的默认语言code
+                /**
+                 * 获取多语言编辑中的默认语言code
+                 */
                 'getDefaultLangCode': function() {
                     var langs = JSON.parse($cookies.get('editLangs'));
                     for (var i = 0; i < langs.length; i++) {
@@ -88,8 +93,15 @@
                     }
                 },
 
-                /*
+                /**
                  * actionType: "normal" 普通上传, "transcode" 转码上传
+                 * @param xhr
+                 * @param file
+                 * @param uploadUrl
+                 * @param actionType
+                 * @param progressFn
+                 * @param succFn
+                 * @param failFn
                  */
                 'uploadFileToUrl': function(xhr, file, uploadUrl, actionType, progressFn, succFn, failFn){
                     
@@ -121,6 +133,60 @@
                     };
 
                     xhr.send(fd);
+                },
+                /**
+                 * 获取今日日期 格式为‘yyyy-MM-dd’
+                 * @returns {string}
+                 */
+                'getToday': function () {
+                    var date = new Date();
+                    var seperator1 = "-";
+                    var month = date.getMonth() + 1;
+                    var strDate = date.getDate();
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
+                    }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+                    return currentdate;
+                },
+                /**
+                 * 获取明日日期 格式为‘yyyy-MM-dd’
+                 * @returns {string}
+                 */
+                'getTomorrow': function () {
+                    var date = new Date();
+                    var seperator1 = "-";
+                    var month = date.getMonth() + 1;
+                    var strDate = date.getDate() + 1;
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
+                    }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    var tomorrowdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+                    return tomorrowdate;
+                },
+                /**
+                 * 转换格式为‘yyyy-MM-dd’
+                 * @param date
+                 * @returns {string}
+                 */
+                'format_yyyyMMdd': function (date) {
+                    var seperator1 = "-";
+                    var month = date.getMonth() + 1;
+                    var strDate = date.getDate();
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
+                    }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+                    return currentdate;
                 }
             }
         }])
