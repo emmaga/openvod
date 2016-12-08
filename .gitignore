@@ -13,3 +13,5 @@ dist/js/app.min.js
 dist/style/app.min.css
 
 *.xml
+
+*.iml
