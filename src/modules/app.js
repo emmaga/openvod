@@ -214,25 +214,37 @@
                     url: '/welcome',
                     templateUrl: 'pages/tv/welcome.html',
                     resolve: {
-                        resB: function(resA){
-                            return {'value': resA.value};
+                        resB: function(resA, resWelcome){
+                            
                          }
-                    }/*,
-                    controller: function($scope, resA, resB){
-                      $scope.resA2 = resB.value;
-                    }*/
+                    }
                 })
                 .state('app.tvAdmin.version', {
                     url: '/version',
-                    templateUrl: 'pages/tv/version.html'
+                    templateUrl: 'pages/tv/version.html',
+                    resolve: {
+                        resB: function(resA, resWelcome){
+                            
+                         }
+                    }
                 })
                 .state('app.tvAdmin.live', {
                     url: '/live?moduleId&label',
-                    templateUrl: 'pages/tv/live.html'
+                    templateUrl: 'pages/tv/live.html',
+                    resolve: {
+                        resB: function(resA, resWelcome){
+                            
+                         }
+                    }
                 })
                 .state('app.tvAdmin.movieCommon', {
                     url: '/movieCommon?moduleId',
-                    templateUrl: 'pages/tv/movieCommon.html'
+                    templateUrl: 'pages/tv/movieCommon.html',
+                    resolve: {
+                        resB: function(resA, resWelcome){
+                            
+                         }
+                    }
                 })
                 .state('app.tvAdmin.blank', {
                     url: '/blank',
