@@ -1035,8 +1035,40 @@
                 $scope.app.maskUrl = 'pages/tv/liveEdit.html';
             }
 
-            self.del = function(id) {
-                
+            self.del = function(id, index) {
+                var index = index;
+                if(!confirm('确认删除？')) {
+                    return;
+                }
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "delChannel",
+                    "viewID": self.viewId,
+                    "data": {
+                      "ChannelList":[
+                          {"ID":id-0}
+                      ]
+                    },
+                    "lang": ""
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('删除成功');
+                        self.lives.splice(index,1);
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('删除失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                });
             }
 
             self.add = function() {
@@ -1082,7 +1114,7 @@
             var id = $stateParams.moduleId;
 
             self.init = function() {
-                console.log(id);
+                // console.log(id);
             }
 
         }
@@ -1295,7 +1327,6 @@
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console.log(percentComplete);
                                 }
                             });
                         },
@@ -1319,7 +1350,7 @@
                             $scope.$apply(function () {
                                 o.update(fileId, -1, '', '');
                             });
-                            console.log('failure');
+                            console&&console.log('failure');
                             xhr.abort();
                         }
                     );
@@ -1372,7 +1403,6 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         self.modules = data.data;
-                        console.log(self.modules[0].Name)
                         self.module = self.modules[0].Name;
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
@@ -1549,7 +1579,7 @@
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console.log(percentComplete);
+                                    console && console.log(percentComplete);
                                 }
                             });
                         },
