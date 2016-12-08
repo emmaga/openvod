@@ -58,7 +58,7 @@
                     templateUrl: 'pages/room.html'
                 })
                 .state('app.tvAdmin', {
-                    url: '/tvAdmin?initS',
+                    url: '/tvAdmin',
                     templateUrl: 'pages/tvAdmin.html',
                     resolve: {
                         resA: function($http, $state, util) {
@@ -211,7 +211,7 @@
                     }
                 })
                 .state('app.tvAdmin.welcome', {
-                    url: '/welcome',
+                    url: '/welcome?label',
                     templateUrl: 'pages/tv/welcome.html',
                     resolve: {
                         resB: function(resA, resWelcome){
@@ -220,7 +220,7 @@
                     }
                 })
                 .state('app.tvAdmin.version', {
-                    url: '/version',
+                    url: '/version?label',
                     templateUrl: 'pages/tv/version.html',
                     resolve: {
                         resB: function(resA, resWelcome){
@@ -238,7 +238,7 @@
                     }
                 })
                 .state('app.tvAdmin.movieCommon', {
-                    url: '/movieCommon?moduleId',
+                    url: '/movieCommon?moduleId&label',
                     templateUrl: 'pages/tv/movieCommon.html',
                     resolve: {
                         resB: function(resA, resWelcome){
@@ -247,7 +247,7 @@
                     }
                 })
                 .state('app.tvAdmin.blank', {
-                    url: '/blank',
+                    url: '/blank?label',
                     templateUrl: 'pages/tv/blank.html'
                 })
         }])

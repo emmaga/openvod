@@ -11,7 +11,7 @@
             
             self.init = function() {
                 // 默认加载欢迎页面
-                self.initS = $stateParams.initS ? $stateParams.initS : '欢迎页面';
+                self.initS = $stateParams.label ? $stateParams.label : '欢迎页面';
                 self.menuRoot = false;
                 self.MainMenu_THJ_SecondMenu = false;
 
@@ -125,17 +125,17 @@
 
                 // welcome
                 if(branch.data.type == "welcome") {
-                    $state.go('app.tvAdmin.welcome');
+                    $state.go('app.tvAdmin.welcome', {label: branch.label});
                 }
 
                 // version
                 if(branch.data.type == 'version') {
-                    $state.go('app.tvAdmin.version');
+                    $state.go('app.tvAdmin.version', {label: branch.label});
                 }
 
                 // menuRoot
                 if(branch.data.type == 'menuRoot') {
-                    $state.go('app.tvAdmin.blank');
+                    $state.go('app.tvAdmin.blank', {label: branch.label});
                 }
 
                 // live
@@ -147,14 +147,14 @@
                 // movieCommon
                 if(branch.data.type == 'MovieCommon') {
                     
-                    $state.go('app.tvAdmin.movieCommon', {moduleId: branch.data.moduleId});
+                    $state.go('app.tvAdmin.movieCommon', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
 
                 // MainMenu_THJ_SecondMenu
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu') {
                     
-                    $state.go('app.tvAdmin.blank');
+                    $state.go('app.tvAdmin.blank', {label: branch.label});
                     self.changeMenuInfo();
                 }
 
@@ -623,7 +623,6 @@
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
                 self.liveInfo = $scope.app.maskParams.liveInfo;
-                self.labelName = $scope.app.maskParams.labelName;
 
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
@@ -678,9 +677,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.go($state.current, {initS: self.labelName, moduleId: self.viewId},{ 
-                          reload: true, inherit: false, notify: true 
-                        });
+                        $state.reload();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -832,7 +829,6 @@
 
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
-                self.labelName = $scope.app.maskParams.labelName;
 
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
@@ -877,9 +873,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('添加成功');
-                        $state.go($state.current, {initS: self.labelName, moduleId: self.viewId},{ 
-                          reload: true, inherit: false, notify: true 
-                        });
+                        $state.reload();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -1030,14 +1024,12 @@
 
             self.init = function() {
                 self.viewId = $stateParams.moduleId;
-                self.labelName = $stateParams.label;
                 self.defaultLangCode = util.getDefaultLangCode();
                 self.loadLiveList();
             }
 
             self.edit = function(index) {
                 $scope.app.maskParams.viewId = self.viewId;
-                $scope.app.maskParams.labelName = self.labelName;
                 $scope.app.maskParams.liveInfo = self.lives[index];
                 $scope.app.showHideMask(true,'pages/tv/liveEdit.html');
             }
@@ -1080,7 +1072,6 @@
 
             self.add = function() {
                 $scope.app.maskParams.viewId = self.viewId;
-                $scope.app.maskParams.labelName = self.labelName;
                 $scope.app.showHideMask(true,'pages/tv/liveAdd.html');
             }
 
