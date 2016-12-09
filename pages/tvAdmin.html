@@ -38,16 +38,16 @@
                 <!--菜单风格图-->
 
                 <!--更改模版按钮-->
-                <a ng-click="tvAdmin.changeMainStyle()">更改模版</a><br>
+                <a ng-click="tvAdmin.changeMainStyle()">更改首页</a><br>
                 <!--更改模版按钮-->
 
-                <!--添加子菜单-->
-                <a ng-click="tvAdmin.addMenu(1)">添加子菜单</a><br>
-                <!--添加子菜单-->
+                <!--添加菜单-->
+                <a ng-click="tvAdmin.addMenu(1)">添加菜单</a><br>
+                <!--添加菜单-->
 
-                <!--添加子模块-->
-                <a ng-click="tvAdmin.addModule(1)">添加子模块</a><br>
-                <!--添加子模块-->
+                <!--添加模块-->
+                <a ng-click="tvAdmin.addModule(1)">添加模块</a><br>
+                <!--添加模块-->
 
             <!--主菜单-->
             </ng-if>
@@ -64,9 +64,9 @@
                 
                 <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu'">
 
-                    <!--添加子模块-->
-                    <a ng-click="tvAdmin.addModule(2)">添加子模块</a><br>
-                    <!--添加子模块-->
+                    <!--添加模块-->
+                    <a ng-click="tvAdmin.addModule(2)">添加模块</a><br>
+                    <!--添加模块-->
                 </ng-if>
 
                 <!--删除当前菜单-->
@@ -80,7 +80,7 @@
                     <!--修改菜单名称（多语言）-->
                     <ng-repeat ng-repeat="lang in tvAdmin.editLangs">
                         <ng-if ng-if="lang.default">
-                            菜单名称 {{lang.name}}：<input ng-model="tvAdmin.menu.name[lang.code]" required />
+                            菜单名称 {{lang.name}}：<input ng-model="tvAdmin.menu.name[lang.code]" required /><br>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             菜单名称 {{lang.name}}：<input ng-model="tvAdmin.menu.name[lang.code]" />
@@ -98,12 +98,14 @@
                     <!--菜单图片-->
 
                     <!--修改菜单图片按钮-->
+                    菜单图片:<br>
                     <input id="upload3" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload3"/>
-                    <a ng-click="tvAdmin.clickUpload('upload3')">修改菜单图片</a>
+                    <a ng-click="tvAdmin.clickUpload('upload3')">上传</a><br>
                     <a id="hidenUpload3" style="display: none;" ng-click="tvAdmin.imgs3.uploadFile(myFile, tvAdmin.imgs3)"></a>
                     <!--修改菜单图片按钮-->
 
                     <!--菜单高亮图片-->
+                    菜单高亮图片:<br>
                     <div ng-repeat="img in tvAdmin.imgs4.data">
                         <img src="{{img.src}}" alt="{{img.fileName}}" />
                         进度： {{img.progress}} <!-- -1代表失败 -->
@@ -114,12 +116,12 @@
 
                     <!--修改菜单高亮图片按钮-->
                     <input id="upload4" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload4"/>
-                    <a ng-click="tvAdmin.clickUpload('upload4')">上传菜单高亮图片</a>
+                    <a ng-click="tvAdmin.clickUpload('upload4')">上传</a><br>
                     <a id="hidenUpload4" style="display: none;" ng-click="tvAdmin.imgs4.uploadFile(myFile, tvAdmin.imgs4)"></a>
                     <!--修改菜单高亮图片按钮-->
 
                     <!--菜单排序-->
-                    <input type="number" ng-model="tvAdmin.menu.seq" min="1" required/>
+                    菜单序号: <input type="number" ng-model="tvAdmin.menu.seq" min="1" required/><br>
                     <!--菜单排序-->
 
                     <!--保存按钮-->

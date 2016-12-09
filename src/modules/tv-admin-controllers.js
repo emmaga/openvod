@@ -207,7 +207,8 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('保存成功');
-                        $state.reload();
+                        $state.go($state.current, {label: self.menu.name[util.getDefaultLangCode()]}, {reload:true});
+                        
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -376,8 +377,14 @@
                     
                     if (data.rescode == '200') {
                         // 酒店logo图
-                        self.imgs1 = new Imgs([{"ImageURL": data.data.LogoURL, "ImageSize": data.data.LogoSize}], true);
-                        self.imgs1.initImgs();
+                        if(data.data.LogoURL) {
+                            self.imgs1 = new Imgs([{"ImageURL": data.data.LogoURL, "ImageSize": data.data.LogoSize}], true);
+                            self.imgs1.initImgs();
+                        }
+                        else {
+                            self.imgs1 = new Imgs([],true);
+                        }
+                        
 
                         // 酒店欢迎辞
                         self.welcomeText = data.data.WelcomeText;
@@ -389,12 +396,24 @@
                         self.hotelManagerName = data.data.HotelManagerName;
 
                         // 酒店经理签名图
-                        self.imgs2 = new Imgs([{"ImageURL": data.data.HotelManageSignURL, "ImageSize": data.data.HotelManageSignSize}], true);
-                        self.imgs2.initImgs();
+                        if(data.data.HotelManageSignURL){
+                            self.imgs2 = new Imgs([{"ImageURL": data.data.HotelManageSignURL, "ImageSize": data.data.HotelManageSignSize}], true);
+                            self.imgs2.initImgs();
+                        }
+                        else {
+                            self.imgs2 = new Imgs([], true);
+                        }
+                        
 
                         // 背景视频
-                        self.imgs3 = new Imgs([{"ImageURL": data.data.BackgroundVideoURL, "ImageSize": data.data.BackgroundVideoSize}], true);
-                        self.imgs3.initImgs();
+                        if(data.data.BackgroundVideoURL) {
+                            self.imgs3 = new Imgs([{"ImageURL": data.data.BackgroundVideoURL, "ImageSize": data.data.BackgroundVideoSize}], true);
+                            self.imgs3.initImgs();
+                        }
+                        else {
+                            self.imgs3 = new Imgs([], true);
+                        }
+                        
 
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
@@ -407,11 +426,6 @@
                 }).finally(function (value) {
                     self.loading = false;
                 });
-            }
-
-
-            self.cancel = function() {
-                $scope.app.showHideMask(false);
             }
 
             self.save = function() {
@@ -429,13 +443,23 @@
                 }
 
                 // 背景视频
-                if(
-                    (self.imgs3.data.length == 0 )/*|| 
-                    (self.imgs3.data.length > 1 && (self.imgs3.data[1].progress < 100 || self.imgs3.data[1].progress == -1))*/
-                ) {
+                // 视频未上传
+                if(self.imgs3.data.length == 0) {
                     alert('请上传背景视频');
                     return;
                 }
+                // 视频未上传完成
+                else if (self.imgs3.data[0].progress < 100) {
+                    alert('视频正在上传中，请稍后...');
+                    return;
+                }
+                // 视频上传失败时
+                else if (self.imgs3.data[0].progress == -1) {
+                    alert('视频上传失败，请重新上传');
+                    return;
+                }
+                // 编辑的视频未上传完成
+                /*(self.imgs3.data.length > 1 && (self.imgs3.data[1].progress < 100 || self.imgs3.data[1].progress == -1))*/
 
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
@@ -464,6 +488,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
+                        $state.reload();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');

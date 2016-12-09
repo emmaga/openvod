@@ -13,17 +13,17 @@
 
         <!--酒店logo图修改按钮-->
         <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-        <a ng-click="tvWelcome.clickUpload('upload1')">修改</a>
+        <a ng-click="tvWelcome.clickUpload('upload1')">上传</a><br>
         <a id="hidenUpload1" style="display: none;" ng-click="tvWelcome.imgs1.uploadFile(myFile, tvWelcome.imgs1)"></a>
         <!--酒店logo图修改按钮-->
 
         <!--酒店欢迎辞-->
         <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
             <ng-if ng-if="lang.default">
-                欢迎辞 {{lang.name}}：<input ng-model="tvWelcome.welcomeText[lang.code]" required />
+                欢迎辞 {{lang.name}}：<textarea ng-model="tvWelcome.welcomeText[lang.code]" required></textarea><br>
             </ng-if>
             <ng-if ng-if="lang.default !== true">
-                欢迎辞 {{lang.name}}：<input ng-model="tvWelcome.welcomeText[lang.code]" />
+                欢迎辞 {{lang.name}}：<textarea ng-model="tvWelcome.welcomeText[lang.code]"></textarea><br>
             </ng-if>
         </ng-repeat>
         <!--酒店欢迎辞-->
@@ -31,10 +31,10 @@
         <!--酒店客人称呼-->
         <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
             <ng-if ng-if="lang.default">
-                客户称呼 {{lang.name}}：<input ng-model="tvWelcome.guestName[lang.code]" required />
+                客户称呼 {{lang.name}}：<input ng-model="tvWelcome.guestName[lang.code]" required /><br>
             </ng-if>
             <ng-if ng-if="lang.default !== true">
-                客户称呼 {{lang.name}}：<input ng-model="tvWelcome.guestName[lang.code]" />
+                客户称呼 {{lang.name}}：<input ng-model="tvWelcome.guestName[lang.code]" /><br>
             </ng-if>
         </ng-repeat>
         <!--酒店客人称呼-->
@@ -42,10 +42,10 @@
         <!--酒店经理-->
         <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
             <ng-if ng-if="lang.default">
-                客户称呼 {{lang.name}}：<input ng-model="tvWelcome.hotelManagerName[lang.code]" required />
+                酒店经理 {{lang.name}}：<input ng-model="tvWelcome.hotelManagerName[lang.code]" required /><br>
             </ng-if>
             <ng-if ng-if="lang.default !== true">
-                客户称呼 {{lang.name}}：<input ng-model="tvWelcome.hotelManagerName[lang.code]" />
+                酒店经理 {{lang.name}}：<input ng-model="tvWelcome.hotelManagerName[lang.code]" /><br>
             </ng-if>
         </ng-repeat>    
         <!--酒店经理-->
@@ -62,7 +62,7 @@
 
         <!--酒店经理签名图修改-->
         <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
-        <a ng-click="tvWelcome.clickUpload('upload2')">修改</a>
+        <a ng-click="tvWelcome.clickUpload('upload2')">上传</a><br>
         <a id="hidenUpload2" style="display: none;" ng-click="tvWelcome.imgs2.uploadFile(myFile, tvWelcome.imgs2)"></a>
         <!--酒店经理签名图修改-->
 
@@ -78,7 +78,7 @@
         
         <!--背景视频修改按钮-->
         <input id="upload3" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload3"/>
-        <a ng-click="tvWelcome.clickUpload('upload3')">修改</a>
+        <a ng-click="tvWelcome.clickUpload('upload3')">上传</a><br>
         <a id="hidenUpload3" style="display: none;" ng-click="tvWelcome.imgs3.uploadFile(myFile, tvWelcome.imgs3)"></a>
         <!--背景视频修改按钮-->
         
@@ -86,8 +86,5 @@
         <button type="submit">保存</button>
         <!--保存按钮-->
 
-        <!--取消按钮-->
-        <button ng-click="tvWelcome.cancel()">取消</button>
-        <!--取消按钮-->
     </form>
 </div>
