@@ -198,7 +198,6 @@
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
-                        console.log(data)
                         if (data.data.rescode == "200") {
                             if (data.data.data.shopList.length == 0) {
                                 self.noData = true;
@@ -646,8 +645,8 @@
                         if (data.data.rescode == "200") {
                             var data = data.data.data;
                             self.name = data.product.name;
-                            self.invetory = data.product.invetory;
-                            self.price = data.product.price;
+                            self.invetory = data.product.invetory - 0;
+                            self.price = data.product.price - 0;
                             self.intro = data.product.intro;
                             self.imgs = new Imgs(data.product.imgSrc);
                             self.imgs.initImgs();
