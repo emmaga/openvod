@@ -21,8 +21,8 @@
         <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
         <a ng-click="goodsAdd.clickUpload('upload')">上传图片</a>
         <a id="hidenUpload" style="display: none;" ng-click="goodsAdd.imgs.uploadFile('myFile')"></a>
-        单价(分)：<input ng-model="goodsAdd.price" required type="number"/>
-        库存：<input ng-model="goodsAdd.invetory" required type="number"/>
+        单价(分)：<input ng-model="goodsAdd.price" required type="number" min="0"/>
+        库存：<input ng-model="goodsAdd.invetory" required type="number" min="0"/>
         <ng-repeat ng-repeat="lang in goodsAdd.editLangs">
             <ng-if ng-if="lang.default == true">
                 简介 {{lang.name}}：<textarea ng-model="goodsAdd.intro[lang.code]" required ></textarea>

@@ -646,8 +646,8 @@
                         if (data.data.rescode == "200") {
                             var data = data.data.data;
                             self.name = data.product.name;
-                            self.invetory = data.product.invetory;
-                            self.price = data.product.price;
+                            self.invetory = data.product.invetory - 0;
+                            self.price = data.product.price - 0;
                             self.intro = data.product.intro;
                             self.imgs = new Imgs(data.product.imgSrc);
                             self.imgs.initImgs();
