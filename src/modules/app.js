@@ -61,7 +61,7 @@
                     url: '/tvAdmin',
                     templateUrl: 'pages/tvAdmin.html',
                     resolve: {
-                        resA: function($http, $state, util) {
+                        resA:['$http', '$state', 'util', function($http, $state, util) {
                             var data = JSON.stringify({
                                 "token": util.getParams('token'),
                                 "action": "getMainMenu",
@@ -151,8 +151,8 @@
                             }).finally(function (value) {
                                 
                             });
-                        },
-                        resWelcome: function($http, $state, util) {
+                        }],
+                        resWelcome: ['$http', '$state', 'util', function($http, $state, util) {
                             var data = JSON.stringify({
                                 "token": util.getParams('token'),
                                 "action": "getWelcomePageTemplate",
@@ -194,9 +194,9 @@
                             }).finally(function (value) {
                                 
                             });
-                        }
+                        }]
                     },
-                    controller: function($scope, resA, resWelcome){
+                    controller:['$scope', 'resA', 'resWelcome' ,function($scope, resA, resWelcome){
                         var treedata = [
                             resWelcome.value, 
                             resA.value, 
@@ -208,7 +208,7 @@
                             }
                         ];
                         $scope.my_data = treedata;
-                    }
+                    }]
                 })
                 .state('app.tvAdmin.welcome', {
                     url: '/welcome?label',

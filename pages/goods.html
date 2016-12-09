@@ -1,13 +1,30 @@
 <!-- 商城管理>右侧部分 -->
-<div ng-controller="goodsController as goods" ng-init="goods.init()" class="content-right">
-    {{goods.maskParams.ShopName[goods.langStyle]}} + {{goods.maskParams.HotelName[goods.langStyle]}} <button ng-click="goods.shopEdit()">编辑商城属性</button><br>
+<div ng-controller="goodsController as goods" ng-init="goods.init();" class="content-right">
+    <!-- loading -->
     <div ng-show="goods.loading">loading...</div>
+    <!-- 标题 + 编辑酒店信息按钮-->
+    <h4 ng-click="goods.shopEdit()" class="">{{goods.maskParams.ShopName[goods.langStyle]}} {{goods.maskParams.HotelName[goods.langStyle]}}</h4>
+    <hr>
+    <!-- 分类标签 -->
+    <ul class="nav nav-tabs">
+        <li class="cursor-pointer" ng-class="">
+            <a ng-click="" ui-sref="app.shop.goods.goodsList({ShopGoodsCategoryID:'all',ShopGoodsCategoryName:'全部商品'})">全部商品</a>
+        </li>
+        <li class="cursor-pointer" ng-class="" ng-repeat="category in goods.categoryList">
+            <a ng-click="goods.goTo(category.id,category.name)">{{category.name[goods.langStyle]}}</a>
+        </li>
+        <li class="cursor-pointer" ng-class="" >
+            <a ng-click="goods.categoryAdd()">分类添加</a>
+        </li>
+    </ul>
+	<!-- tab-content start -->
+    <div class="tab-content">
+    	<!-- 商品列表 -->
+        <div class="tab-pane active in">
+		    <ui-view></ui-view>
+    		<div ng-show="goods.noData">查无数据</div>
+        </div>
+    </div>
 
-  <!--   <span ui-sref="app.shop.goods.goodsList({ShopGoodsCategoryID:'all',ShopGoodsCategoryName:'全部商品'})">全部商品</span> |<span ui-sref="app.shop.goods.goodsList({ShopGoodsCategoryID:category.id,ShopGoodsCategoryName:goods.JSONstringfy(category.name)})"  ng-repeat="category in goods.categoryList">{{category.name[goods.langStyle]}} | </span><button ng-click="goods.categoryAdd()">分类添加</button> <br> -->
 
-
-
-    <span ui-sref="app.shop.goods.goodsList({ShopGoodsCategoryID:'all',ShopGoodsCategoryName:'全部商品'})">全部商品</span> |<span  ng-click="goods.goTo(category.id,category.name)" ng-repeat="category in goods.categoryList">{{category.name[goods.langStyle]}} | </span><button ng-click="goods.categoryAdd()">分类添加</button> <br>
-    <ui-view></ui-view>
-    <div ng-show="goods.noData">查无数据</div>
 </div>
