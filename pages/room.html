@@ -112,105 +112,105 @@
             </ul>
         </div>
         <!-- 标签页: 客房列表 -->
-        <div class="tab-pane" ng-class="{'in active':(room.roomList)}">
+        <div class="tab-pane padding-bottom-72" ng-class="{'in active':(room.roomList)}">
             <!-- 按钮: 添加客房 -->
             <a ng-click="room.roomAdd()" class="button button-light">
                 <i class="icon ion-ios-plus-outline"></i> {{'ROOM_ADD' | translate}}
             </a>
             <!-- 列表: 客房列表 -->
-            
-<!--
-            <div class="row wf-container">                
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title1</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title2</div><div class="panel-body">Panel conasdfasdfa<br>sdfadfasdfasdf<br>asdfadftent</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title3</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title4</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title5</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title6</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title7</div><div class="panel-body">Panel conasdfasdfa<br>sdfadfasdfasdf<br>asdfadftent</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title8</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title9</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title10</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title11</div><div class="panel-body">Panel conasdfasdfa<br>sdfadfasdfasdf<br>asdfadftent</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title12</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title13</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <div class="wf-box"><div class="panel panel-default"><div class="panel-heading">title14</div><div class="panel-body">Panel content</div><div class="panel-footer">Panel footer</div></div></div>
-                <style type="text/css">
-                    .test-001{
-                        display: table-cell;
-                    }
-                </style>
-                <script type="text/javascript">
+            <div ng-init="room.search()" class="wf-container">
+                <!-- 容器: 瀑布流容器 -->
+                <div class="wf-box box" ng-repeat="item in room.rooms">
                     
-                </script>
-            </div>
--->
-            <div ng-init="room.search()" class="row wf-container">
-
-                <div class="wf-box" style="width:25%; display: inline-block;padding: 10px" ng-repeat="item in room.rooms">
-                    <div class="panel panel-default" >
-                        
-                        <div class="panel-body">
-                            
-                            <img class="img-responsive" ng-src="{{item.imgs[0].ImageURL}}">
-                            <hr>
-                        
+                   
+                    <div class="panel panel-default">
+                        <!-- 内容: 客房图 -->
+                        <div class="box-top-img" style="background-image: url({{item.imgs[0].ImageURL}})">
                         </div>
+                        <!-- 操作：编辑 -->
+                        <i ng-click="room.hotelEdit()" class="icon ion-gear-a box-corner-btn"></i>
+                        <div class="panel-body">
+                            <!-- 内容: 客房名 -->
+                            <h4>{{item.RoomTypeName[room.defaultLangCode]}}</h4>
+                            <!-- 内容: 标签 -->
+                            <p class=""><ng-repeat ng-repeat="tag in item.tags">{{tag.TagName[room.defaultLangCode]}} </ng-repeat></p>
+                        </div>
+                        <ul class="list-group">
+                            <!-- 操作：改价格 -->
+                            <li class="list-group-item btn" ng-click="room.roomEditPrice(item.ID)">
+                                价格
+                                <span class="pull-right">
+                                    ￥366 ~ ￥500
+                                    <i class="icon ion-ios-arrow-right"></i>
+                                </span>
+                            </li>
+                            <!-- 操作：改数量 -->
+                            <li class="list-group-item btn" ng-click="room.roomEditNum(item.ID)">
+                                房间数
+                                <span class="pull-right">
+                                    12间 ~ 14间
+                                    <i class="icon ion-ios-arrow-right"></i>
+                                </span>
+                            </li>
 
+                            <!-- 内容: 今天可订 --><!-- 
+                            <li class="list-group-item col-xs-6">
+                                今日可订{{item.AvailableNumCurrent}}间
+                            </li> -->
+                            <!-- 内容: 今天剩余 --><!-- 
+                            <li class="list-group-item col-xs-6 text-right">
+                                剩余6间
+                            </li>
+                            <div class="clearfix"></div> -->
+                             <!-- 操作: 启用开关 -->
+                            <li class="list-group-item">
+                                上线
+                                <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged($index)" class="pull-right"></toggle>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                
             </div>
 
-            
+            <!--
             <ul ng-init="room.search()" class="list-group">
                 <li ng-repeat="item in room.rooms" class="list-group-item thumbnail-left">
-                    <!-- 内容: 客房图 -->
+                    <!-- 内容: 客房图 --
                     <div ng-style="{'background-image':'url({{item.imgs[0].ImageURL}})'}" class="form-thumbnail"></div>
                     <div class="row">
-                        <!-- 第1列 -->
+                        <!-- 第1列 --
                         <span class="col-xs-5">
-                            <!-- 内容: 客房名 -->
+                            <!-- 内容: 客房名 --
                             <h5>{{item.RoomTypeName[room.defaultLangCode]}}</h5>
-                            <!-- 内容: 标签 -->
+                            <!-- 内容: 标签 --
                             <p class="">标签：<ng-repeat ng-repeat="tag in item.tags">{{tag.TagName[room.defaultLangCode]}}</ng-repeat></p>
                         </span>
-                        <!-- 第2列 -->
+                        <!-- 第2列 --
                         <span class="col-xs-4">
-                            <!-- 内容: 今天房价 -->
+                            <!-- 内容: 今天房价 --
                             <p>今日价格：{{item.todayPrice/100 | currency : '￥'}}</p>
-                            <!-- 内容: 今天可订 -->
-                            <p>今日可订：{{item.AvailableNumCurrent}}</p>
-                            <!-- 内容: 今天剩余 -->
-                            <!--<p>今日剩余：26间</p>-->
                         </span>
-                        <!-- 第3列 -->
+                        <!-- 第3列 --
                         <span class="col-xs-2">
-                            <!-- 按钮: 改数量 -->
+                            <!-- 按钮: 改数量 --
                             <a ng-click="room.roomEditNum(item.ID)" class="cursor-pointer">数量</a>
                             <br>
-                            <!-- 按钮: 改价格 -->
+                            <!-- 按钮: 改价格 --
                             <a ng-click="room.roomEditPrice(item.ID)" class="cursor-pointer">价格</a>
                             <br>
-                            <!-- 按钮: 详情 -->
+                            <!-- 按钮: 详情 --
                             <a ng-click="room.roomEdit(item.ID)" class="cursor-pointer">查看详情</a>
 
                         </span>
-                        <!-- 第4列 -->
+                        <!-- 第4列 --
                         <span class="col-xs-1">
-                            <!-- 内容: 是否可用 -->
+                            <!-- 内容: 是否可用 --
                             <small>启用</small>                     
                             <toggle ng-model="item.RoomAvailable" ng-change="room.RAChanged($index)"></toggle>
                         </span>
                     </div>
                 </li>
-            </ul>
-
-
-
-
-
-
+            </ul>-->
         </div>
     </div>
     <!-- tab-content end-->
