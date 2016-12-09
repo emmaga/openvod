@@ -2,10 +2,11 @@
 <div ng-controller="roomController as room" ng-init="room.init(); room.roomList=true; room.hotelInfo=false;" class="content-right">
     <!--loading-->
     <div ng-show="room.loadingHotelInfo">loadingHotelInfo...</div>
-    <!--tab-->
+    <!-- 标题 -->
     <h4>{{room.hotel.Name[room.defaultLangCode]}}</h4>
     <hr>
-    <ul id="myTab" class="nav nav-tabs">
+    <!--tab-->
+    <ul class="nav nav-tabs">
         <li ng-class="{'active':(room.roomList)}" class="cursor-pointer">
             <a ng-click="room.hotelInfo=false; room.roomList=true;">{{'ROOM_LIST' | translate}}</a>
         </li>

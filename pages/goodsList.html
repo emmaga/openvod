@@ -1,11 +1,20 @@
 <div ng-controller="goodsListController as gl" ng-init="gl.init()">
     
-    <button ng-click="gl.goodsAdd()">添加商品</button>
+
+    <!-- 按钮: 编辑酒店信息 -->
+    <a  ng-click="gl.categoryEdit()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="button button-light">
+        <i class="icon ion-ios-compose-outline"></i> 编辑分类
+    </a>
+    <!-- 按钮: 编辑酒店信息 -->
+    <a ng-click="gl.categoryDelete()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="button button-light">
+        <i class="icon ion-ios-trash"></i> 删除分类
+    </a>
+    <!-- 按钮: 编辑酒店信息 -->
+    <a ng-click="gl.goodsAdd()" class="button button-light">
+        <i class="icon ion-ios-plus-outline"></i> 添加商品
+    </a>
     
-
-    <button ng-click="gl.categoryEdit()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="btn btn-primary button-positive">编辑分类</button>
-    <button ng-click="gl.categoryDelete()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="btn btn-primary button-positive">删除分类</button><br>
-
+    <!-- 列表: 商品列表 -->
     <table ng-table="gl.tableParams" class="table" show-filter="true">
         <tr ng-repeat="product in $data">
             <td data-title="'商品名'" >{{product.name[gl.langStyle]}}</td>
@@ -16,8 +25,9 @@
 
 
             
-            <td data-title="'上架下架'"><input type="checkbox"  ng-click="gl.changeGoodsStatus(product.productId,product.status)"  ng-checked="product.status==1" > </td>
-
+            <!-- <td data-title="'上架下架'"><input type="checkbox"  ng-click="gl.changeGoodsStatus(product.productId,product.status)"  ng-checked="product.status==1" > </td> -->
+            
+            <td data-title="'上架下架'"><toggle ng-model="product.status" ng-change="gl.changeGoodsStatus(product.productId,product.status)" class="pull-right"></toggle> </td>
 
 
             <td><button ng-click="gl.goodsEdit(product.productId)">编辑商品属性</button></td>
