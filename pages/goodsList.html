@@ -1,36 +1,27 @@
 <div ng-controller="goodsListController as gl" ng-init="gl.init()">
     
-
-    <!-- 按钮: 编辑酒店信息 -->
-    <a  ng-click="gl.categoryEdit()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="button button-light">
-        <i class="icon ion-ios-compose-outline"></i> 编辑分类
-    </a>
-    <!-- 按钮: 编辑酒店信息 -->
-    <a ng-click="gl.categoryDelete()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="button button-light">
-        <i class="icon ion-ios-trash"></i> 删除分类
-    </a>
-    <!-- 按钮: 编辑酒店信息 -->
-    <a ng-click="gl.goodsAdd()" class="button button-light">
-        <i class="icon ion-ios-plus-outline"></i> 添加商品
-    </a>
+    <button ng-click="gl.goodsAdd()">添加商品</button>
     
-    <!-- 列表: 商品列表 -->
-    <table ng-table="gl.tableParams" class="table" show-filter="true">
-        <tr ng-repeat="product in $data">
-            <td data-title="'商品名'" >{{product.name[gl.langStyle]}}</td>
-            <td data-title="'库存'" >{{product.invetory}}</td>
-            <td data-title="'商品图'" ><Img ng-src="{{product.imgSrc}}"></td>
-            <td data-title="'单价'">{{product.price |fenToYuan}}</td>
-            <td data-title="'分类'"><span ng-repeat="category in gl.categoryList">{{category.name[gl.langStyle]}}<input type="checkbox"  ng-checked="gl.checkGoodsCategory(category.id,product.categoryList)"  ng-model="this.value" ng-click="gl.changeGoodsCategory(product.productId,category.id,this.value,product.categoryList)"></span> </td>
+
+    <button ng-click="gl.categoryEdit()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="btn btn-primary button-positive">编辑分类</button>
+    <button ng-click="gl.categoryDelete()" ng-hide="gl.stateParams.ShopGoodsCategoryID==='all'" class="btn btn-primary button-positive">删除分类</button><br>
+
+    <div  class="table" >
+        <ul ng-repeat="product in gl.goodsList">
+            <li data-title="'商品名'" >{{product.name[gl.langStyle]}}</li>
+            <li data-title="'库存'" >{{product.invetory}}</li>
+            <li data-title="'商品图'" ><Img ng-src="{{product.imgSrc}}"></li>
+            <li data-title="'单价'">{{product.price |fenToYuan}}</li>
+            <li data-title="'分类'"><span ng-repeat="category in gl.categoryList">{{category.name[gl.langStyle]}}<input type="checkbox"  ng-checked="gl.checkGoodsCategory(category.id,product.categoryList)"  ng-model="this.value" ng-click="gl.changeGoodsCategory(product.productId,category.id,this.value,product.categoryList)"></span> </li>
 
 
             
-            <!-- <td data-title="'上架下架'"><input type="checkbox"  ng-click="gl.changeGoodsStatus(product.productId,product.status)"  ng-checked="product.status==1" > </td> -->
+            <!-- <li data-title="'上架下架'"><input type="checkbox"  ng-click="gl.changeGoodsStatus(product.productId,product.status)"  ng-checked="product.status==1" > </li> -->
             
-            <td data-title="'上架下架'"><toggle ng-model="product.status" ng-change="gl.changeGoodsStatus(product.productId,product.status)" class="pull-right"></toggle> </td>
+            <li data-title="'上架下架'"><toggle ng-model="product.status" ng-change="gl.changeGoodsStatus(product.productId,product.status)" class="pull-right"></toggle> </li>
 
 
-            <td><button ng-click="gl.goodsEdit(product.productId)">编辑商品属性</button></td>
-        </tr>
-    </table>
+            <li><button ng-click="gl.goodsEdit(product.productId)">编辑商品属性</button></li>
+        </ul>
+    </div>
 </div>

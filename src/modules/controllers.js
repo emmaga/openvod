@@ -1182,45 +1182,39 @@
                 // 商品列表
                 self.getProductList = function (ShopGoodsCategoryID) {
 
-                    self.tableParams = new NgTableParams({
-                        page: 1,
-                        count: 15,
-                        url: ''
-                    }, {
-                        counts: [],
-                        getData: function (params) {
+              
                             var data = {
                                 "action": "getMgtShopProductList",
                                 "token": util.getParams("token"),
                                 "lang": self.langStyle,
                                 "ShopID": self.stateParams.ShopID - 0,
+                                "count": 1000,
+                                "page":1
                             }
 
                             if (!(ShopGoodsCategoryID == "all")) {
                                 data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
                                 data.action = "getMgtProductList";
                             }
-                            var paramsUrl = params.url();
-                            data.count = paramsUrl.count;
-                            data.page = paramsUrl.page;
+                            
                             data = JSON.stringify(data);
 
 
-                            return $http({
+                            $http({
                                 method: $filter('ajaxMethod')(),
                                 url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                                 data: data
                             }).then(function successCallback(data, status, headers, config) {
-                                params.total(data.data.data.productTotal);
+                                // params.total(data.data.data.productTotal);
                                 var data = data.data.data.productList;
-                                return data;
+                                self.goodsList  = data;
+                                // return data;
 
                             }, function errorCallback(data, status, headers, config) {
 
                             })
 
-                        }
-                    });
+         
 
                 }
 
