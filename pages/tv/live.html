@@ -1,0 +1,36 @@
+<div ng-controller="tvLiveController as tvLive" ng-init="tvLive.init()">
+    <!--添加直播频道按钮-->
+    <button ng-click="tvLive.add()">添加</button>
+    <!--添加直播频道按钮-->
+
+    <!--直播列表-->
+    <ul>
+        <li ng-repeat="live in tvLive.lives track by $index">
+            <!--频道序号-->
+            频道序号：{{live.ChannelNum}} <br>
+            <!--频道序号-->
+
+            <!--频道图标-->
+            频道图标：<img src="{{live.ChannelPicURL}}"> <br>
+            <!--频道图标-->
+
+            <!--频道名-->
+            频道名:{{live.ChannelName[tvLive.defaultLangCode]}} <br>
+            <!--频道名-->
+
+            <!--频道直播地址-->
+            频道直播地址:{{live.Src}}<br>
+            <!--频道直播地址-->
+
+            <!--编辑按钮-->
+            <button ng-click="tvLive.edit($index)">编辑</button>
+            <!--编辑按钮-->
+
+            <!--删除按钮-->
+            <button ng-click="tvLive.del(live.ID, $index)">删除</button>
+            <!--删除按钮-->
+                          
+        </li>
+    </ul>
+    <!--直播列表-->
+</div>

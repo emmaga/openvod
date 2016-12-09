@@ -70,7 +70,12 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
-                    return JSON.parse($cookies.get(paramsName) || '[]');
+                    if($cookies.get(paramsName)) {
+                        return JSON.parse($cookies.get(paramsName));
+                    }
+                    else {
+                        return false;
+                    }
                 },
 
                 /**

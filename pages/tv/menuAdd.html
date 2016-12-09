@@ -1,0 +1,84 @@
+<div ng-controller="tvMenuAddController as tvMenuAdd" ng-init="tvMenuAdd.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
+    
+    <!--添加菜单的title-->
+    <span>添加菜单</span>
+    <!--添加菜单的title-->
+
+    <!--菜单示意信息获取中的提示信息-->
+    <div ng-show="tvMenuAdd.loading">获取菜单示意信息...</div>
+    <!--菜单示意信息获取中的提示信息-->
+
+    <!--菜单示意信息-->
+
+        <!--菜单模版名称-->
+        一级菜单<br>
+        <!--菜单模版名称-->
+
+        <!--菜单模版风格图-->
+        <img src="{{tvMenuAdd.styleImg}}">
+        <!--菜单模版风格图-->
+
+    <!--菜单示意信息-->
+
+
+    <!--保存中的提示信息-->
+    <div ng-show="tvMenuAdd.saving">saving...</div>
+    <!--保存中的提示信息-->
+
+    <form name="tvMenuAddForm" ng-submit="tvMenuAddForm.$valid && tvMenuAdd.save()">
+
+        <!--菜单名称（多语言）-->
+        <ng-repeat ng-repeat="lang in tvMenuAdd.editLangs">
+            <ng-if ng-if="lang.default">
+                菜单名称 {{lang.name}}：<input ng-model="tvMenuAdd.menuName[lang.code]" required />
+            </ng-if>
+            <ng-if ng-if="lang.default !== true">
+                菜单名称 {{lang.name}}：<input ng-model="tvMenuAdd.menuName[lang.code]" />
+            </ng-if>
+        </ng-repeat>
+        <!--菜单名称（多语言）-->
+
+        <!--菜单图片-->
+        <div ng-repeat="img in tvMenuAdd.imgs1.data">
+            <img src="{{img.src}}" alt="{{img.fileName}}" />
+            进度： {{img.progress}} <!-- -1代表失败 -->
+            <!-- 大小： {{img.fileSize}}
+            剩余： {{img.leftSize}} -->
+        </div>
+        <!--菜单图片-->
+
+        <!--修改菜单图片按钮-->
+        <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+        <a ng-click="tvMenuAdd.clickUpload('upload1')">上传菜单图片</a>
+        <a id="hidenUpload1" style="display: none;" ng-click="tvMenuAdd.imgs1.uploadFile('myFile', tvMenuAdd.imgs1)"></a>
+        <!--修改菜单图片按钮-->
+
+        <!--菜单高亮图片-->
+        <div ng-repeat="img in tvMenuAdd.imgs2.data">
+            <img src="{{img.src}}" alt="{{img.fileName}}" />
+            进度： {{img.progress}} <!-- -1代表失败 -->
+            <!-- 大小： {{img.fileSize}}
+            剩余： {{img.leftSize}} -->
+        </div>
+        <!--菜单高亮图片-->
+
+        <!--修改菜单高亮图片按钮-->
+        <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
+        <a ng-click="tvMenuAdd.clickUpload('upload2')">上传菜单高亮图片</a>
+        <a id="hidenUpload2" style="display: none;" ng-click="tvMenuAdd.imgs2.uploadFile('myFile', tvMenuAdd.imgs2)"></a>
+        <!--修改菜单高亮图片按钮-->
+
+        <!--菜单排序-->
+        菜单序号 <input type="number" ng-model="tvMenuAdd.seq" min="1" required/>
+        <!--菜单排序-->
+
+        <!--保存按钮-->
+        <button type="submit">保存</button>
+        <!--保存按钮-->
+
+        <!--取消按钮-->
+        <div ng-click="tvMenuAdd.cancel()">取消</div>
+        <!--取消按钮-->
+    </form>
+
+</div>

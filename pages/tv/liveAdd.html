@@ -1,0 +1,52 @@
+<div ng-controller="tvLiveAddController as tvLiveAdd" ng-init="tvLiveAdd.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
+    <!--添加直播的title-->
+        <span>添加直播</span>
+        <!--添加直播的title-->
+
+        <form name="tvLiveAddForm" ng-submit="tvLiveAddForm.$valid && tvLiveAdd.save()">
+
+            <!--频道序号-->
+            频道序号 <input type="number" ng-model="tvLiveAdd.channelNum" min="1" required/>
+            <!--频道序号-->
+            
+            <!--频道图标-->
+            频道图标 
+            <div ng-repeat="img in tvLiveAdd.imgs1.data">
+                <img src="{{img.src}}" alt="{{img.fileName}}" />
+                进度： {{img.progress}} <!-- -1代表失败 -->
+                <!-- 大小： {{img.fileSize}}
+                剩余： {{img.leftSize}} -->
+            </div>
+            <!--频道图标-->
+
+            <!--频道图标上传按钮-->
+            <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+            <a ng-click="tvLiveAdd.clickUpload('upload1')">上传频道图标</a>
+            <a id="hidenUpload1" style="display: none;" ng-click="tvLiveAdd.imgs1.uploadFile('myFile', tvLiveAdd.imgs1)"></a>
+            <!--频道图标上传按钮-->
+
+            <!--频道名-->
+            <ng-repeat ng-repeat="lang in tvLiveAdd.editLangs">
+                <ng-if ng-if="lang.default">
+                    频道名 {{lang.name}}：<input ng-model="tvLiveAdd.channelName[lang.code]" required />
+                </ng-if>
+                <ng-if ng-if="lang.default !== true">
+                    频道名 {{lang.name}}：<input ng-model="tvLiveAdd.channelName[lang.code]" />
+                </ng-if>
+            </ng-repeat>
+            <!--频道名-->
+
+            <!--频道直播地址-->
+            频道直播地址 (例：http://1.1.1.1/cctv1.m3u8)
+            <input type="text" ng-model="tvLiveAdd.src" required/>
+            <!--频道直播地址-->
+
+            <!--保存按钮-->
+            <button type="submit" ng-disabled="tvLiveAdd.saving">保存</button>
+            <!--保存按钮-->
+
+            <!--取消按钮-->
+            <div ng-click="tvLiveAdd.cancel()">取消</div>
+            <!--取消按钮-->
+        </form>
+</div>

@@ -1,0 +1,86 @@
+<div ng-controller="tvModuleAddController as tvModuleAdd" ng-init="tvModuleAdd.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
+    <!--添加模版的title-->
+        <span>添加模版</span>
+        <!--添加模版的title-->
+
+        <!--模版示意信息获取中的提示信息-->
+        <div ng-show="tvModuleAdd.loading">获取模版示意信息...</div>
+        <!--模版示意信息获取中的提示信息-->
+       
+
+        <!--保存中的提示信息-->
+        <div ng-show="tvModuleAdd.saving">saving...</div>
+        <!--保存中的提示信息-->
+
+        <form name="tvModuleAddForm" ng-submit="tvModuleAddForm.$valid && tvModuleAdd.save()">
+            <!--模版示意信息-->
+            <ng-repeat ng-repeat="module in tvModuleAdd.modules">
+                
+                <!--单选框-->
+                <input type="radio" ng-model="tvModuleAdd.module" value="{{module.Name}}">
+                <!--单选框-->
+
+                <!--模版模版名称-->
+                {{module.DescName}}<br>
+                <!--模版模版名称-->
+
+                <!--模版模版风格图-->
+                <img src="{{module.SamplePic}}">
+                <!--模版模版风格图-->
+            </ng-repeat>
+            <!--模版示意信息-->
+
+            <!--模版名称（多语言）-->
+            <ng-repeat ng-repeat="lang in tvModuleAdd.editLangs">
+                <ng-if ng-if="lang.default">
+                    模版名称 {{lang.name}}：<input ng-model="tvModuleAdd.menuName[lang.code]" required />
+                </ng-if>
+                <ng-if ng-if="lang.default !== true">
+                    模版名称 {{lang.name}}：<input ng-model="tvModuleAdd.menuName[lang.code]" />
+                </ng-if>
+            </ng-repeat>
+            <!--模版名称（多语言）-->
+
+            <!--模版图片-->
+            <div ng-repeat="img in tvModuleAdd.imgs1.data">
+                <img src="{{img.src}}" alt="{{img.fileName}}" />
+                进度： {{img.progress}} <!-- -1代表失败 -->
+                <!-- 大小： {{img.fileSize}}
+                剩余： {{img.leftSize}} -->
+            </div>
+            <!--模版图片-->
+
+            <!--修改模版图片按钮-->
+            <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+            <a ng-click="tvModuleAdd.clickUpload('upload1')">上传模版图片</a>
+            <a id="hidenUpload1" style="display: none;" ng-click="tvModuleAdd.imgs1.uploadFile('myFile', tvModuleAdd.imgs1)"></a>
+            <!--修改模版图片按钮-->
+
+            <!--模版高亮图片-->
+            <div ng-repeat="img in tvModuleAdd.imgs2.data">
+                <img src="{{img.src}}" alt="{{img.fileName}}" />
+                进度： {{img.progress}} <!-- -1代表失败 -->
+                <!-- 大小： {{img.fileSize}}
+                剩余： {{img.leftSize}} -->
+            </div>
+            <!--模版高亮图片-->
+
+            <!--修改模版高亮图片按钮-->
+            <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
+            <a ng-click="tvModuleAdd.clickUpload('upload2')">上传模版高亮图片</a>
+            <a id="hidenUpload2" style="display: none;" ng-click="tvModuleAdd.imgs2.uploadFile('myFile', tvModuleAdd.imgs2)"></a>
+            <!--修改模版高亮图片按钮-->
+
+            <!--模版排序-->
+            模版序号 <input type="number" ng-model="tvModuleAdd.seq" min="1" required/>
+            <!--模版排序-->
+
+            <!--保存按钮-->
+            <button type="submit">保存</button>
+            <!--保存按钮-->
+
+            <!--取消按钮-->
+            <div ng-click="tvModuleAdd.cancel()">取消</div>
+            <!--取消按钮-->
+        </form>
+</div>

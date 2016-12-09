@@ -5,6 +5,7 @@
         'ui.router',
         'pascalprecht.translate',
         'app.controllers',
+        'app.tv-admin-controllers',
         'app.filters',
         'app.directives',
         'app.services',
@@ -13,7 +14,8 @@
         'ngTable',
         'ngAnimate',
         'ui.bootstrap',
-        'ui.toggle'
+        'ui.toggle',
+        'angularBootstrapNavTree'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';
@@ -57,7 +59,196 @@
                 })
                 .state('app.tvAdmin', {
                     url: '/tvAdmin',
-                    templateUrl: 'pages/tvAdmin.html'
+                    templateUrl: 'pages/tvAdmin.html',
+                    resolve: {
+                        resA: function($http, $state, util) {
+                            var data = JSON.stringify({
+                                "token": util.getParams('token'),
+                                "action": "getMainMenu",
+                                "viewID": 1,
+                                "lang": util.langStyle()
+                            });
+
+                            // 加载服务器树的数据
+                            return $http({
+                                method: 'POST',
+                                url: util.getApiUrl('commonview', '', 'server'),
+                                data: data
+                            }).then(function successCallback(response) {
+                                var data = response.data;
+                                if (data.rescode == '200') {
+                                    var defaultLang = util.getDefaultLangCode();
+                                    var preData = data.data.Content;
+
+                                    var menu = [];
+                                    var mainMenu = 
+                                    {
+                                      label: '首页',
+                                      data: {
+                                        type: "menuRoot",
+                                        styleImg: data.data.ViewTemplateImage,
+                                        viewName: data.data.ViewType
+                                      },
+                                      children: menu
+                                    };
+
+                                    // 添加菜单data
+                                    for(var i = 0; i < preData.length; i++) {
+                                        // 添加一级菜单
+                                        menu.push({
+                                            "label": preData[i].Name[defaultLang],
+                                            "data": {
+                                                "type": preData[i].NextViewType,
+                                                "moduleId": preData[i].NextViewID,
+                                                "menuId": preData[i].FirstMenuID,
+                                                "menuLevel": 1,
+                                                "styleImg": preData[i].ViewTemplateImage,
+                                                "name": preData[i].Name,
+                                                "img": preData[i].IconURL,
+                                                "imgSize": preData[i].IconSize,
+                                                "focusImg": preData[i].IconFocusURL,
+                                                "focusImgSize": preData[i].IconFocusSize,
+                                                "seq": preData[i].Seq
+                                              }
+                                        });
+                                        // 添加二级菜单
+                                        if(preData[i].NextViewID == -1) {
+                                            menu[i].children = [];
+                                            var secondMenu = preData[i].Second.Content;
+                                            for(var j = 0; j < secondMenu.length; j++) {
+                                                menu[i].children.push({
+                                                    "label": secondMenu[j].Name[defaultLang],
+                                                    "data": {
+                                                        "type": secondMenu[j].NextViewType,
+                                                        "moduleId": secondMenu[j].NextViewID,
+                                                        "menuId": secondMenu[j].SecondMenuID,
+                                                        "menuLevel": 2,
+                                                        "styleImg": secondMenu[j].ViewTemplateImage,
+                                                        "name": secondMenu[j].Name,
+                                                        "img": secondMenu[j].IconURL,
+                                                        "imgSize": preData[i].IconSize,
+                                                        "focusImg":secondMenu[j].IconFocusURL,
+                                                        "focusImgSize": preData[i].IconFocusSize,
+                                                        "seq": secondMenu[j].Seq
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    }
+                                    // type: MainMenu_THJ_SecondMenu, Live, MovieCommon
+                                    return{value: mainMenu};
+                                    
+                                    
+                                    
+                                } else if(data.rescode == '401'){
+                                    alert('访问超时，请重新登录');
+                                    $state.go('login');
+                                } else{
+                                    alert('加载菜单信息失败，' + data.errInfo);
+                                }
+                            }, function errorCallback(response) {
+                                alert('连接服务器出错');
+                            }).finally(function (value) {
+                                
+                            });
+                        },
+                        resWelcome: function($http, $state, util) {
+                            var data = JSON.stringify({
+                                "token": util.getParams('token'),
+                                "action": "getWelcomePageTemplate",
+                                "lang": util.langStyle()
+                            });
+
+                            // 加载服务器树的数据
+                            return $http({
+                                method: 'POST',
+                                url: util.getApiUrl('welcomepage', '', 'server'),
+                                data: data
+                            }).then(function successCallback(response) {
+                                var data = response.data;
+                                if (data.rescode == '200') {
+                                    var defaultLang = util.getDefaultLangCode();
+                                    var preData = data.data.Content;
+
+                                    var welMenu = 
+                                    {
+                                      label: '欢迎页面',
+                                      data: {
+                                        type: "welcome",
+                                        styleImg: data.data.SamplePic,
+                                        viewName: data.data.Name
+                                      }
+                                    };
+                                    return{value: welMenu};
+                                    
+                                    
+                                    
+                                } else if(data.rescode == '401'){
+                                    alert('访问超时，请重新登录');
+                                    $state.go('login');
+                                } else{
+                                    alert('加载菜单信息失败，' + data.errInfo);
+                                }
+                            }, function errorCallback(response) {
+                                alert('连接服务器出错');
+                            }).finally(function (value) {
+                                
+                            });
+                        }
+                    },
+                    controller: function($scope, resA, resWelcome){
+                        var treedata = [
+                            resWelcome.value, 
+                            resA.value, 
+                            {
+                              label: '提交版本',
+                              data: {
+                                type: "version"
+                              }
+                            }
+                        ];
+                        $scope.my_data = treedata;
+                    }
+                })
+                .state('app.tvAdmin.welcome', {
+                    url: '/welcome?label',
+                    templateUrl: 'pages/tv/welcome.html',
+                    resolve: {
+                        resB: function(resA, resWelcome){
+                            
+                         }
+                    }
+                })
+                .state('app.tvAdmin.version', {
+                    url: '/version?label',
+                    templateUrl: 'pages/tv/version.html',
+                    resolve: {
+                        resB: function(resA, resWelcome){
+                            
+                         }
+                    }
+                })
+                .state('app.tvAdmin.live', {
+                    url: '/live?moduleId&label',
+                    templateUrl: 'pages/tv/live.html',
+                    resolve: {
+                        resB: function(resA, resWelcome){
+                            
+                         }
+                    }
+                })
+                .state('app.tvAdmin.movieCommon', {
+                    url: '/movieCommon?moduleId&label',
+                    templateUrl: 'pages/tv/movieCommon.html',
+                    resolve: {
+                        resB: function(resA, resWelcome){
+                            
+                         }
+                    }
+                })
+                .state('app.tvAdmin.blank', {
+                    url: '/blank?label',
+                    templateUrl: 'pages/tv/blank.html'
                 })
         }])
 
