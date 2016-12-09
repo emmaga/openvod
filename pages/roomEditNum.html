@@ -1,47 +1,256 @@
-<div ng-controller="roomEditNumController as roomEditNum" ng-init="roomEditNum.init() " class="autoscroll modal-dialog"
-     style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
-    <div style="background-color: white;">
-        <span>可订数量</span>
-        <div>
+<div ng-controller="roomEditNumController as roomEditNum" ng-init="roomEditNum.init() " class="autoscroll modal-dialog">
+
+        <!--<span>可订数量</span>-->
+        <!--<div ng-show="loading">loading...</div>-->
+        <!--<form name="roomEditNumForm" ng-submit="roomEditNumForm.$valid && roomEditNum.save()">-->
+            <!--<div>-->
+                <!--<div>-->
+                    <!--平时：-->
+                    <!--<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"-->
+                               <!--ng-model="roomEditNum.roomDetail.AvailableNum" required>-->
+                <!--</div>-->
+            <!--</div>-->
+
+                <!--<div>临时变动表-->
+                    <!--<button type="button" ng-click="roomEditNum.addTemporary(0)">添加设置</button>-->
+                <!--</div>-->
+                <!--<div style=" max-height: 500px; overflow: auto;">-->
+                    <!--<div ng-repeat="reply in roomEditNum.SpecialNum">-->
+                        <!--<div>-->
+                            <!--<button type="button" ng-click="roomEditNum.deleteTemporary($index)">删除</button>-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<p class="input-group">-->
+                                <!--<input type="text" class="form-control" uib-datepicker-popup-->
+                                       <!--ng-model="roomEditNum.SpecialNum[$index].AvailableDate"-->
+                                       <!--is-open="roomEditNum.SpecialNum[$index].Opened"-->
+                                       <!--datepicker-options="dateOptions"-->
+                                       <!--required close-text="Close" placeholder="请选择日期"/>-->
+                                <!--<span class="input-group-btn">-->
+                                <!--<button type="button" class="btn btn-default" ng-click="roomEditNum.open($index)"><i-->
+                                        <!--class="glyphicon glyphicon-calendar"></i></button>-->
+                            <!--</span>-->
+                            <!--</p>-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"-->
+                                    <!--placeholder="请输入数量" required-->
+                                    <!--ng-model="roomEditNum.SpecialNum[$index].AvailableNumCurrent">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--<div>-->
+                <!--<button ng-click="roomEditNum.cancel()">{{'CANCEL' | translate}}</button>-->
+                <!--<button type="submit" ng-disabled="roomEditNum.saving">{{'SAVE' | translate}}</button>-->
+            <!--</div>-->
+        <!--</form>-->
+
+
+
+
+
+
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="roomEditNum.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">可订数量</h5>
+        </div>
+        <!--header end-->
+        <!--body-->
+        <div class="modal-body">
             <div ng-show="loading">loading...</div>
-            <form name="roomEditNumForm" ng-submit="roomEditNumForm.$valid && roomEditNum.save()">
-                <div>
-                    <div>平时：<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                   ng-model="roomEditNum.roomDetail.AvailableNum" required></div>
+            <form id="roomEditNumForm" name="roomEditNumForm" ng-submit="roomEditNumForm.$valid && roomEditNum.save()"
+                  role="form">
+                <div class="form-group">
+                    <label>平时：</label>
+                    <input type="text" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           ng-model="roomEditNum.roomDetail.AvailableNum"  placeholder="Enter Number" required>
                 </div>
-                <div>
-                    <div>临时变动表
-                        <button type="button" ng-click="roomEditNum.addTemporary(0)">添加设置</button>
+
+                <div class="form-group">
+                    <label style="float:left; line-height: 30px;">临时变动表</label>
+                    <div class="text-right" style="width: auto;">
+                        <button class="btn btn-primary" type="button" ng-click="roomEditNum.addTemporary(0)">添加设置</button>
                     </div>
-                    <div style=" max-height: 500px; overflow: auto;">
-                        <div ng-repeat="reply in roomEditNum.SpecialNum">
-                            <div>
-                                <button type="button" ng-click="roomEditNum.deleteTemporary($index)">删除</button>
-                            </div>
-                            <div>
-                                <p class="input-group">
-                                    <input type="text" class="form-control" uib-datepicker-popup
-                                           ng-model="roomEditNum.SpecialNum[$index].AvailableDate"
-                                           is-open="roomEditNum.SpecialNum[$index].Opened"
-                                           datepicker-options="dateOptions"
-                                           required close-text="Close" placeholder="请选择日期"/>
-                                    <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="roomEditNum.open($index)"><i
-                                            class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                                </p>
-                            </div>
-                            <div><input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                        placeholder="请输入数量" required
-                                        ng-model="roomEditNum.SpecialNum[$index].AvailableNumCurrent"></div>
+                </div>
+
+
+
+
+
+
+                <div style="max-height: 500px; overflow: auto;" >
+                    <div ng-repeat="reply in roomEditNum.SpecialNum"
+                         style="border: 1px solid #CCCCCC; padding: 10px; margin: 20px auto;
+                         -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;">
+
+                        <div class="form-group">
+                            <!--<label style="float: left; line-height: 30px;">临时设置</label>-->
+                            <button type="button" class="close text-right" style="display: block;width: 100%; margin: 10px;" data-dismiss="modal"
+                                    ng-click="roomEditNum.deleteTemporary($index)">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup
+                                   ng-model="roomEditNum.SpecialNum[$index].AvailableDate"
+                                   is-open="roomEditNum.SpecialNum[$index].Opened"
+                                   datepicker-options="dateOptions"
+                                   required close-text="Close" placeholder="请选择日期"/>
+
+                            <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="roomEditNum.open($index)">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
+                        </div>
+                        <div>
+                            <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                   placeholder="请输入数量" required
+                                   ng-model="roomEditNum.SpecialNum[$index].AvailableNumCurrent">
                         </div>
                     </div>
                 </div>
-                <div>
-                    <button ng-click="roomEditNum.cancel()">{{'CANCEL' | translate}}</button>
-                    <button type="submit" ng-disabled="roomEditNum.saving">{{'SAVE' | translate}}</button>
+
+
+
+
+
+
+
+
+
+
+
+
+                <!--客房名-->
+                <div class="form-group">
+                    <ng-repeat ng-repeat="lang in roomAdd.editLangs">
+                        <div class="form-group">
+                            <ng-if ng-if="lang.default">
+                                <label for="roomNameCN">客房名 {{lang.name}}：</label>
+                                <input type="text" class="form-control" id="roomNameCN" placeholder="请输入客房名"
+                                       ng-model="roomEdit.room.RoomTypeName[lang.code]" required/>
+                            </ng-if>
+                        </div>
+                        <div class="form-group">
+                            <ng-if ng-if="lang.default !== true">
+                                <label for="roomNameEN">客房名 {{lang.name}}：</label>
+                                <input type="text" class="form-control" id="roomNameEN" placeholder="Enter the name"
+                                       ng-model="roomEdit.room.RoomTypeName[lang.code]"/>
+                            </ng-if>
+                        </div>
+                    </ng-repeat>
+                </div>
+                <!--/客房名-->
+                <!--客房图-->
+                <div ng-repeat="img in roomEdit.imgs.data">
+                    <div class="col-md-12">
+                        <div class="col-md-12" style="position: relative;height: 200px; overflow: auto;">
+                            <img style="width: 100%;" ng-src="{{img.src}}" alt="{{img.fileName}}"/>
+                        </div>
+                        <div class="progress col-md-8 col-md-offset-2" style="padding: 0; margin-top: 10px;">
+                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                                 aria-valuenow="{{img.progress}}" aria-valuemin="0" aria-valuemax="100"
+                                 style="width: {{img.progress}}%;">
+                                {{img.progress}}%
+                            </div>
+                        </div>
+                        <div style="position:relative;">
+                            <!--<div>大小： {{img.fileSize}}</div>-->
+                            <!--<div>剩余： {{img.leftSize}}</div>-->
+                            <a type="button" class="close" ng-click="roomEdit.imgs.deleteById(img.id); "
+                               style="position: absolute; display: block; top: 10px; right: 10px;">
+                                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--/客房图-->
+                <!--上传图片按钮-->
+                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
+                <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
+                    <a class="btn btn-primary center-block" ng-click="roomEdit.clickUpload('upload')">上传图片</a>
+                </div>
+                <a id="hidenUpload" style="display: none;" ng-click="roomEdit.imgs.uploadFile('myFile', roomEdit.imgs)"></a>
+                <!--/上传图片按钮-->
+                <!--标签-->
+                <div class="form-group">
+                    <label>已选标签：</label>
+                    <ng-repeat ng-repeat="tag in roomEdit.tags track by $index">
+                        <label class="btn btn-default" ng-model="roomEdit.ifCheckedTags[$index].checked"
+                               uib-btn-checkbox>
+                            <!--<input type="checkbox" ng-model="roomEdit.ifCheckedTags[$index].checked"/>-->
+                            {{tag.TagName[roomEdit.defaultLangCode]}}
+                        </label>
+                    </ng-repeat>
+                </div>
+                <!--/标签-->
+                <div class="row">
+                    <!-- 客房介绍摘要 -->
+                    <ng-repeat ng-repeat="lang in roomEdit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <div class="col-md-12 form-group">
+                                <label>客房介绍摘要 {{lang.name}}：</label>
+                                <textarea class="form-control" rows="1" ng-model="roomEdit.room.Roomsummary[lang.code]"
+                                          required maxlength="50"></textarea>
+                            </div>
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <div class="col-md-12 form-group">
+                                <label>客房介绍摘要 {{lang.name}}：</label>
+                                <textarea class="form-control" rows="1" ng-model="roomEdit.room.Roomsummary[lang.code]"
+                                          maxlength="50"></textarea>
+                            </div>
+                        </ng-if>
+                    </ng-repeat>
+                    <!-- /客房介绍摘要 -->
+                    <!-- 客房介绍 -->
+                    <ng-repeat ng-repeat="lang in roomEdit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <div class="col-md-12 farm-group" style="margin-bottom: 20px;">
+                                <label>客房介绍 {{lang.name}}：</label>
+                                <textarea class="form-control" rows="2" ng-model="roomEdit.room.Description[lang.code]"
+                                          required></textarea>
+                            </div>
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <div class="col-md-12 form-group">
+                                <label>客房介绍 {{lang.name}}：</label>
+                                <textarea class="form-control" rows="2"
+                                          ng-model="roomEdit.room.Description[lang.code]"></textarea>
+                            </div>
+                        </ng-if>
+                    </ng-repeat>
+                    <!-- /客房介绍 -->
                 </div>
             </form>
+            <div ng-show="saving">saving</div>
         </div>
+        <!--body end-->
+        <!--footer-->
+        <div class="modal-footer">
+            <button ng-click="roomEditNum.cancel()">{{'CANCEL' | translate}}</button>
+            <button type="submit" ng-disabled="roomEditNum.saving" form="roomEditNumForm">{{'SAVE' | translate}}</button>
+        </div>
+        <!--footer end-->
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
 </div>

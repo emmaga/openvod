@@ -14,13 +14,15 @@
             <a ng-click="goods.goTo(category.id,category.name)">{{category.name[goods.langStyle]}}</a>
         </li>
         <li class="cursor-pointer" ng-class="" >
-            <a ng-click="goods.categoryAdd()">分类添加</a>
+            <a ng-click="goods.categoryAdd()">
+            	<i class="icon ion-android-add-circle"></i> 分类添加
+            </a>
         </li>
     </ul>
 	<!-- tab-content start -->
     <div class="tab-content">
     	<!-- 商品列表 -->
-        <div class="tab-pane active in">
+        <div class="tab-pane active in padding-bottom-72">
 		    <ui-view></ui-view>
     		<div ng-show="goods.noData">查无数据</div>
         </div>
