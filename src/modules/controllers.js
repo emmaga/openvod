@@ -1284,7 +1284,7 @@
                 // 商品 上下架
                 self.changeGoodsStatus = function (productId, status, value) {
                     console.log('productId:' + productId + ' status:' + status + ' value:' + value)
-                    if (status == 0) {
+                    if (status == true) {
                         status = 1;
                     } else {
                         status =0;

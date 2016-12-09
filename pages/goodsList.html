@@ -25,8 +25,9 @@
 
 
             
-            <td data-title="'上架下架'"><input type="checkbox"  ng-click="gl.changeGoodsStatus(product.productId,product.status)"  ng-checked="product.status==1" > </td>
-
+            <!-- <td data-title="'上架下架'"><input type="checkbox"  ng-click="gl.changeGoodsStatus(product.productId,product.status)"  ng-checked="product.status==1" > </td> -->
+            
+            <td data-title="'上架下架'"><toggle ng-model="product.status" ng-change="gl.changeGoodsStatus(product.productId,product.status)" class="pull-right"></toggle> </td>
 
 
             <td><button ng-click="gl.goodsEdit(product.productId)">编辑商品属性</button></td>
