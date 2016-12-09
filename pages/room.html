@@ -178,9 +178,11 @@
                         <!-- 第2列 -->
                         <span class="col-xs-4">
                             <!-- 内容: 今天房价 -->
-                            <p>今日价格：{{item.todayPrice/100 | currency : '￥'}}</p>
+                            <p>最高价：{{item.TopPrice/100 | currency : '￥'}}</p>
+                            <p>最低价：{{item.LowPrice/100 | currency : '￥'}}</p>
+                            <p>最低价：</p>
+                            <p>房间数：{{item.roomMinNum }} -- {{item.roomMaxNum}}</p>
                             <!-- 内容: 今天可订 -->
-                            <p>今日可订：{{item.AvailableNumCurrent}}</p>
                             <!-- 内容: 今天剩余 -->
                             <!--<p>今日剩余：26间</p>-->
                         </span>

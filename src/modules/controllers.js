@@ -198,7 +198,6 @@
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
-                        console.log(data)
                         if (data.data.rescode == "200") {
                             if (data.data.data.shopList.length == 0) {
                                 self.noData = true;
