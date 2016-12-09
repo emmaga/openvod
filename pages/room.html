@@ -123,7 +123,7 @@
                 <div class="wf-box box" ng-repeat="item in room.rooms"> 
                     <div class="panel panel-default">
                         <!-- 内容: 客房图 -->
-                        <div class="box-top-img" style="background-image: url({{item.imgs[0].ImageURL}})">
+                        <div class="box-top-img" ng-style="{'background-image': 'url({{item.imgs[0].ImageURL}})'}">
                         </div>
                         <!-- 操作：编辑 -->
                         <i ng-click="room.hotelEdit()" class="icon ion-gear-a box-corner-btn"></i>
