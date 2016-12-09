@@ -126,7 +126,7 @@
                         <div class="box-top-img" ng-style="{'background-image': 'url({{item.imgs[0].ImageURL}})'}">
                         </div>
                         <!-- 操作：编辑 -->
-                        <i ng-click="room.hotelEdit()" class="icon ion-gear-a box-corner-btn"></i>
+                        <i ng-click="room.roomEdit(item.ID)" class="icon ion-gear-a box-corner-btn"></i>
                         <div class="panel-body">
                             <!-- 内容: 客房名 -->
                             <h4>{{item.RoomTypeName[room.defaultLangCode]}}</h4>
