@@ -6,6 +6,7 @@
         'pascalprecht.translate',
         'app.controllers',
         'app.tv-admin-controllers',
+        'app.orders-controllers',
         'app.filters',
         'app.directives',
         'app.services',
@@ -56,6 +57,22 @@
                 .state('app.hotelRoom.room', {
                     url: '/room?hotelId',
                     templateUrl: 'pages/room.html'
+                })
+                .state('app.hotelOrderList', {
+                    url: '/hotelOrderList',
+                    templateUrl: 'pages/orders/hotelOrderList.html'
+                })
+                .state('app.shopOrderList', {
+                    url: '/shopOrderList',
+                    templateUrl: 'pages/orders/shopOrderList.html'
+                })
+                .state('app.hotelOrderDetail', {
+                    url: '/hotelOrderDetail?id',
+                    templateUrl: 'pages/orders/hotelOrderDetail.html'
+                })
+                .state('app.shopOrderDetail', {
+                    url: '/shopOrderDetail?id',
+                    templateUrl: 'pages/orders/shopOrderDetail.html'
                 })
                 .state('app.tvAdmin', {
                     url: '/tvAdmin',
