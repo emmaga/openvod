@@ -416,10 +416,12 @@ hr {
 }
 .modal{
     display: block;
+    overflow-y: auto;
     pointer-events: none;    
 }
 .modal-backdrop{
     z-index: 0;
+    pointer-events: none;
 }
 
 /*bs-extend*/

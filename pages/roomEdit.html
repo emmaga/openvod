@@ -1,4 +1,4 @@
-<div ng-controller="roomEditController as roomEdit" ng-init="roomEdit.init()" class="autoscroll modal-dialog">
+<div ng-controller="roomEditController as roomEdit" ng-init="roomEdit.init()" class= "modal-dialog">
     <div class="modal-content">
         <!--header-->
         <div class="modal-header">
@@ -34,6 +34,9 @@
                     </ng-repeat>
                 </div>
                 <!--/客房名-->
+
+
+
                 <!--客房图-->
                 <div ng-repeat="img in roomEdit.imgs.data">
                     <div class="col-md-12">
@@ -58,6 +61,13 @@
                     </div>
                 </div>
                 <!--/客房图-->
+
+
+
+
+
+
+
                 <!--上传图片按钮-->
                 <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
                 <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
