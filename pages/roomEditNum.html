@@ -1,4 +1,61 @@
-<div ng-controller="roomEditNumController as roomEditNum" ng-init="roomEditNum.init() " class="modal-dialog modal-sm">
+<div ng-controller="roomEditNumController as roomEditNum" ng-init="roomEditNum.init() " class="autoscroll modal-dialog">
+<style>
+    .vi-formChange {
+        float:left;
+        line-height: 30px;
+    }
+
+    .vi-formList {
+        max-height: 400px;
+        overflow: auto;
+    }
+
+    .vi-eachForm {
+        padding: 10px;
+        margin: 20px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .vi-close {
+        display: block;
+        width: 100%;
+        margin: 10px;
+    }
+
+    .vi-calendar ul {
+        margin-left: 45% !important;
+    }
+
+/*下面是修改日历中按钮颜色*/
+    .uib-button-bar .btn-info,
+    .uib-button-bar .btn-danger {
+        color: #333 !important;
+        background-color: #fff !important;
+        border-color: #ccc !important;
+    }
+
+    .uib-button-bar .btn-info:hover,
+    .uib-button-bar .btn-danger:hover {
+        color: #333 !important;
+        background-color: #e6e6e6 !important;
+        border-color: #adadad !important;
+    }
+
+    .uib-button-bar .btn-success {
+        color: #fff !important;
+        background-color: #428bca !important;
+        border-color: #357ebd !important;
+    }
+
+    .uib-button-bar .btn-success:hover {
+        color: #fff !important;
+        background-color: #3071a9 !important;
+        border-color: #285e8e !important;
+    }
+
+</style>
     <div class="modal-content">
         <!--header-->
         <div class="modal-header">
@@ -12,29 +69,34 @@
         <!--body-->
         <div class="modal-body">
             <div ng-show="loading">loading...</div>
-            <form id="roomEditNumForm" name="roomEditNumForm" ng-submit="roomEditNumForm.$valid && roomEditNum.save()" role="form">
+            <form id="roomEditNumForm" name="roomEditNumForm" ng-submit="roomEditNumForm.$valid && roomEditNum.save()"
+                  role="form">
                 <div class="form-group">
                     <label>平时：</label>
-                    <input type="text" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" ng-model="roomEditNum.roomDetail.AvailableNum" placeholder="Enter Number" required>
+                    <input type="text" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           ng-model="roomEditNum.roomDetail.AvailableNum"  placeholder="Enter Number" required>
                 </div>
                 <div class="form-group">
-                    <label style="float:left; line-height: 30px;">临时变动表</label>
+                    <label class="vi-formChange">临时变动表</label>
                     <div class="text-right" style="width: auto;">
                         <button class="btn btn-primary" type="button" ng-click="roomEditNum.addTemporary(0)">添加设置</button>
                     </div>
                 </div>
-                <div style="max-height: 500px; overflow: auto;">
-                    <div ng-repeat="reply in roomEditNum.SpecialNum" style="border: 1px solid #CCCCCC; padding: 10px; margin: 20px auto;
-                         -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;">
+                <div class="vi-formList">
+                    <div class="bg-info vi-eachForm" ng-repeat="reply in roomEditNum.SpecialNum">
                         <div class="form-group">
-                            <!--<label style="float: left; line-height: 30px;">临时设置</label>-->
-                            <button type="button" class="close text-right" style="display: block;width: 100%; margin: 10px;" data-dismiss="modal" ng-click="roomEditNum.deleteTemporary($index)">
+                            <button class="close text-right vi-close" type="button" data-dismiss="modal"
+                                    ng-click="roomEditNum.deleteTemporary($index)">
                                 <span aria-hidden="true">&times;</span>
                                 <span class="sr-only">Close</span>
                             </button>
                         </div>
-                        <div class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup ng-model="roomEditNum.SpecialNum[$index].AvailableDate" is-open="roomEditNum.SpecialNum[$index].Opened" datepicker-options="dateOptions" required close-text="Close" placeholder="请选择日期" />
+                        <div class="input-group vi-calendar">
+                            <input type="text" class="form-control" uib-datepicker-popup
+                                   ng-model="roomEditNum.SpecialNum[$index].AvailableDate"
+                                   is-open="roomEditNum.SpecialNum[$index].Opened"
+                                   datepicker-options="dateOptions"
+                                   required close-text="Close" placeholder="请选择日期"/>
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="roomEditNum.open($index)">
                                     <i class="glyphicon glyphicon-calendar"></i>
@@ -42,7 +104,10 @@
                             </span>
                         </div>
                         <div>
-                            <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="请输入数量" required ng-model="roomEditNum.SpecialNum[$index].AvailableNumCurrent">
+                            <input type="text" class="form-control" style="margin-top: 10px;"
+                                   onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                   ng-model="roomEditNum.SpecialNum[$index].AvailableNumCurrent"
+                                   placeholder="请输入数量" required>
                         </div>
                     </div>
                 </div>
@@ -52,8 +117,8 @@
         <!--body end-->
         <!--footer-->
         <div class="modal-footer">
-            <button ng-click="roomEditNum.cancel()">{{'CANCEL' | translate}}</button>
-            <button type="submit" ng-disabled="roomEditNum.saving" form="roomEditNumForm">{{'SAVE' | translate}}</button>
+            <button class="btn btn-default" ng-click="roomEditNum.cancel()">{{'CANCEL' | translate}}</button>
+            <button class="btn btn-primary" type="submit" ng-disabled="roomEditNum.saving" form="roomEditNumForm">{{'SAVE' | translate}}</button>
         </div>
         <!--footer end-->
     </div>
