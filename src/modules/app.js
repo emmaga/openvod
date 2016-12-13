@@ -214,36 +214,36 @@
                     url: '/welcome?label',
                     templateUrl: 'pages/tv/welcome.html',
                     resolve: {
-                        resB: function(resA, resWelcome){
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
-                         }
+                        }]
                     }
                 })
                 .state('app.tvAdmin.version', {
                     url: '/version?label',
                     templateUrl: 'pages/tv/version.html',
                     resolve: {
-                        resB: function(resA, resWelcome){
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
-                         }
+                        }]
                     }
                 })
                 .state('app.tvAdmin.live', {
                     url: '/live?moduleId&label',
                     templateUrl: 'pages/tv/live.html',
                     resolve: {
-                        resB: function(resA, resWelcome){
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
-                         }
+                        }]
                     }
                 })
                 .state('app.tvAdmin.movieCommon', {
                     url: '/movieCommon?moduleId&label',
                     templateUrl: 'pages/tv/movieCommon.html',
                     resolve: {
-                        resB: function(resA, resWelcome){
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
-                         }
+                        }]
                     }
                 })
                 .state('app.tvAdmin.blank', {

@@ -51,7 +51,7 @@
                     "action": action,
                     "viewID": 1,     //主菜单模板ViewID都为1
                     "data":delMenu,
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 
                 // 开始删除
@@ -193,7 +193,7 @@
                         "IconFocusSize":self.imgs4.data[0].fileSize,
                         "Seq":Number(self.menu.seq)
                     },
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 
                 // 开始保存
@@ -476,7 +476,7 @@
                       "BackgroundVideoURL":self.imgs3.data[0].src,
                       "BackgroundVideoSize":self.imgs3.data[0].fileSize
                     },
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 
                 self.saving = true;
@@ -682,7 +682,7 @@
                         "ChannelName": self.channelName,
                         "ChannelPicSize": self.imgs1.data[0].fileSize
                     },
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 console.log(data)
                 self.saving = true;
@@ -879,7 +879,7 @@
                         "ChannelName": self.channelName,
                         "ChannelPicSize": self.imgs1.data[0].fileSize
                     },
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 self.saving = true;
                 $http({
@@ -1065,7 +1065,7 @@
                           {"ID":id-0}
                       ]
                     },
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 $http({
                     method: 'POST',
@@ -1097,7 +1097,7 @@
                     "token": util.getParams('token'),
                     "action": "get",
                     "viewID": self.viewId-0,
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 self.loading = true;
                 $http({
@@ -1138,7 +1138,7 @@
                     "token": util.getParams('token'),
                     "action": "getAPIInfo",
                     "viewID": self.viewId-0,
-                    "lang": ""
+                    "lang": util.langStyle()
                 });
                 self.loading = true;
                 $http({
@@ -1172,7 +1172,7 @@
                       "MovieContentAPIParam": self.MovieContentAPIParam,
                       "MovieContentAPIURL": self.MovieContentAPIURL
                     },
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 self.saving = true;
                 $http({
@@ -1281,7 +1281,7 @@
                       "IconFocusSize":self.imgs2.data[0].fileSize,
                       "Seq":self.seq  //在一级菜单中的排序号，从1开始
                     },
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
 
                 self.saving = true;
@@ -1531,7 +1531,7 @@
                       "IconFocusSize":self.imgs2.data[0].fileSize,
                       "Seq":self.seq  //在一级菜单中的排序号，从1开始
                     },
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
 
                 self.saving = true;
@@ -1754,7 +1754,7 @@
                     "action": "createMainMenu",
                     "viewID": 1,     //主菜单模板ViewID都为1
                     "viewType": self.style,
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
                 console.log(data)
                 self.saving = true;
@@ -1838,7 +1838,7 @@
                     "token": util.getParams('token'),
                     "action": "createWelcomePage",
                     "viewType": self.style,
-                    "lang": ""
+                    "lang": util.langStyle()
                 })
 
                 self.saving = true;
@@ -1863,6 +1863,110 @@
                     self.saving = false;
                 });
 
+            }
+
+        }
+    ]) 
+
+    .controller('tvVersionController', ['$scope', '$q', '$state', '$http', '$stateParams', '$location', 'util',
+        function ($scope, $q, $state, $http, $stateParams, $location, util) {
+            var self = this;
+            var deffered = $q.defer();
+
+            self.init = function() {
+                self.getSV();
+                self.getCV();
+            }
+
+            // 获取服务端版本
+            self.getSV = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "get",
+                    "type": "All",
+                    "lang": util.langStyle()
+                });
+                self.loadingS = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('tvuiversion', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        
+                        self.serviceVersion = data.data;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载服务器版本信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loadingS = false;
+                });
+            }
+
+            // 获取小前端端版本
+            self.getCV = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getProxyVersion",
+                    "lang": util.langStyle()
+                });
+                self.loadingC = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('tvuiversion', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.clientVersion = data.data;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载小前端版本信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loadingC = false;
+                });
+            }
+
+            self.submit = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "submit",
+                    "type": "All",
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                alert('提交版本命令已发送，这需要大约一分钟的时间');
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('tvuiversion', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('版本提交成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('提交版本失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
             }
 
         }
