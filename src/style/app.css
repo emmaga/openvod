@@ -451,6 +451,7 @@ input.form-control{
     border-left: none;
     border-radius: inherit;
     box-shadow: none !important;
+    padding-left: 1px;
 }
 
 .list-group-item span>.badge,.list-group-item span>p{
@@ -593,6 +594,7 @@ input.form-control{
     background-color: #ddd;
     border-radius: 3px;
     margin-right: 9px;
+    margin-bottom: 9px;
 }
 
 .form-thumbnail:after{
@@ -610,6 +612,7 @@ input.form-control{
     /*padding-left: 80px;*/
     padding-left: 100px;
     min-height: 101px;
+    padding-bottom: 0
 }
 .list-group-item.thumbnail-left>.form-thumbnail{
     position: absolute;
