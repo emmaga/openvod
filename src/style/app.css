@@ -433,6 +433,7 @@ textarea{
 .modal-backdrop{
     z-index: 0;
     pointer-events: none;
+    height: 400%
 }
 
 .modal-content{
@@ -600,7 +601,7 @@ input.form-control{
     background-color: #ddd;
     border-radius: 3px;
     margin-right: 9px;
-    margin-bottom: 9px;
+    margin-top: 10px;
 }
 
 .form-thumbnail:after{
@@ -614,20 +615,15 @@ input.form-control{
     pointer-events: none
 }
 
-.list-group-item.thumbnail-left{
-    /*padding-left: 80px;*/
-    padding-left: 100px;
-    min-height: 101px;
-    padding-bottom: 0
+.list-group-item.list-group-item-thumbnail{
+    padding-top: 0
 }
 .list-group-item.thumbnail-left>.form-thumbnail{
     position: absolute;
     left: 10px;
 }
 
-.cursor-pointer{
-    cursor: pointer;
-}
+
 
 .box{
     position: relative;
@@ -714,4 +710,8 @@ input.form-control{
 
 .transparent{
     opacity: 0
+}
+
+.cursor-pointer{
+    cursor: pointer;
 }
