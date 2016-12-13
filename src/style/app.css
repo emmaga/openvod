@@ -376,7 +376,17 @@ body, .app {
 
 
 /*modify*/
-/*bs cover*/
+/*bs extend*/
+
+hr {
+    
+}
+
+textarea{
+    resize: none;
+    min-height: 5em
+}
+
 .container{
     max-width: 980px;
 }
@@ -384,9 +394,6 @@ body, .app {
     padding: 5px 15px;
 }
 
-hr {
-    
-}
 
 .list-group-item{
     border-left: none;
@@ -424,16 +431,33 @@ hr {
     pointer-events: none;
 }
 
+.modal-content{
+    border: none;
+    -webkit-box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
+    box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
+}
 
-/*bs-extend*/
+.modal-body{
+    padding: 15px 30px;
+}
+
+.modal.fade.in{
+    pointer-events: auto;
+}
+
+input.form-control{
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-radius: inherit;
+    box-shadow: none !important;
+}
+
 .list-group-item span>.badge,.list-group-item span>p{
     line-height: 1.1;
     margin-top:10px;
     margin-bottom: 0px;
     margin-right: 5px;
-}
-.modal.fade.in{
-    pointer-events: auto;
 }
 
 .panel{
@@ -672,4 +696,9 @@ hr {
 
 .padding-bottom-72{
     padding-bottom:72px
+}
+
+.blur{
+    -webkit-filter: blur(12px);
+    filter: blur(12px)
 }

@@ -1,47 +1,4 @@
-<div ng-controller="roomEditNumController as roomEditNum" ng-init="roomEditNum.init() " class="autoscroll modal-dialog">
-    <!--<span>可订数量</span>-->
-    <!--<div ng-show="loading">loading...</div>-->
-    <!--<form name="roomEditNumForm" ng-submit="roomEditNumForm.$valid && roomEditNum.save()">-->
-    <!--<div>-->
-    <!--<div>-->
-    <!--平时：-->
-    <!--<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"-->
-    <!--ng-model="roomEditNum.roomDetail.AvailableNum" required>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div>临时变动表-->
-    <!--<button type="button" ng-click="roomEditNum.addTemporary(0)">添加设置</button>-->
-    <!--</div>-->
-    <!--<div style=" max-height: 500px; overflow: auto;">-->
-    <!--<div ng-repeat="reply in roomEditNum.SpecialNum">-->
-    <!--<div>-->
-    <!--<button type="button" ng-click="roomEditNum.deleteTemporary($index)">删除</button>-->
-    <!--</div>-->
-    <!--<div>-->
-    <!--<p class="input-group">-->
-    <!--<input type="text" class="form-control" uib-datepicker-popup-->
-    <!--ng-model="roomEditNum.SpecialNum[$index].AvailableDate"-->
-    <!--is-open="roomEditNum.SpecialNum[$index].Opened"-->
-    <!--datepicker-options="dateOptions"-->
-    <!--required close-text="Close" placeholder="请选择日期"/>-->
-    <!--<span class="input-group-btn">-->
-    <!--<button type="button" class="btn btn-default" ng-click="roomEditNum.open($index)"><i-->
-    <!--class="glyphicon glyphicon-calendar"></i></button>-->
-    <!--</span>-->
-    <!--</p>-->
-    <!--</div>-->
-    <!--<div>-->
-    <!--<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"-->
-    <!--placeholder="请输入数量" required-->
-    <!--ng-model="roomEditNum.SpecialNum[$index].AvailableNumCurrent">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div>-->
-    <!--<button ng-click="roomEditNum.cancel()">{{'CANCEL' | translate}}</button>-->
-    <!--<button type="submit" ng-disabled="roomEditNum.saving">{{'SAVE' | translate}}</button>-->
-    <!--</div>-->
-    <!--</form>-->
+<div ng-controller="roomEditNumController as roomEditNum" ng-init="roomEditNum.init() " class="modal-dialog modal-sm">
     <div class="modal-content">
         <!--header-->
         <div class="modal-header">

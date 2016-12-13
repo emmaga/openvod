@@ -31,7 +31,7 @@
     </div>
     
     <!-- app -->
-    <div class="app-frame phase{{app.appFramePhase}}">
+    <div class="app-frame phase{{app.appFramePhase}}" ng-class="{'blur':(app.showMaskClass)}">
 
         <!-- app title -->
         <div class="app-title">
@@ -42,7 +42,7 @@
         </div>
 
         <!-- launcher -->
-        <div class="app-launcher">   
+        <div class="app-launcher">
             <!-- back -->
             <div class="app-launcher-grid">  
                 <i ng-click="app.showDesktop()" class="app-icon app-back"></i>
