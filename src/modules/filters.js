@@ -21,4 +21,32 @@
     };
   })
 
+  .filter("orderStatus",['$filter', function($filter){
+    return function(orderStatus){
+      var flag;
+      switch (orderStatus){
+         case 'WAITPAY':
+             flag = $filter('translate')('WAITPAY');
+             break;
+         case 'WAITAPPROVAL':
+             flag = $filter('translate')('WAITAPPROVAL');
+             break;
+
+         case 'ACCEPT':
+             flag = $filter('translate')('ACCEPT');
+             break;
+         case 'COMPLETED':
+             flag = $filter('translate')('COMPLETED');
+             break;
+         case 'REFUNDING':
+             flag = $filter('translate')('REFUNDING');
+             break;
+         case 'CANCELED':
+             flag = $filter('translate')('CANCELED');
+             break;
+      }
+      return flag;
+    }
+  }])
+
 })();
