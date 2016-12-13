@@ -19,7 +19,7 @@
                     <ng-repeat ng-repeat="lang in roomEdit.editLangs">
                         <div class="form-group">
                             <ng-if ng-if="lang.default">
-                                <h5 for="roomNameCN">客房名 {{lang.name}}：</h5>
+                                <label for="roomNameCN">客房名 {{lang.name}}：</label>
                                 <input type="text" class="form-control" id="roomNameCN" placeholder="请输入客房名" ng-model="roomEdit.room.RoomTypeName[lang.code]" required/>
                             </ng-if>
                         </div>
@@ -101,20 +101,16 @@
                     </ng-repeat>
                     <!-- /客房介绍 -->
                 </div>
+                <!-- 删除按钮 -->
+                <button type="button" class="btn btn-danger" ng-click="roomEdit.deleteRoom()">{{'DELETE' | translate}}</button>
             </form>
             <div ng-show="saving">saving</div>
         </div>
         <!--body end-->
         <!--footer-->
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click="roomEdit.cancel()">
-                {{'CANCEL' | translate}}
-            </button>
-            <button type="submit" class="btn btn-primary" form="roomEditForm">
-                {{'SAVE' | translate}}
-            </button>
-            <button type="button" class="btn btn-danger" ng-click="roomEdit.deleteRoom()">{{'DELETE' | translate}}
-            </button>
+            <button type="button" class="btn btn-default" ng-click="roomEdit.cancel()">{{'CANCEL' | translate}}</button>
+            <button type="submit" class="btn btn-primary" form="roomEditForm">{{'SAVE' | translate}}</button>
         </div>
         <!--footer end-->
     </div>

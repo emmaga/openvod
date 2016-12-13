@@ -377,6 +377,10 @@ body, .app {
 
 /*modify*/
 /*bs extend*/
+label{
+    margin-bottom: 0;
+    margin-top: 28px
+}
 
 hr {
     
@@ -452,6 +456,8 @@ input.form-control{
     border-radius: inherit;
     box-shadow: none !important;
     padding-left: 1px;
+    padding-top: 3px;
+    height: 28px;
 }
 
 .list-group-item span>.badge,.list-group-item span>p{
