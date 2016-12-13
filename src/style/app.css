@@ -378,7 +378,7 @@ body, .app {
 /*modify*/
 /*bs extend*/
 label{
-    margin-bottom: 0;
+    margin-bottom: 10px;
     margin-top: 28px
 }
 
@@ -433,6 +433,11 @@ textarea{
 .modal-backdrop{
     z-index: 0;
     pointer-events: none;
+    height: 400%;
+}
+
+.modal-dialog{
+    margin: 72px auto;
 }
 
 .modal-content{
@@ -457,6 +462,7 @@ input.form-control{
     box-shadow: none !important;
     padding-left: 1px;
     padding-top: 3px;
+    margin-top: -10px;
     height: 28px;
 }
 
@@ -584,14 +590,27 @@ input.form-control{
     padding-left: 15px;
 }
     /*用于表、表单里面的缩略图*/
+.tag{
+    cursor: pointer;
+    border-radius: 12px;
+    background-color: #ddd;
+    line-height: 24px;
+    font-size: 14px;
+    padding: 3px 10px;
+    margin-right: 3px;
+}
 
+.tag.active{
+    background-color: #666;
+    color: white
+}
+
+    /*用于表、表单里面的缩略图*/
 .form-thumbnail{
     position: relative;
     margin-right: 5px;
     float: left;
     display: inline-block;
-    /*width: 60px;*/
-    /*height: 60px;*/
     width: 80px;
     height: 80px;
     background-position: center center;
@@ -600,7 +619,6 @@ input.form-control{
     background-color: #ddd;
     border-radius: 3px;
     margin-right: 9px;
-    margin-top: 10px;
 }
 
 .form-thumbnail:after{
@@ -614,14 +632,22 @@ input.form-control{
     pointer-events: none
 }
 
-.list-group-item.list-group-item-thumbnail{
-    padding-top: 0
-}
-
-.cursor-pointer{
+.form-thumbnail-creat{
+    border: 2px dashed #C8C8C8;
+    background-color: transparent;
+    text-align: center;
+    line-height: 110px;
+    font-size: 12px;
+    color: #797979;
     cursor: pointer;
 }
 
+.form-thumbnail-creat:after{
+    display: none;
+}
+
+
+    /*瀑布流和卡片式设计*/
 .box{
     position: relative;
     width:33.33%; 
@@ -707,4 +733,18 @@ input.form-control{
 
 .transparent{
     opacity: 0
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+/*ionic*/
+.form-thumbnail-creat>.icon{
+    position: absolute;
+    left: 0;
+    font-size: 32px;
+    width: 100%;
+    line-height: 59px;
+    text-align: center;
 }
