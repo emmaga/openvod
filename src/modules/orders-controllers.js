@@ -68,7 +68,7 @@
                     "OrderID": id,
                     "status": "DECLINE"
                 })
-                console.log(data)
+                
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('order', '', 'server'),

@@ -135,7 +135,7 @@
                             $state.go('app.shopOrderList', {'appId': n});
                             break;
                         case 5:
-                            $state.go('app.tvAdmin', {'appId': n});
+                            $state.go('app.tvAdmin', {'appId': n}, {reload: true});
                             break;
                         default:
                             break;
