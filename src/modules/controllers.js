@@ -135,7 +135,9 @@
                             $state.go('app.shopOrderList', {'appId': n});
                             break;
                         case 5:
-                            $state.go('app.tvAdmin', {'appId': n}, {reload: true});
+                            if(!$state.includes("app.tvAdmin")){
+                                $state.go('app.tvAdmin', {'appId': n});
+                            }
                             break;
                         default:
                             break;
