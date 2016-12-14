@@ -1,18 +1,96 @@
 <div ng-controller="shopOrderListController as sol" ng-init="sol.init()">
+    <!--加载门店列表-->
+    <div ng-show="sol.loadingShopList">loading...</div>
+    <!--加载门店列表-->
+
     <!--筛选条件－门店-->
-    全部 门店1 门店2 门店3 ...<br>
+    <ng-repeat ng-repeat="shop in shopList">
+        <a ng-click="sol.searchByShop(shop.ShopID)" ng-class="{'active': shop.active}">{{shop.ShopName[sol.defaultLangCode]}} {{shop.HotelName[sol.defaultLangCode]}}</a> 
+    </ng-repeat><br>
     <!--筛选条件－门店-->
 
     <!--筛选条件－订单状态-->
-    全部 待付款 待审核 待发货 待确认收货 已完成 退款中 取消完成<br>
+    <ng-repeat ng-repeat="s in status">
+        <a ng-click="sol.searchByStatus(s.code)" ng-class="{'active': s.active}">{{s.name[sol.defaultLangCode]}}</a> 
+    </ng-repeat><br>
     <!--筛选条件－订单状态-->
     
     <!--筛选条件－买家名&&订单号-->
-    买家名 <input type="text">
-    订单号 <input type="text"><a>搜索</a><br>
+    联系人 <input ng-model="sol.searchStr.userName" type="text">
+    手机号 <input ng-model="sol.searchStr.userPhone" type="text">
+    订单号 <input ng-model="sol.searchStr.orderNumber" type="text"><a ng-click="sol.search()">搜索</a><br>
     <!--筛选条件－买家名&&订单号-->
 
     <!--订单列表-->
-    订单信息 操作 <a ng-click="sol.gotoDetail(1)">详情</a>
-    <!--订单列表-->  
+    <table ng-table="sol.tableParams" class="table table-hover table-striped">
+        <tr ng-repeat="row in $data">
+            <!--订单号-->
+            <td title="'订单号'">
+                {{row.OrderNum}}
+            </td>
+            <!--订单号-->
+
+            <!--下单时间-->
+            <td title="'下单时间'">
+                {{row.CreateTime}}
+            </td>
+            <!--下单时间-->
+
+            <!--订单状态-->
+            <td title="'订单状态'">
+                {{row.Status | orderStatus}}
+            </td>
+            <!--订单状态-->
+
+            <!--订单总价-->
+            <td title="'订单总价'">
+                {{row.TotalGoodsPrice | fenToYuan}}
+            </td>
+            <!--订单总价-->
+
+            <!--商品总数-->
+            <td title="'商品总数'">
+                {{row.TotalGoodsCount}}
+            </td>
+            <!--商品总数-->
+            
+            <!--操作-->
+            <td title="'操作'">
+                <!--详情-->
+                <a ng-click="sol.gotoDetail(row)">详情</a>
+                <!--详情-->
+
+                <!--编辑快递信息-->
+                <a ng-show="row.Status=='DELIVERING'">编辑快递信息</a>
+                <!--编辑快递信息-->
+
+                <!--发货-->
+                <a ng-click="sol.finish(row.OrderID)" ng-show="row.Status=='ACCEPT'">发货</a>
+                <!--发货-->
+
+                <!--接受-->
+                <a ng-click="sol.accept(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
+                <!--接受-->
+
+                <!--拒绝-->
+                <a ng-click="sol.reject(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
+                <!--拒绝-->
+
+                <!--已完成-->
+                <a ng-click="sol.finish(row.OrderID)" ng-show="row.Status=='DELIVERING'">已完成</a>
+                <!--已完成-->
+
+                <!--取消订单-->
+                <a ng-click="sol.cancel(row.OrderID)" ng-show="row.Status=='WAITPAY' || row.Status=='DELIVERING' || row.Status=='ACCEPT'">取消订单</a>
+                <!--取消订单-->
+            </td>
+            <!--操作-->
+
+        </tr>
+    </table>
+    <div ng-show="sol.loading">loading...</div>
+    <div ng-show="sol.noData">无数据</div>
+
+
+    <!--订单列表-->
 </div>

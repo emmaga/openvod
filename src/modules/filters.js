@@ -49,4 +49,37 @@
     }
   }])
 
+  .filter("operateAction",['$filter', function($filter){
+    return function(operateAction){
+      var flag;
+      // translate to do
+      switch (operateAction){
+         case 'GUEST_CANCEL':
+             flag = '用户取消订单';
+             break;
+         case 'ADMIN_CANCEL':
+             flag = '管理员取消订单';
+             break;
+
+         case 'CANCEL_REFUNDING':
+             flag = '用户取消退款中';
+             break;
+         case 'SELLER_CANCEL_REFUNDING':
+             flag = '管理员取消退款中';
+             break;
+         case 'ACCEPT':
+             flag = '订单审核通过';
+             break;
+         case 'COMPLETED':
+             flag = '订单完成';
+             break;
+         case 'SELLER_DECLINE':
+            flag = '订单审核不通过';
+            break;
+      }
+      return flag;
+    }
+  }])
+  
+
 })();

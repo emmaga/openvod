@@ -1,16 +1,69 @@
 <div ng-controller="hotelOrderDetailController as hod" ng-init="hod.init()" class="modal-dialog">
     <div class="modal-content">
+        <!--loading-->
+            <div ng-show="hod.loading">loading...</div>
+        <!--loading-->
+        
+        <!--订单详情-->
+            <!--订单号-->
+            {{hod.orderInfo.OrderNum}}<br>
+            <!--订单号-->
+
+            <!--下单时间-->
+            {{hod.orderInfo.CreateTime}}<br>
+            <!--下单时间-->
+
+            <!--订单状态-->
+            {{hod.orderInfo.Status | orderStatus}}<br>
+            <!--订单状态-->
+
+            <!--订单总价-->
+            {{hod.orderInfo.GoodsTotalPrice | fenToYuan}}<br>
+            <!--订单总价-->
+
+            <!--客房信息－酒店名-->
+            {{hod.orderInfo.Name[hol.defaultLangCode]}}<br>
+            <!--客房信息－酒店名-->
+
+            <!--客房信息－客房名-->
+            {{hod.orderInfo.RoomTypeName[hol.defaultLangCode]}}<br>
+            <!--客房信息－客房名-->
+
+            <!--入住信息－入住时间-->
+            {{hod.orderInfo.BookSte}}<br>
+            <!--入住信息－入住时间-->
+
+            <!--入住信息－离店时间-->
+            {{hod.orderInfo.BookEndDate}}<br>
+            <!--入住信息－离店时间-->
+
+            <!--入住信息－房间数量-->
+            {{hod.orderInfo.GoodsNum}}<br>
+            <!--入住信息－房间数量-->
+
+            <!--联系人－姓名-->
+            {{hod.orderInfo.ContactorName}}<br>
+            <!--联系人－姓名-->
+
+            <!--联系人－手机-->
+            {{hod.orderInfo.ContactorPhone}}<br>
+            <!--联系人－手机-->
+        <!--订单详情-->
+
         <!--操作记录-->
-
+        <ng-repeat ng-repeat="info in hod.list">
             <!--状态改变描述-->
+            {{info.OperateAction | operateAction}}
             <!--状态改变描述-->
 
             <!--时间-->
+            {{info.OperateTime}}
             <!--时间-->
 
             <!--状态改变者-->
+            {{info.OperateUserName}}<br>
             <!--状态改变者-->
-            
+        </ng-repeat>
         <!--操作记录-->
         
         <!--关闭按钮-->
