@@ -267,6 +267,23 @@ body, .app {
     overflow-y: scroll;
 }
 
+.app-view-blur-bg{
+    position: absolute;
+    top: 56px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    background-color: white;
+    opacity: 0;
+    /*transition-duration: .53s*/
+}
+.app-view-blur-bg.in{
+    opacity: 1
+}
+
+
 .app-view-mask{
     position: absolute;
     top: 56px;
@@ -380,7 +397,6 @@ body, .app {
     width: 84px;
     height: 112px;
 }
-
 
 /*modify*/
 /*bs extend*/
