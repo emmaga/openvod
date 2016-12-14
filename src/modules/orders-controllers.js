@@ -20,7 +20,7 @@
                     {'code': 'ACCEPT', active: false, 'name': {'zh-CN': '待入住'}},
                     {'code': 'COMPLETED', active: false, 'name': {'zh-CN': '订单完成'}},
                     {'code': 'REFUNDING', active: false, 'name': {'zh-CN': '退款中'}},
-                    {'code': 'CANCELED', active: false, 'name': {'zh-CN': '取消已完成'}}
+                    {'code': 'CANCELED', active: false, 'name': {'zh-CN': '已取消'}}
                 ];
                 self.searchStr.status = '';
 
@@ -227,7 +227,7 @@
             var self = this;
             
             self.init = function() {
-
+                self.id = $scope.app.maskParams.orderId;
             }
 
             self.close = function() {
