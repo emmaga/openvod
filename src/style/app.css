@@ -24,7 +24,7 @@
 body{
     font-family: "Microsoft YaHei UI","PingHei","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
     color: #666;
-    background: rgb(50,100,145);
+    /*background: rgb(50,100,145);*/
 }
 
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
@@ -50,10 +50,13 @@ body, .app {
     background-position: center center;
     background-repeat: no-repeat;
     z-index: -1;
-    -webkit-transition-duration: .5s;
+
+    /*
     transition-duration: .5s;
     -webkit-filter: blur(14px);
     filter: blur(14px);
+    */
+
     will-change: transform;
 }
 
@@ -68,8 +71,13 @@ body, .app {
     background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
+    
+    transition-duration: .3s;
+    -webkit-filter: blur(9px);
     filter: blur(9px);
-    opacity: 0;
+
+    opacity: 1;
+
     /*will-change:opacity;
     transition-duration: 0.5s;*/
 }
@@ -81,7 +89,7 @@ body, .app {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,.32);
+    background-color: rgba(0,0,0,.22);
     /*mix-blend-mode: darken;*/
 }
 /*desktop*/
