@@ -23,7 +23,7 @@
 body{
     font-family: "Microsoft YaHei UI","PingHei","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
     color: #666;
-    background: rgb(33,33,33);
+    /*background: rgb(50,100,145);*/
 }
 
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
@@ -49,10 +49,13 @@ body, .app {
     background-position: center center;
     background-repeat: no-repeat;
     z-index: -1;
-    -webkit-transition-duration: .5s;
+
+    /*
     transition-duration: .5s;
     -webkit-filter: blur(14px);
     filter: blur(14px);
+    */
+
     will-change: transform;
 }
 
@@ -67,8 +70,13 @@ body, .app {
     background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
+    
+    transition-duration: .3s;
+    -webkit-filter: blur(9px);
     filter: blur(9px);
-    opacity: 0;
+
+    opacity: 1;
+
     /*will-change:opacity;
     transition-duration: 0.5s;*/
 }
@@ -80,7 +88,7 @@ body, .app {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,.32);
+    background-color: rgba(0,0,0,.22);
     /*mix-blend-mode: darken;*/
 }
 /*desktop*/
@@ -375,17 +383,30 @@ body, .app {
 
 
 /*modify*/
-/*bs cover*/
-.container{
-    max-width: 980px;
-}
-.nav>li>a{
-    padding: 5px 15px;
+/*bs extend*/
+label{
+    margin-bottom: 10px;
+    margin-top: 28px
 }
 
 hr {
     
 }
+
+textarea{
+    resize: none;
+    min-height: 5em
+}
+
+.container{
+    max-width: 980px;
+}
+
+
+.nav>li>a{
+    padding: 5px 15px;
+}
+
 
 .list-group-item{
     border-left: none;
@@ -415,21 +436,50 @@ hr {
 }
 .modal{
     display: block;
+    overflow-y: auto;
     pointer-events: none;    
 }
 .modal-backdrop{
     z-index: 0;
+    pointer-events: none;
+    height: 400%;
 }
 
-/*bs-extend*/
+.modal-dialog{
+    margin: 72px auto;
+}
+
+.modal-content{
+    border: none;
+    -webkit-box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
+    box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
+}
+
+.modal-body{
+    padding: 15px 30px;
+}
+
+.modal.fade.in{
+    pointer-events: auto;
+}
+
+input.form-control{
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-radius: inherit;
+    box-shadow: none !important;
+    padding-left: 1px;
+    padding-top: 3px;
+    margin-top: -10px;
+    height: 28px;
+}
+
 .list-group-item span>.badge,.list-group-item span>p{
     line-height: 1.1;
     margin-top:10px;
     margin-bottom: 0px;
     margin-right: 5px;
-}
-.modal.fade.in{
-    pointer-events: auto;
 }
 
 .panel{
@@ -438,22 +488,6 @@ hr {
 
 .list-group-item.btn{
     text-align: left !important;
-}
-
-/*bs-like*/
-.btn-clipboard {
-    position: relative;
-    top: -1px;
-    right: -1px;
-    float: right;
-    display: block;
-    padding: 5px 8px;
-    font-size: 12px;
-    color: #777;
-    cursor: pointer;
-    background-color: #fff;
-    border: 1px solid #e1e1e8;
-    border-radius: 0 4px 0 4px;
 }
 
 /* bs-toggle cover */
@@ -511,6 +545,40 @@ hr {
     -webkit-box-shadow: 0px 1px 3px 1px rgba(0,0,0,.15);
     box-shadow: 0px 1px 3px 1px rgba(0,0,0,.15)
 }
+
+.form-thumbnail-progress{
+    position: absolute;
+    bottom: 5px;
+    left: 7px;
+    right: 7px;
+    margin-bottom: 0px;
+    height: 7px;
+    box-shadow: 0 -2px 9px 0px rgba(0,0,0,.35)
+}
+
+.form-thumbnail-progress>.progress-bar{
+    -webkit-box-shadow:none;
+    box-shadow: none;
+}
+
+.form-thumbnail-delete{
+     position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 21px;
+    height: 21px;
+    border-radius: 14px;
+    background-color: #d9534f;
+    color: white;
+    text-align: center;
+    line-height: 21px;
+    font-size: 12px;
+    z-index: 1;
+}
+.form-thumbnail-delete:hover{
+    background-color: #c9302c
+}
+
 /*private*/
 .nav-left{
     position: fixed;
@@ -531,13 +599,27 @@ hr {
     padding-left: 15px;
 }
     /*用于表、表单里面的缩略图*/
+.tag{
+    cursor: pointer;
+    border-radius: 12px;
+    background-color: #ddd;
+    line-height: 24px;
+    font-size: 14px;
+    padding: 3px 10px;
+    margin-right: 3px;
+}
+
+.tag.active{
+    background-color: #666;
+    color: white
+}
+
+    /*用于表、表单里面的缩略图*/
 .form-thumbnail{
     position: relative;
     margin-right: 5px;
     float: left;
     display: inline-block;
-    /*width: 60px;*/
-    /*height: 60px;*/
     width: 80px;
     height: 80px;
     background-position: center center;
@@ -545,6 +627,7 @@ hr {
     background-repeat: no-repeat;
     background-color: #ddd;
     border-radius: 3px;
+    margin-right: 9px;
 }
 
 .form-thumbnail:after{
@@ -554,23 +637,31 @@ hr {
     top: 0;
     right: 0;
     bottom: 0;
-    box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,.125)
+    box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,.125);
+    pointer-events: none
 }
 
-.list-group-item.thumbnail-left{
-    /*padding-left: 80px;*/
-    padding-left: 100px;
-    min-height: 101px;
-}
-.list-group-item.thumbnail-left>.form-thumbnail{
-    position: absolute;
-    left: 10px;
-}
-
-.cursor-pointer{
+.form-thumbnail-creat{
+    border: 2px dashed #C8C8C8;
+    background-color: transparent;
+    text-align: center;
+    line-height: 110px;
+    font-size: 12px;
+    color: #797979;
     cursor: pointer;
 }
 
+.form-thumbnail-creat:after{
+    display: none;
+}
+
+.form-thumbnail>video{
+    width: 100%;
+    height: 100%;
+}
+
+
+    /*瀑布流和卡片式设计*/
 .box{
     position: relative;
     width:33.33%; 
@@ -647,4 +738,27 @@ hr {
 
 .padding-bottom-72{
     padding-bottom:72px
+}
+
+.blur{
+    -webkit-filter: blur(12px);
+    filter: blur(12px)
+}
+
+.transparent{
+    opacity: 0
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+/*ionic*/
+.form-thumbnail-creat>.icon{
+    position: absolute;
+    left: 0;
+    font-size: 32px;
+    width: 100%;
+    line-height: 59px;
+    text-align: center;
 }

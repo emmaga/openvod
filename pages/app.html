@@ -8,7 +8,7 @@
 
         <!-- header start -->
         <div class="project-title">project/LOGO</div>
-        <div ng-click="app.logout()" class="avatar"></div>
+        <div ng-click="app.logout()" class="avatar" ng-class="{'blur':(app.showMaskClass)}" style="transition-duration: .53s"></div>
 
         <!-- grid -->
         <div class="app-grid-wrapper">
@@ -31,7 +31,7 @@
     </div>
     
     <!-- app -->
-    <div class="app-frame phase{{app.appFramePhase}}">
+    <div class="app-frame phase{{app.appFramePhase}}" ng-class="{'blur':(app.showMaskClass)}">
 
         <!-- app title -->
         <div class="app-title">
@@ -42,7 +42,7 @@
         </div>
 
         <!-- launcher -->
-        <div class="app-launcher">   
+        <div class="app-launcher">
             <!-- back -->
             <div class="app-launcher-grid">  
                 <i ng-click="app.showDesktop()" class="app-icon app-back"></i>
@@ -68,7 +68,7 @@
     <div class="modal fade" ng-class="{'in':(app.showMaskClass)}">
         <!-- 弹窗背景 -->
         <div class="modal-backdrop fade in"></div>
-        <ng-include src="app.maskUrl">
+        <ng-include src="app.maskUrl" >
             <!--
             -
             - 
@@ -81,9 +81,8 @@
 
     <style type="text/css">
         
-    .bg{
-        -webkit-filter: blur(0px);
-        filter: blur(0px);
+    .bg:before{
+        opacity: 0;
     }
 
     </style>
