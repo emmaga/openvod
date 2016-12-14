@@ -600,15 +600,18 @@ input.form-control{
     position: fixed;
     padding-top: 37px;
     width: 160px;
-    float: left;
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
 }
+.nav-left>ul{
+    position: absolute;
+    left: -160px;
+}
 .content-right{
     position: relative;
-    left: 160px;
-    width: calc(100% - 160px);
+    left: 0;
+    width: 100%;
     height: 100%;
     min-height: 1px;
     padding-right: 15px;
@@ -680,7 +683,7 @@ input.form-control{
     /*瀑布流和卡片式设计*/
 .box{
     position: relative;
-    width:33.33%; 
+    width:25%; 
     /*width: 25%;*/
     display: inline-block;
     padding: 6px 5px;
