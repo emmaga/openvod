@@ -1,0 +1,21 @@
+<div ng-controller="editShopOrderDeliverController as esod" ng-init="esod.init()" class="modal-dialog">
+    <div class="modal-content">
+        <form name="esodForm" ng-submit="esodForm.$valid && esod.submit()">
+            <!--快递单号-->
+            快递单号 <input ng-model="esod.ExpressNum" type="text" required> <br>
+            <!--快递单号-->
+
+            <!--快递公司-->
+            快递公司 <input ng-model="esod.ExpressCompany" type="text" required>
+            <!--快递公司-->
+            
+            <!--修改按钮-->
+            <button type="submit" ng-disabled="esod.saving">修改</button>
+            <!--修改按钮-->
+
+            <!--取消按钮-->
+            <a ng-click="esod.close()">取消</a>
+            <!--取消按钮-->
+        </form>
+    </div>
+</div>

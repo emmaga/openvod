@@ -49,6 +49,33 @@
     }
   }])
 
+  .filter("shopOrderStatus",['$filter', function($filter){
+    return function(shopOrderStatus){
+      var flag;
+      switch (shopOrderStatus){
+         case 'WAITPAY':
+             flag = '待付款';
+             break;
+         case 'WAITAPPROVAL':
+             flag = '待审核';
+             break;
+         case 'ACCEPT':
+             flag = '待发货';
+             break;
+         case 'COMPLETED':
+             flag = '订单完成';
+             break;
+         case 'REFUNDING':
+             flag = '退款中';
+             break;
+         case 'CANCELED':
+             flag = '已取消';
+             break;
+      }
+      return flag;
+    }
+  }])
+
   .filter("operateAction",['$filter', function($filter){
     return function(operateAction){
       var flag;
@@ -80,6 +107,23 @@
       return flag;
     }
   }])
+
+  .filter("deliverWay",['$filter', function($filter){
+    return function(deliverWay){
+      var flag;
+      // translate to do
+      switch (deliverWay){
+         case 'express':
+             flag = '快递';
+             break;
+         case 'self':
+             flag = '自提';
+             break;
+      }
+      return flag;
+    }
+  }])
+  
   
 
 })();

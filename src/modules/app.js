@@ -74,6 +74,10 @@
                     url: '/shopOrderDetail?id',
                     templateUrl: 'pages/orders/shopOrderDetail.html'
                 })
+                .state('app.shopOrderDeliver', {
+                    url: '/shopOrderDeliver',
+                    templateUrl: 'pages/orders/shopOrderDeliver.html'
+                })
                 .state('app.tvAdmin', {
                     url: '/tvAdmin',
                     templateUrl: 'pages/tvAdmin.html',
