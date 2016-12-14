@@ -8,5 +8,11 @@
   "ROOM_DETAIL": "Room details",
   "CANCEL": "Cancel",
   "DELETE": "Delete",
-  "SAVE": "Save"
+  "SAVE": "Save",
+  "WAITPAY": "WAITPAY",
+  "WAITAPPROVAL": "WAITAPPROVAL",
+  "ACCEPT": "ACCEPT",
+  "COMPLETED": "COMPLETED",
+  "REFUNDING": "REFUNDING",
+  "CANCELED": "CANCELED"
 }

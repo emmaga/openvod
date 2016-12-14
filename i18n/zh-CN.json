@@ -8,5 +8,11 @@
   "ROOM_DETAIL": "客房详情",
   "CANCEL": "取消",
   "DELETE": "删除",
-  "SAVE": "保存"
+  "SAVE": "保存",
+  "WAITPAY": "待付款",
+  "WAITAPPROVAL": "待审核",
+  "ACCEPT": "待入住",
+  "COMPLETED": "订单完成",
+  "REFUNDING": "退款中",
+  "CANCELED": "取消已完成"
 }
