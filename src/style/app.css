@@ -394,6 +394,8 @@ textarea{
 .container{
     max-width: 980px;
 }
+
+
 .nav>li>a{
     padding: 5px 15px;
 }
@@ -644,6 +646,11 @@ input.form-control{
 
 .form-thumbnail-creat:after{
     display: none;
+}
+
+.form-thumbnail>video{
+    width: 100%;
+    height: 100%;
 }
 
 
