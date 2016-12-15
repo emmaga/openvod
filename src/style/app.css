@@ -356,6 +356,17 @@ body, .app {
 
 /*modify*/
 /*bs extend*/
+a{
+    cursor: pointer
+}
+th,.th{
+    color: #555;
+    font-weight: normal;
+}
+td{
+    color: #818181
+}
+
 label{
     margin-bottom: 10px;
     margin-top: 28px
@@ -392,13 +403,16 @@ textarea{
 .nav.nav-tabs{
     margin-bottom: 20px;
 }
+
 .tab-content{
         position: relative;
 }
+
 .tab-content>.tab-pane{
     position: absolute;
     width: 100%;
 }
+
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     color: #555;
     cursor: default;
@@ -410,11 +424,13 @@ textarea{
 .nav-tabs>li>a{
     color: #818181
 }
+
 .modal{
     display: block;
     overflow-y: auto;
     pointer-events: none;    
 }
+
 .modal-backdrop{
     z-index: 0;
     pointer-events: none;
@@ -466,6 +482,22 @@ input.form-control{
     text-align: left !important;
 }
 
+.table>thead>tr>th{
+    border-bottom: 1px solid #ddd
+}
+
+.table-condensed>tbody>tr>td, 
+.table-condensed>tbody>tr>th, 
+.table-condensed>tfoot>tr>td, 
+.table-condensed>tfoot>tr>th, 
+.table-condensed>thead>tr>td, 
+.table-condensed>thead>tr>th{
+    padding: 8px 5px;
+}
+
+.table-hover>tbody>tr:hover>td {
+    color: #555
+}
 /* bs-toggle cover */
 .toggle{
     position: relative;
