@@ -1,0 +1,57 @@
+<div ng-controller="tvAdvAddController as tvAdvAdd" ng-init="tvAdvAdd.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
+    <!--添加广告的title-->
+    <span>添加广告</span>
+    <!--添加广告的title-->
+
+    <form name="tvAdvAddForm" ng-submit="tvAdvAddForm.$valid && tvAdvAdd.save()">
+        
+        <!--loading-->
+        <div ng-show=tvAdvAdd.loading>loading...</div>
+        <!--loading-->
+
+        <!--广告列表-->
+        <ng-repeat ng-repeat="ad in tvAdvAdd.adList">
+
+            <!--选中框-->
+            <input type="checkbox" ng-model="ad.checked" ng-disabled="ad.disabled">
+            <!--选中框-->
+
+            <!--广告位标识-->
+            {{ad.PositionStrID}} 
+            <!--广告位标识-->
+
+            <!--广告位名称-->
+            {{ad.Name}} 
+            <!--广告位名称-->
+
+            <!--广告位描述-->
+            {{ad.Description}} 
+            <!--广告位描述-->
+
+            <!--生命周期－开始-->
+            {{ad.LifeStartTime}} 
+            <!--生命周期－开始-->
+
+            <!--生命周期－结束-->
+            {{ad.LifeEndTime}} 
+            <!--生命周期－结束-->
+            
+            <!--广告位策略-->
+            {{ad.ScheduleType}} 
+            <!--广告位策略-->
+
+            <!--广告位策略参数-->
+            {{ad.ScheduleTypeParam}} 
+            <!--广告位策略参数--><br>
+        </ng-repeat>
+        <!--广告列表-->
+
+        <!--保存按钮-->
+        <button type="submit" ng-disabled="tvAdvAdd.saving">添加</button>
+        <!--保存按钮-->
+
+        <!--取消按钮-->
+        <div ng-click="tvAdvAdd.cancel()">取消</div>
+        <!--取消按钮-->
+    </form>
+</div>

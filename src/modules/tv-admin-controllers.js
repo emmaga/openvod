@@ -119,7 +119,7 @@
 
             // 菜单点击
             $scope.my_tree_handler = function(branch) {
-                console.log('select ' + branch.label);
+                console && console.log('select ' + branch.label);
 
                 // welcome
                 if(branch.data.type == "welcome") {
@@ -129,6 +129,11 @@
                 // version
                 if(branch.data.type == 'version') {
                     $state.go('app.tvAdmin.version', {label: branch.label});
+                }
+
+                // adv
+                if(branch.data.type == 'adv') {
+                    $state.go('app.tvAdmin.adv', {label: branch.label});
                 }
 
                 // menuRoot
@@ -317,7 +322,7 @@
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console.log(percentComplete);
+                                    console && console.log(percentComplete);
                                 }
                             });
                         },
@@ -341,7 +346,7 @@
                             $scope.$apply(function () {
                                 o.update(fileId, -1, '', '');
                             });
-                            console.log('failure');
+                            console && console.log('failure');
                             xhr.abort();
                         }
                     );
@@ -598,7 +603,7 @@
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console.log(percentComplete);
+                                    console && console.log(percentComplete);
                                 }
                             });
                         },
@@ -622,7 +627,7 @@
                             $scope.$apply(function () {
                                 o.update(fileId, -1, '', '');
                             });
-                            console.log('failure');
+                            console && console.log('failure');
                             xhr.abort();
                         }
                     );
@@ -684,7 +689,7 @@
                     },
                     "lang": util.langStyle()
                 })
-                console.log(data)
+                
                 self.saving = true;
                 $http({
                     method: 'POST',
@@ -805,7 +810,7 @@
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console.log(percentComplete);
+                                    console && console.log(percentComplete);
                                 }
                             });
                         },
@@ -829,7 +834,7 @@
                             $scope.$apply(function () {
                                 o.update(fileId, -1, '', '');
                             });
-                            console.log('failure');
+                            console && console.log('failure');
                             xhr.abort();
                         }
                     );
@@ -1001,7 +1006,7 @@
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console.log(percentComplete);
+                                    console && console.log(percentComplete);
                                 }
                             });
                         },
@@ -1025,7 +1030,7 @@
                             $scope.$apply(function () {
                                 o.update(fileId, -1, '', '');
                             });
-                            console.log('failure');
+                            console && console.log('failure');
                             xhr.abort();
                         }
                     );
@@ -1678,7 +1683,7 @@
                             $scope.$apply(function () {
                                 o.update(fileId, -1, '', '');
                             });
-                            console.log('failure');
+                            console && console.log('failure');
                             xhr.abort();
                         }
                     );
@@ -1756,7 +1761,6 @@
                     "viewType": self.style,
                     "lang": util.langStyle()
                 })
-                console.log(data)
                 self.saving = true;
                 $http({
                     method: 'POST',
@@ -1868,10 +1872,197 @@
         }
     ]) 
 
-    .controller('tvVersionController', ['$scope', '$q', '$state', '$http', '$stateParams', '$location', 'util',
-        function ($scope, $q, $state, $http, $stateParams, $location, util) {
+    .controller('tvAdvController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+        function ($scope, $state, $http, $stateParams, $location, util) {
             var self = this;
-            var deffered = $q.defer();
+
+            self.init = function() {
+                self.loadList();
+            }
+
+            self.loadList = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getPosOpenList",
+                    "lang": util.langStyle()
+                });
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('advpos', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.adList = data.data;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载广告位信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.close = function(id) {
+                if(!confirm('确认删除？')) {
+                    return;
+                }
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "delPos",
+                    "lang": util.langStyle(),
+                    "data": [
+                      {
+                        "PositionID": id
+                      }
+                    ]
+                })
+                
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('advpos', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('删除成功');
+                        self.loadList();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('删除失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    
+                });
+            }
+
+            self.add = function() {
+                $scope.app.maskParams = {'list': self.adList};
+                $scope.app.maskParams.callback = self.loadList;
+                $scope.app.showHideMask(true,'pages/tv/advAdd.html');
+            }
+
+        }
+    ])
+
+    .controller('tvAdvAddController', ['$scope', '$http', 'util',
+    function ($scope, $http, util) {
+        var self = this;
+
+        self.init = function() {
+        self.disabledList = $scope.app.maskParams.list;
+        self.callback = $scope.app.maskParams.callback;
+        self.loadList();
+        }
+
+        self.loadList = function() {
+         var data = JSON.stringify({
+             "token": util.getParams('token'),
+             "action": "getPosList",
+             "lang": util.langStyle()
+         });
+         self.loading = true;
+         $http({
+             method: 'POST',
+             url: util.getApiUrl('advpos', '', 'server'),
+             data: data
+         }).then(function successCallback(response) {
+             var data = response.data;
+             if (data.rescode == '200') {
+                var a = data.data;
+                var list = data.data;
+                // 将已添加的广告禁用,设为已选；其他默认都设置为未选
+                for(var i = 0; i < list.length; i++) {
+                    list[i].disabled = false;
+                    list[i].checked = false;
+                    // 判断是否已选
+                    for(var j=0; j< self.disabledList.length; j++) {
+                        if(list[i].ID == self.disabledList[j].PositionID) {
+                            list[i].disabled = true;
+                            list[i].checked = true;
+                            break;
+                        }
+                    }
+                }
+                self.adList = list;
+             } else if(data.rescode == '401'){
+                 alert('访问超时，请重新登录');
+                 $state.go('login');
+             } else{
+                 alert('加载广告位信息失败，' + data.errInfo);
+             }
+         }, function errorCallback(response) {
+             alert('连接服务器出错');
+         }).finally(function (value) {
+             self.loading = false;
+         });
+        }
+
+        self.save = function(id) {
+            
+            var selAdList = [];
+            for(var i=0; i<self.adList.length;i++) {
+                if(!self.adList[i].disabled && self.adList[i].checked) {
+                    selAdList.push({
+                        "AdvPositionTemplateName": self.adList[i].AdvPositionTemplateName,
+                        "ID": self.adList[i].ID,
+                        "Name": self.adList[i].Name
+                    })
+                }
+            }
+            if(selAdList.length == 0) {
+                alert('请选择要添加的广告');
+                return;
+            }
+
+            var data = JSON.stringify({
+                "token": util.getParams('token'),
+                "action": "addPos",
+                "lang": util.langStyle(),
+                "data": selAdList
+            })
+            self.saving = true;
+            $http({
+                method: 'POST',
+                url: util.getApiUrl('advpos', '', 'server'),
+                data: data
+            }).then(function successCallback(response) {
+                var data = response.data;
+                if (data.rescode == '200') {
+                    alert('添加成功');
+                    self.cancel();
+                    self.callback();
+                } else if(data.rescode == '401'){
+                    alert('访问超时，请重新登录');
+                    $state.go('login');
+                } else{
+                    alert('添加失败' + data.errInfo);
+                }
+            }, function errorCallback(response) {
+             alert('连接服务器出错');
+            }).finally(function (value) {
+                self.saving = false;
+            });
+        }
+
+        self.cancel = function() {
+            $scope.app.showHideMask(false);
+        }
+
+    }])
+
+    .controller('tvVersionController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+        function ($scope, $state, $http, $stateParams, $location, util) {
+            var self = this;
 
             self.init = function() {
                 self.getSV();
