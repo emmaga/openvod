@@ -29,6 +29,19 @@
                 });
             }
 
+            self.getSelectedHotel = function() {
+                var ret = {};
+                if($scope.shopList) {
+                    for(var i =0; i< $scope.shopList.length;i++){
+                        if($scope.shopList[i].active) {
+                            ret = $scope.shopList[i]; 
+                            break;
+                        }
+                    }
+                }
+                return ret;
+            };
+
             self.accept = function(id) {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
@@ -357,6 +370,19 @@
                 });
             }
 
+            self.getSelectedShop = function() {
+                var ret = {};
+                if($scope.shopList) {
+                    for(var i =0; i< $scope.shopList.length;i++){
+                        if($scope.shopList[i].active) {
+                            ret = $scope.shopList[i]; 
+                            break;
+                        }
+                    }
+                }
+                return ret;
+            };
+
             self.deliver = function(id) {
                 $scope.app.maskParams = {'orderId': id, 'search': self.search};
                 $scope.app.showHideMask(true,'pages/orders/shopOrderDeliver.html');
@@ -634,7 +660,7 @@
             self.getInfo = function() {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
-                    "action": "getOrderDetail",
+                    "action": "getOrderDetailByID",
                     "lang": util.langStyle(),
                     "OrderID": self.id
                 })

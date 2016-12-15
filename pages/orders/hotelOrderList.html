@@ -9,6 +9,10 @@
         <a ng-click="hol.searchByShop(shop.ID)" ng-class="{'active': shop.active}">{{shop.Name[hol.defaultLangCode]}}</a> 
     </ng-repeat><br>
     <!--筛选条件－门店-->
+    
+    <!--当前选中门店名称-->
+    {{hol.getSelectedHotel().Name[hol.defaultLangCode]}}
+    <!--当前选中门店名称-->
 
     <!--筛选条件－订单状态-->
     <ng-repeat ng-repeat="s in status">

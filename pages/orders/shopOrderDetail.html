@@ -27,7 +27,7 @@
             <!--订单总价-->
 
             <!--商品总数-->
-            商品总数 {{sod.info.detail.xxxx}}<br>
+            商品总数 {{sod.info.detail.totalCount}}<br>
             <!--商品总数-->
         <!--订单基本信息-->
 
@@ -66,16 +66,19 @@
         <!--联系人信息-->
 
         <!--操作记录-->
-
+        <ng-repeat ng-repeat="info in sod.info.operatelogs">
             <!--状态改变描述-->
+            {{info.OperateAction | operateAction}}
             <!--状态改变描述-->
 
             <!--时间-->
+            {{info.OperateTime}}
             <!--时间-->
 
             <!--状态改变者-->
+            {{info.OperateUserName}}<br>
             <!--状态改变者-->
-            
+        </ng-repeat>
         <!--操作记录-->
         
         <!--关闭按钮-->

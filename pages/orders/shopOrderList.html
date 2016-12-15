@@ -9,6 +9,11 @@
     </ng-repeat><br>
     <!--筛选条件－门店-->
 
+    <!--当前选中商店名称及门店名称-->
+    {{sol.getSelectedShop().ShopName[sol.defaultLangCode]}}
+    {{sol.getSelectedShop().HotelName[sol.defaultLangCode]}}
+    <!--当前选中商店名称及门店名称-->
+
     <!--筛选条件－订单状态-->
     <ng-repeat ng-repeat="s in status">
         <a ng-click="sol.searchByStatus(s.code)" ng-class="{'active': s.active}">{{s.name[sol.defaultLangCode]}}</a> 
