@@ -591,6 +591,10 @@ input.form-control{
     display: inline-block;
     width: 140px;
 }
+.search-bar>.button{
+    top: -9px
+}
+
 .tag{
     cursor: pointer;
     border-radius: 12px;
