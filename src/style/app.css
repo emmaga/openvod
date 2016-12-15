@@ -511,6 +511,12 @@ input.form-control{
     background-color: white
 }
 
+/*ng-table cover*/
+.ng-table th{
+    text-align: left;
+}
+
+
 /* hybrid */
 
 .box>.panel{
@@ -578,7 +584,13 @@ input.form-control{
     padding-right: 15px;
     padding-left: 15px;
 }
-    /*用于表、表单里面的缩略图*/
+.search-bar{
+    margin-bottom: 20px;
+}
+.search-bar>.form-group{
+    display: inline-block;
+    width: 140px;
+}
 .tag{
     cursor: pointer;
     border-radius: 12px;
