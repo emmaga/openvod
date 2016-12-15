@@ -359,6 +359,11 @@ body, .app {
 a{
     cursor: pointer
 }
+
+table{
+    cursor: default;
+}
+
 th,.th{
     color: #555;
     font-weight: normal;
@@ -405,7 +410,7 @@ textarea{
 }
 
 .tab-content{
-        position: relative;
+    position: relative;
 }
 
 .tab-content>.tab-pane{
@@ -492,7 +497,7 @@ input.form-control{
 .table-condensed>tfoot>tr>th, 
 .table-condensed>thead>tr>td, 
 .table-condensed>thead>tr>th{
-    padding: 8px 5px;
+    padding: 11px 5px;
 }
 
 .table-hover>tbody>tr:hover>td {
