@@ -10,7 +10,7 @@
 
 	<!-- 左侧菜单 -->
     <div class="nav-left ">
-        <ul class="nav nav-stacked">
+        <ul class="nav nav-stacked nav-left-content">
             <li class="nav-header" ng-repeat="shopItem in shop.shopList">
             	<a class="theme-hover" ng-click="shop.goTo(shopItem.ShopID,shopItem.HotelID,shopItem.ShopName,shopItem.HotelName)">
 					{{shopItem.ShopName[shop.langStyle]}}
