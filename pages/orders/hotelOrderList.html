@@ -12,11 +12,22 @@
         </ul>
     </div>
 
-    <!--筛选条件－订单状态-->
-    <ng-repeat ng-repeat="s in status">
-        <a ng-click="hol.searchByStatus(s.code)" ng-class="{'active': s.active}">{{s.name[hol.defaultLangCode]}}</a> 
-    </ng-repeat><br>
-    <!--筛选条件－订单状态-->
+    <!-- 右侧部分 -->
+    <div class="content-right">
+
+        <!-- 标题 -->
+        <h4>{{标题}}</h4>
+        <hr>
+        
+        <!--tab 筛选条件－订单状态-->
+        <ul class="nav nav-tabs">
+            <li  ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
+                <a ng-click="hol.searchByStatus(s.code)" >{{s.name[hol.defaultLangCode]}}</a>
+            </li>
+        </ul>
+    
+    </div>
+
     
     <!--筛选条件－买家名&&订单号-->
     联系人 <input ng-model="hol.searchStr.userName" type="text">

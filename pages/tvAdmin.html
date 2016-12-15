@@ -4,7 +4,7 @@
     <!--for test-->
     <!-- 左侧菜单 -->
     <div class="nav-left ">
-        <ul class="nav nav-stacked">
+        <ul class="nav nav-stacked nav-left-content">
             <span ng-if="doing_async">...loading...</span>
             <abn-tree tree-data="my_data" tree-control="my_tree" icon-leaf="" on-select="my_tree_handler(branch)" initial-selection="{{tvAdmin.initS}}" expand-level="3"></abn-tree>
         </ul>
