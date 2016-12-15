@@ -1,0 +1,30 @@
+<div ng-controller="tvAdvController as tvAdv" ng-init="tvAdv.init()">
+    
+    <!--loading-->
+    <div ng-show="tvAdv.loading">loading...</div>
+    <!--loading-->
+
+    <!--已添加的广告位 list-->
+    <ng-repeat ng-repeat="ad in tvAdv.adList">
+        <!--广告位标识-->
+        广告位标识: {{ad.PositionStrID}}<br>
+        <!--广告位标识-->
+
+        <!--广告位名称-->
+        广告位名称: {{ad.PositionName}}<br>
+        <!--广告位名称-->
+
+        <!--广告位策略参数-->
+        广告位策略参数: {{ad.PositionParam}}<br>
+        <!--广告位策略参数-->
+
+        <!--删除该广告位-->
+        <a ng-click="tvAdv.close(ad.PositionID)">删除该广告位</a><br>
+        <!--删除该广告位-->
+    </ng-repeat>
+    <!--已添加的广告位 list-->
+
+    <!--添加新的广告位按钮-->
+    <a ng-click="tvAdv.add()">添加新的广告位</a>
+    <!--添加新的广告位按钮-->
+</div>

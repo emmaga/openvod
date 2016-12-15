@@ -29,6 +29,19 @@
                 });
             }
 
+            self.getSelectedHotel = function() {
+                var ret = {};
+                if($scope.shopList) {
+                    for(var i =0; i< $scope.shopList.length;i++){
+                        if($scope.shopList[i].active) {
+                            ret = $scope.shopList[i]; 
+                            break;
+                        }
+                    }
+                }
+                return ret;
+            };
+
             self.accept = function(id) {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
@@ -58,6 +71,8 @@
                 }).finally(function (value) {
                     
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.reject = function(id) {
@@ -89,6 +104,8 @@
                 }).finally(function (value) {
                     
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.finish = function(id) {
@@ -357,6 +374,29 @@
                 });
             }
 
+            self.getSelectedShop = function() {
+                var ret = {};
+                if($scope.shopList) {
+                    for(var i =0; i< $scope.shopList.length;i++){
+                        if($scope.shopList[i].active) {
+                            ret = $scope.shopList[i]; 
+                            break;
+                        }
+                    }
+                }
+                return ret;
+            };
+
+            self.deliver = function(id) {
+                $scope.app.maskParams = {'orderId': id, 'search': self.search};
+                $scope.app.showHideMask(true,'pages/orders/shopOrderDeliver.html');
+            }
+
+            self.editDeliverInfo = function(info) {
+                $scope.app.maskParams = {'orderInfo': info, 'search': self.search};
+                $scope.app.showHideMask(true,'pages/orders/editShopOrderDeliver.html');
+            }
+
             self.accept = function(id) {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
@@ -368,7 +408,7 @@
                 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('shoporder', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -386,6 +426,8 @@
                 }).finally(function (value) {
                     
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.reject = function(id) {
@@ -399,7 +441,7 @@
                 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('shoporder', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -417,6 +459,8 @@
                 }).finally(function (value) {
                     
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.finish = function(id) {
@@ -429,7 +473,7 @@
                 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('shoporder', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -459,7 +503,7 @@
                 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('shoporder', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -605,8 +649,8 @@
                 );
             }
 
-            self.gotoDetail = function(orderInfo) {
-                $scope.app.maskParams = {'orderInfo': orderInfo};
+            self.gotoDetail = function(id) {
+                $scope.app.maskParams = {'orderId': id};
                 $scope.app.showHideMask(true,'pages/orders/shopOrderDetail.html');
             }
         }
@@ -617,7 +661,148 @@
             var self = this;
             
             self.init = function() {
+                self.id = $scope.app.maskParams.orderId;
+                self.getInfo();
+            }
 
+            self.getInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getOrderDetailByID",
+                    "lang": util.langStyle(),
+                    "OrderID": self.id
+                })
+
+                self.loading = true;
+
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('shoporder', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.info = data.data;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('获取信息失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.close = function() {
+                $scope.app.showHideMask(false);
+            }
+        }
+    ])
+
+    .controller('shopOrderDeliverController', ['$scope', '$state', '$http', 'util',
+        function ($scope, $state, $http, util) {
+            var self = this;
+            
+            self.init = function() {
+                self.id = $scope.app.maskParams.orderId;
+            }
+
+            self.close = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.submit = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "setExpressInfo",
+                    "lang": util.langStyle(),
+                    "OrderID": self.id,
+                    "ExpressNum": self.ExpressNum,
+                    "ExpressCompany": self.ExpressCompany
+                })
+
+                self.saving = true;
+
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('shoporder', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('发货成功');
+                        $scope.app.maskParams.search();
+                        self.close();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('发货失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+            }
+
+            self.close = function() {
+                $scope.app.showHideMask(false);
+            }
+        }
+    ])
+
+    .controller('editShopOrderDeliverController', ['$scope', '$state', '$http', 'util',
+        function ($scope, $state, $http, util) {
+            var self = this;
+            
+            self.init = function() {
+                self.info = $scope.app.maskParams.orderInfo;
+                self.id = self.info.ID;
+                self.ExpressNum = self.info.ExpressNum;
+                self.ExpressCompany = self.info.ExpressCompany;
+            }
+
+            self.close = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.submit = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "updateExpressInfo",
+                    "lang": util.langStyle(),
+                    "OrderID": self.id,
+                    "ExpressNum": self.ExpressNum,
+                    "ExpressCompany": self.ExpressCompany
+                })
+
+                self.saving = true;
+
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('shoporder', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        $scope.app.maskParams.search();
+                        self.close();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('发货失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
             }
 
             self.close = function() {

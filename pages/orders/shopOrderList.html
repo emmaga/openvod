@@ -8,6 +8,11 @@
     </ng-repeat><br>
     <!--筛选条件－门店-->
 
+    <!--当前选中商店名称及门店名称-->
+    {{sol.getSelectedShop().ShopName[sol.defaultLangCode]}}
+    {{sol.getSelectedShop().HotelName[sol.defaultLangCode]}}
+    <!--当前选中商店名称及门店名称-->
+
     <!--筛选条件－订单状态-->
     <ng-repeat ng-repeat="s in status">
         <a ng-click="sol.searchByStatus(s.code)" ng-class="{'active': s.active}">{{s.name[sol.defaultLangCode]}}</a> 
@@ -37,7 +42,7 @@
 
             <!--订单状态-->
             <td title="'订单状态'">
-                {{row.Status | orderStatus}}
+                {{row.Status | shopOrderStatus}}
             </td>
             <!--订单状态-->
 
@@ -56,31 +61,31 @@
             <!--操作-->
             <td title="'操作'">
                 <!--详情-->
-                <a ng-click="sol.gotoDetail(row)">详情</a>
+                <a ng-click="sol.gotoDetail(row.ID)">详情</a>
                 <!--详情-->
 
                 <!--编辑快递信息-->
-                <a ng-show="row.Status=='DELIVERING'">编辑快递信息</a>
+                <a ng-click="sol.editDeliverInfo(row)" ng-show="row.Status=='DELIVERING'">编辑快递信息</a>
                 <!--编辑快递信息-->
 
                 <!--发货-->
-                <a ng-click="sol.finish(row.OrderID)" ng-show="row.Status=='ACCEPT'">发货</a>
+                <a ng-click="sol.deliver(row.ID)" ng-show="row.Status=='ACCEPT'">发货</a>
                 <!--发货-->
 
                 <!--接受-->
-                <a ng-click="sol.accept(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
+                <a ng-click="sol.accept(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
                 <!--接受-->
 
                 <!--拒绝-->
-                <a ng-click="sol.reject(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
+                <a ng-click="sol.reject(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
                 <!--拒绝-->
 
                 <!--已完成-->
-                <a ng-click="sol.finish(row.OrderID)" ng-show="row.Status=='DELIVERING'">已完成</a>
+                <a ng-click="sol.finish(row.ID)" ng-show="row.Status=='DELIVERING'">已完成</a>
                 <!--已完成-->
 
                 <!--取消订单-->
-                <a ng-click="sol.cancel(row.OrderID)" ng-show="row.Status=='WAITPAY' || row.Status=='DELIVERING' || row.Status=='ACCEPT'">取消订单</a>
+                <a ng-click="sol.cancel(row.ID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>
                 <!--取消订单-->
             </td>
             <!--操作-->

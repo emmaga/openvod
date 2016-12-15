@@ -74,6 +74,10 @@
                     url: '/shopOrderDetail?id',
                     templateUrl: 'pages/orders/shopOrderDetail.html'
                 })
+                .state('app.shopOrderDeliver', {
+                    url: '/shopOrderDeliver',
+                    templateUrl: 'pages/orders/shopOrderDeliver.html'
+                })
                 .state('app.tvAdmin', {
                     url: '/tvAdmin',
                     templateUrl: 'pages/tvAdmin.html',
@@ -185,7 +189,6 @@
                                 var data = response.data;
                                 if (data.rescode == '200') {
                                     var defaultLang = util.getDefaultLangCode();
-                                    var preData = data.data.Content;
 
                                     var welMenu = 
                                     {
@@ -216,7 +219,13 @@
                     controller:['$scope', 'resA', 'resWelcome' ,function($scope, resA, resWelcome){
                         var treedata = [
                             resWelcome.value, 
-                            resA.value, 
+                            resA.value,
+                            {
+                              label: '广告位设置',
+                              data: {
+                                type: "adv"
+                              }
+                            },
                             {
                               label: '提交版本',
                               data: {
@@ -230,6 +239,15 @@
                 .state('app.tvAdmin.welcome', {
                     url: '/welcome?label',
                     templateUrl: 'pages/tv/welcome.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.adv', {
+                    url: '/adv?label',
+                    templateUrl: 'pages/tv/adv.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             

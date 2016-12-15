@@ -1,16 +1,84 @@
 <div ng-controller="shopOrderDetailController as sod" ng-init="sod.init()" class="modal-dialog">
     <div class="modal-content">
+    <div ng-show="sod.loading">loading...</div>
+        <!--快递订单号-->
+        快递订单号 {{sod.info.detail.ExpressNum}}<br>
+        <!--快递订单号-->
+
+        <!--快递公司-->
+        快递公司 {{sod.info.detail.ExpressCompany}}<br>
+        <!--快递公司-->
+
+        <!--订单基本信息-->
+            <!--订单号-->
+            订单号 {{sod.info.detail.OrderNum}}<br>
+            <!--订单号-->
+
+            <!--下单时间-->
+            下单时间 {{sod.info.detail.dealTime}}<br>
+            <!--下单时间-->
+
+            <!--订单状态-->
+            订单状态 {{sod.info.detail.Status | shopOrderStatus}}<br>
+            <!--订单状态-->
+
+            <!--订单总价-->
+            订单总价 {{sod.info.detail.totalPri | fenToYuan}}<br>
+            <!--订单总价-->
+
+            <!--商品总数-->
+            商品总数 {{sod.info.detail.totalCount}}<br>
+            <!--商品总数-->
+        <!--订单基本信息-->
+
+        <!--商品列表-->
+        <ng-repeat ng-repeat="product in sod.info.detail.productList">
+            <!--商品名-->
+            商品名 {{product.GoodsName}}<br>
+            <!--商品名-->
+
+            <!--商品单价-->
+            商品单价 {{product.price | fenToYuan}}<br>
+            <!--商品单价-->
+
+            <!--商品数量-->
+            商品数量 {{product.GoodsNum}}<br>
+            <!--商品数量-->
+        </ng-repeat>    
+        <!--商品列表-->
+
+        <!--联系人信息-->
+            <!--昵称-->
+            昵称 {{sod.info.detail.name}}<br>
+            <!--昵称-->
+
+            <!--手机号-->
+            手机号 {{sod.info.detail.mobile}}<br>
+            <!--手机号-->
+
+            <!--配送方式-->
+            配送方式 {{sod.info.detail.deliverWay | deliverWay}}<br>
+            <!--配送方式-->
+
+            <!--收货地址-->
+            <div ng-show="sod.info.detail.deliverWay=='express'">收货地址 {{sod.info.detail.address}}</div>
+            <!--收货地址-->
+        <!--联系人信息-->
+
         <!--操作记录-->
-
+        <ng-repeat ng-repeat="info in sod.info.operatelogs">
             <!--状态改变描述-->
+            {{info.OperateAction | operateAction}}
             <!--状态改变描述-->
 
             <!--时间-->
+            {{info.OperateTime}}
             <!--时间-->
 
             <!--状态改变者-->
+            {{info.OperateUserName}}<br>
             <!--状态改变者-->
-            
+        </ng-repeat>
         <!--操作记录-->
         
         <!--关闭按钮-->

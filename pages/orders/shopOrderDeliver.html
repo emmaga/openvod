@@ -1,0 +1,21 @@
+<div ng-controller="shopOrderDeliverController as shopOrderDeliver" ng-init="shopOrderDeliver.init()" class="modal-dialog">
+    <div class="modal-content">
+        <form name="shopOrderDeliverAddForm" ng-submit="shopOrderDeliverAddForm.$valid && shopOrderDeliver.submit()">
+            <!--快递单号-->
+            快递单号 <input ng-model="shopOrderDeliver.ExpressNum" type="text" required> <br>
+            <!--快递单号-->
+
+            <!--快递公司-->
+            快递公司 <input ng-model="shopOrderDeliver.ExpressCompany" type="text" required>
+            <!--快递公司-->
+            
+            <!--发货按钮-->
+            <button type="submit" ng-disabled="shopOrderDeliver.saving">发货</button>
+            <!--发货按钮-->
+
+            <!--取消按钮-->
+            <a ng-click="shopOrderDeliver.close()">取消</a>
+            <!--取消按钮-->
+        </form>
+    </div>
+</div>
