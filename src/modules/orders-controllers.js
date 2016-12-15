@@ -71,6 +71,8 @@
                 }).finally(function (value) {
                     
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.reject = function(id) {
@@ -102,6 +104,8 @@
                 }).finally(function (value) {
                     
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.finish = function(id) {
@@ -404,7 +408,7 @@
                 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('shoporder', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -422,6 +426,8 @@
                 }).finally(function (value) {
                     
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.reject = function(id) {
@@ -435,7 +441,7 @@
                 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('shoporder', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -453,6 +459,8 @@
                 }).finally(function (value) {
                     
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.finish = function(id) {
@@ -465,7 +473,7 @@
                 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('shoporder', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -495,7 +503,7 @@
                 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('shoporder', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
