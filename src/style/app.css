@@ -602,15 +602,16 @@ input.form-control{
 /*private*/
 .nav-left{
     position: fixed;
-    padding-top: 37px;
-    width: 160px;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
+    
 }
 .nav-left-content{
     position: absolute;
     left: -160px;
+    width: 160px;
+    min-height: 1px;
+    padding-top: 37px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 .content-right{
     position: relative;
