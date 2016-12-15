@@ -49,36 +49,6 @@ body, .app {
     background-position: center center;
     background-repeat: no-repeat;
     z-index: -1;
-
-    /*
-    transition-duration: .5s;
-    -webkit-filter: blur(14px);
-    filter: blur(14px);
-    */
-
-    will-change: transform;
-}
-
-.bg:before{
-    content:' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: inherit;
-    background-size: cover; 
-    background-position: center center;
-    background-repeat: no-repeat;
-    
-    transition-duration: .3s;
-    -webkit-filter: blur(9px);
-    filter: blur(9px);
-
-    opacity: 1;
-
-    /*will-change:opacity;
-    transition-duration: 0.5s;*/
 }
 
 .bg:after{
@@ -267,21 +237,7 @@ body, .app {
     overflow-y: scroll;
 }
 
-.app-view-blur-bg{
-    position: absolute;
-    top: 56px;
-    left: -12px;
-    right: -12px;
-    bottom: -12px;
-    -webkit-filter: blur(12px);
-    filter: blur(12px);
-    background-color: white;
-    opacity: 0;
-    /*transition-duration: .53s*/
-}
-.app-view-blur-bg.in{
-    opacity: 1
-}
+
 
 
 .app-view-mask{
@@ -742,7 +698,7 @@ input.form-control{
 }
 
 
-/* experiment */
+/* util */
 .flex-hr-eq{
     display: flex;
 
@@ -764,11 +720,6 @@ input.form-control{
     padding-bottom:72px
 }
 
-.blur{
-    -webkit-filter: blur(12px);
-    filter: blur(12px)
-}
-
 .transparent{
     opacity: 0
 }
@@ -785,4 +736,73 @@ input.form-control{
     width: 100%;
     line-height: 59px;
     text-align: center;
+}
+
+/*blur*/
+@supports (-webkit-filter:blur(12px)) {
+
+    .bg:before{
+    content:' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: inherit;
+    background-size: cover; 
+    background-position: center center;
+    background-repeat: no-repeat;
+    
+    transition-duration: .3s;
+    -webkit-filter: blur(9px);
+    filter: blur(9px);
+
+    opacity: 1;
+
+    /*will-change:opacity;
+    transition-duration: 0.5s;*/
+}
+    
+    .app-view-blur-bg{
+        position: absolute;
+        top: 84px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: white;
+        opacity: 0;
+        transition-duration: .1s
+    }
+
+    .app-view-blur-bg:before{
+        content: ' ';
+        position: absolute;
+        top: -21px;
+        left: -16px;
+        width: 36px;
+        height: 75px;
+        background: white;
+        -webkit-filter: blur(9px);
+        filter: blur(9px);
+    }
+    .app-view-blur-bg:after{
+        content: ' ';
+        position: absolute;
+        top: -21px;
+        right: -16px;
+        width: 48px;
+        height: 75px;
+        background: white;
+        -webkit-filter: blur(9px);
+        filter: blur(9px);
+    }
+
+    .app-view-blur-bg.in{
+        opacity: 1
+    }
+
+    .blur{
+        -webkit-filter: blur(12px);
+        filter: blur(12px)
+    }
 }
