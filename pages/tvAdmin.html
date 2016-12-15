@@ -2,6 +2,11 @@
     <!--for test-->
     <!-- {{my_tree.get_selected_branch()}} -->
     <!--for test-->
+    <style>
+        .vi-marginTop20 {
+            margin-top: 20px;
+        }
+    </style>
     <!-- 左侧菜单 -->
     <div class="nav-left ">
         <ul class="nav nav-stacked nav-left-content">
@@ -26,11 +31,12 @@
                     <div class="col-xs-12">
                         <!--欢迎页风格图-->
                         <div class="form-thumbnail" style="background-image: url({{my_tree.get_selected_branch().data.styleImg}});"></div>
-                    </div>
-                </div>
-            </div>
+                    </div><!--/col-xs-12-->
+                </div><!--/row-->
+            </div><!--/form-group-->
         </ng-if>
-        <!--欢迎页end-->
+        <!--/欢迎页end-->
+
         
         <!--主菜单-->
         <ng-if ng-if="my_tree.get_selected_branch().data.type=='menuRoot'">
@@ -58,80 +64,110 @@
         <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu' 
             || my_tree.get_selected_branch().data.type=='Live'
             || my_tree.get_selected_branch().data.type=='MovieCommon'">
-            <!-- 标题 -->
-            <h4>{{my_tree.get_selected_branch().label}}</h4>
+
+            <div class="row" style="margin-bottom: -20px;">
+                <div class="col-xs-2">
+                    <!-- 标题 -->
+                    <h4>{{my_tree.get_selected_branch().label}}</h4>
+                </div>
+                <div class="col-xs-2 col-xs-offset-8">
+                    <!--删除当前菜单-->
+                    <button class="btn btn-primary" ng-disabled="tvAdmin.menuDeleting" ng-click="tvAdmin.deleteMenu()">删除当前菜单</button>
+                    <!--/删除当前菜单-->
+                </div><!--col-xs-4 col-xs-offset-6-->
+            </div><!--row-->
             <hr>
             <!--菜单风格图-->
-            <img src="{{my_tree.get_selected_branch().data.styleImg}}">
-            <br>
-            <!--菜单风格图-->
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-thumbnail" style="background-image: url({{my_tree.get_selected_branch().data.styleImg}})"></div>
+                    </div>
+                </div>
+            </div>
+            <!--/菜单风格图-->
             <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu'">
                 <!--添加模块-->
                 <a ng-click="tvAdmin.addModule(2)">添加模块</a>
                 <br>
-                <!--添加模块-->
+                <!--/添加模块-->
             </ng-if>
-            <!--删除当前菜单-->
-            <button ng-disabled="tvAdmin.menuDeleting" ng-click="tvAdmin.deleteMenu()">删除当前菜单</button>
-            <!--删除当前菜单-->
+            <!--/菜单风格图-->
+
             <!--修改菜单信息-->
             <form name="tvMenuEditForm" ng-submit="tvMenuEditForm.$valid && tvAdmin.saveTvMenu()">
                 <!--修改菜单名称（多语言）-->
                 <ng-repeat ng-repeat="lang in tvAdmin.editLangs">
-                    <ng-if ng-if="lang.default">
-                        菜单名称 {{lang.name}}：
-                        <input ng-model="tvAdmin.menu.name[lang.code]" required />
-                        <br>
+                    <ng-if class="form-group ng-scope" ng-if="lang.default">
+                        <label class="ng-binding">菜单名称 {{lang.name}}：</label>
+                        <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="tvAdmin.menu.name[lang.code]" required />
                     </ng-if>
-                    <ng-if ng-if="lang.default !== true">
-                        菜单名称 {{lang.name}}：
-                        <input ng-model="tvAdmin.menu.name[lang.code]" />
+                    <ng-if class="form-group ng-scope" ng-if="lang.default !== true">
+                        <label class="ng-binding">菜单名称 {{lang.name}}：</label>
+                        <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="tvAdmin.menu.name[lang.code]" />
                     </ng-if>
                 </ng-repeat>
-                <!--修改菜单名称（多语言）-->
-                <!--菜单图片-->
-                <div ng-repeat="img in tvAdmin.imgs3.data">
-                    <img src="{{img.src}}" alt="{{img.fileName}}" /> 进度： {{img.progress}}
-                    <!-- -1代表失败 -->
-                    <!-- 大小： {{img.fileSize}}
-                        剩余： {{img.leftSize}} -->
-                </div>
-                <!--菜单图片-->
-                <!--修改菜单图片按钮-->
-                菜单图片:
-                <br>
-                <input id="upload3" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload3" />
-                <a ng-click="tvAdmin.clickUpload('upload3')">上传</a>
-                <br>
-                <a id="hidenUpload3" style="display: none;" ng-click="tvAdmin.imgs3.uploadFile(myFile, tvAdmin.imgs3)"></a>
-                <!--修改菜单图片按钮-->
-                <!--菜单高亮图片-->
-                菜单高亮图片:
-                <br>
-                <div ng-repeat="img in tvAdmin.imgs4.data">
-                    <img src="{{img.src}}" alt="{{img.fileName}}" /> 进度： {{img.progress}}
-                    <!-- -1代表失败 -->
-                    <!-- 大小： {{img.fileSize}}
-                        剩余： {{img.leftSize}} -->
-                </div>
-                <!--菜单高亮图片-->
-                <!--修改菜单高亮图片按钮-->
-                <input id="upload4" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload4" />
-                <a ng-click="tvAdmin.clickUpload('upload4')">上传</a>
-                <br>
-                <a id="hidenUpload4" style="display: none;" ng-click="tvAdmin.imgs4.uploadFile(myFile, tvAdmin.imgs4)"></a>
-                <!--修改菜单高亮图片按钮-->
-                <!--菜单排序-->
-                菜单序号:
-                <input type="number" ng-model="tvAdmin.menu.seq" min="1" required/>
-                <br>
-                <!--菜单排序-->
-                <!--保存按钮-->
-                <button type="submit" ng-disabled="tvAdmin.menuSaving">保存</button>
-                <!--保存按钮-->
+                <!--/修改菜单名称（多语言）-->
+
+                <div class="form-group">
+                    <label>菜单图片:</label>
+                    <!--修改菜单图片按钮-->
+                    <input id="upload3" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload3" />
+                    <a ng-click="tvAdmin.clickUpload('upload3')">上传</a>
+                    <br>
+                    <a id="hidenUpload3" style="display: none;" ng-click="tvAdmin.imgs3.uploadFile(myFile, tvAdmin.imgs3)"></a>
+                    <!--/修改菜单图片按钮-->
+                    <!--菜单图片-->
+                    <div class="row vi-marginTop20">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}})" ng-repeat="img in tvAdmin.imgs3.data">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                </div>
+                                <!-- -1代表失败 -->
+                                <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                            </div><!--/form-thumbnail-->
+                        </div><!--/col-xs-12-->
+                    </div><!--/row-->
+                    <!--/菜单图片-->
+
+                    <label>菜单高亮图片:</label>
+                    <!--修改菜单高亮图片按钮-->
+                    <input id="upload4" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload4" />
+                    <a ng-click="tvAdmin.clickUpload('upload4')">上传</a>
+                    <br>
+                    <a id="hidenUpload4" style="display: none;" ng-click="tvAdmin.imgs4.uploadFile(myFile, tvAdmin.imgs4)"></a>
+                    <!--/修改菜单高亮图片按钮-->
+                    <!--菜单高亮图片-->
+                    <div class="row vi-marginTop20">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}})" ng-repeat="img in tvAdmin.imgs4.data">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                </div>
+                                <!-- -1代表失败 -->
+                                <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                            </div><!--/form-thumbnail-->
+                        </div><!--/col-xs-12-->
+                    </div><!--/row-->
+                    <!--/菜单高亮图片-->
+
+                    <!--菜单排序-->
+                    <label>菜单序号:</label>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="number" ng-model="tvAdmin.menu.seq" min="1" required/>
+                    <br>
+                    <!--/菜单排序-->
+                    <!--保存按钮-->
+                    <button class="btn btn-primary btn-block" type="submit" ng-disabled="tvAdmin.menuSaving">保存</button>
+                    <!--/保存按钮-->
+                </div><!--form-group-->
             </form>
-            <!--修改菜单信息-->
-            <!-- 一级菜单 -->
+            <!--/修改菜单信息-->
+            <!-- /一级菜单 -->
         </ng-if>
         <!--右侧容器-->
         <ui-view></ui-view>
