@@ -1,8 +1,7 @@
-<div ng-controller="shopOrderListController as sol" ng-init="sol.init()">
-    <!--加载门店列表-->
+<div ng-controller="shopOrderListController as sol" ng-init="sol.init()" class="container-fluid">
+    <!--加载门店列表loading-->
     <div ng-show="sol.loadingShopList">loading...</div>
-    <!--加载门店列表-->
-
+    
     <!--筛选条件－门店-->
     <ng-repeat ng-repeat="shop in shopList">
         <a ng-click="sol.searchByShop(shop.ShopID)" ng-class="{'active': shop.active}">{{shop.ShopName[sol.defaultLangCode]}} {{shop.HotelName[sol.defaultLangCode]}}</a> 
