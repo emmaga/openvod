@@ -418,6 +418,10 @@ textarea{
     max-width: 980px;
 }
 
+.container-fluid.has-nav-left{
+    margin-left: 160px;
+}
+
 
 .nav>li>a{
     padding: 5px 15px;

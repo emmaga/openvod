@@ -1,26 +1,16 @@
-<div ng-controller="hotelOrderListController as hol" ng-init="hol.init()" class="container-fluid">
+<div ng-controller="hotelOrderListController as hol" ng-init="hol.init()" class="container-fluid has-nav-left">
 
     <!--加载门店列表loading-->
     <div ng-show="hol.loadingShopList">loading...</div>
 
-    <!-- 左侧菜单 -->
+    <!-- 左侧菜单 筛选条件——门店-->
     <div class="nav-left ">
-    asdfasfdasdfasdf
-        <ul class="nav nav-stacked">
-            <li class="nav-header active" ng-repeat="item in hotelRoom.hotels" >
-                <a class="theme-hover "  ui-sref-active="active" ui-sref="app.hotelRoom.room({hotelId:{{item.ID}}})">
-                    {{item.Name[hotelRoom.defaultLangCode]}}
-                </a>
+        <ul class="nav nav-stacked nav-left-content">
+            <li class="nav-header active" ng-repeat="shop in shopList" >
+                <a ng-click="hol.searchByShop(shop.ID)"  ui-sref-active="active" ng-class="{'active': shop.active}">{{shop.Name[hol.defaultLangCode]}}</a> 
             </li>
         </ul>
     </div>
-    
-
-    <!--筛选条件－门店-->
-    <ng-repeat ng-repeat="shop in shopList">
-        <a ng-click="hol.searchByShop(shop.ID)" ng-class="{'active': shop.active}">{{shop.Name[hol.defaultLangCode]}}</a> 
-    </ng-repeat><br>
-    <!--筛选条件－门店-->
 
     <!--筛选条件－订单状态-->
     <ng-repeat ng-repeat="s in status">
