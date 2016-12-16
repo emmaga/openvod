@@ -2,44 +2,28 @@
 <div ng-controller="loginController as login" ng-init="login.init()">
 
 
-    <!-- <h1 class="login-logo">OpenVOD</h1> -->
-    <!-- <h1 class="login-logo">
-	    <div icon="ripple" class="spinner spinner-ripple">
-	        <svg viewBox="0 0 64 64">
-	            <g fill="none" fill-rule="evenodd" stroke-width="3">
-	                <circle cx="32" cy="32" r="20.3344">
-	                    <animate attributeName="r" begin="0s" dur="2s" values="0;24" keyTimes="0;1" keySplines="0.1,0.2,0.3,1" calcMode="spline" repeatCount="indefinite"></animate>
-	                    <animate attributeName="stroke-opacity" begin="0s" dur="2s" values=".2;1;.2;0" repeatCount="indefinite"></animate>
-	                </circle>
-	                <circle cx="32" cy="32" r="1.41877">
-	                    <animate attributeName="r" begin="-1s" dur="2s" values="0;24" keyTimes="0;1" keySplines="0.1,0.2,0.3,1" calcMode="spline" repeatCount="indefinite"></animate>
-	                    <animate attributeName="stroke-opacity" begin="-1s" dur="2s" values=".2;1;.2;0" repeatCount="indefinite"></animate>
-	                </circle>
-	            </g>
-	        </svg>
-	    </div>
-    </h1> -->
+    <div class="login-logo"></div>
 
     <form name="loginForm" ng-submit="loginForm.$valid && login.login()">
 
         <!-- 输入框容器 -->
         <div class="login-inputs">
-        	<!-- 账号 -->
+            <!-- 项目 -->
+            <input ng-model="login.projectName" type="text" required placeholder="项目">
+            <!-- 账号 -->
             <input ng-model="login.userName" type="text" required placeholder="账号">
             <!-- 密码 -->
             <input ng-model="login.password" type="password" required placeholder="密码">
-            <!-- 项目 -->
-            <input ng-model="login.projectName" type="text" required placeholder="项目">
+            <!-- 提交按钮 -->
+        	<button class="login-submit" title="登录">
+        		<i class="icon ion-arrow-right-a"></i>
+        	</button>
         </div>
-        <!-- 提交按钮 -->
-    	<button class="login-submit button  button-light">
-    		<i class="icon ion-arrow-right-a"></i>
-    	</button>
 
     </form>
     <div ng-show="login.loading">loading...</div>
     <style type="text/css">
-    .spinner {
+    /*.spinner {
         stroke: #fff;
         fill: #fff;
     }
@@ -47,14 +31,18 @@
     .spinner>svg {
         width: 36px;
         height: 36px;
-    }
+    }*/
 
     .login-logo{
-    	text-align: center;
-    	color: rgb(255,255,255);
-    	font-size: 81px;
-    	letter-spacing: -7px;
-    	font-weight: 100;
+        position: absolute;
+    	background-image: url(dist/imgs/icon-03.png);
+        width: 100%;
+        top: 12.5%;
+        height: 12.5%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center center;
+        min-height:90px
     }
 
     form{
@@ -65,6 +53,7 @@
     .login-inputs {
     	position: absolute;
     	top: 33.33%;
+        /*top: 50%;*/
         display: flex;
         justify-content: center;
         align-items: center;
@@ -72,8 +61,9 @@
         left: 0;
     }
 
+
     input {
-    	text-indent: 0.25em;
+        text-indent: 0.25em;
         margin: 4px;
         padding: 4px;
         border-radius: 4px;
@@ -85,25 +75,26 @@
         width: 140px;
     }
 
-    input::-webkit-input-placeholder,textarea::-webkit-input-placeholder { color: rgba(255,255,255,.33); }
-	input:-ms-input-placeholder,textarea:-ms-input-placeholder {color: rgba(255,255,255,.33);}
+    input::-webkit-input-placeholder,textarea::-webkit-input-placeholder { color: rgba(255,255,255,.53); }
+    input:-ms-input-placeholder,textarea:-ms-input-placeholder {color: rgba(255,255,255,.53);}
 
-	.login-submit{
-		position: absolute;
-		display: inline-block;
-		top: 49%;
-		color: white;
-		background-color: transparent !important;
-		color: rgba() !important;
-		font-size: 14px;
-		border: solid 1px rgb(255,255,255) !important;
-		width:60px;
-		height: 60px;
-		border-radius: 60px;
+    .login-inputs>input:nth-last-of-type(1){
+        border-radius: 4px 0px 0px 4px;
+    }
+
+    .login-submit{
+        background-color: rgba(255, 255, 255, .33);
+        border: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 0px 4px 4px 0px;
+        color: white;
+        margin-left: -3px;
+        opacity: 0.7
 	}
 
 	.login-submit:hover{
-		color: white !important;
+		opacity: 1
 	}
 
     </style>
