@@ -2188,7 +2188,7 @@
 
                     if (imgs.length == 0) {
                         // alert('请上传图片')
-                        self.addAlert(response.status + ' 服务器出错', false, 'warning');
+                        self.addAlert(' 请上传图片', false, 'warning');
                         return;
                     }
 
