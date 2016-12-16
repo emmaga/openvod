@@ -147,6 +147,12 @@
                     self.changeMenuInfo();        
                 }
 
+                // 3rdApp
+                if(branch.data.type == '3rdApp') {
+                    $state.go('app.tvAdmin.3rdApp', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();        
+                }
+
                 // movieCommon
                 if(branch.data.type == 'MovieCommon') {
                     
@@ -1124,6 +1130,237 @@
                 }).finally(function (value) {
                     self.loading = false;
                 });
+            }
+
+        }
+    ])
+
+    .controller('tv3rdAppController', ['$scope', '$state', '$http', '$stateParams', 'util',
+        function ($scope, $state, $http, $stateParams, util) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                self.loadInfo();
+            }
+
+            self.edit = function() {
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.appGroupID = self.info.AppGroupID;
+                $scope.app.maskParams.callback = self.loadInfo;
+                $scope.app.showHideMask(true,'pages/tv/3rdAppEdit.html');
+            }
+
+            self.add = function() {
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.callback = self.loadInfo;
+                $scope.app.showHideMask(true,'pages/tv/3rdAppAdd.html');
+            }
+
+            self.loadInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getAppGroup",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.info = data.data;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+        }
+    ])
+
+    .controller('tv3rdAppAddController', ['$scope', '$http', 'util',
+        function ($scope, $http, util) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+                self.callback = $scope.app.maskParams.callback;
+                self.loadList();
+            }
+
+            self.loadList = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getAppGroupList",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.appList = data.data;
+                        self.selApp = 0;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.save = function() {
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "updateAppGroup",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "AppGroupID": self.appList[self.selApp].ID,
+                        "AppGroupName": self.appList[self.selApp].Name,
+                        "AppGroupDesc": self.appList[self.selApp].Description,
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('保存成功');
+                        self.cancel();
+                        self.callback();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('保存失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            }
+
+        }
+    ])
+
+    .controller('tv3rdAppEditController', ['$scope', '$http', 'util',
+        function ($scope, $http, util) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+                self.callback = $scope.app.maskParams.callback;
+                self.appGroupID = $scope.app.maskParams.appGroupID;
+                self.loadList();
+            }
+
+            self.loadList = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getAppGroupList",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.appList = data.data;
+                        self.selApp = 0;
+                        for(var i = 0; i < self.appList.length; i++) {
+                            if(self.appList[i].ID == self.appGroupID) {
+                                self.selApp = i;
+                                break;
+                            }
+                        }
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.save = function() {
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "updateAppGroup",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "AppGroupID": self.appList[self.selApp].ID,
+                        "AppGroupName": self.appList[self.selApp].Name,
+                        "AppGroupDesc": self.appList[self.selApp].Description,
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('保存成功');
+                        self.cancel();
+                        self.callback();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('保存失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
             }
 
         }
