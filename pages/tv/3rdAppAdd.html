@@ -1,0 +1,33 @@
+<div ng-controller="tv3rdAppAddController as tv3rdAppAdd" ng-init="tv3rdAppAdd.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
+    
+    <!--请选择App组合-->
+    请选择App组合<br>
+    <!--请选择App组合-->
+
+    <!--loading-->
+    <div ng-show="tv3rdAppAdd.loading">loading...</div>
+    <!--loading-->
+
+    <form name="tv3rdAppAddForm" ng-submit="tv3rdAppAddForm.$valid && tv3rdAppAdd.save()">
+        <!--App组合列表-->
+        <ng-repeat ng-repeat="app in tv3rdAppAdd.appList track by $index">
+            <input type="radio" ng-model="tv3rdAppAdd.selApp" value="{{$index}}" ng-checked="tv3rdAppAdd.selApp == $index"> 
+            <!--app名称-->
+            {{app.Name}}
+            <!--app名称-->
+
+            <!--app描述--> 
+            {{app.Description}}
+            <!--app描述--> 
+        </ng-repeat><br>
+        <!--App组合列表-->
+
+        <!--保存按钮-->
+        <button type="submit" ng-disabled="tv3rdAppAdd.saving">保存</button>
+        <!--保存按钮-->
+
+        <!--取消按钮-->
+        <div ng-click="tv3rdAppAdd.cancel()">取消</div>
+        <!--取消按钮-->
+    </form>
+</div>
