@@ -1,39 +1,88 @@
-<div style="position: absolute; left: 100px; top: 100px; right: 100px; bottom: 100px; background: rgba(255,255,255,0.8);" ng-controller="goodsEditController as goodsEdit" ng-init="goodsEdit.init()">
- 编辑商品信息
-    <div ng-show="goodsEdit.loading">loadingGoodsInfo...</div>
-    <form name="goodsEditForm" ng-submit="goodsEditForm.$valid && goodsEdit.editGoods()">
-        <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
-            <ng-if ng-if="lang.default">
-             商品名 {{lang.name}}：<input ng-model="goodsEdit.name[lang.code]" required />
-            </ng-if>
-            <ng-if ng-if="lang.default !== true">
-             商品名 {{lang.name}}：<input ng-model="goodsEdit.name[lang.code]" />
-            </ng-if>
-        </ng-repeat>
-        <div ng-repeat="img in goodsEdit.imgs.data">
-            <img src="{{img.src}}" alt="{{img.fileName}}" />
-            大小： {{img.fileSize}}
-            进度： {{img.progress}}
-            剩余： {{img.leftSize}}
-            <a ng-click="goodsEdit.imgs.deleteById(img.id); ">
-             删除
-            </a>
-        </div>
-        <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
-        <a ng-click="goodsEdit.clickUpload('upload')">上传图片</a>
-        <a id="hidenUpload" style="display: none;" ng-click="goodsEdit.imgs.uploadFile('myFile')"></a>
-        单价(分)：<input ng-model="goodsEdit.price" required type="number" min="0" />
-        库存：<input ng-model="goodsEdit.invetory" required type="number" min="0"/>
-        <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
-            <ng-if ng-if="lang.default == true">
-             简介 {{lang.name}}：<textarea ng-model="goodsEdit.intro[lang.code]" required ></textarea>
-            </ng-if>
-            <ng-if ng-if="lang.default !== true">
-             简介：{{lang.name}}：<textarea ng-model="goodsEdit.intro[lang.code]"></textarea>
-            </ng-if>
-        </ng-repeat>
-
-        <button type="submit" ng-disabled="goodsEdit.saving">保存</button>
-        <button ng-click="goodsEdit.cancel()">取消</button>
-    </form>
+<!-- 编辑商品信息 -->
+<div ng-controller="goodsEditController as goodsEdit" ng-init="goodsEdit.init()" class="modal-dialog">
+    <div class="modal-content">
+        <!-- loading -->
+        <div ng-show="goodsEdit.loading">loadingGoodsInfo...</div>
+        <!-- form -->
+        <form name="goodsEditForm" ng-submit="goodsEditForm.$valid && goodsEdit.editGoods()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="goodsEdit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑商品信息</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 商品名 -->
+                <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
+                    <div class="form-group" ng-show="lang.defaut==true">
+                        <label>商品名({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="goodsEdit.name[lang.code]" class="form-control">
+                    </div>
+                    <div class="form-group" ng-show="lang.defaut!==true">
+                        <label>商品名({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="goodsEdit.name[lang.code]" class="form-control">
+                    </div>
+                </ng-repeat>
+                <!--商品图-->
+                <div class="form-group">
+                    <label>商品图片</label>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in goodsEdit.imgs.data" style="background-image: url({{img.src}})" class="form-thumbnail">
+                                <!-- 进度条 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                                <!-- 删除按钮 -->
+                                <i ng-click="goodsEdit.imgs.deleteById(img.id)" class="form-thumbnail-delete icon ion-close"></i>
+                            </div>
+                            <!-- 上传按钮 -->
+                            <div ng-click="goodsEdit.clickUpload('upload')" class="form-thumbnail form-thumbnail-creat">
+                                <i class="icon ion-upload"></i> 上传图片
+                                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload" />
+                                <a id="hidenUpload" style="display: none;" ng-click="goodsEdit.imgs.uploadFile('myFile')"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/商品图-->
+                <!-- 单价 -->
+                <div class="form-group">
+                    <label>单价</label>
+                    <input ng-model="goodsEdit.price" required type="number" min="0" class="form-control" />
+                </div>
+                <!-- 库存 -->
+                <div class="form-group">
+                    <label>库存</label>
+                    <input ng-model="goodsEdit.invetory" required type="number" min="0" class="form-control" />
+                </div>
+                <!-- 简介 -->
+                <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
+                    <div class="form-group" ng-show="lang.defaut==true">
+                        <label>简介({{lang.name}})</label>
+                        <textarea ng-model="goodsEdit.intro[lang.code]" required class="form-control"></textarea>
+                    </div>
+                    <div class="form-group" ng-show="lang.defaut!==true">
+                        <label>简介({{lang.name}})</label>
+                        <textarea ng-model="goodsEdit.intro[lang.code]" required class="form-control"></textarea>
+                    </div>
+                </ng-repeat>
+            </div>
+            <!-- body end -->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="goodsEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="goodsEdit.saving"><i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}</button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
 </div>
