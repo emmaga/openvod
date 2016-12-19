@@ -34,38 +34,38 @@
                     </ng-repeat>
                 </div>
                 <!--/客房名-->
+
+
+
                 <!--客房图-->
-                <div ng-repeat="img in roomAdd.imgs.data">
-                    <div class="col-md-12">
-                        <div class="col-md-12" style="position: relative;height: 200px; overflow: auto;">
-                            <img style="width: 100%;" ng-src="{{img.src}}" alt="{{img.fileName}}"/>
-                        </div>
-                        <div class="progress col-md-8 col-md-offset-2" style="padding: 0; margin-top: 10px;">
-                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
-                                 aria-valuenow="{{img.progress}}" aria-valuemin="0" aria-valuemax="100"
-                                 style="width: {{img.progress}}%;">
-                                {{img.progress}}%
+                <div class="form-group">
+                    <label>客房图片</label>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in roomAdd.imgs.data" style="background-image: url({{img.src}})" class="form-thumbnail">
+                                <!-- 进度条 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                                <!-- 关闭按钮 -->
+                                <i ng-click="roomAdd.imgs.deleteById(img.id);" class="form-thumbnail-delete icon ion-close"></i>
                             </div>
-                        </div>
-                        <div style="position:relative;">
-                            <!--<div>大小： {{img.fileSize}}</div>-->
-                            <!--<div>剩余： {{img.leftSize}}</div>-->
-                            <a type="button" class="close" ng-click="roomAdd.imgs.deleteById(img.id);"
-                               style="position: absolute; display: block; top: 10px; right: -10px;">
-                                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                            </a>
+                            <!-- 上传按钮 -->
+                            <div ng-click="roomAdd.clickUpload('upload')" class="form-thumbnail form-thumbnail-creat">
+                                <i class="icon ion-upload"></i>
+                                上传图片
+                                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload" />
+                                <a id="hidenUpload" style="display: none;" ng-click="roomAdd.imgs.uploadFile('myFile', roomAdd.imgs)"></a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!--/客房图-->
-                <!--上传图片按钮-->
-                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
-                <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
-                    <a class="btn btn-primary center-block" ng-click="roomAdd.clickUpload('upload')">上传图片</a>
-                </div>
-                <a id="hidenUpload" style="display: none;"
-                   ng-click="roomAdd.imgs.uploadFile('myFile', roomAdd.imgs)"></a>
-                <!--/上传图片按钮-->
+
+
+
                 <!--标签-->
                 <div class="form-group">
                     <label>客房标签：</label>
