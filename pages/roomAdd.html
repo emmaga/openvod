@@ -65,25 +65,21 @@
                 <!--/客房图-->
 
 
-
                 <!--标签-->
                 <div class="form-group">
-                    <label>客房标签：</label>
-                    <ng-repeat ng-repeat="tag in roomAdd.tags track by $index">
-                        <label class="btn btn-default" ng-model="roomAdd.ifCheckedTags[$index].checked"
-                               uib-btn-checkbox ng-hide="roomAdd.ifCheckedTags[$index].checked">{{tag.TagName[roomAdd.defaultLangCode]}}
-                        </label>
-                    </ng-repeat>
-                </div>
-                <div class="form-group">
-                    <label>已选标签：</label>
-                    <ng-repeat ng-repeat="tag in roomAdd.tags track by $index">
-                        <label class="btn btn-default" ng-model="roomAdd.ifCheckedTags[$index].checked"
-                               uib-btn-checkbox ng-show="roomAdd.ifCheckedTags[$index].checked">{{tag.TagName[roomAdd.defaultLangCode]}}
-                        </label>
-                    </ng-repeat>
+                    <label>已选标签</label>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span ng-repeat="tag in roomAdd.tags track by $index" ng-model="roomAdd.ifCheckedTags[$index].checked" uib-btn-checkbox class="tag">{{tag.TagName[roomAdd.defaultLangCode]}}</span>
+                        </div>
+                    </div>
                 </div>
                 <!--/标签-->
+
+                
+
+
+
                 <div class="row">
                     <!-- 客房介绍摘要 -->
                     <ng-repeat ng-repeat="lang in roomAdd.editLangs">
