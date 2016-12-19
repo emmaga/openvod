@@ -484,7 +484,12 @@ input.form-control{
     margin-bottom: 0px;
     margin-right: 5px;
 }
+.checkbox label, .radio label{
+    margin-top: 0px;
+}
 
+
+    /*card*/
 .panel{
     overflow: hidden;
 }

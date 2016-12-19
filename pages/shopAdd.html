@@ -1,29 +1,51 @@
-<div ng-controller="shopAddController as shopAdd" ng-init="shopAdd.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);">
-    <button ng-click="shopAdd.cancel()">X</button>
-    <br>
-    <form novalidate name="shopAddForm" ng-submit="shopAddForm.$valid && shopAdd.saveForm()">
-        <!--        <div ng-repeat="lang in shopAdd.multiLang track by $index">
-            商城名字：({{lang.name}})
-            <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]">
-        </div> -->
-        <div ng-repeat="lang in shopAdd.multiLang track by $index">
-            <div ng-show="lang.defaut==true">
-                商城名字：({{lang.name}})
-                <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]">
-            </div>
-            <div ng-show="lang.defaut!==true">
-                商城名字：({{lang.name}})
-                <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]">
-            </div>
-        </div>
-        <br> 门店列表
-        <br>
+<div ng-controller="shopAddController as shopAdd" ng-init="shopAdd.init()" class="modal-dialog">
+    <div class="modal-content">
+        <!-- loading -->
         <div ng-show="shop.loading">loading...</div>
-        <label ng-repeat="hotel in shopAdd.hotelList">
-            <input type="radio" name="hotelName" value="{{hotel.ID}}" ng-model="shopAdd.form.HotelID">{{hotel.Name[shopAdd.langStyle]}}
-        </label>
-        <br>
         <div ng-show="shop.noData">查无数据</div>
-        <input type="submit" value="保存" class="btn btn-primary button-positive" ng-disabled="shopAddForm.$invalid || shopAdd.saving">
-    </form>
+        <form novalidate name="shopAddForm" ng-submit="shopAddForm.$valid && shopAdd.saveForm()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="shopAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加商城</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- form -->
+                <!-- 商城名称 -->
+                <ng-repeat ng-repeat="lang in shopAdd.multiLang track by $index">
+                    <div class="form-group" ng-show="lang.defaut==true">
+                        <label>商城名字：({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]" class="form-control">
+                    </div>
+                    <div class="form-group" ng-show="lang.defaut!==true">
+                        <label>商城名字：({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="shopAdd.form.shopName[lang.code]" class="form-control">
+                    </div>
+                </ng-repeat>
+                <!-- 绑定门店 -->
+                <div class="form-group">
+                    <label>绑定门店</label>
+                    <div ng-repeat="hotel in shopAdd.hotelList" class="radio">
+                        <label>
+                            <input type="radio" name="hotelName" value="{{hotel.ID}}" ng-model="shopAdd.form.HotelID">{{hotel.Name[shopAdd.langStyle]}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="shopAddForm.$invalid || shopAdd.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
 </div>
