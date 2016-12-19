@@ -1,27 +1,44 @@
-<div ng-controller="shopEditController as shopEdit" ng-init="shopEdit.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
- shopEdit
- <button ng-click="shopEdit.cancel()">X</button>
- <form novalidate name="shopEditForm" ng-submit="shopEditForm.$valid && shopEdit.saveForm()">
-     <div ng-repeat="lang in shopEdit.multiLang track by $index">
-         <div ng-show="lang.defaut==true">
-             商城名字：({{lang.name}})
-             <input type="text" name="" required ng-model="shopEdit.shopInfo[lang.code]">
-         </div>
-         <div ng-show="lang.defaut!==true">
-             商城名字：({{lang.name}})
-             <input type="text" name="" required ng-model="shopEdit.shopInfo[lang.code]">
-         </div>
-     </div>
- 
- <!-- 	<input type="text" name="" value="{{shopEdit.maskParams.ShopName}}" required ng-model="shopEdit.form.shopName[lang.code]" ng-repeat="lang in shopEdit.multiLang track by $index"><br> -->
-
-
-<!--  	门店列表<br>
-    <div ng-show="shopEdit.loading">loading...</div>
-    <div ng-show="shopEdit.noData">查无数据</div>
- 	<label ng-repeat="hotel in shopEdit.hotelList"><input type="radio" name="hotelName" value="{{hotel.HotelID}}" ng-model="shopEdit.form.HotelID" ng-checked="shopEdit.maskParams.HotelID==hotel.HotelID">{{hotel.HotelName[shopEdit.langStyle]}}</label> <br> -->
-
- 	<input type="submit" value="保存" class="button button-block button-positive" ng-disabled="shopEditForm.$invalid || shopEdit.saving">
- </form>
- <button ng-click="shopEdit.deleteShop()" ng-disabled="shopEdit.saving">删除该商城</button>
+<div ng-controller="shopEditController as shopEdit" ng-init="shopEdit.init()" class="modal-dialog">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form novalidate name="shopEditForm" ng-submit="shopEditForm.$valid && shopEdit.saveForm()">
+            <!-- header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="shopEdit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">修改商城信息</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <!-- 商城名称 -->
+                <ng-repeat ng-repeat="lang in shopEdit.multiLang track by $index">
+                    <div class="form-group" ng-show="lang.defaut==true">
+                        <label>商城名字：({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="shopEdit.shopInfo[lang.code]" class="form-control">
+                    </div>
+                    <div class="form-group" ng-show="lang.defaut!==true">
+                        <label>商城名字：({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="shopEdit.shopInfo[lang.code]" class="form-control">
+                    </div>
+                </ng-repeat>
+            </div>
+            <!-- body-end -->
+            <!-- footer -->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="shopEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 删除 -->
+                <button type="button" class="btn btn-danger btn-sm" ng-click="shopEdit.deleteShop()" ng-disabled="shopEdit.saving"><i class="glyphicon glyphicon-trash"></i> {{'DELETE' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="shopEditForm.$invalid || shopEdit.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!-- footer end -->
+        </form>
+        <!-- form end -->
+    </div>
 </div>

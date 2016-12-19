@@ -3,6 +3,7 @@
         <!-- loading -->
         <div ng-show="shop.loading">loading...</div>
         <div ng-show="shop.noData">查无数据</div>
+        <!-- form -->
         <form novalidate name="shopAddForm" ng-submit="shopAddForm.$valid && shopAdd.saveForm()">
             <!--header-->
             <div class="modal-header">
@@ -15,7 +16,6 @@
             <!--header end-->
             <!--body-->
             <div class="modal-body">
-                <!-- form -->
                 <!-- 商城名称 -->
                 <ng-repeat ng-repeat="lang in shopAdd.multiLang track by $index">
                     <div class="form-group" ng-show="lang.defaut==true">
@@ -40,6 +40,8 @@
             <!--body end-->
             <!--footer-->
             <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="shopAdd.cancel()">{{'CANCEL' | translate}}</button>
                 <!-- 保存 -->
                 <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="shopAddForm.$invalid || shopAdd.saving">
                     <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
