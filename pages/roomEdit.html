@@ -102,9 +102,6 @@
                     </ng-repeat>
                     <!-- /客房介绍 -->
                 </div>
-                <!-- 删除按钮 -->
-                <label class="danger">删除商品 </label>
-                <button type="button" class="btn btn-danger btn-block" ng-click="roomEdit.deleteRoom()"><i class="glyphicon glyphicon-trash"></i> {{'DELETE' | translate}}</button>
                     
             </form>
             <div ng-show="saving">saving</div>
@@ -112,8 +109,12 @@
         <!--body end-->
         <!--footer-->
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click="roomEdit.cancel()">{{'CANCEL' | translate}}</button>
-            <button type="submit" class="btn btn-primary" form="roomEditForm">{{'SAVE' | translate}}</button>
+            <!-- 取消 -->
+            <button type="button" class="btn btn-default btn-sm" ng-click="roomEdit.cancel()">{{'CANCEL' | translate}}</button>
+            <!-- 删除 -->
+            <button type="button" class="btn btn-danger btn-sm" ng-click="roomEdit.deleteRoom()"><i class="glyphicon glyphicon-trash"></i> {{'DELETE' | translate}}</button>
+            <!-- 保存 -->
+            <button type="submit" class="btn btn-primary  btn-sm" form="roomEditForm"><i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}</button>
         </div>
         <!--footer end-->
     </div>

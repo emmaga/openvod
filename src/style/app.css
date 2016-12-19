@@ -397,29 +397,24 @@ textarea{
 }
 
 
+    /*nav-tab*/
 .nav>li>a{
     padding: 5px 15px;
 }
-
-
 .list-group-item{
     border-left: none;
     border-right: none;
 }
-
 .nav.nav-tabs{
     margin-bottom: 20px;
 }
-
 .tab-content{
     position: relative;
 }
-
 .tab-content>.tab-pane{
     position: absolute;
     width: 100%;
 }
-
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     color: #555;
     cursor: default;
@@ -427,41 +422,50 @@ textarea{
     border: none;
     border-bottom:solid 2px;
 }
-
 .nav-tabs>li>a{
     color: #818181
 }
 
+
+    /*modal*/
 .modal{
     display: block;
     overflow-y: auto;
     pointer-events: none;    
 }
-
 .modal-backdrop{
     z-index: 0;
     pointer-events: none;
     height: 400%;
 }
-
 .modal-dialog{
     margin: 72px auto;
 }
-
 .modal-content{
     border: none;
     -webkit-box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
     box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
 }
-
 .modal-body{
     padding: 15px 30px;
 }
-
 .modal.fade.in{
     pointer-events: auto;
 }
 
+
+
+    /*btn*/
+.btn-sm>.icon{
+    font-size: 15px;
+    line-height: 1;
+}
+.modal-footer .btn+.btn{
+    border: none
+}
+
+
+    /*form*/
 input.form-control{
     border-top: none;
     border-right: none;
