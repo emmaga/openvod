@@ -1,5 +1,5 @@
 <!-- 酒店/客房管理>添加客房弹窗 -->
-<div ng-controller="roomAddController as roomAdd" ng-init="roomAdd.init();" class="autoscroll modal-dialog" style="height: 100%;">
+<div ng-controller="roomAddController as roomAdd" ng-init="roomAdd.init();" class="autoscroll modal-dialog">
     <div class="modal-content">
         <!--header-->
         <div class="modal-header">
@@ -125,7 +125,7 @@
                 {{'CANCEL' | translate}}
             </button>
             <button type="submit" class="btn btn-primary btn-sm" form="roomAddForm">
-                {{'SAVE' | translate}}
+                <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
             </button>
         </div>
         <!--footer end-->
