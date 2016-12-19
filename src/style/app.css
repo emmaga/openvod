@@ -438,6 +438,9 @@ textarea{
     overflow-y: auto;
     pointer-events: none;    
 }
+.modal.fade.in{
+    pointer-events: auto;
+}
 .modal-backdrop{
     z-index: 0;
     pointer-events: none;
@@ -451,15 +454,20 @@ textarea{
     -webkit-box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
     box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
 }
+.modal-sm .modal-body{
+    padding: 15px;
+}
 .modal-body{
     padding: 15px 30px;
 }
-.modal.fade.in{
-    pointer-events: auto;
+.modal hr{
+    margin-left: -15px;
+    margin-right: -15px;
 }
 .modal-footer{
     border-top: none;
 }
+
 
 
 
@@ -486,14 +494,20 @@ input.form-control{
     height: 28px;
 }
 
+.checkbox label, .radio label{
+    margin-top: 0px;
+}
+
+    /*list group*/
+.list-group-condensed>.list-group-item{
+    border: none;
+    padding:5px 10px 5px 10px;
+}
 .list-group-item span>.badge,.list-group-item span>p{
     line-height: 1.1;
     margin-top:10px;
     margin-bottom: 0px;
     margin-right: 5px;
-}
-.checkbox label, .radio label{
-    margin-top: 0px;
 }
 
 
