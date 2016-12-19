@@ -1,23 +1,43 @@
-<div ng-controller="categoryAddController as categoryAdd" ng-init="categoryAdd.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
-    categoryAddController
-    <button ng-click="categoryAdd.cancel()">X</button>
-    <form novalidate name="categoryAddForm" ng-submit="categoryAddForm.$valid && categoryAdd.saveForm()">
-        <!-- <div ng-repeat="lang in categoryAdd.multiLang track by $index">
-            分类名字：({{lang.name}})
-            <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]">
-        </div> -->
+<div ng-controller="categoryAddController as categoryAdd" ng-init="categoryAdd.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form novalidate name="categoryAddForm" ng-submit="categoryAddForm.$valid && categoryAdd.saveForm()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="categoryAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加商城</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 分类名称 -->
+                <ng-repeat ng-repeat="lang in categoryAdd.multiLang track by $index">
+                    <div class="form-group" ng-show="lang.defaut==true">
+                        <label>分类名称({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]" class="form-control">
+                    </div>
+                    <div class="form-group" ng-show="lang.defaut!==true">
+                        <label>分类名称({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]" class="form-control">
+                    </div>
+                </ng-repeat>
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="categoryAdd.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="categoryAddForm.$invalid || categoryAdd.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
 
-        <div ng-repeat="lang in categoryAdd.multiLang track by $index">
-            <div ng-show="lang.defaut==true">
-                分类名字：({{lang.name}})
-                <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]">
-            </div>
-            <div ng-show="lang.defaut!==true">
-                分类名字：({{lang.name}})
-                <input type="text" name="" required ng-model="categoryAdd.form.shopName[lang.code]">
-            </div>
-        </div>
-        <br/>
-        <input type="submit" value="保存" class="btn btn-primary button-block button-positive" ng-disabled="categoryAddForm.$invalid || categoryAdd.saving">
-    </form>
+        </form>
+    </div>
 </div>

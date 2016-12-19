@@ -457,6 +457,9 @@ textarea{
 .modal.fade.in{
     pointer-events: auto;
 }
+.modal-footer{
+    border-top: none;
+}
 
 
 
