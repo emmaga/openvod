@@ -3,7 +3,10 @@
     <!-- loading -->
     <div ng-show="goods.loading">loading...</div>
     <!-- 标题 + 编辑酒店信息按钮-->
-    <h4 ng-click="goods.shopEdit()" class="">{{goods.maskParams.ShopName[goods.langStyle]}} {{goods.maskParams.HotelName[goods.langStyle]}}</h4>
+    <h4 ng-click="goods.shopEdit()">
+        {{goods.maskParams.ShopName[goods.langStyle]}}（{{goods.maskParams.HotelName[goods.langStyle]}}）
+        <a class="title-btn"><i class="icon ion-ios-compose-outline"></i></a>
+    </h4>
     <hr>
     <!-- 分类标签 -->
     <ul class="nav nav-tabs">
