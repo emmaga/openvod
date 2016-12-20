@@ -109,7 +109,7 @@
                     }
                 }
 
-                // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面
+                // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面, 6:终端管理，7:微信用户
                 self.switchApp = function (n) {
                     // 收起桌面
                     self.appPhase = 2;
@@ -132,15 +132,22 @@
                             }
                             break;
                         case 4:
-                            $state.go('app.shopOrderList', {'appId': n});
+                            $state.go('app.shopOrderList', { 'appId': n });
                             break;
                         case 5:
-                            if(!$state.includes("app.tvAdmin")){
-                                $state.go('app.tvAdmin', {'appId': n});
+                            if (!$state.includes("app.tvAdmin")) {
+                                $state.go('app.tvAdmin', { 'appId': n });
                             }
+                            break;
+                        case 6:
+                            $state.go('app.terminal', { 'appId': n });
+                            break;
+                        case 7:
+                            $state.go('app.wxUser', { 'appId': n });
                             break;
                         default:
                             break;
+
                     }
                 }
 
@@ -176,6 +183,156 @@
                     }
                     
                 }
+            }
+        ])
+        
+        // 终端管理
+        .controller('terminalController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, util) {
+                console.log('terminalController')
+                console.log($scope.app.maskParams);
+                var self = this;
+                self.init = function() {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.loading = false;
+                    self.noData = false;
+                    // self.searchShopList();
+                }
+
+
+                self.searchShopList = function() {
+                    self.loading = true;
+                    var data = {
+                        "action": "getMgtHotelShopInfo",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            if (data.data.data.shopList.length == 0) {
+                                self.noData = true;
+                                return;
+                            }
+                            self.shopList = data.data.data.shopList;
+                            // 默认加载 第一个 商城
+                            self.shopFirst = self.shopList[0];
+                            $state.go('app.shop.goods', { ShopID: self.shopFirst.ShopID, HotelID: self.shopFirst.HotelID });
+                            $scope.app.maskParams.ShopName = self.shopFirst.ShopName;
+                            $scope.app.maskParams.HotelName = self.shopFirst.HotelName;
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错');
+                    }).finally(function(value) {
+                        self.loading = false;
+                    });
+
+                }
+
+                self.shopAdd = function() {
+                    $scope.app.maskParams = { 'ShopName': self.shopFirst.ShopName };
+                    $scope.app.showHideMask(true, 'pages/shopAdd.html');
+                }
+
+
+
+
+                self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
+                    $scope.app.maskParams.ShopName = ShopName;
+                    $scope.app.maskParams.HotelName = HotelName;
+                    if ($state.current.name = "app.shop.goods.goodsList") {
+                        $state.go('app.shop.goods.goodsList', { ShopID: ShopID, HotelID: HotelID })
+                    } else {
+                        $state.go('.goods', { ShopID: ShopID, HotelID: HotelID })
+                    }
+
+                }
+
+            }
+        ])
+        
+        // 微信用户管理
+        .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, util) {
+                console.log('wxUserController')
+                console.log($scope.app.maskParams);
+                var self = this;
+                self.init = function() {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.loading = false;
+                    self.noData = false;
+                    // self.searchShopList();
+                }
+
+
+                self.searchShopList = function() {
+                    self.loading = true;
+                    var data = {
+                        "action": "getMgtHotelShopInfo",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            if (data.data.data.shopList.length == 0) {
+                                self.noData = true;
+                                return;
+                            }
+                            self.shopList = data.data.data.shopList;
+                            // 默认加载 第一个 商城
+                            self.shopFirst = self.shopList[0];
+                            $state.go('app.shop.goods', { ShopID: self.shopFirst.ShopID, HotelID: self.shopFirst.HotelID });
+                            $scope.app.maskParams.ShopName = self.shopFirst.ShopName;
+                            $scope.app.maskParams.HotelName = self.shopFirst.HotelName;
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错');
+                    }).finally(function(value) {
+                        self.loading = false;
+                    });
+
+                }
+
+                self.shopAdd = function() {
+                    $scope.app.maskParams = { 'ShopName': self.shopFirst.ShopName };
+                    $scope.app.showHideMask(true, 'pages/shopAdd.html');
+                }
+
+
+
+
+                self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
+                    $scope.app.maskParams.ShopName = ShopName;
+                    $scope.app.maskParams.HotelName = HotelName;
+                    if ($state.current.name = "app.shop.goods.goodsList") {
+                        $state.go('app.shop.goods.goodsList', { ShopID: ShopID, HotelID: HotelID })
+                    } else {
+                        $state.go('.goods', { ShopID: ShopID, HotelID: HotelID })
+                    }
+
+                }
+
             }
         ])
 

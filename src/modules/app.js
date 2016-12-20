@@ -42,6 +42,14 @@
                     url: '/shop',
                     templateUrl: 'pages/shop.html'
                 })
+                .state('app.terminal', {
+                    url: '/terminal',
+                    templateUrl: 'pages/terminal.html'
+                })
+                .state('app.wxUser', {
+                    url: '/wxUser',
+                    templateUrl: 'pages/wxUser.html'
+                })
                 .state('app.shop.goods', {
                     url: '/goods?HotelID&ShopID',
                     templateUrl: 'pages/goods.html'
