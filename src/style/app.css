@@ -727,6 +727,21 @@ input.form-control{
 }
 
 
+    /*设置组*/
+.setting-group{
+    padding: 0;
+}
+.setting-group-item{
+    position: relative;
+    list-style: none;
+    display: block;
+    margin-top: 7px;
+}
+.setting-group-item .form-control{
+    margin-top: 0px
+}
+
+
     /*瀑布流和卡片式设计*/
 .box{
     position: relative;
@@ -820,6 +835,17 @@ input.form-control{
 
 .cursor-pointer{
     cursor: pointer;
+}
+
+.col-condensed{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.col-condensed:nth-of-type(1){
+    padding-left: 15px;
+}
+.col-condensed:nth-last-of-type(1){
+    padding-right: 15px;
 }
 
 /*ionic*/
