@@ -735,7 +735,10 @@ input.form-control{
     position: relative;
     list-style: none;
     display: block;
-    margin-top: 7px;
+    margin-bottom: 12px;
+}
+.setting-group-item>.row{
+    margin-top: -10px
 }
 .setting-group-item .form-control{
     margin-top: 0px
