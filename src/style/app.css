@@ -770,6 +770,13 @@ input.form-control{
     opacity: 0.35
 }
 
+.box .list-group-item>span.pull-right{
+    max-width: 72%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 /* waterfall */
 .wf-container:before,.wf-container:after {
     content: '';
