@@ -1,4 +1,4 @@
-/* Let's get this party started */
+ /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 9px;
 }
@@ -376,7 +376,7 @@ td{
 
 label{
     margin-bottom: 10px;
-    margin-top: 28px
+    margin-top: 14px
 }
 
 hr {
@@ -396,30 +396,30 @@ textarea{
     margin-left: 160px;
 }
 
-
-.nav>li>a{
-    padding: 5px 15px;
+.title-btn{
+    font-size: 24px;
+    vertical-align: text-top;
 }
 
 
+    /*nav-tab*/
+.nav>li>a{
+    padding: 5px 15px;
+}
 .list-group-item{
     border-left: none;
     border-right: none;
 }
-
 .nav.nav-tabs{
     margin-bottom: 20px;
 }
-
 .tab-content{
     position: relative;
 }
-
 .tab-content>.tab-pane{
     position: absolute;
     width: 100%;
 }
-
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     color: #555;
     cursor: default;
@@ -427,41 +427,61 @@ textarea{
     border: none;
     border-bottom:solid 2px;
 }
-
 .nav-tabs>li>a{
     color: #818181
 }
 
+
+    /*modal*/
 .modal{
     display: block;
     overflow-y: auto;
     pointer-events: none;    
 }
-
+.modal.fade.in{
+    pointer-events: auto;
+}
 .modal-backdrop{
     z-index: 0;
     pointer-events: none;
     height: 400%;
 }
-
 .modal-dialog{
     margin: 72px auto;
 }
-
 .modal-content{
     border: none;
     -webkit-box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
     box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
 }
-
+.modal-sm .modal-body{
+    padding: 15px;
+}
 .modal-body{
     padding: 15px 30px;
 }
-
-.modal.fade.in{
-    pointer-events: auto;
+.modal hr{
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.modal-footer{
+    border-top: none;
 }
 
+
+
+
+    /*btn*/
+.btn-sm>.icon{
+    font-size: 15px;
+    line-height: 1;
+}
+.modal-footer .btn+.btn{
+    border: none
+}
+
+
+    /*form*/
 input.form-control{
     border-top: none;
     border-right: none;
@@ -474,6 +494,15 @@ input.form-control{
     height: 28px;
 }
 
+.checkbox label, .radio label{
+    margin-top: 0px;
+}
+
+    /*list group*/
+.list-group-condensed>.list-group-item{
+    border: none;
+    padding:5px 10px 5px 10px;
+}
 .list-group-item span>.badge,.list-group-item span>p{
     line-height: 1.1;
     margin-top:10px;
@@ -481,6 +510,8 @@ input.form-control{
     margin-right: 5px;
 }
 
+
+    /*card*/
 .panel{
     overflow: hidden;
 }
@@ -624,7 +655,7 @@ input.form-control{
     padding-left: 15px;
 }
 .search-bar{
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .search-bar>.form-group{
     display: inline-block;
@@ -696,6 +727,24 @@ input.form-control{
 }
 
 
+    /*设置组*/
+.setting-group{
+    padding: 0;
+}
+.setting-group-item{
+    position: relative;
+    list-style: none;
+    display: block;
+    margin-bottom: 12px;
+}
+.setting-group-item>.row{
+    margin-top: -10px
+}
+.setting-group-item .form-control{
+    margin-top: 0px
+}
+
+
     /*瀑布流和卡片式设计*/
 .box{
     position: relative;
@@ -732,10 +781,18 @@ input.form-control{
     bottom: 0;
     background-color: rgb(0,0,0);
     opacity: .05;
-    transition-duration: 0.5s
+    border-radius: 4px 4px 0px 0px;
+    transition-duration: 0.5s;
 }
 .box:hover .box-top-img:after{
     opacity: 0.35
+}
+
+.box .list-group-item>span.pull-right{
+    max-width: 72%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 /* waterfall */
@@ -781,6 +838,17 @@ input.form-control{
 
 .cursor-pointer{
     cursor: pointer;
+}
+
+.col-condensed{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.col-condensed:nth-of-type(1){
+    padding-left: 15px;
+}
+.col-condensed:nth-last-of-type(1){
+    padding-right: 15px;
 }
 
 /*ionic*/

@@ -1,112 +1,145 @@
-<div ng-controller="hotelEditController as hotelEdit" ng-init="hotelEdit.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
-    <span>酒店详情</span>
-    <div>
-        <div ng-show="loading">loading...</div>
-        <form name="hotelEditForm" ng-submit="hotelEditForm.$valid && hotelEdit.save()">
-            <div>
-                
+<div ng-controller="hotelEditController as hotelEdit" ng-init="hotelEdit.init()" class="modal-dialog">
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="hotelEdit.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">酒店详情</h5>
+        </div>
+        <!--header end-->
+        <!--body-->
+        <div class="modal-body">
+            <!-- loading -->
+            <div ng-show="loading">loading...</div>
+            <!-- form -->
+            <form id="hotelEditForm" name="hotelEditForm" ng-submit="hotelEditForm.$valid && hotelEdit.save()" rol="form">
                 <!--城市-->
-                <label  >
-                    请输入所在城市：<br>
-                    <input type="text" name="" ng-model="hotelEdit.selectCity">
-                </label>
-                <br>
-                
-                <!--城市-->
-
+                <div class="form-group">
+                    <label>所在城市</label>
+                    <input type="text" class="form-control" ng-model="hotelEdit.selectCity">
+                </div>
                 <!--酒店名-->
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
-                    <ng-if ng-if="lang.default">
-                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.hotel.Name[lang.code]" required />
-                    </ng-if>
-                    <ng-if ng-if="lang.default !== true">
-                        酒店名 {{lang.name}}：<input ng-model="hotelEdit.hotel.Name[lang.code]" />
-                    </ng-if>
+                    <div class="form-group" ng-if="lang.default">
+                        <label>酒店名 {{lang.name}}</label>
+                        <input type="text" class="form-control" ng-model="hotelEdit.hotel.Name[lang.code]" required />
+                    </div>
+                    <div class="form-group" ng-if="lang.default !== true">
+                        <label>酒店名 {{lang.name}}</label>
+                        <input type="text" class="form-control" ng-model="hotelEdit.hotel.Name[lang.code]" />
+                    </div>
                 </ng-repeat>
                 <!--酒店名-->
-            </div>
-
-            <div>
-                <!--酒店图片-->
-                <div ng-repeat="img in hotelEdit.imgs1.data">
-                    <img src="{{img.src}}" alt="{{img.fileName}}" />
-                    大小： {{img.fileSize}}
-                    进度： {{img.progress}}
-                    剩余： {{img.leftSize}}
-                    <a ng-click="hotelEdit.imgs1.deleteById(img.id); ">
-                     删除
-                    </a>
+                <!--酒店图-->
+                <div class="form-group">
+                    <label>客房图片</label>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in hotelEdit.imgs1.data" style="background-image: url({{img.src}})" class="form-thumbnail">
+                                <!-- 进度条 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                                <!-- 删除按钮 -->
+                                <i ng-click="hotelEdit.imgs1.deleteById(img.id)" class="form-thumbnail-delete icon ion-close"></i>
+                            </div>
+                            <!-- 上传按钮 -->
+                            <div ng-click="hotelEdit.clickUpload('upload')" class="form-thumbnail form-thumbnail-creat">
+                                <i class="icon ion-upload"></i> 上传图片
+                                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload" />
+                                <a id="hidenUpload" style="display: none;" ng-click="hotelEdit.imgs1.uploadFile('myFile', hotelEdit.imgs1)"></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!--酒店图片-->
-
-                <!-- 上传酒店图片按钮 -->
-                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
-                <a ng-click="hotelEdit.clickUpload('upload')">上传图片</a>
-                <a id="hidenUpload" style="display: none;" ng-click="hotelEdit.imgs1.uploadFile('myFile', hotelEdit.imgs1)"></a>
-                <!-- 上传酒店图片按钮 -->
-            </div>
-            <div>
-                <!--酒店标签-->
-                <ng-repeat ng-repeat="tag in hotelEdit.hotelTags track by $index">
-                    <input type="checkbox" ng-model="hotelEdit.ifCheckedHotelTags[$index].checked" /> {{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[hotelEdit.defaultLangCode]}}
-                </ng-repeat>
-                <!--酒店标签-->
-            </div>
-            <div>
+                <!--/酒店图-->
+                <!--标签-->
+                <div class="form-group">
+                    <label>已选标签</label>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span ng-repeat="tag in hotelEdit.hotelTags track by $index" ng-model="roomEdit.ifCheckedTags[$index].checked" uib-btn-checkbox class="tag">{{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[hotelEdit.defaultLangCode]}}</span>
+                        </div>
+                    </div>
+                </div>
+                <!--/标签-->
                 <!--酒店地址-->
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
-                    <ng-if ng-if="lang.default">
-                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.hotel.Address[lang.code]" required />
-                    </ng-if>
-                    <ng-if ng-if="lang.default !== true">
-                        酒店地址 {{lang.name}}：<input ng-model="hotelEdit.hotel.Address[lang.code]" />
-                    </ng-if>
+                    <div class="form-group" ng-if="lang.default">
+                        <label>酒店地址 {{lang.name}}</label>
+                        <input type="text" class="form-control" ng-model="hotelEdit.hotel.Address[lang.code]" required />
+                    </div>
+                    <div class="form-group" ng-if="lang.default !== true">
+                        <label>酒店地址 {{lang.name}}</label>
+                        <input type="text" class="form-control" ng-model="hotelEdit.hotel.Address[lang.code]" />
+                    </div>
                 </ng-repeat>
                 <!--酒店地址-->
-
                 <!--酒店坐标-->
-                <div>
-                    X:<input type="text" ng-model="hotelEdit.hotel.LocationX" required />
-                    Y:<input type="text" ng-model="hotelEdit.hotel.LocationY" required />
+                <div class="form-group">
+                    <label>酒店坐标</label>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" ng-model="hotelEdit.hotel.LocationX" placeholder="X坐标" required />
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" ng-model="hotelEdit.hotel.LocationY" placeholder="Y坐标" required />
+                        </div>
+                    </div>
                 </div>
                 <!--酒店坐标-->
-
-            </div>
-            <!-- 上传酒店LOGO按钮 -->
-            <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
-            <a ng-click="hotelEdit.clickUpload('upload2')">上传LOGO</a>
-            <a id="hidenUpload2" style="display: none;" ng-click="hotelEdit.imgs2.uploadFile('myFile', hotelEdit.imgs2)"></a>
-            <!-- 上传酒店LOGO按钮 -->
-
-            <!--酒店LOGO-->
-            <div ng-repeat="img in hotelEdit.imgs2.data">
-                <img src="{{img.src}}" alt="{{img.fileName}}" />
-                大小： {{img.fileSize}}
-                进度： {{img.progress}}
-                剩余： {{img.leftSize}}
-                <a ng-click="hotelEdit.imgs2.deleteById(img.id); ">
-                 删除
-                </a>
-            </div>
-            <!--酒店LOGO-->
-            
-            <!--酒店介绍-->
-            <div>
+                <!--酒店logo图-->
+                <div class="form-group ">
+                    <label>酒店LOGO</label>
+                    <!--酒店logo图修改按钮-->
+                    <a ng-click="hotelEdit.clickUpload('upload2')">上传</a>
+                    <br>
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                    <a id="hidenUpload1" style="display: none;" ng-click="hotelEdit.imgs2.uploadFile('myFile', hotelEdit.imgs2)"></a>
+                    <!--酒店logo图修改按钮-->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in hotelEdit.imgs2.data" class="form-thumbnail" style="background-image: url({{img.src}})">
+                                <!-- 进度条 -->
+                                <!-- -1代表失败 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--酒店logo图 end-->
+                <!--酒店介绍-->
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
-                    <ng-if ng-if="lang.default">
-                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.hotel.Description[lang.code]" required></textarea>
-                    </ng-if>
-                    <ng-if ng-if="lang.default !== true">
-                        酒店介绍 {{lang.name}}：<textarea ng-model="hotelEdit.hotel.Description[lang.code]"></textarea>
-                    </ng-if>
+                    <div class="form-group" ng-if="lang.default">
+                        <label>酒店介绍 {{lang.name}}</label>
+                        <textarea ng-model="hotelEdit.hotel.Description[lang.code]" required class="form-control"></textarea>
+                    </div>
+                    <div class="form-group" ng-if="lang.default !== true">
+                        <label>酒店介绍 {{lang.name}}</label>
+                        <textarea ng-model="hotelEdit.hotel.Description[lang.code]" class="form-control"></textarea>
+                    </div>
                 </ng-repeat>
-            </div>
-            <!--酒店介绍-->
-            <div>
-                <button ng-click="hotelEdit.cancel()">{{'CANCEL' | translate}}</button>
-                <button type="submit">{{'SAVE' | translate}}</button>
-                <div ng-show="hotelEdit.saving">saving...</div>
-            </div>
-        </form>
+                <!--酒店介绍-->
+            </form>
+        </div>
+        <!--body end-->
+        <!--footer-->
+        <div class="modal-footer">
+            <!-- 取消 -->
+            <button ng-click="hotelEdit.cancel()" type="button" class="btn btn-default btn-sm">{{'CANCEL' | translate}}</button>
+            <!-- 保存 -->
+            <button form="hotelEditForm" type="submit" class="btn btn-primary btn-sm"><i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}</button>
+        </div>
+        <!--footer end-->
     </div>
+    <!-- 保存中 -->
+    <div ng-show="hotelEdit.saving">saving...</div>
 </div>

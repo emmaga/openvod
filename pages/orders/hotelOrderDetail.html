@@ -1,73 +1,96 @@
-<div ng-controller="hotelOrderDetailController as hod" ng-init="hod.init()" class="modal-dialog">
+<div ng-controller="hotelOrderDetailController as hod" ng-init="hod.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
         <!--loading-->
-            <div ng-show="hod.loading">loading...</div>
-        <!--loading-->
-        
-        <!--订单详情-->
-            <!--订单号-->
-            {{hod.orderInfo.OrderNum}}<br>
-            <!--订单号-->
-
-            <!--下单时间-->
-            {{hod.orderInfo.CreateTime}}<br>
-            <!--下单时间-->
-
-            <!--订单状态-->
-            {{hod.orderInfo.Status | orderStatus}}<br>
-            <!--订单状态-->
-
-            <!--订单总价-->
-            {{hod.orderInfo.GoodsTotalPrice | fenToYuan}}<br>
-            <!--订单总价-->
-
-            <!--客房信息－酒店名-->
-            {{hod.orderInfo.Name[hol.defaultLangCode]}}<br>
-            <!--客房信息－酒店名-->
-
-            <!--客房信息－客房名-->
-            {{hod.orderInfo.RoomTypeName[hol.defaultLangCode]}}<br>
-            <!--客房信息－客房名-->
-
-            <!--入住信息－入住时间-->
-            {{hod.orderInfo.BookSte}}<br>
-            <!--入住信息－入住时间-->
-
-            <!--入住信息－离店时间-->
-            {{hod.orderInfo.BookEndDate}}<br>
-            <!--入住信息－离店时间-->
-
-            <!--入住信息－房间数量-->
-            {{hod.orderInfo.GoodsNum}}<br>
-            <!--入住信息－房间数量-->
-
-            <!--联系人－姓名-->
-            {{hod.orderInfo.ContactorName}}<br>
-            <!--联系人－姓名-->
-
-            <!--联系人－手机-->
-            {{hod.orderInfo.ContactorPhone}}<br>
-            <!--联系人－手机-->
-        <!--订单详情-->
-
-        <!--操作记录-->
-        <ng-repeat ng-repeat="info in hod.list">
-            <!--状态改变描述-->
-            {{info.OperateAction | operateAction}}
-            <!--状态改变描述-->
-
-            <!--时间-->
-            {{info.OperateTime}}
-            <!--时间-->
-
-            <!--状态改变者-->
-            {{info.OperateUserName}}<br>
-            <!--状态改变者-->
-        </ng-repeat>
-        <!--操作记录-->
-        
-        <!--关闭按钮-->
-        <a ng-click="hod.close()">close</a>
-        <!--关闭按钮-->
+        <div ng-show="hod.loading">loading...</div>
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="hod.close()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">订单详情</h5>
+        </div>
+        <!-- body -->
+        <div class="modal-body">
+            <!--订单详情-->
+            <ul class="list-group list-group-condensed">
+                <!--订单号-->
+                <li class="list-group-item">
+                    订单号
+                    <span class="pull-right">{{hod.orderInfo.OrderNum}}</span>
+                </li>
+                <!--下单时间-->
+                <li class="list-group-item">
+                    下单时间
+                    <span class="pull-right">{{hod.orderInfo.CreateTime}}</span>
+                </li>
+                <!--订单状态-->
+                <li class="list-group-item">
+                    订单状态
+                    <span class="pull-right">{{hod.orderInfo.Status | orderStatus}}</span>
+                </li>
+                <!--订单总价-->
+                <li class="list-group-item">
+                    订单总价
+                    <span class="pull-right">{{hod.orderInfo.GoodsTotalPrice | fenToYuan}}</span>
+                </li>
+                <hr>
+                <!--客房信息－酒店名-->
+                <li class="list-group-item">
+                    酒店名
+                    <span class="pull-right">{{hod.orderInfo.Name[hol.defaultLangCode]}}</span>
+                </li>
+                <!--客房信息－客房名-->
+                <li class="list-group-item">
+                    客房名
+                    <span class="pull-right">{{hod.orderInfo.RoomTypeName[hol.defaultLangCode]}}</span>
+                </li>
+                <hr>
+                <!--入住信息－入住时间-->
+                <li class="list-group-item">
+                    入住时间
+                    <span class="pull-right">{{hod.orderInfo.BookSte}}</span>
+                </li>
+                <!--入住信息－离店时间-->
+                <li class="list-group-item">
+                    离店时间
+                    <span class="pull-right">{{hod.orderInfo.BookEndDate}}</span>
+                </li>
+                <!--入住信息－房间数量-->
+                <li class="list-group-item">
+                    房间数量
+                    <span class="pull-right">{{hod.orderInfo.GoodsNum}}</span>
+                </li>
+                <hr>
+                <!--联系人－姓名-->
+                <li class="list-group-item">
+                    姓名
+                    <span class="pull-right">{{hod.orderInfo.ContactorName}}</span>
+                </li>
+                <!--联系人－手机-->
+                <li class="list-group-item">
+                    手机
+                    <span class="pull-right">{{hod.orderInfo.ContactorPhone}}</span>
+                </li>
+            </ul>
+            <hr>
+            <!--订单详情-->
+            <!--操作记录-->
+            <small ng-repeat="info in hod.list">
+                <!--状态改变描述-->
+                <label>{{info.OperateAction | operateAction}}</label>
+                <!--时间-->
+                {{info.OperateTime}}
+                <!--状态改变者-->
+                {{info.OperateUserName}}
+                <br>
+            </small>
+            <!--操作记录-->
+        </div>
+        <div class="modal-footer">
+            <!-- 取消 -->
+            <button type="button" class="btn btn-default btn-sm" ng-click="hod.close()">{{'CANCEL' | translate}}</button>
+            <!--footer end-->
+        </div>
     </div>
 </div>

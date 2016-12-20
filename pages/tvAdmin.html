@@ -66,16 +66,15 @@
             || my_tree.get_selected_branch().data.type=='3rdApp'
             || my_tree.get_selected_branch().data.type=='MovieCommon'">
 
-            <div class="row" style="margin-bottom: -20px;">
-                <div class="col-xs-2">
+            <div class="row text-right" style="margin-bottom: -20px;">
+                <div class="col-xs-2 text-left">
                     <!-- 标题 -->
                     <h4>{{my_tree.get_selected_branch().label}}</h4>
                 </div>
-                <div class="col-xs-2 col-xs-offset-8">
-                    <!--删除当前菜单-->
-                    <button class="btn btn-primary" ng-disabled="tvAdmin.menuDeleting" ng-click="tvAdmin.deleteMenu()">删除当前菜单</button>
-                    <!--/删除当前菜单-->
-                </div><!--col-xs-4 col-xs-offset-6-->
+                <button type="button" class="btn btn-primary" title="删除当前菜单"
+                        ng-disabled="tvAdmin.menuDeleting" ng-click="tvAdmin.deleteMenu()" >
+                    删除当前菜单
+                </button>
             </div><!--row-->
             <hr>
             <!--菜单风格图-->
