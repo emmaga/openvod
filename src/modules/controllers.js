@@ -423,56 +423,63 @@
 
         
         // 微信用户管理
-        .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util',
-            function($scope, $state, $translate, $http, $stateParams, $filter, util) {
+        .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
                 console.log('wxUserController')
                 console.log($scope.app.maskParams);
                 var self = this;
                 self.init = function() {
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
-                    self.loading = false;
-                    self.noData = false;
-                    // self.searchShopList();
+                    self.getWxUserInfo();
                 }
 
 
-                self.searchShopList = function() {
+                // 获取微信用户信息
+                self.getWxUserInfo = function() {
+                    self.noData = false;
                     self.loading = true;
-                    var data = {
-                        "action": "getMgtHotelShopInfo",
-                        "token": util.getParams("token"),
-                        "lang": self.langStyle
-                    };
-                    data = JSON.stringify(data);
-                    $http({
-                        method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                        data: data
-                    }).then(function successCallback(data, status, headers, config) {
-                        if (data.data.rescode == "200") {
-                            if (data.data.data.shopList.length == 0) {
-                                self.noData = true;
-                                return;
+                    self.tableParams = new NgTableParams({
+                        page: 1,
+                        count: 15,
+                        url: ''
+                    }, {
+                        counts: [],
+                        getData: function(params) {
+                            var data = {
+                                "action": "getWxUserInfo",
+                                "token": util.getParams("token"),
+                                "lang": self.langStyle
                             }
-                            self.shopList = data.data.data.shopList;
-                            // 默认加载 第一个 商城
-                            self.shopFirst = self.shopList[0];
-                            $state.go('app.shop.goods', { ShopID: self.shopFirst.ShopID, HotelID: self.shopFirst.HotelID });
-                            $scope.app.maskParams.ShopName = self.shopFirst.ShopName;
-                            $scope.app.maskParams.HotelName = self.shopFirst.HotelName;
-                        } else if (data.data.rescode == "401") {
-                            alert('访问超时，请重新登录');
-                            $state.go('login')
-                        } else {
-                            alert('添加失败， ' + data.data.errInfo);
-                        }
-                    }, function errorCallback(data, status, headers, config) {
-                        alert('连接服务器出错');
-                    }).finally(function(value) {
-                        self.loading = false;
-                    });
+                            var paramsUrl = params.url();
+                            data.per_page = paramsUrl.count - 0;
+                            data.page = paramsUrl.page - 0;
+                            data = JSON.stringify(data);
+                            return $http({
+                                method: $filter('ajaxMethod')(),
+                                url: util.getApiUrl('devinfo', 'shopList', 'server'),
+                                data: data
+                            }).then(function successCallback(data, status, headers, config) {
+                                if (data.data.rescode == '200') {
+                                    if (data.data.total == 0) {
+                                        self.noData = true;
+                                    }
+                                    params.total(data.data.total);
+                                    return data.data.userinfo;
+                                } else if (msg.rescode == '401') {
+                                    alert('访问超时，请重新登录');
+                                    $location.path("pages/login.html");
+                                } else {
+                                    alert(data.rescode + ' ' + data.errInfo);
+                                }
 
+                            }, function errorCallback(data, status, headers, config) {
+                                alert(response.status + ' 服务器出错');
+                            }).finally(function(value) {
+                                self.loading = false;
+                            })
+                        }
+                    });
                 }
 
                 self.shopAdd = function() {
@@ -483,16 +490,6 @@
 
 
 
-                self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
-                    $scope.app.maskParams.ShopName = ShopName;
-                    $scope.app.maskParams.HotelName = HotelName;
-                    if ($state.current.name = "app.shop.goods.goodsList") {
-                        $state.go('app.shop.goods.goodsList', { ShopID: ShopID, HotelID: HotelID })
-                    } else {
-                        $state.go('.goods', { ShopID: ShopID, HotelID: HotelID })
-                    }
-
-                }
 
             }
         ])

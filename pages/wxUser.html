@@ -1,10 +1,27 @@
-
 <div ng-controller="wxUserController as wxUser" ng-init="wxUser.init()">
-
-    wxUserController<br>
-    <div class="login-logo"></div>
-
-   
+    <table ng-table="wxUser.tableParams" ng-show="!wxUser.loading" class="table table-hover table-striped">
+        <tr ng-repeat="row in $data">
+            <td title="'会员'">
+                {{row.MemberLevelName}}
+            </td>
+            <td title="'手机号'">
+                {{row.MemberMobile}}
+            </td>
+            <td title="'昵称'">
+                {{row.NickName}}
+            </td>
+            <td title="'真实姓名'">
+                {{row.MemberRealName}}
+            </td>
+            <td title="'会员积分'">
+                {{row.MemberScore}}
+            </td>
+            <td title="'身份证'">
+                {{row.MemberIDCardNumber}}
+            </td>
+            
+        </tr>
+    </table>
     <div ng-show="wxUser.loading">loading...</div>
-   
+    <div ng-show="wxUser.noData">查无数据</div>
 </div>
