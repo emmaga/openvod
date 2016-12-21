@@ -1,23 +1,42 @@
-<div ng-controller="categoryEditController as categoryEdit" ng-init="categoryEdit.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
-    categotyEdit
-    <br>
-    <button ng-click="categoryEdit.cancel()">X</button>
-    <form novalidate name="categoryEditForm" ng-submit="categoryEditForm.$valid && categoryEdit.saveForm()">
-        <!-- <div ng-repeat="lang in categoryEdit.multiLang track by $index">
-        	分类名字：({{lang.name}}) <input  required ng-model="categoryEdit.categoryDetail[lang.code]" >
-        </div> -->
-
-        <div ng-repeat="lang in categoryEdit.multiLang track by $index">
-            <div ng-show="lang.defaut==true">
-                分类名字：({{lang.name}})
-                <input type="text" name="" required ng-model="categoryEdit.categoryDetail[lang.code]">
+<div ng-controller="categoryEditController as categoryEdit" ng-init="categoryEdit.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form novalidate name="categoryEditForm" ng-submit="categoryEditForm.$valid && categoryEdit.saveForm()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="categoryEdit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑商品分类</h5>
             </div>
-            <div ng-show="lang.defaut!==true">
-                分类名字：({{lang.name}})
-                <input type="text" name="" required ng-model="categoryEdit.categoryDetail[lang.code]">
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 分类名称 -->
+                <ng-repeat ng-repeat="lang in categoryEdit.multiLang track by $index">
+                    <div class="form-group" ng-show="lang.defaut==true">
+                        <label>分类名称({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="categoryEdit.categoryDetail[lang.code]" class="form-control">
+                    </div>
+                    <div class="form-group" ng-show="lang.defaut!==true">
+                        <label>分类名称({{lang.name}})</label>
+                        <input type="text" name="" required ng-model="categoryEdit.categoryDetail[lang.code]" class="form-control">
+                    </div>
+                </ng-repeat>
             </div>
-        </div>
-
-        <input type="submit" value="保存" class="btn btn-primary button-positive" ng-disabled="categoryEditForm.$invalid || categoryEdit.saving">
-    </form>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="categoryEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="categoryEditForm.$invalid || categoryEdit.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
 </div>

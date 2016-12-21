@@ -1,21 +1,42 @@
-<div ng-controller="editShopOrderDeliverController as esod" ng-init="esod.init()" class="modal-dialog">
+<div ng-controller="editShopOrderDeliverController as esod" ng-init="esod.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
         <form name="esodForm" ng-submit="esodForm.$valid && esod.submit()">
-            <!--快递单号-->
-            快递单号 <input ng-model="esod.ExpressNum" type="text" required> <br>
-            <!--快递单号-->
-
-            <!--快递公司-->
-            快递公司 <input ng-model="esod.ExpressCompany" type="text" required>
-            <!--快递公司-->
-            
-            <!--修改按钮-->
-            <button type="submit" ng-disabled="esod.saving">修改</button>
-            <!--修改按钮-->
-
-            <!--取消按钮-->
-            <a ng-click="esod.close()">取消</a>
-            <!--取消按钮-->
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="esod.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">修改快递信息</h5>
+            </div>
+            <!--header end-->
+            <!-- body -->
+            <div class="modal-body">
+                <!--快递单号-->
+                <div class="form-group">
+                    <label>快递单号</label>
+                    <input ng-model="esod.ExpressNum" type="text" required class="form-control">
+                </div>
+                <!--快递公司-->
+                <div class="form-group">
+                    <label>
+                        快递公司</label>
+                    <input ng-model="esod.ExpressCompany" type="text" required class="form-control">
+                </div>
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="esod.close()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="esod.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
         </form>
     </div>
 </div>

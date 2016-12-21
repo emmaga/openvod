@@ -1,200 +1,105 @@
 <div ng-controller="roomEditPriceController as roomEditPrice" ng-init="roomEditPrice.init()" class="autoscroll modal-dialog">
-    <style>
-        .vi-formChange {
-            float:left;
-            line-height: 30px;
-        }
-
-        .vi-formList {
-            max-height: 400px;
-            overflow: auto;
-        }
-
-        .vi-eachForm {
-            padding: 10px;
-            margin: 20px;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-        }
-
-        .vi-close {
-            display: block;
-            width: 100%;
-            margin: 10px;
-        }
-
-        .vi-calendar ul {
-            margin-left: 45% !important;
-        }
-
-        .vi-row {
-            margin-bottom: 10px;
-        }
-
-        /*下面是修改日历中按钮颜色*/
-        .uib-button-bar .btn-info,
-        .uib-button-bar .btn-danger {
-            color: #333 !important;
-            background-color: #fff !important;
-            border-color: #ccc !important;
-        }
-
-        .uib-button-bar .btn-info:hover,
-        .uib-button-bar .btn-danger:hover {
-            color: #333 !important;
-            background-color: #e6e6e6 !important;
-            border-color: #adadad !important;
-        }
-
-        .uib-button-bar .btn-success {
-            color: #fff !important;
-            background-color: #428bca !important;
-            border-color: #357ebd !important;
-        }
-
-        .uib-button-bar .btn-success:hover {
-            color: #fff !important;
-            background-color: #3071a9 !important;
-            border-color: #285e8e !important;
-        }
-    </style>
     <div class="modal-content">
-        <!--header-->
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" ng-click="roomEditPrice.cancel()">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Close</span>
-            </button>
-            <h5 class="modal-title">价格</h5>
-        </div>
-        <!--header end-->
-        <!--body-->
-        <div class="modal-body">
-            <div ng-show="loading">loading...</div>
-            <form id="roomEditPriceForm" name="roomEditPriceForm" ng-submit="roomEditPriceForm.$valid && roomEditPrice.save()"
-                  role="form">
-                <div class="row vi-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">周一：</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                               ng-model="roomEditPrice.roomDetail.PriceMonday" required>
-                    </div>
-                    <label class="col-sm-3 control-label">
-                        {{roomEditPrice.roomDetail.PriceMonday | currency : '￥'}}
-                    </label>
-                </div>
-
-                <div class="row vi-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">周二：</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                               ng-model="roomEditPrice.roomDetail.PriceTuesday" required>
-                    </div>
-                    <label class="col-sm-3 control-label">
-                        {{roomEditPrice.roomDetail.PriceTuesday | currency : '￥'}}
-                    </label>
-                </div>
-
-                <div class="row vi-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">周三：</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                               ng-model="roomEditPrice.roomDetail.PriceWednesday" required>
-                    </div>
-                    <label class="col-sm-3 control-label">
-                        {{roomEditPrice.roomDetail.PriceWednesday | currency : '￥'}}
-                    </label>
-                </div>
-
-                <div class="row vi-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">周四：</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                               ng-model="roomEditPrice.roomDetail.PriceThursday" required>
-                    </div>
-                    <label class="col-sm-3 control-label">
-                        {{roomEditPrice.roomDetail.PriceThursday | currency : '￥'}}
-                    </label>
-                </div>
-
-                <div class="row vi-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">周五：</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                               ng-model="roomEditPrice.roomDetail.PriceFriday" required>
-                    </div>
-                    <label class="col-sm-3 control-label">
-                        {{roomEditPrice.roomDetail.PriceFriday | currency : '￥'}}
-                    </label>
-                </div>
-
-                <div class="row vi-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">周六：</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                               ng-model="roomEditPrice.roomDetail.PriceSaturday" required>
-                    </div>
-                    <label class="col-sm-3 control-label">
-                        {{roomEditPrice.roomDetail.PriceSaturday | currency : '￥'}}
-                    </label>
-                </div>
-
-                <div class="row vi-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">周日：</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')"
-                               ng-model="roomEditPrice.roomDetail.PriceSunday" required>
-                    </div>
-                    <label class="col-sm-3 control-label">
-                        {{roomEditPrice.roomDetail.PriceSunday | currency : '￥'}}
-                    </label> <!--control-label-->
-                </div><!--row-->
-
-                <div class="form-group">
-                    <label class="vi-formChange">临时变动表</label>
-                    <div class="text-right" style="width: auto;">
-                        <button class="btn btn-primary" type="button" ng-click="roomEditPrice.addTemporary(0)">添加设置</button>
-                    </div>
-                </div>
-                <div class="vi-formList" style="max-height: 300px;">
-                    <div class="bg-info vi-eachForm" ng-repeat="reply in roomEditPrice.SpecialPrice">
+        <!-- loading -->
+        <div ng-show="loading">loading...</div>
+        <!-- form -->
+        <form id="roomEditPriceForm" name="roomEditPriceForm" ng-submit="roomEditPriceForm.$valid && roomEditPrice.save()" role="form">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="roomEditPrice.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">价格</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- row -->
+                <div class="row">
+                    <!-- 常规 -->
+                    <div class="col-xs-6 ">
+                        <label>平时价格</label>
                         <div class="form-group">
-                            <button class="close text-right vi-close" type="button" data-dismiss="modal"
-                                    ng-click="roomEditPrice.deleteTemporary($index)">
-                                <span aria-hidden="true">&times;</span>
-                                <span class="sr-only">Close</span>
-                            </button>
+                            <label>周一</label>
+                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceMonday" required>
                         </div>
-                        <div class="input-group vi-calendar">
-                            <input type="text" class="form-control" uib-datepicker-popup
-                                   ng-model="roomEditPrice.SpecialPrice[$index].PriceDate"
-                                   is-open="roomEditPrice.SpecialPrice[$index].Opened"
-                                   datepicker-options="dateOptions"
-                                   required close-text="Close" placeholder="请选择日期"/>
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="roomEditPrice.open($index)">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </button>
-                            </span>
+                        <div class="form-group">
+                            <label>周二</label>
+                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceTuesday" required>
                         </div>
-                        <div>
-                            <input type="text" class="form-control" style="margin-top: 10px;"
-                                   onkeyup="value=value.replace(/[^\d.]/g,'')"
-                                   ng-model="roomEditPrice.SpecialPrice[$index].Price"
-                                   placeholder="请输入价格" required />
-                            {{roomEditPrice.SpecialPrice[$index].Price | currency : '￥'}}
-                        </div> <!--请输入价格-->
-                    </div><!--vi-eachForm-->
-                </div><!--vi-formList-->
-            </form>
-        </div>
-        <!--body end-->
-        <!--footer-->
-        <div class="modal-footer">
-            <button class="btn btn-default" ng-click="roomEditPrice.cancel()">{{'CANCEL' | translate}}</button>
-            <button class="btn btn-primary" type="submit" ng-disabled="roomEditPrice.saving" form="roomEditPriceForm">{{'SAVE' | translate}}</button>
-        </div>
-        <!--footer end-->
+                        <div class="form-group">
+                            <label>周三</label>
+                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceWednesday" required>
+                        </div>
+                        <div class="form-group">
+                            <label>周四</label>
+                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceThursday" required>
+                        </div>
+                        <div class="form-group">
+                            <label>周五</label>
+                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceFriday" required>
+                        </div>
+                        <div class="form-group">
+                            <label>周六</label>
+                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSaturday" required>
+                        </div>
+                        <div class="form-group">
+                            <label>周日</label>
+                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSunday" required>
+                        </div>
+                    </div>
+                    <!-- 常规 end-->
+                    <!-- 特殊 -->
+                    <div class="col-xs-6">
+                        
+                        <label>临时设置</label>
+                        <a type="button" ng-click="roomEditPrice.addTemporary(0)">添加设置</a>
+                        
+                        <ul class="setting-group">
+                            <!-- 设置块 -->
+                            <li class="setting-group-item" ng-repeat="reply in roomEditPrice.SpecialPrice">
+                                <label>&nbsp</label>
+                                <div class="row">
+
+
+                                    <!-- 日期选择器 -->
+                                    <div class="col-xs-7 col-condensed">
+                                        <input type="text" class="form-control" uib-datepicker-popup ng-model="roomEditPrice.SpecialPrice[$index].PriceDate" is-open="roomEditPrice.SpecialPrice[$index].Opened" datepicker-options="dateOptions" required close-text="Close" placeholder="请选择日期"  ng-click="roomEditPrice.open($index)"/>
+                                    </div>
+
+                                    <!-- 数字输入框 -->
+                                    <div class="col-xs-3 col-condensed">
+                                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.SpecialPrice[$index].Price" placeholder="请输入价格" required /> 
+                                        <!-- {{roomEditPrice.SpecialPrice[$index].Price | currency : '￥'}} -->
+                                    </div>
+
+
+                                    <!-- 关闭按钮 -->
+                                    <div class="col-xs-2 col-condensed">
+                                        <button type="button" data-dismiss="modal" ng-click="roomEditPrice.deleteTemporary($index)" class="button button-light button-small">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+
+
+                                </div>
+                            </li>
+                            <!--设置块 end-->
+                        </ul>
+                    </div>
+                    <!-- 特殊 end -->
+                </div>
+                <!-- row end -->
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="roomEditPrice.cancel()">{{'CANCEL' | translate}}</button>
+                <button class="btn btn-primary" type="submit" ng-disabled="roomEditPrice.saving" form="roomEditPriceForm">{{'SAVE' | translate}}</button>
+            </div>
+            <!--footer end-->
+        </form>
     </div>
 </div>

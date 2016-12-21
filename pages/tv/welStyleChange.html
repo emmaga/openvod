@@ -1,37 +1,59 @@
-<div ng-controller="tvWelStyleChangeController as tvWelStyleChange" ng-init="tvWelStyleChange.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
-    <!--修改风格的title-->
-        <span>修改风格</span>
-        <!--修改风格的title-->
+<div ng-controller="tvWelStyleChangeController as tvWelStyleChange" ng-init="tvWelStyleChange.init()" class="autoscroll modal-dialog"
+     style="background: rgba(255,255,255,0.8);">
 
-        <!--风格列表获取中的提示信息-->
-        <div ng-show="tvWelStyleChange.loading">风格列表获取中...</div>
-        <!--风格列表获取中的提示信息-->
 
-        <form name="tvWelStyleChangeForm" ng-submit="tvWelStyleChangeForm.$valid && tvWelStyleChange.save()">
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="tvWelStyleChange.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">修改风格</h5>
+        </div>
+        <!--/header-->
+        <!--body-->
+        <div class="modal-body">
+            <!--风格列表获取中的提示信息-->
+            <div ng-show="tvWelStyleChange.loading">风格列表获取中...</div>
+            <!--风格列表获取中的提示信息-->
+            <form id="tvWelStyleChangeForm" name="tvWelStyleChangeForm"
+                  ng-submit="tvWelStyleChangeForm.$valid && tvWelStyleChange.save()">
+                <div class="row">
+                    <!--风格图列表-->
+                    <ng-repeat class="col-xs-4 text-center" ng-repeat="style in tvWelStyleChange.styles">
 
-            <!--风格图列表-->
-            <ng-repeat ng-repeat="style in tvWelStyleChange.styles">
-                
-                <!--单选框-->
-                <input type="radio" ng-model="tvWelStyleChange.style" value="{{style.Name}}">
-                <!--单选框-->
+                        <!--单选框-->
+                        <input type="radio" ng-model="tvWelStyleChange.style" value="{{style.Name}}">
+                        <!--单选框-->
 
-                <!--风格名称-->
-                {{style.DescName}}<br>
-                <!--风格名称-->
+                        <!--风格名称-->
+                        {{style.DescName}}<br>
+                        <!--风格名称-->
 
-                <!--风格图-->
-                <img src="{{style.SamplePic}}">
-                <!--风格图-->
-            </ng-repeat>
-            <!--风格图列表-->
+                        <!--风格图-->
+                        <img src="{{style.SamplePic}}">
+                        <!--风格图-->
+                    </ng-repeat>
+                    <!--风格图列表-->
+                </div>
 
-            <!--保存按钮-->
-            <button ng-disabled="tvWelStyleChange.saving" type="submit">保存</button>
-            <!--保存按钮-->
+            </form>
+        </div>
+        <!--/body-->
+        <!--footer-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="tvWelStyleChange.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary" form="tvWelStyleChangeForm" ng-disabled="tvWelStyleChange.saving">保存</button>
+        </div>
+        <!--/footer-->
+    </div>
 
-            <!--取消按钮-->
-            <div ng-click="tvWelStyleChange.cancel()">取消</div>
-            <!--取消按钮-->
-        </form>
+
+
+
+
+
+
+
 </div>

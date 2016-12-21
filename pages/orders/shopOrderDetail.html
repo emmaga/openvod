@@ -1,88 +1,125 @@
-<div ng-controller="shopOrderDetailController as sod" ng-init="sod.init()" class="modal-dialog">
+<div ng-controller="shopOrderDetailController as sod" ng-init="sod.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
-    <div ng-show="sod.loading">loading...</div>
-        <!--快递订单号-->
-        快递订单号 {{sod.info.detail.ExpressNum}}<br>
-        <!--快递订单号-->
-
-        <!--快递公司-->
-        快递公司 {{sod.info.detail.ExpressCompany}}<br>
-        <!--快递公司-->
-
-        <!--订单基本信息-->
-            <!--订单号-->
-            订单号 {{sod.info.detail.OrderNum}}<br>
-            <!--订单号-->
-
-            <!--下单时间-->
-            下单时间 {{sod.info.detail.dealTime}}<br>
-            <!--下单时间-->
-
-            <!--订单状态-->
-            订单状态 {{sod.info.detail.Status | shopOrderStatus}}<br>
-            <!--订单状态-->
-
-            <!--订单总价-->
-            订单总价 {{sod.info.detail.totalPri | fenToYuan}}<br>
-            <!--订单总价-->
-
-            <!--商品总数-->
-            商品总数 {{sod.info.detail.totalCount}}<br>
-            <!--商品总数-->
-        <!--订单基本信息-->
-
-        <!--商品列表-->
-        <ng-repeat ng-repeat="product in sod.info.detail.productList">
-            <!--商品名-->
-            商品名 {{product.GoodsName}}<br>
-            <!--商品名-->
-
-            <!--商品单价-->
-            商品单价 {{product.price | fenToYuan}}<br>
-            <!--商品单价-->
-
-            <!--商品数量-->
-            商品数量 {{product.GoodsNum}}<br>
-            <!--商品数量-->
-        </ng-repeat>    
-        <!--商品列表-->
-
-        <!--联系人信息-->
-            <!--昵称-->
-            昵称 {{sod.info.detail.name}}<br>
-            <!--昵称-->
-
-            <!--手机号-->
-            手机号 {{sod.info.detail.mobile}}<br>
-            <!--手机号-->
-
-            <!--配送方式-->
-            配送方式 {{sod.info.detail.deliverWay | deliverWay}}<br>
-            <!--配送方式-->
-
-            <!--收货地址-->
-            <div ng-show="sod.info.detail.deliverWay=='express'">收货地址 {{sod.info.detail.address}}</div>
-            <!--收货地址-->
-        <!--联系人信息-->
-
-        <!--操作记录-->
-        <ng-repeat ng-repeat="info in sod.info.operatelogs">
-            <!--状态改变描述-->
-            {{info.OperateAction | operateAction}}
-            <!--状态改变描述-->
-
-            <!--时间-->
-            {{info.OperateTime}}
-            <!--时间-->
-
-            <!--状态改变者-->
-            {{info.OperateUserName}}<br>
-            <!--状态改变者-->
-        </ng-repeat>
-        <!--操作记录-->
-        
-        <!--关闭按钮-->
-        <a ng-click="sod.close()">close</a>
-        <!--关闭按钮-->
+        <!-- loading -->
+        <div ng-show="sod.loading">loading...</div>
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="sod.close()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">订单详情</h5>
+        </div>
+        <!-- body -->
+        <div class="modal-body">
+            <!--商品列表-->
+            <!-- <div class="row"> -->
+            <table class="table table-condensed table-responsive">
+                <thead>
+                    <tr>
+                        <th>商品名</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in sod.info.detail.productList">
+                        <!--商品名-->
+                        <td> {{product.GoodsName}}</td>
+                        <!--商品单价-->
+                        <td> {{product.price | fenToYuan}}</td>
+                        <!--商品数量-->
+                        <td>{{product.GoodsNum}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- </div> -->
+            <!--商品列表-->
+            <ul class="list-group list-group-condensed">
+                <!--订单基本信息-->
+                <li class="list-group-item">
+                    订单号
+                    <span class="pull-right">{{sod.info.detail.OrderNum}}</span>
+                </li>
+                <!--订单号-->
+                <li class="list-group-item">
+                    订单号
+                    <span class="pull-right">{{sod.info.detail.OrderNum}}</span>
+                </li>
+                <!--下单时间-->
+                <li class="list-group-item">
+                    下单时间
+                    <span class="pull-right">{{sod.info.detail.dealTime}}</span>
+                </li>
+                <!--订单状态-->
+                <li class="list-group-item">
+                    订单状态
+                    <span class="pull-right">{{sod.info.detail.Status | shopOrderStatus}}</span>
+                </li>
+                <!--订单总价-->
+                <li class="list-group-item">
+                    订单总价
+                    <span class="pull-right">{{sod.info.detail.totalPri | fenToYuan}}</span>
+                </li>
+                <!--商品总数-->
+                <li class="list-group-item">
+                    商品总数
+                    <span class="pull-right">{{sod.info.detail.totalCount}}</span>
+                </li>
+                <hr>
+                <!--订单基本信息-->
+                <!--快递订单号-->
+                <li class="list-group-item">
+                    快递订单号
+                    <span class="pull-right">{{sod.info.detail.ExpressNum}}</span>
+                </li>
+                <!--快递公司-->
+                <li class="list-group-item">
+                    快递公司
+                    <span class="pull-right">{{sod.info.detail.ExpressCompany}}</span>
+                </li>
+                <hr>
+                <!--联系人信息-->
+                <!--昵称-->
+                <li class="list-group-item">
+                    昵称
+                    <span class="pull-right" {{sod.info.detail.name}}</span>
+                </li>
+                <!--手机号-->
+                <li class="list-group-item">
+                    手机号
+                    <span class="pull-right" {{sod.info.detail.mobile}}</span>
+                </li>
+                <!--配送方式-->
+                <li class="list-group-item">
+                    配送方式
+                    <span class="pull-right" {{sod.info.detail.deliverWay | deliverWay}}</span>
+                </li>
+                <!--收货地址-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
+                    收货地址
+                    <span class="pull-right" {{sod.info.detail.address}}</span>
+                </li>
+            </ul>
+            <hr>
+            <!--操作记录-->
+            <small ng-repeat="info in sod.info.operatelogs">
+                <!--状态改变描述-->
+                <label>{{info.OperateAction | operateAction}}</label>
+                <!--时间-->
+                {{info.OperateTime}}
+                <!--状态改变者-->
+                &nbsp{{info.OperateUserName}}
+                <br>
+            </small>
+            <!--操作记录-->
+        </div>
+        <!-- body end -->
+        <!--footer-->
+        <div class="modal-footer">
+            <!-- 取消 -->
+            <button type="button" class="btn btn-default btn-sm" ng-click="sod.close()">{{'CANCEL' | translate}}</button>
+            <!--footer end-->
+        </div>
     </div>
 </div>
