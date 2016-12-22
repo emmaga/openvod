@@ -62,7 +62,7 @@
                     <label>已选标签</label>
                     <div class="row">
                         <div class="col-xs-12">
-                            <span ng-repeat="tag in hotelEdit.hotelTags track by $index" ng-model="roomEdit.ifCheckedTags[$index].checked" uib-btn-checkbox class="tag">{{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[hotelEdit.defaultLangCode]}}</span>
+                            <span ng-repeat="tag in hotelEdit.hotelTags track by $index" ng-model="hotelEdit.ifCheckedHotelTags[$index].checked" uib-btn-checkbox class="tag">{{tag.ID}} {{tag.TagImageURL}} {{tag.TagName[hotelEdit.defaultLangCode]}}</span>
                         </div>
                     </div>
                 </div>
