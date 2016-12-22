@@ -44,9 +44,10 @@
                             <h5>酒店标签</h5>
                         </span>
                         <span class="col-xs-10">
-                            <p ng-repeat="tag in room.hotel.Tags" class="">
-                                {{tag.ImageURL}} {{tag.Name[room.defaultLangCode]}}
-                            </p>
+                            <span ng-repeat="tag in room.hotel.Tags" class="tag active">
+                                <!-- {{tag.ImageURL}}  -->
+                                {{tag.Name[room.defaultLangCode]}}
+                            </span>
                         </span>
                     </div>
                 </li>

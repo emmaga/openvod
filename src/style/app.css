@@ -671,8 +671,11 @@ input.form-control{
     background-color: #ddd;
     line-height: 24px;
     font-size: 14px;
-    padding: 3px 10px;
-    margin-right: 3px;
+    padding: 0px 10px;
+    margin-right: 2px;
+    margin-bottom: 1px;
+    margin-top: 2px;
+    display: inline-block;
 }
 
 .tag.active{
