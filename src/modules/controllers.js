@@ -1657,7 +1657,7 @@
                         if (data.rescode == '200') {
                             self.hotels = data.data;
                             $state.go('app.hotelRoom.room', {hotelId: self.hotels[0].ID})
-                        } else if (msg.rescode == '401') {
+                        } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");
                         } else {
@@ -1711,7 +1711,7 @@
                             self.hotel.LocationY = data.data.LocationY;
                             self.hotel.LogoImg = data.data.LogoURL;
                             self.hotel.CityName = data.data.CityName;
-                        } else if (msg.rescode == '401') {
+                        } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");
                         } else {
