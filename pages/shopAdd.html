@@ -16,6 +16,13 @@
             <!--header end-->
             <!--body-->
             <div class="modal-body">
+                <!-- 商城标识 -->
+                <div class="form-group">
+                    <label>商城标识：</label>
+                    <input type="text" name="" required ng-model="shopAdd.ShopType" class="form-control">
+                </div>
+                <!-- 商城标识 -->
+
                 <!-- 商城名称 -->
                 <ng-repeat ng-repeat="lang in shopAdd.multiLang track by $index">
                     <div class="form-group" ng-show="lang.defaut==true">

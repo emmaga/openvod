@@ -13,6 +13,14 @@
             </div>
             <!-- body -->
             <div class="modal-body">
+
+                <!-- 商城标识 -->
+                <div class="form-group">
+                    <label>商城标识：</label>
+                    <input type="text" name="" required ng-model="shopEdit.ShopType" class="form-control">
+                </div>
+                <!-- 商城标识 -->
+
                 <!-- 商城名称 -->
                 <ng-repeat ng-repeat="lang in shopEdit.multiLang track by $index">
                     <div class="form-group" ng-show="lang.defaut==true">

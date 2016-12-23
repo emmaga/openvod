@@ -379,44 +379,6 @@
 
                 }
 
-                self.saveForm = function() {
-                    console.log(self.form.HotelID)
-                    self.saving = true;
-                    var shopList = {
-                        // "HotelID": self.form.HotelID - 0,
-                        "HotelID": 1,
-                        "ShopName": self.form.shopName,
-                        "ShopType": "wx"
-                    }
-                    var data = {
-                        "action": "addMgtHotelShop",
-                        "token": util.getParams("token"),
-                        "lang": self.langStyle,
-                        "shopList": [shopList]
-                    };
-                    data = JSON.stringify(data);
-                    $http({
-                        method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                        data: data
-                    }).then(function successCallback(data, status, headers, config) {
-                        if (data.data.rescode == "200") {
-                            alert('添加成功')
-                            $state.reload();
-                        } else if (data.data.rescode == "401") {
-                            alert('访问超时，请重新登录');
-                            $state.go('login')
-                        } else {
-                            alert('添加失败， ' + data.data.errInfo);
-                        }
-                    }, function errorCallback(data, status, headers, config) {
-                        alert('添加失败， ' + data.data.errInfo);
-                    }).finally(function(value) {
-                        self.saving = false;
-                    });
-                }
-
-
             }
         ])
 
@@ -529,9 +491,7 @@
                             self.shopList = data.data.data.shopList;
                             // 默认加载 第一个 商城
                             self.shopFirst = self.shopList[0];
-                            $state.go('app.shop.goods', { ShopID: self.shopFirst.ShopID, HotelID: self.shopFirst.HotelID});
-                            $scope.app.maskParams.ShopName = self.shopFirst.ShopName;
-                            $scope.app.maskParams.HotelName = self.shopFirst.HotelName;
+                            self.goTo(self.shopFirst.ShopID, self.shopFirst.HotelID, self.shopFirst.ShopName, self.shopFirst.HotelName, self.shopFirst.ShopType);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -554,14 +514,16 @@
                  
 
 
-                self.goTo = function(ShopID, HotelID, ShopName, HotelName) {
+                self.goTo = function(ShopID, HotelID, ShopName, HotelName, ShopType) {
                     $scope.app.maskParams.ShopName = ShopName;
                     $scope.app.maskParams.HotelName = HotelName;
-                    if($state.current.name="app.shop.goods.goodsList") {
-                        $state.go('app.shop.goods.goodsList', { ShopID: ShopID, HotelID: HotelID })
-                    }
-                    else{
-                        $state.go('.goods', { ShopID: ShopID, HotelID: HotelID })
+                    $scope.app.maskParams.ShopType = ShopType;
+
+                    if (ShopID != $stateParams.ShopID) {
+                        $state.go('app.shop.goods', {
+                            ShopID: ShopID, 
+                            HotelID: HotelID
+                        });
                     }
 
                 }
@@ -629,13 +591,12 @@
                 }
 
                 self.saveForm = function() {
-                    console.log(self.form.HotelID)
                     self.saving = true;
                     var shopList = {
                         // "HotelID": self.form.HotelID - 0,
                         "HotelID": 1,
                         "ShopName": self.form.shopName,
-                        "ShopType": "wx"
+                        "ShopType": self.ShopType
                     }
                     var data = {
                         "action": "addMgtHotelShop",
@@ -685,6 +646,7 @@
                     self.loading = false;
 
                     self.getGoodsCategory();
+                    
                 }
 
                 self.categoryAdd = function () {
@@ -697,7 +659,8 @@
                         ShopID: $stateParams.ShopID,
                         ShopName: self.maskParams.ShopName,
                         HotelName: self.maskParams.HotelName,
-                        HotelID: $stateParams.HotelID
+                        HotelID: $stateParams.HotelID,
+                        ShopType: self.maskParams.ShopType
                     };
                     $scope.app.showHideMask(true,'pages/shopEdit.html');
                 }
@@ -719,14 +682,9 @@
                         if (data.data.rescode == "200") {
                             if (data.data.data.categoryList.length == 0) {
                                 self.noData = true;
-                                return;
                             }
                             self.categoryList = data.data.data.categoryList;
-                            // 默认加载 全部分类
-                            $state.go('app.shop.goods.goodsList', {
-                                ShopGoodsCategoryID: 'all',
-                                ShopGoodsCategoryName: '全部商品'
-                            })
+                            self.goTo('all', '全部商城');
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -746,8 +704,6 @@
                 // 前往goodsList
                 self.goTo = function (categoryId, categoryName) {
                     $state.go('app.shop.goods.goodsList', {ShopGoodsCategoryID: categoryId});
-                    // 参数 对象
-                    $scope.app.maskParams ={name:categoryName,id:categoryId} ;
                 }
             }
         ])
@@ -1173,6 +1129,7 @@
 
                     // self.searchHotelList();
                     self.shopInfo = self.maskParams.ShopName;
+                    self.ShopType = self.maskParams.ShopType;
                 }
 
                 self.cancel = function () {
@@ -1224,7 +1181,7 @@
                         "shop": {
                             "ShopID": self.maskParams.ShopID,
                             "ShopName": self.shopInfo,
-                            "ShopType": "wx"
+                            "ShopType": self.ShopType
                         }
                     };
 
@@ -1235,7 +1192,7 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
-                            alert('保存成功')
+                            alert('保存成功');
                             $state.reload();
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
@@ -1259,7 +1216,7 @@
                     var shopList = {
                         "HotelID": self.form.HotelID - 0,
                         "ShopName": self.form.shopName,
-                        "ShopType": "wx"
+                        "ShopType": self.ShopType
                     }
                     var data = {
                         "action": "deleteMgtHotelShop",
@@ -1417,7 +1374,6 @@
         .controller('goodsListController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
             function ($scope, $state, $http, $stateParams, $filter, NgTableParams, util) {
                 console.log('goodsListController');
-                console.log($scope.app.maskParams)
                 var self = this;
                 self.init = function () {
                     self.stateParams = $stateParams;
@@ -1495,7 +1451,6 @@
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
-                        console.log(data)
                         self.categoryList = data.data.data.categoryList;
                     }, function errorCallback(data, status, headers, config) {
 
