@@ -109,7 +109,7 @@
                     }
                 }
 
-                // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面
+                // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面, 6:终端管理，7:微信用户
                 self.switchApp = function (n) {
                     // 收起桌面
                     self.appPhase = 2;
@@ -132,15 +132,22 @@
                             }
                             break;
                         case 4:
-                            $state.go('app.shopOrderList', {'appId': n});
+                            $state.go('app.shopOrderList', { 'appId': n });
                             break;
                         case 5:
-                            if(!$state.includes("app.tvAdmin")){
-                                $state.go('app.tvAdmin', {'appId': n});
+                            if (!$state.includes("app.tvAdmin")) {
+                                $state.go('app.tvAdmin', { 'appId': n });
                             }
+                            break;
+                        case 6:
+                            $state.go('app.terminal', { 'appId': n });
+                            break;
+                        case 7:
+                            $state.go('app.wxUser', { 'appId': n });
                             break;
                         default:
                             break;
+
                     }
                 }
 
@@ -176,6 +183,314 @@
                     }
                     
                 }
+            }
+        ])
+        
+        // 终端管理
+        .controller('terminalController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+                console.log('terminalController')
+                console.log($scope.app.maskParams);
+                var self = this;
+                self.init = function() {
+                        self.form = {};
+                        self.defaultLangCode = util.getDefaultLangCode();
+                        self.langStyle = util.langStyle();
+                        self.multiLang = util.getParams('editLangs');
+                        self.searchHotelList();
+                    }
+                    //获取门店
+                self.searchHotelList = function() {
+                    var data = {
+                        "action": "getHotelList",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('hotelroom', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+
+                            self.hotelList = data.data.data;
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('列表获取失败， ' + data.data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('获取失败， ' + data.data.errInfo);
+                    }).finally(function(value) {
+                        self.loading = false;
+                    });
+
+                }
+
+                // 获取终端列表 带搜索和分页
+                self.getDevList = function() {
+                    self.noData = false;
+                    self.loading = true;
+                    self.tableParams = new NgTableParams({
+                        page: 1,
+                        count: 15,
+                        url: ''
+                    }, {
+                        counts: [],
+                        getData: function(params) {
+                            var data = {
+                                "action": "getDevList",
+                                "token": util.getParams("token"),
+                                "lang": self.langStyle,
+                                "Online": self.form.Online,
+                                "HotelID": self.form.HotelID,
+                                "RoomID": self.form.RoomID
+                            }
+                            var paramsUrl = params.url();
+                            data.per_page = paramsUrl.count - 0;
+                            data.page = paramsUrl.page - 0;
+                            data = JSON.stringify(data);
+                            return $http({
+                                method: $filter('ajaxMethod')(),
+                                url: util.getApiUrl('devinfo', 'shopList', 'server'),
+                                data: data
+                            }).then(function successCallback(data, status, headers, config) {
+                                if (data.data.rescode == '200') {
+                                    if (data.data.total == 0) {
+                                        self.noData = true;
+                                    }
+                                    params.total(data.data.total);
+                                    return data.data.devlist;
+                                } else if (msg.rescode == '401') {
+                                    alert('访问超时，请重新登录');
+                                    $location.path("pages/login.html");
+                                } else {
+                                    alert(data.rescode + ' ' + data.errInfo);
+                                }
+
+                            }, function errorCallback(data, status, headers, config) {
+                                alert(response.status + ' 服务器出错');
+                            }).finally(function(value) {
+                                self.loading = false;
+                            })
+                        }
+                    });
+                }
+
+                // 获取终端状态 总数目
+                self.getDevNum = function(ID) {
+                    self.form.HotelID = ID;
+                    self.getDevList()
+                    var data = {
+                        "action": "getDevNum",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "HotelID": self.form.HotelID
+                    }
+
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('devinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == '200') {
+                            self.form.total = data.data.total;
+                            self.form.online = data.data.online;
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert(data.rescode + ' ' + data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function(value) {
+                        self.loading = false;
+                    })
+
+
+                }
+
+
+                self.addDev = function() {
+                    $scope.app.maskParams = { 'HotelID': self.form.HotelID };
+                    $scope.app.showHideMask(true, 'pages/addDev.html');
+                }
+            }
+        ])
+        // 添加终端
+        .controller('addDevController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+            function($scope, $state, $http, $stateParams, $translate, $filter, util) {
+                console.log('addDevController');
+                console.log($scope.app.maskParams);
+                console.log($stateParams)
+                var self = this;
+                self.init = function() {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.maskParams = $scope.app.maskParams;
+                    // 表单提交 商城信息
+                    self.form = {};
+                   
+                }
+
+                self.cancel = function() {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.addDev = function() {
+                    self.saving = true;
+                    var data = {
+                        "action": "addDev",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "detail": {
+                            "HotelID": self.maskParams.HotelID,
+                            "RoomID": self.form.RoomID,
+                            "TermMac": self.form.TermMac
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('devinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert("终端添加成功");
+                            self.cancel();
+                            $state.go($state.current, $stateParams, { reload: true });
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('列表获取失败， ' + data.data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('获取失败， ' + data.data.errInfo);
+                    }).finally(function(value) {
+                        self.saving = false;
+                    });
+
+                }
+
+                self.saveForm = function() {
+                    console.log(self.form.HotelID)
+                    self.saving = true;
+                    var shopList = {
+                        // "HotelID": self.form.HotelID - 0,
+                        "HotelID": 1,
+                        "ShopName": self.form.shopName,
+                        "ShopType": "wx"
+                    }
+                    var data = {
+                        "action": "addMgtHotelShop",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "shopList": [shopList]
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('添加成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('添加失败， ' + data.data.errInfo);
+                    }).finally(function(value) {
+                        self.saving = false;
+                    });
+                }
+
+
+            }
+        ])
+
+
+        
+        // 微信用户管理
+        .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+                console.log('wxUserController')
+                console.log($scope.app.maskParams);
+                var self = this;
+                self.init = function() {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.getWxUserInfo();
+                }
+
+
+                // 获取微信用户信息
+                self.getWxUserInfo = function() {
+                    self.noData = false;
+                    self.loading = true;
+                    self.tableParams = new NgTableParams({
+                        page: 1,
+                        count: 15,
+                        url: ''
+                    }, {
+                        counts: [],
+                        getData: function(params) {
+                            var data = {
+                                "action": "getWxUserInfo",
+                                "token": util.getParams("token"),
+                                "lang": self.langStyle
+                            }
+                            var paramsUrl = params.url();
+                            data.per_page = paramsUrl.count - 0;
+                            data.page = paramsUrl.page - 0;
+                            data = JSON.stringify(data);
+                            return $http({
+                                method: $filter('ajaxMethod')(),
+                                url: util.getApiUrl('devinfo', 'shopList', 'server'),
+                                data: data
+                            }).then(function successCallback(data, status, headers, config) {
+                                if (data.data.rescode == '200') {
+                                    if (data.data.total == 0) {
+                                        self.noData = true;
+                                    }
+                                    params.total(data.data.total);
+                                    return data.data.userinfo;
+                                } else if (msg.rescode == '401') {
+                                    alert('访问超时，请重新登录');
+                                    $location.path("pages/login.html");
+                                } else {
+                                    alert(data.rescode + ' ' + data.errInfo);
+                                }
+
+                            }, function errorCallback(data, status, headers, config) {
+                                alert(response.status + ' 服务器出错');
+                            }).finally(function(value) {
+                                self.loading = false;
+                            })
+                        }
+                    });
+                }
+
+                self.shopAdd = function() {
+                    $scope.app.maskParams = { 'ShopName': self.shopFirst.ShopName };
+                    $scope.app.showHideMask(true, 'pages/shopAdd.html');
+                }
+
+
+
+
+
             }
         ])
 

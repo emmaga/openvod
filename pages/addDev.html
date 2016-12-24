@@ -1,0 +1,11 @@
+<div ng-controller="addDevController as addDev" ng-init="addDev.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
+    addDevController<br>
+    <button ng-click="addDev.cancel()">X</button>
+    <form novalidate name="addDevForm" ng-submit="addDevForm.$valid && addDev.addDev()">
+        RoomID:<input type="number" name="" required ng-model="addDev.form.RoomID">
+        <br/>
+        TermMac:<input type="text" name="" required ng-model="addDev.form.TermMac">
+        <br/>
+        <input type="submit" value="保存" class="btn btn-primary button-block button-positive" ng-disabled="addDevForm.$invalid || addDev.saving">
+    </form>
+</div>
