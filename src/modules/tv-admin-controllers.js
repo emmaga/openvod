@@ -153,6 +153,12 @@
                     self.changeMenuInfo();        
                 }
 
+                // shop
+                if(branch.data.type == 'Shop') {
+                    $state.go('app.tvAdmin.shop', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();        
+                }
+
                 // movieCommon
                 if(branch.data.type == 'MovieCommon') {
                     
@@ -1124,6 +1130,79 @@
                         $state.go('login');
                     } else{
                         alert('加载直播列表信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+        }
+    ])
+
+    .controller('tvShopController', ['$scope', '$state', '$http', '$stateParams', 'util',
+        function ($scope, $state, $http, $stateParams, util) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                self.loadInfo();
+            }
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "update",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle(),
+                    "data": {
+                        "ShopType": self.shopSign
+                    }
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('保存成功');
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('保存失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('保存失败');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+            }
+
+            self.loadInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "get",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.shopSign = data.data.ShopType;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载信息失败，' + data.errInfo);
                     }
                 }, function errorCallback(response) {
                     alert('连接服务器出错');

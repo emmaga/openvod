@@ -1,0 +1,14 @@
+<div ng-controller="tvShopController as tvShop" ng-init="tvShop.init()">
+    <!-- loading -->
+    <div ng-show="tvShop.loading"></div>
+    <!-- loading -->
+    <form name="tvShopForm" ng-submit="tvShopForm.$valid && tvShop.save()">    
+        <!--商城标识-->
+        商城标识：<input type="text" ng-model="tvShop.shopSign" required/><br>
+        <!--商城标识-->
+        
+        <!--保存按钮-->
+        <button type="submit" ng-disabled="tvShop.saving">保存</button>
+        <!--保存按钮-->
+    </form>    
+</div>
