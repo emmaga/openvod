@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "酒店客房",
-      "icon": "xx.jpg",
+      "icon": "dist/imgs/app-icon-04.png",
       "bgColor": "red"
     },
     {
