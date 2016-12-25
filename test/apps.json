@@ -3,13 +3,13 @@
     {
       "id": 1,
       "name": "酒店客房",
-      "icon": "dist/imgs/app-icon-04.png",
+      "icon": "dist/imgs/app-icon-03.png",
       "bgColor": "red"
     },
     {
       "id": 2,
       "name": "预定订单",
-      "icon": "xx.jpg",
+      "icon": "dist/imgs/app-icon-05.png",
       "bgColor": "red"
     },
     {
@@ -21,7 +21,7 @@
     {
       "id": 4,
       "name": "商城订单",
-      "icon": "xx.jpg",
+      "icon": "dist/imgs/app-icon-04.png",
       "bgColor": "red"
     },
     {
