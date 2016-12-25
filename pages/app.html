@@ -38,13 +38,14 @@
             <div class="app-launcher">
                 <!-- back -->
                 <div class="app-launcher-grid">
-                    <i ng-click="app.showDesktop()" class="app-icon app-back"></i>
+                    <i ng-click="app.showDesktop()" class="app-icon app-back" style="background-image: url('dist/imgs/app-icon-06.png')"></i>
                     <h5 class="app-name">{{'HOME' | translate}}</h5>
                 </div>
                 <!-- launcher-grid -->
                 <div ng-repeat='appIcon in appList' class="app-launcher-grid">
-                    <i ng-click="app.switchApp(appIcon.id)" class="app-icon"></i>
-                    <h5 class="app-name">{{appIcon.name}} {{appIcon.bgColor}}</h5>
+                    <i ng-click="app.switchApp(appIcon.id)" class="app-icon" style="background-image: url({{appIcon.icon}})"></i>
+                    <h5 class="app-name">{{appIcon.name}}</h5>
+                    <!-- {{appIcon.bgColor}} -->
                 </div>
             </div>
             <div ng-click="app.focusLauncher()" class="app-launcher-mask phase1" data-phase="1"></div>
