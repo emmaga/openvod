@@ -103,6 +103,7 @@
                     for (var i = 0; i < l.length; i++) {
                         if (l[i].id == id) {
                             self.activeAppName = l[i].name;
+                            self.activeAppIcon = l[i].icon;
                             self.activeAppBgColor = l[i].bgColor;
                             break;
                         }

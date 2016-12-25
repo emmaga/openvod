@@ -9,8 +9,9 @@
         <!-- grid -->
         <div class="app-grid-wrapper">
             <div ng-repeat='appIcon in appList' class="app-grid">
-                <i ng-click="app.switchApp(appIcon.id)" class="app-icon"></i>
-                <h4 class="app-name">{{appIcon.name}} {{appIcon.bgColor}}</h4>
+                <i ng-click="app.switchApp(appIcon.id)" class="app-icon" style="background-image: url({{appIcon.icon}})"></i>
+                <h4 class="app-name">{{appIcon.name}}</h4>
+                <!-- {{appIcon.bgColor}} -->
             </div>
             <!-- 空白网格，数量等于{每行最大数量}, 用来保持网格整体各式正常-->
             <div class="app-grid"></div>
@@ -29,8 +30,9 @@
         <div ng-class="{'blur':(app.showMaskClass)}">
             <!-- app title -->
             <div class="app-title">
-                <i class="app-icon" style=" background: -webkit-radial-gradient(0% 110%, rgba(216,156,44,1) 11%,rgba(211,157,116,0) 70%);"></i>
-                <h4 class="app-name">{{app.activeAppName}} {{app.activeAppBgColor}}</h4>
+                <i class="app-icon" style="background-image: url({{app.activeAppIcon}})"></i>
+                <!-- background: -webkit-radial-gradient(0% 110%, rgba(216,156,44,1) 11%,rgba(211,157,116,0) 70%); {{app.activeAppBgColor}}-->
+                <h4 class="app-name">{{app.activeAppName}} </h4>
             </div>
             <!-- launcher -->
             <div class="app-launcher">
