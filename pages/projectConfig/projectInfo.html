@@ -1,0 +1,37 @@
+<div ng-controller="pcProjectInfoController as pcProjectInfo" ng-init="pcProjectInfo.init()">
+    <div ng-show="pcProjectInfo.loading">loading...</div>
+    <form name="projectInfoForm" ng-submit="projectInfoForm.$valid && pcProjectInfo.save()">
+    <!--项目名称-->
+    <ng-repeat ng-repeat="lang in pcProjectInfo.editLangs">
+        <div ng-if="lang.default" class="form-group">
+            <label>项目名称 {{lang.name}}</label>
+            <input ng-model="pcProjectInfo.projectName[lang.code]" required  class="form-control"/>
+        </div>
+        <div ng-if="lang.default !== true" class="form-group">
+            <label>项目名称 {{lang.name}}</label>
+            <input ng-model="pcProjectInfo.projectName[lang.code]" class="form-control"/>
+        </div>
+    </ng-repeat>
+    <!--项目名称-->
+
+    <!--项目logo图-->
+    LOGO 
+    <div ng-repeat="img in pcProjectInfo.imgs1.data">
+        <img src="{{img.src}}" alt="{{img.fileName}}" />
+        进度： {{img.progress}} <!-- -1代表失败 -->
+        <!-- 大小： {{img.fileSize}}
+        剩余： {{img.leftSize}} -->
+    </div>
+    <!--项目logo图-->
+
+    <!--上传按钮-->
+    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+    <a ng-click="pcProjectInfo.clickUpload('upload1')">上传</a>
+    <a id="hidenUpload1" style="display: none;" ng-click="pcProjectInfo.imgs1.uploadFile('myFile', pcProjectInfo.imgs1)"></a>
+    <!--上传按钮-->
+
+    <!--保存按钮-->
+    <button type="submit" ng-disable="pcProjectInfo.saving">保存</button>
+    <!--保存按钮-->
+    </form>
+</div>

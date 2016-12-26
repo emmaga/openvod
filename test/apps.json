@@ -41,6 +41,12 @@
       "name": "微信用户",
       "icon": "dist/imgs/app-icon-06.png",
       "bgColor": "red"
+    },
+    {
+      "id": 8,
+      "name": "项目配置",
+      "icon": "dist/imgs/app-icon-08.png",
+      "bgColor": "red"
     }
   ]
 }

@@ -1,0 +1,10 @@
+<div ng-controller="projectConfigController as projectConfig" ng-init="projectConfig.init()" class="container">
+    <!--左侧菜单-->
+    <a ui-sref="app.projectConfig.hotelList" ui-sref-active="active">门店管理</a><br>
+    <a ui-sref="app.projectConfig.projectInfo" ui-sref-active="active">项目信息</a><br>
+    <!--左侧菜单-->
+
+    <!--右侧-->
+    <div ui-view></div>
+    <!--右侧-->
+</div>

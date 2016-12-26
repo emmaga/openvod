@@ -146,6 +146,11 @@
                         case 7:
                             $state.go('app.wxUser', { 'appId': n });
                             break;
+                        case 8:
+                            if(!$state.includes('app.projectConfig')) {
+                                $state.go('app.projectConfig', { 'appId': n });
+                            }
+                            break;
                         default:
                             break;
 

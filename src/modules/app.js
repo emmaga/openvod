@@ -6,6 +6,7 @@
         'pascalprecht.translate',
         'app.controllers',
         'app.tv-admin-controllers',
+        'app.project-config-controllers',
         'app.orders-controllers',
         'app.filters',
         'app.directives',
@@ -85,6 +86,18 @@
                 .state('app.shopOrderDeliver', {
                     url: '/shopOrderDeliver',
                     templateUrl: 'pages/orders/shopOrderDeliver.html'
+                })
+                .state('app.projectConfig', {
+                    url: '/projectConfig',
+                    templateUrl: 'pages/projectConfig/projectConfig.html'
+                })
+                .state('app.projectConfig.hotelList', {
+                    url: '/projectConfig/hotelList',
+                    templateUrl: 'pages/projectConfig/hotelList.html'
+                })
+                .state('app.projectConfig.projectInfo', {
+                    url: '/projectConfig/projectInfo',
+                    templateUrl: 'pages/projectConfig/projectInfo.html'
                 })
                 .state('app.tvAdmin', {
                     url: '/tvAdmin',
