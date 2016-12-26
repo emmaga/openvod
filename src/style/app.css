@@ -172,19 +172,20 @@ body, .app {
     top: 0;
     left: 0;
     width: 100%;
-    height: 56px;    
+    height: 112px;    
 }
 
 .app-title>.app-icon{
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    border-radius: 0;
+    left: 10px;
+    top: 10px;
+    width: 36px;
+    height: 36px;
+    /*border-radius: 0;*/
     background-repeat: no-repeat;
     background-size: contain;
-    background-position: left center;
+    background-position: center center;
+    border: solid 1px rgba(255,255,255,.28);
 }
 .app-title>.app-name{
     position: absolute;
@@ -296,8 +297,10 @@ body, .app {
 }
 .app-frame.phase2 .app-title{  
     transition-duration: .33s;
-    transform: translate(0px,56px); 
-    opacity: 0
+    /*transform: translate(0px,56px); */
+    /*transform: translateZ(0px);*/
+    opacity: 0;
+    /*height: 112px;*/
 }
 
 .app-frame.phase1 .app-launcher{
@@ -892,6 +895,19 @@ input.form-control{
     transition-duration: 0.5s;*/
 }
     
+    .app-title-blur-bg{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 87px;
+        opacity: 0;
+        transition-duration: .1s
+    }
+    .app-title-blur-bg.in{
+        opacity: 1
+    }
+
     .app-view-blur-bg{
         position: absolute;
         top: 84px;

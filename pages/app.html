@@ -5,7 +5,7 @@
         <div ng-show="app.loading">loading...</div>
         <!-- header start -->
         <div class="project-title">project/LOGO</div>
-        <div ng-click="app.logout()" class="avatar" ng-class="{'blur':(app.showMaskClass)}" style="transition-duration: .53s"></div>
+        <div ng-click="app.logout()" class="avatar" ng-class="{'blur':(app.showMaskClass)}" style="transition-duration: .33s"></div>
         <!-- grid -->
         <div class="app-grid-wrapper">
             <div ng-repeat='appIcon in appList' class="app-grid">
@@ -25,7 +25,9 @@
     <!-- app -->
     <div class="app-frame phase{{app.appFramePhase}}">
         <!-- white bg -->
+        <div class="app-title-blur-bg" ng-class="{'in':(app.showMaskClass)}" style="background-color: {{app.activeAppBgColor}}"></div>
         <div class="app-view-blur-bg" ng-class="{'in':(app.showMaskClass)}"></div>
+
         <!-- blur wrapper -->
         <div ng-class="{'blur':(app.showMaskClass)}">
             <!-- app title -->
