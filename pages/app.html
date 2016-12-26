@@ -29,7 +29,7 @@
         <!-- blur wrapper -->
         <div ng-class="{'blur':(app.showMaskClass)}">
             <!-- app title -->
-            <div class="app-title">
+            <div class="app-title" style="background-color: {{app.activeAppBgColor}}">
                 <i class="app-icon" style="background-image: url({{app.activeAppIcon}})"></i>
                 <!-- background: -webkit-radial-gradient(0% 110%, rgba(216,156,44,1) 11%,rgba(211,157,116,0) 70%); {{app.activeAppBgColor}}-->
                 <h4 class="app-name">{{app.activeAppName}} </h4>
@@ -38,7 +38,7 @@
             <div class="app-launcher">
                 <!-- back -->
                 <div class="app-launcher-grid">
-                    <i ng-click="app.showDesktop()" class="app-icon app-back" style="background-image: url('dist/imgs/app-icon-06.png')"></i>
+                    <i ng-click="app.showDesktop()" class="app-icon app-back" style="background-image: url('dist/imgs/app-icon-05.png'); border: solid 1px rgba(255,255,255,.8)"></i>
                     <h5 class="app-name">{{'HOME' | translate}}</h5>
                 </div>
                 <!-- launcher-grid -->
