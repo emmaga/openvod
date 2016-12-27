@@ -1,12 +1,4 @@
 <div ng-controller="shopOrderListController as sol" ng-init="sol.init()" class="container-fluid has-nav-left">
-    <style>
-        .vi-h5 {
-            font-size: 14px;
-        }
-        .vi-h6 {
-            font-size: 12px;
-        }
-    </style>
 
     <!--加载门店列表loading-->
     <div ng-show="sol.loadingShopList">loading...</div>
@@ -16,12 +8,13 @@
         <ul class="nav nav-stacked nav-left-content">
             <li class="nav-header active" ng-repeat="shop in shopList" >
                 <a ng-click="sol.searchByShop(shop.ShopID)" ng-class="{'active': shop.active}">
-                    <p class="vi-h5"><strong>{{shop.ShopName[sol.defaultLangCode]}}</strong></p>
-                    <p class="vi-h6">{{shop.HotelName[sol.defaultLangCode]}}</p>
+                    {{shop.ShopName[sol.defaultLangCode]}}<br>
+                    <small>{{shop.HotelName[sol.defaultLangCode]}}</small>
                 </a>
             </li>
         </ul>
     </div>
+
     <!-- 右侧部分 -->
     <div class="content-right"></div>
     <!-- 右侧部分 end-->
@@ -132,5 +125,12 @@
     <div ng-show="sol.noData">无数据</div>
     <!--订单列表 end-->
 
-    <!--订单列表-->
+    <!--theme-->
+    <style type="text/css">
+        
+        .nav-left-content a{
+            line-height: 1.25
+        }
+    </style>
+
 </div>
