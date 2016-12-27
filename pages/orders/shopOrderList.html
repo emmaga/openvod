@@ -6,8 +6,8 @@
     <!-- 左侧菜单 筛选条件——门店-->
     <div class="nav-left">
         <ul class="nav nav-stacked nav-left-content">
-            <li class="nav-header active" ng-repeat="shop in shopList" >
-                <a ng-click="sol.searchByShop(shop.ShopID)" ng-class="{'active': shop.active}">
+            <li class="nav-header {{sol.searchStr.shopId == shop.ShopID ? 'active' : ''}}" ng-repeat="shop in shopList" >
+                <a ng-click="sol.searchByShop(shop.ShopID)">
                     {{shop.ShopName[sol.defaultLangCode]}}<br>
                     <small>{{shop.HotelName[sol.defaultLangCode]}}</small>
                 </a>

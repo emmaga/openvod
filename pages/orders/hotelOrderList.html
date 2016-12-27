@@ -4,10 +4,10 @@
     <div ng-show="hol.loadingShopList">loading...</div>
 
     <!-- 左侧菜单 筛选条件——门店-->
-    <div class="nav-left ">
+    <div class="nav-left">
         <ul class="nav nav-stacked nav-left-content">
-            <li class="nav-header active" ng-repeat="shop in shopList" >
-                <a ng-click="hol.searchByShop(shop.ID)"  ui-sref-active="active" ng-class="{'active': shop.active}">{{shop.Name[hol.defaultLangCode]}}</a> 
+            <li ng-click="hol.searchByShop(shop.ID)" class="nav-header {{hol.searchStr.shopId == shop.ID ? 'active' : ''}}" ng-repeat="shop in shopList" >
+                <a>{{shop.Name[hol.defaultLangCode]}}</a> 
             </li>
         </ul>
     </div>
