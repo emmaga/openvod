@@ -1,3 +1,5 @@
+/*.active1 {border-bottom: 1px solid red}*/
+
  /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 9px;
@@ -301,7 +303,7 @@ body, .app {
 
 .app-frame.phase1 .app-launcher{
     transition-duration: .33s;
-    opacity: .5
+    opacity: .35
 }
 .app-frame.phase2 .app-launcher{
     transition-duration: .33s;

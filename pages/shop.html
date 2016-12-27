@@ -11,10 +11,11 @@
 	<!-- 左侧菜单 -->
     <div class="nav-left ">
         <ul class="nav nav-stacked nav-left-content">
-            <li class="nav-header" ng-repeat="shopItem in shop.shopList">
-            	<a class="theme-hover" ng-click="shop.goTo(shopItem.ShopID,shopItem.HotelID,shopItem.ShopName,shopItem.HotelName,shopItem.ShopType)">
+            <li class="nav-header" ui-sref-active="active" ng-click="shop.goTo(shopItem.ShopID,shopItem.HotelID,shopItem.ShopName,shopItem.HotelName,shopItem.ShopType)" ng-repeat="shopItem in shop.shopList">
+            	<a class="theme-hover" >
 					{{shopItem.ShopName[shop.langStyle]}}
-					<br><small>{{shopItem.HotelName[shop.langStyle]}}</small>
+					<br>
+                    <small>{{shopItem.HotelName[shop.langStyle]}}</small>
             	</a>
             </li>
         	<li class="nav-header">
