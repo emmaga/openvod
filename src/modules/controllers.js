@@ -1917,7 +1917,7 @@
                         HotelID: Number(self.hotelId),
                         data: {
                             "Name": self.hotel.Name,
-                            "CityName": self.selectCity,
+                            "CityName": self.hotel.CityName,
                             "LocationX": self.hotel.LocationX,
                             "LocationY": self.hotel.LocationY,
                             "LogoURL": self.imgs2.data[0].src,

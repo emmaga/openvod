@@ -144,13 +144,13 @@
                     lang: util.langStyle(),
                     data: {
                         "Name": self.hotel.Name,
-                        "CityName": self.selectCity,
+                        "CityName": self.hotel.CityName,
                         "LocationX": self.hotel.LocationX,
                         "LocationY": self.hotel.LocationY,
                         "LogoURL": self.imgs2.data[0].src,
                         "Features": tags,
                         "TelePhone": null,
-                        "AdminPhoneNum": slef.hotel.AdminPhoneNum,
+                        "AdminPhoneNum": self.hotel.AdminPhoneNum,
                         "Address": self.hotel.Address,
                         "Description": self.hotel.Description,
                         "OfficePhone": null,
@@ -316,7 +316,9 @@
                                 // 如果这个对象只允许上传一张图片
                                 if (o.single) {
                                     // 删除第一站图片
-                                    o.deleteById(o.data[0].id);
+                                    if(o.data.length > 1) {
+                                        o.deleteById(o.data[0].id);
+                                    }
                                 }
                             });
                         },
