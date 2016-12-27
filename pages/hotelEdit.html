@@ -48,10 +48,10 @@
                                 <i ng-click="hotelEdit.imgs1.deleteById(img.id)" class="form-thumbnail-delete icon ion-close"></i>
                             </div>
                             <!-- 上传按钮 -->
-                            <div ng-click="hotelEdit.clickUpload('upload')" class="form-thumbnail form-thumbnail-creat">
+                            <div ng-click="hotelEdit.clickUpload('upload1')" class="form-thumbnail form-thumbnail-creat">
                                 <i class="icon ion-upload"></i> 上传图片
-                                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload" />
-                                <a id="hidenUpload" style="display: none;" ng-click="hotelEdit.imgs1.uploadFile('myFile', hotelEdit.imgs1)"></a>
+                                <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                                <a id="hidenUpload1" style="display: none;" ng-click="hotelEdit.imgs1.uploadFile('myFile', hotelEdit.imgs1)"></a>
                             </div>
                         </div>
                     </div>
@@ -98,8 +98,8 @@
                     <!--酒店logo图修改按钮-->
                     <a ng-click="hotelEdit.clickUpload('upload2')">上传</a>
                     <br>
-                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
-                    <a id="hidenUpload1" style="display: none;" ng-click="hotelEdit.imgs2.uploadFile('myFile', hotelEdit.imgs2)"></a>
+                    <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2" />
+                    <a id="hidenUpload2" style="display: none;" ng-click="hotelEdit.imgs2.uploadFile('myFile', hotelEdit.imgs2)"></a>
                     <!--酒店logo图修改按钮-->
                     <div class="row">
                         <div class="col-xs-12">
