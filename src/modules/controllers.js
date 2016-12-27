@@ -654,6 +654,9 @@
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
 
+                    // active
+                    self.ShopGoodsCategoryID = $stateParams.ShopGoodsCategoryID;
+
                     self.noData = false;
                     self.loading = false;
 
@@ -715,6 +718,8 @@
                 }
                 // 前往goodsList
                 self.goTo = function (categoryId, categoryName) {
+                    // active
+                    self.ShopGoodsCategoryID = categoryId;
                     $state.go('app.shop.goods.goodsList', {ShopGoodsCategoryID: categoryId});
                 }
             }

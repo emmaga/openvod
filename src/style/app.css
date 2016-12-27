@@ -1,5 +1,3 @@
-/*.active1 {border-bottom: 1px solid red}*/
-
  /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 9px;
@@ -254,9 +252,13 @@ body, .app {
     left: 0;
     right: 0;
     bottom: 0;
-    /*opacity: .25;*/
+    opacity: .25;
     cursor: pointer;
 
+}
+
+.app-view-mask:hover{
+    opacity: 1;
 }
 
 /*phase*/
@@ -303,7 +305,7 @@ body, .app {
 
 .app-frame.phase1 .app-launcher{
     transition-duration: .33s;
-    opacity: .35
+    opacity: .5
 }
 .app-frame.phase2 .app-launcher{
     transition-duration: .33s;
@@ -357,7 +359,6 @@ body, .app {
     transition-duration: .33s;
     transform: translate(0px,56px);
     pointer-events: inherit;
-    /*background: rgba(250,250,250,.2)*/
 } 
 
 .app-frame.phase1 .app-launcher-grid{
@@ -401,10 +402,6 @@ textarea{
     min-height: 5em
 }
 
- .form-control:focus{
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0,0,0,.25);
-}
-    
 .container{
     max-width: 980px;
 }
@@ -655,21 +652,13 @@ input.form-control{
 }
 .nav-left-content{
     position: absolute;
-    left: -180px;
-    width: 180px;
+    left: -160px;
+    width: 160px;
     min-height: 1px;
-    padding-top: 19px;
+    padding-top: 37px;
     padding-right: 15px;
     padding-left: 15px;
 }
-.nav-left-content a{
-    color: #818181;
-    /*line-height:2;*/
-}
-.nav-left-content a>small{
-    opacity: 0.5
-}
-
 .content-right{
     position: relative;
     left: 0;
