@@ -12,7 +12,7 @@
     <div class="nav-left ">
         <ul class="nav nav-stacked nav-left-content">
             <li class="nav-header" ng-repeat="shopItem in shop.shopList">
-            	<a class="theme-hover" ng-click="shop.goTo(shopItem.ShopID,shopItem.HotelID,shopItem.ShopName,shopItem.HotelName,shopItem.ShopType)">
+            	<a class="theme-hover {{shopItem.ShopID == ShopID ? 'active' : ''}}" ng-click="shop.goTo(shopItem.ShopID,shopItem.HotelID,shopItem.ShopName,shopItem.HotelName,shopItem.ShopType)">
 					{{shopItem.ShopName[shop.langStyle]}}
 					<br><small>{{shopItem.HotelName[shop.langStyle]}}</small>
             	</a>

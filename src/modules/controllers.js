@@ -473,6 +473,9 @@
                     self.loading = false;
                     self.noData = false;
                     self.searchShopList();
+                    // for page active
+                    $scope.ShopID = $stateParams.ShopID;
+                        
                 }
 
 
@@ -526,6 +529,9 @@
                     $scope.app.maskParams.ShopType = ShopType;
 
                     if (ShopID != $stateParams.ShopID) {
+                        // for page active
+                        $scope.ShopID = ShopID;
+
                         $state.go('app.shop.goods', {
                             ShopID: ShopID, 
                             HotelID: HotelID
