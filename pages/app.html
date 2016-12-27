@@ -99,12 +99,33 @@
     }
 
     .nav-header.active a{
-        border-bottom: solid 1px {{app.activeAppBgColor}};
         color: #000 !important;
+        margin-bottom: 6px;
+        border-bottom: solid 1px {{app.activeAppBgColor}};
     }
 
     .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
         border-color: {{app.activeAppBgColor}};
+    }
+
+    .pagination>.active>a,
+    .pagination>.active>a:focus,
+    .pagination>.active>a:hover,
+    .pagination>.active>span,
+    .pagination>.active>span:focus,
+    .pagination>.active>span:hover{
+        background-color: {{app.activeAppBgColor}};
+        border-color: {{app.activeAppBgColor}};
+    }
+    .pagination>li>a,
+    .pagination>li>span,
+    .pagination>li>a,
+    .pagination>li>span,
+    .pagination>li>a:focus,
+    .pagination>li>a:hover,
+    .pagination>li>span:focus,
+    .pagination>li>span:hover{
+        color: {{app.activeAppBgColor}};
     }
 
 

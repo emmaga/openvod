@@ -663,7 +663,11 @@ input.form-control{
     padding-left: 15px;
 }
 .nav-left-content a{
-    color: rgb(151,151,151)
+    color: #818181;
+    /*line-height:2;*/
+}
+.nav-left-content a>small{
+    opacity: 0.5
 }
 
 .content-right{
