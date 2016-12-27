@@ -1672,11 +1672,12 @@
                             self.hotel.LocationY = data.data.LocationY;
                             self.hotel.LogoImg = data.data.LogoURL;
                             self.hotel.CityName = data.data.CityName;
+                            self.hotel.AdminPhoneNum = data.data.AdminPhoneNum;
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");
                         } else {
-                            alert(data.rescode + ' ' + data.errInfo);
+                            alert('读取信息失败，' + data.errInfo);
                         }
                     }, function errorCallback(response) {
                         alert(response.status + ' 服务器出错');
@@ -1797,14 +1798,24 @@
             }
         ])
 
-        .controller('hotelEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-            function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+        .controller('hotelEditController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function ($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 console.log('hotelEditController')
                 var self = this;
                 self.init = function () {
                     self.defaultLangCode = util.getDefaultLangCode();
                     self.hotelId = $scope.app.maskParams.hotelId;
-                    self.hotel = $scope.app.maskParams.hotelInfo;
+                    if(!$scope.app.maskParams.hotelInfo) {
+                        self.getHotelInfo().then(function() {
+                            self.init2();
+                        })
+                    } else{
+                        self.hotel = $scope.app.maskParams.hotelInfo;
+                        self.init2();
+                    }
+                    
+                }
+                self.init2 = function() {
                     self.ifCheckedHotelTags = [];
                     self.editLangs = util.getParams('editLangs');
 
@@ -1813,6 +1824,49 @@
                     self.getHotelTags();
                 }
 
+                self.getHotelInfo = function () {
+                    var deferred = $q.defer();
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        action: "getHotel",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        HotelID: Number(self.hotelId)
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('hotelroom', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.hotel = {};
+                            self.hotel.Imgs = data.data.Gallery;
+                            self.hotel.Tags = data.data.Features;
+                            self.hotel.Name = data.data.Name;
+                            self.hotel.Address = data.data.Address;
+                            self.hotel.Description = data.data.Description;
+                            self.hotel.LocationX = data.data.LocationX;
+                            self.hotel.LocationY = data.data.LocationY;
+                            self.hotel.LogoImg = data.data.LogoURL;
+                            self.hotel.CityName = data.data.CityName;
+                            self.hotel.AdminPhoneNum = data.data.AdminPhoneNum;
+                            deferred.resolve();
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('读取信息失败，' + data.errInfo);
+                            deferred.reject();
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                        deferred.reject();
+                    }).finally(function (e) {
+                        self.loading = false;
+                    });
+                    return deferred.promise;
+                }
 
                 self.initImgs1 = function () {
                     // 初始化酒店图片多张
@@ -1872,6 +1926,7 @@
                             "Address": self.hotel.Address,
                             "Description": self.hotel.Description,
                             "OfficePhone": null,
+                            "AdminPhoneNum": self.hotel.AdminPhoneNum,
                             "Gallery": imgs
                         }
                     })

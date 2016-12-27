@@ -1,3 +1,17 @@
 <div ng-controller="pcHotelListController as pcHotelList" ng-init="pcHotelList.init()" class="container">
-    pcHotelList
+    <!--loading-->
+    <div ng-show="pcHotelList.loading">loading...</div>
+    <!--loading-->
+
+    <!--hotel list-->
+    <ng-repeat ng-repeat="hotel in pcHotelList.list">
+        {{hotel.Name[pcHotelList.defaultLangCode]}} 
+        <a ng-click="pcHotelList.edit(hotel.ID)">编辑</a> 
+        <a ng-click="pcHotelList.delete(hotel.ID)">删除</a><br>
+    </ng-repeat>
+    <!--hotel list-->
+
+    <!--添加门店-->
+    <a ng-click="pcHotelList.add()">添加门店</a>
+    <!--添加门店-->
 </div>
