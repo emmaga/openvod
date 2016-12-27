@@ -10,7 +10,7 @@
       "id": 2,
       "name": "预定订单",
       "icon": "dist/imgs/app-icon-04.png",
-      "bgColor": "red"
+      "bgColor": "#fbb03b"
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "id": 4,
       "name": "商城订单",
       "icon": "dist/imgs/app-icon-03.png",
-      "bgColor": "red"
+      "bgColor": "#c1272d"
     },
     {
       "id": 5,
