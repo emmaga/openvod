@@ -305,13 +305,21 @@ body, .app {
 
 .app-frame.phase1 .app-launcher{
     transition-duration: .33s;
-    opacity: .25
+    opacity: .5
 }
 .app-frame.phase2 .app-launcher{
     transition-duration: .33s;
     height: 112px;   
 }
 
+.app-frame.phase1 .app-launcher .app-icon{
+    transition-duration: .33s;
+    border: solid 1px rgba(255,255,255,.5) 
+}
+.app-frame.phase2 .app-launcher .app-icon{
+    transition-duration: .33s;
+    border: solid 1px rgba(255,255,255,0) 
+}
 
 .app-frame.phase1 .app-launcher-mask{
     transition-duration: .33s;
@@ -893,7 +901,7 @@ input.form-control{
 
     /*will-change:opacity;
     transition-duration: 0.5s;*/
-}
+    }
     
     .app-title-blur-bg{
         position: absolute;
