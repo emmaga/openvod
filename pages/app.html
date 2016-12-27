@@ -78,19 +78,37 @@
     }
 
     /*主题样式*/
+    .theme-color{
+        color: {{app.activeAppBgColor}}; 
+    }
     .theme-bg{
         background: {{app.activeAppBgColor}}
     }
 
-    a.theme-hover{
+    .button{
         color:{{app.activeAppBgColor}};
     }
+
+    .form-control:focus{
+        border-color:{{app.activeAppBgColor}};
+    }
+
+    .tag.active{
+        background-color: {{app.activeAppBgColor}};
+    }
+
+    
     a.theme-hover:hover{
         color: {{app.activeAppBgColor}};
     }
 
-    .theme-color{
-        color: {{app.activeAppBgColor}}; 
+    .nav-header.active a{
+        border-bottom: solid 1px {{app.activeAppBgColor}};
+        color: #000 !important;
+    }
+
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+        border-color: {{app.activeAppBgColor}};
     }
 
 
