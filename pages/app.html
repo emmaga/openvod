@@ -25,7 +25,7 @@
     <!-- app -->
     <div class="app-frame phase{{app.appFramePhase}}">
         <!-- white bg -->
-        <div class="app-title-blur-bg" ng-class="{'in':(app.showMaskClass)}" style="background-color: {{app.activeAppBgColor}}"></div>
+        <div class="app-title-blur-bg" ng-class="{'in':(app.showMaskClass)}" style="background-color: {{app.activeAppThemeColor}}"></div>
         <div class="app-view-blur-bg" ng-class="{'in':(app.showMaskClass)}"></div>
 
         <!-- blur wrapper -->
@@ -33,14 +33,14 @@
             <!-- app title -->
             <div class="app-title" style="background-color: {{app.activeAppBgColor}}">
                 <i class="app-icon" style="background-image: url({{app.activeAppIcon}})"></i>
-                <!-- background: -webkit-radial-gradient(0% 110%, rgba(216,156,44,1) 11%,rgba(211,157,116,0) 70%); {{app.activeAppBgColor}}-->
+                <!-- background: -webkit-radial-gradient(0% 110%, rgba(216,156,44,1) 11%,rgba(211,157,116,0) 70%); {{app.activeAppThemeColor}}-->
                 <h4 class="app-name">{{app.activeAppName}} </h4>
             </div>
             <!-- launcher -->
             <div class="app-launcher">
                 <!-- back -->
                 <div class="app-launcher-grid">
-                    <i ng-click="app.showDesktop()" class="app-icon app-back" style="background-image: url('dist/imgs/app-icon-05.png'); border: solid 1px rgba(255,255,255,.6)"></i>
+                    <i ng-click="app.showDesktop()" class="app-icon app-back" style="background-image: url('dist/imgs/app-icon-05.png'); box-shadow: inset 0px 0px 1px 1px rgba(255,255,255,.6);"></i>
                     <h5 class="app-name">{{'HOME' | translate}}</h5>
                 </div>
                 <!-- launcher-grid -->
@@ -79,33 +79,33 @@
 
     /*主题样式*/
     .theme-color,.button,table a,table a:hover,.modal-title{
-        color: {{app.activeAppBgColor}}; 
+        color: {{app.activeAppThemeColor}}; 
     }
     .theme-bg{
-        background: {{app.activeAppBgColor}}
+        background: {{app.activeAppThemeColor}}
     }
 
     .form-control:focus{
-        border-color:{{app.activeAppBgColor}};
+        border-color:{{app.activeAppThemeColor}};
     }
 
     .tag.active{
-        background-color: {{app.activeAppBgColor}};
+        background-color: {{app.activeAppThemeColor}};
     }
 
     
     a.theme-hover:hover{
-        color: {{app.activeAppBgColor}};
+        color: {{app.activeAppThemeColor}};
     }
 
     .nav-header.active a{
         color: #000 !important;
         margin-bottom: 6px;
-        border-bottom: solid 1px {{app.activeAppBgColor}};
+        border-bottom: solid 1px {{app.activeAppThemeColor}};
     }
 
     .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
-        border-color: {{app.activeAppBgColor}};
+        border-color: {{app.activeAppThemeColor}};
     }
 
     .pagination>.active>a,
@@ -114,8 +114,8 @@
     .pagination>.active>span,
     .pagination>.active>span:focus,
     .pagination>.active>span:hover{
-        background-color: {{app.activeAppBgColor}};
-        border-color: {{app.activeAppBgColor}};
+        background-color: {{app.activeAppThemeColor}};
+        border-color: {{app.activeAppThemeColor}};
     }
     .pagination>li>a,
     .pagination>li>span,
@@ -125,7 +125,7 @@
     .pagination>li>a:hover,
     .pagination>li>span:focus,
     .pagination>li>span:hover{
-        color: {{app.activeAppBgColor}};
+        color: {{app.activeAppThemeColor}};
     }
 
 

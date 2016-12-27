@@ -185,7 +185,7 @@ body, .app {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
-    border: solid 1px rgba(255,255,255,.28);
+    /*border: solid 1px rgba(255,255,255,.28);*/
 }
 .app-title>.app-name{
     position: absolute;
@@ -314,7 +314,7 @@ body, .app {
 
 .app-frame.phase1 .app-launcher .app-icon{
     transition-duration: .33s;
-    border: solid 1px rgba(255,255,255,.5) 
+    /*border: solid 1px rgba(255,255,255,.5) */
 }
 .app-frame.phase2 .app-launcher .app-icon{
     transition-duration: .33s;
