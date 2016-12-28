@@ -944,7 +944,7 @@
                             var data = data.data.data;
                             self.name = data.product.name;
                             self.invetory = data.product.invetory - 0;
-                            self.price = data.product.price - 0;
+                            self.price = (data.product.price - 0) / 100;
                             self.intro = data.product.intro;
                             self.imgs = new Imgs(data.product.imgSrc);
                             self.imgs.initImgs();
@@ -992,7 +992,7 @@
                             "productID": self.productId,
                             "name": self.name,
                             "invetory": self.invetory,
-                            "price": self.price,
+                            "price": self.price*100,
                             "intro": self.intro,
                             "imgSrc": imgSrc
                         }
