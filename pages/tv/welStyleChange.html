@@ -1,7 +1,4 @@
-<div ng-controller="tvWelStyleChangeController as tvWelStyleChange" ng-init="tvWelStyleChange.init()" class="autoscroll modal-dialog"
-     style="background: rgba(255,255,255,0.8);">
-
-
+<div ng-controller="tvWelStyleChangeController as tvWelStyleChange" ng-init="tvWelStyleChange.init()" class="autoscroll modal-dialog">
     <div class="modal-content">
         <!--header-->
         <div class="modal-header">
@@ -17,27 +14,23 @@
             <!--风格列表获取中的提示信息-->
             <div ng-show="tvWelStyleChange.loading">风格列表获取中...</div>
             <!--风格列表获取中的提示信息-->
-            <form id="tvWelStyleChangeForm" name="tvWelStyleChangeForm"
-                  ng-submit="tvWelStyleChangeForm.$valid && tvWelStyleChange.save()">
+            <form id="tvWelStyleChangeForm" name="tvWelStyleChangeForm" ng-submit="tvWelStyleChangeForm.$valid && tvWelStyleChange.save()">
                 <div class="row">
                     <!--风格图列表-->
-                    <ng-repeat class="col-xs-4 text-center" ng-repeat="style in tvWelStyleChange.styles">
-
-                        <!--单选框-->
-                        <input type="radio" ng-model="tvWelStyleChange.style" value="{{style.Name}}">
-                        <!--单选框-->
-
-                        <!--风格名称-->
-                        {{style.DescName}}<br>
-                        <!--风格名称-->
-
-                        <!--风格图-->
-                        <img src="{{style.SamplePic}}">
-                        <!--风格图-->
-                    </ng-repeat>
+                    <div class="box" ng-repeat="style in tvWelStyleChange.styles">
+                        <div class="panel panel-default">
+                            <!--风格图-->
+                            <div class="box-top-img" style="background-image: url({{style.SamplePic}}"></div>
+                            <div class="panel-body">
+                                <!--单选框-->
+                                <input type="radio" ng-model="tvWelStyleChange.style" value="{{style.Name}}">
+                                <!--风格名称-->
+                                {{style.DescName}}
+                            </div>
+                        </div>
+                    </div>
                     <!--风格图列表-->
                 </div>
-
             </form>
         </div>
         <!--/body-->
@@ -48,12 +41,4 @@
         </div>
         <!--/footer-->
     </div>
-
-
-
-
-
-
-
-
 </div>
