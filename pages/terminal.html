@@ -1,15 +1,26 @@
-<div ng-controller="terminalController as terminal" ng-init="terminal.init()">
-    terminalController
-    <br>
-    <div class="login-logo"></div>
-    <div ng-repeat="hotel in terminal.hotelList track by $index" ng-click="terminal.getDevNum(hotel.ID)" ng-init="$first && terminal.getDevNum(hotel.ID)">
-    	{{hotel.Name[terminal.defaultLangCode]}}
+<!-- terminalController -->
+<div ng-controller="terminalController as terminal" ng-init="terminal.init()" class="container">
+
+
+    <!-- 左侧菜单 筛选条件——门店-->
+    <div class="nav-left">
+        <ul class="nav nav-stacked nav-left-content">
+            <li ng-repeat="hotel in terminal.hotelList track by $index" ng-click="terminal.getDevNum(hotel.ID)" ng-init="$first && terminal.getDevNum(hotel.ID)" class="nav-header">
+            	<a>{{hotel.Name[terminal.defaultLangCode]}}</a>
+            </li>
+        </ul>
     </div>
+
+
     Online <input type="number" name="" ng-model="terminal.form.Online"><br>
     RoomID <input type="number" name="" ng-model="terminal.form.RoomID"><br>
     <button ng-click="terminal.getDevList()">搜索</button> <br>
     <button ng-click="terminal.addDev()">添加终端</button> <br>
     在线：{{terminal.form.online}} / 总数：{{terminal.form.total}}<br>
+
+
+
+
     <table ng-table="terminal.tableParams" ng-show="!terminal.loading" class="table table-hover table-striped">
         <tr ng-repeat="row in $data">
             <td title="'HotelID'">
@@ -30,6 +41,8 @@
             
         </tr>
     </table>
+
+    <!-- loading -->
     <div ng-show="terminal.loading">loading...</div>
     <div ng-show="terminal.noData">查无数据</div>
 </div>
