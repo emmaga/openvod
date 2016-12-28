@@ -1,11 +1,38 @@
-<div ng-controller="addDevController as addDev" ng-init="addDev.init()" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);">
-    addDevController<br>
-    <button ng-click="addDev.cancel()">X</button>
-    <form novalidate name="addDevForm" ng-submit="addDevForm.$valid && addDev.addDev()">
-        RoomID:<input type="number" name="" required ng-model="addDev.form.RoomID">
-        <br/>
-        TermMac:<input type="text" name="" required ng-model="addDev.form.TermMac">
-        <br/>
-        <input type="submit" value="保存" class="btn btn-primary button-block button-positive" ng-disabled="addDevForm.$invalid || addDev.saving">
-    </form>
+<!-- addDevController -->
+<div ng-controller="addDevController as addDev" ng-init="addDev.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <form novalidate name="addDevForm" ng-submit="addDevForm.$valid && addDev.addDev()">
+            <!-- header -->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="addDev.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加终端</h5>
+            </div>
+            <!-- header end -->
+            <!-- body -->
+            <div class="modal-body">
+                <!-- RoomID -->
+                <div class="form-group">
+                    <label>房间号</label>
+                    <input type="number" name="" required ng-model="addDev.form.RoomID" class="form-control">
+                </div>
+                <!-- TermMac -->
+                <div class="form-group">
+                    <label>MAC地址</label>
+                    <input type="text" name="" required ng-model="addDev.form.TermMac" class="form-control">
+                </div>
+            </div>
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="addDev.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" ng-disabled="addDevForm.$invalid || addDev.saving" class="btn btn-primary  btn-sm">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
