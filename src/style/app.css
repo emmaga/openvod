@@ -599,6 +599,9 @@ input.form-control{
 .ng-table th{
     text-align: left;
 }
+.ng-table-pagination{
+    float: right;
+}
 
 
 /* hybrid */
