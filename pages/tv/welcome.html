@@ -11,10 +11,10 @@
             <a ng-click="tvWelcome.clickUpload('upload1')">上传</a><br>
             <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
             <a id="hidenUpload1" style="display: none;" ng-click="tvWelcome.imgs1.uploadFile(myFile, tvWelcome.imgs1)"></a>
-            <!--酒店logo图修改按钮-->
+            <!--酒店logo图修改按钮 end-->
+            <!-- 图 -->
             <div class="row">
                 <div class="col-xs-12">
-                    <!-- 图 -->
                     <div ng-repeat="img in tvWelcome.imgs1.data" class="form-thumbnail" style="background-image: url({{img.src}})">
                         <!-- 进度条 --><!-- -1代表失败 -->
                         <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">

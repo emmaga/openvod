@@ -1,37 +1,54 @@
 <div ng-controller="pcProjectInfoController as pcProjectInfo" ng-init="pcProjectInfo.init()">
-    <div ng-show="pcProjectInfo.loading">loading...</div>
-    <form name="projectInfoForm" ng-submit="projectInfoForm.$valid && pcProjectInfo.save()">
-    <!--项目名称-->
-    <ng-repeat ng-repeat="lang in pcProjectInfo.editLangs">
-        <div ng-if="lang.default" class="form-group">
-            <label>项目名称 {{lang.name}}</label>
-            <input ng-model="pcProjectInfo.projectName[lang.code]" required  class="form-control"/>
+    <!-- title     -->
+    <h4 class="ng-binding">项目信息</h4>
+    <hr>
+    <div class="row">
+        <div class="col-xs-6">
+            <!-- loading -->
+            <div ng-show="pcProjectInfo.loading">loading...</div>
+            <form name="projectInfoForm" ng-submit="projectInfoForm.$valid && pcProjectInfo.save()">
+                <!--项目名称-->
+                <ng-repeat ng-repeat="lang in pcProjectInfo.editLangs">
+                    <div ng-if="lang.default" class="form-group">
+                        <label>项目名称 {{lang.name}}</label>
+                        <input ng-model="pcProjectInfo.projectName[lang.code]" required class="form-control" />
+                    </div>
+                    <div ng-if="lang.default !== true" class="form-group">
+                        <label>项目名称 {{lang.name}}</label>
+                        <input ng-model="pcProjectInfo.projectName[lang.code]" class="form-control" />
+                    </div>
+                </ng-repeat>
+                <!--项目名称-->
+                <!--项目logo图 end-->
+                <div class="form-group ">
+                    <label>项目LOGO</label>
+                    <!--logo图修改按钮-->
+                    <!--上传按钮-->
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                    <a ng-click="pcProjectInfo.clickUpload('upload1')">上传</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="pcProjectInfo.imgs1.uploadFile('myFile', pcProjectInfo.imgs1)"></a>
+                    <!-- 图 -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-repeat="img in pcProjectInfo.imgs1.data" class="form-thumbnail" style="background-image: url({{img.src}})">
+                                <!-- 进度条 -->
+                                <!-- -1代表失败 -->
+                                <!-- 大小： {{img.fileSize}}
+                                剩余： {{img.leftSize}} -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--保存按钮-->
+                <div class="form-group">
+                    <label> </label>
+                    <button type="submit" class="btn btn-primary btn-block" ng-disable="pcProjectInfo.saving">保存</button>
+                </div>
+            </form>
         </div>
-        <div ng-if="lang.default !== true" class="form-group">
-            <label>项目名称 {{lang.name}}</label>
-            <input ng-model="pcProjectInfo.projectName[lang.code]" class="form-control"/>
-        </div>
-    </ng-repeat>
-    <!--项目名称-->
-
-    <!--项目logo图-->
-    LOGO 
-    <div ng-repeat="img in pcProjectInfo.imgs1.data">
-        <img ng-src="{{img.src}}" alt="{{img.fileName}}" />
-        进度： {{img.progress}} <!-- -1代表失败 -->
-        <!-- 大小： {{img.fileSize}}
-        剩余： {{img.leftSize}} -->
     </div>
-    <!--项目logo图-->
-
-    <!--上传按钮-->
-    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-    <a ng-click="pcProjectInfo.clickUpload('upload1')">上传</a>
-    <a id="hidenUpload1" style="display: none;" ng-click="pcProjectInfo.imgs1.uploadFile('myFile', pcProjectInfo.imgs1)"></a><br>
-    <!--上传按钮-->
-
-    <!--保存按钮-->
-    <button type="submit" ng-disable="pcProjectInfo.saving">保存</button>
-    <!--保存按钮-->
-    </form>
 </div>
