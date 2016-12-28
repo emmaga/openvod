@@ -752,6 +752,10 @@ input.form-control{
     pointer-events: none
 }
 
+label + hr{
+    margin-top:0
+}
+
 .form-thumbnail-creat{
     border: 2px dashed #C8C8C8;
     background-color: transparent;
@@ -767,6 +771,7 @@ input.form-control{
 }
 
 .form-thumbnail>video{
+    position: absolute;
     width: 100%;
     height: 100%;
 }

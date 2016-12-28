@@ -1,118 +1,124 @@
 <div ng-controller="tvModuleAddController as tvModuleAdd" ng-init="tvModuleAdd.init()" class="autoscroll modal-dialog">
     <div class="modal-content">
-        <!--header-->
-        <div class="modal-header">
-            <button type="button" class="close" ng-click="tvModuleAdd.cancel()">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Close</span>
-            </button>
-            <h5 class="modal-title">添加模块</h5>
-        </div>
-        <!--/header end-->
-        <!--body-->
-        <div class="modal-body">
-            <!--模块示意信息获取中的提示信息-->
-            <div ng-show="tvModuleAdd.loading">获取模块列表...</div>
-            <!--模块示意信息获取中的提示信息-->
-            <form id="tvModuleAddForm" name="tvModuleAddForm" ng-submit="tvModuleAddForm.$valid && tvModuleAdd.save()">
-                <div class="row text-center">
-                    <ng-repeat class="col-xs-4" ng-repeat="module in tvModuleAdd.modules">
-                        <!--单选框-->
-                        <div class="row">
-                            <input type="radio" ng-model="tvModuleAdd.module" value="{{module.Name}}">
+        <form id="tvModuleAddForm" name="tvModuleAddForm" ng-submit="tvModuleAddForm.$valid && tvModuleAdd.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="tvModuleAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加模块</h5>
+            </div>
+            <!--/header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!--模块示意信息获取中的提示信息-->
+                <div ng-show="tvModuleAdd.loading">获取模块列表...</div>
+                <!--模块示意信息获取中的提示信息-->
+                <label>选择模块类型</label>
+                <div class="row">
+                    <div class="box" ng-repeat="module in tvModuleAdd.modules">
+                        <div class="panel panel-default">
+                            <!--风格图-->
+                            <div class="box-top-img" style="background-image: url({{module.SamplePic}}"></div>
+                            <div class="panel-body">
+                                <!--单选框-->
+                                <input type="radio" ng-model="tvModuleAdd.module" value="{{module.Name}}">
+                                <!--模块名称-->
+                                {{module.DescName}}
+                                <!--/模块名称-->
+                            </div>
                         </div>
-                        <!--/单选框-->
-                        <!--模块名称-->
-                        <div class="row">
-                            <label>{{module.DescName}}</label>
-                        </div>
-                        <!--/模块名称-->
-                        <!--模块风格图-->
-                        <div class="row">
-                            <img src="{{module.SamplePic}}">
-                        </div>
-                        <!--/模块风格图-->
-                    </ng-repeat>
+                    </div>
                 </div>
                 <!--模块名称（多语言）-->
-                <div class="row">
-                    <ng-repeat class="form-group" ng-repeat="lang in tvModuleAdd.editLangs">
+                <div class="form-group">
+                    <ng-repeat ng-repeat="lang in tvModuleAdd.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>模块名称{{lang.name}}：</label>
-                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
-                                   ng-model="tvModuleAdd.menuName[lang.code]" required /><br>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="tvModuleAdd.menuName[lang.code]" required />
+                            <br>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <label>模块名称 {{lang.name}}：</label>
-                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
-                                   ng-model="tvModuleAdd.menuName[lang.code]" /><br>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="tvModuleAdd.menuName[lang.code]" />
+                            <br>
                         </ng-if>
                     </ng-repeat>
                 </div>
                 <!--/模块名称（多语言）-->
-
-                <div class="row">
-                    <!--模块图片-->
-                    <div class="row vi-marginTop20" ng-repeat="img in tvModuleAdd.imgs1.data">
-                        <div class="col-xs-12">
-                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
-                                <!--进度条-->
-                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
-                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
-                                    <!-- -1代表失败 -->
-                                    <!-- 大小： {{img.fileSize}}
-                                    剩余： {{img.leftSize}} -->
-                                </div><!--/progress-->
-                            </div><!--/form-thumbnail-->
-                        </div><!--/col-xs-12-->
-                    </div><!--/row-->
-                    <!--/模块图片-->
-                    <!--修改模块图片按钮-->
-                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-                    <a ng-click="tvModuleAdd.clickUpload('upload1')">上传菜单图片</a><br>
-                    <a id="hidenUpload1" style="display: none;" ng-click="tvModuleAdd.imgs1.uploadFile('myFile', tvModuleAdd.imgs1)"></a>
-                    <!--修改模块图片按钮-->
-                </div>
-
-                <div class="row">
-                    <!--模块高亮图片-->
-                    <div class="row vi-marginTop20" ng-repeat="img in tvModuleAdd.imgs2.data">
-                        <div class="col-xs-12">
-                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
-                                <!--进度条-->
-                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
-                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
-                                    <!-- -1代表失败 -->
-                                    <!-- 大小： {{img.fileSize}}
-                                    剩余： {{img.leftSize}} -->
-                                </div><!--/progress-->
-                            </div><!--/form-thumbnail-->
-                        </div><!--/col-xs-12-->
-                    </div><!--/row-->
-                    <!--/模块高亮图片-->
-                    <!--修改模块高亮图片按钮-->
-                    <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
-                    <a ng-click="tvModuleAdd.clickUpload('upload2')">上传菜单高亮图片</a><br>
-                    <a id="hidenUpload2" style="display: none;" ng-click="tvModuleAdd.imgs2.uploadFile('myFile', tvModuleAdd.imgs2)"></a>
-                    <!--修改模块高亮图片按钮-->
-                </div>
                 <!--模块排序-->
-                <div class="row">
-                    <div class="form-group">
-                        <label>模块序号</label>
-                        <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
-                               type="number" ng-model="tvModuleAdd.seq" min="1" required/>
-                    </div>
+                <div class="form-group">
+                    <label>模块序号</label>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="number" ng-model="tvModuleAdd.seq" min="1" required/>
                 </div>
                 <!--/模块排序-->
-            </form>
-        </div>
-        <!--/body end-->
-        <!--footer-->
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click="tvModuleAdd.cancel()">取消</button>
-            <button type="submit" class="btn btn-primary" form="tvModuleAddForm" ng-disabled="tvModuleAdd.saving">保存</button>
-        </div>
-        <!--/footer end-->
+
+
+                <!--模块图片-->
+                <div class="form-group">
+                    <label>模块图标</label>
+                    <!--修改模块图片按钮-->
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                    <a ng-click="tvModuleAdd.clickUpload('upload1')">上传</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="tvModuleAdd.imgs1.uploadFile('myFile', tvModuleAdd.imgs1)"></a>
+                    <!--修改模块图片按钮-->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" ng-repeat="img in tvModuleAdd.imgs1.data" style="background-image: url({{img.src}})">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div>
+                                <!--/progress-->
+                            </div>
+                            <!--/form-thumbnail-->
+                        </div>
+                        <!--/col-xs-12-->
+                    </div>
+                    <!--/row-->
+                    <!--/模块图片-->
+                </div>
+
+                <!--模块高亮图片-->
+                <div class="form-group">
+                    <label>模块高亮图标</label>
+                    <!--修改模块高亮图片按钮-->
+                    <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2" />
+                    <a ng-click="tvModuleAdd.clickUpload('upload2')">上传</a>
+                    <br>
+                    <a id="hidenUpload2" style="display: none;" ng-click="tvModuleAdd.imgs2.uploadFile('myFile', tvModuleAdd.imgs2)"></a>
+                    <!--修改模块高亮图片按钮-->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope"  ng-repeat="img in tvModuleAdd.imgs2.data" style="background-image: url({{img.src}})">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div>
+                                <!--/progress-->
+                            </div>
+                            <!--/form-thumbnail-->
+                        </div>
+                        <!--/col-xs-12-->
+                    </div>
+                    <!--/row-->
+                    <!--/模块高亮图片-->
+                </div>
+            </div>
+            <!--/body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="tvModuleAdd.cancel()">取消</button>
+                <button type="submit" class="btn btn-primary" form="tvModuleAddForm" ng-disabled="tvModuleAdd.saving">保存</button>
+            </div>
+            <!--/footer end-->
+        </form>
     </div>
 </div>
