@@ -420,10 +420,7 @@ textarea{
 .nav>li>a{
     padding: 5px 15px;
 }
-.list-group-item{
-    border-left: none;
-    border-right: none;
-}
+
 .nav.nav-tabs{
     margin-bottom: 20px;
 }
@@ -513,6 +510,10 @@ input.form-control{
 }
 
     /*list group*/
+.list-group-item{
+    border-left: none;
+    border-right: none;
+}
 .list-group-condensed>.list-group-item{
     border: none;
     padding:5px 10px 5px 10px;
@@ -522,6 +523,13 @@ input.form-control{
     margin-top:10px;
     margin-bottom: 0px;
     margin-right: 5px;
+}
+.list-group-item a.btn{
+    position: relative;
+    margin-top: -6px;
+    box-shadow: none;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 

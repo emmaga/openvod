@@ -1,10 +1,17 @@
 <div ng-controller="projectConfigController as projectConfig" ng-init="projectConfig.init()" class="container">
     <!--左侧菜单-->
-    <a ui-sref="app.projectConfig.hotelList" ui-sref-active="active">门店管理</a><br>
-    <a ui-sref="app.projectConfig.projectInfo" ui-sref-active="active">项目信息</a><br>
+    <div class="nav-left ">
+        <ul class="nav nav-stacked nav-left-content">
+            <li ui-sref="app.projectConfig.hotelList" ui-sref-active="active" class="nav-header">
+            	<a class="theme-hover">门店管理</a>
+            </li>
+            <li ui-sref="app.projectConfig.projectInfo" ui-sref-active="active" class="nav-header">
+            	<a class="theme-hover">项目信息</a>
+            </li>
+        </ul>
+    </div>
     <!--左侧菜单-->
-
     <!--右侧-->
-    <div ui-view></div>
+    <div ui-view class="content-right"></div>
     <!--右侧-->
 </div>
