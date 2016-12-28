@@ -40,20 +40,20 @@
         <!-- 终端列表 -->
         <table ng-table="terminal.tableParams" ng-show="!terminal.loading" class="table table-hover table-striped">
             <tr ng-repeat="row in $data">
-                <td title="'HotelID'">
+                <td title="'房间号'">
                     {{row.HotelID}}
                 </td>
-                <td title="'TermMac'">
+                <td title="'MAC地址'">
                     {{row.TermMac}}
                 </td>
-                <td title="'Mem'">
+                <td title="'IP地址'">
+                    {{row.IP}}
+                </td>
+                <td title="'内存'">
                     {{row.Mem}}
                 </td>
-                <td title="'DiskInfo'">
+                <td title="'容量'">
                     {{row.DiskInfo}}
-                </td>
-                <td title="'IP'">
-                    {{row.IP}}
                 </td>
             </tr>
         </table>
