@@ -776,7 +776,7 @@
                             "categoryId": self.shopGoodsCategoryId,
                             "name": self.name,
                             "invetory": self.invetory,
-                            "price": self.price,
+                            "price": self.price*100,
                             "intro": self.intro,
                             "imgSrc": imgSrc
                         }
