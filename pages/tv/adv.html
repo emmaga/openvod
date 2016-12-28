@@ -1,30 +1,37 @@
 <div ng-controller="tvAdvController as tvAdv" ng-init="tvAdv.init()">
-    
+    <h4>广告位设置</h4>
+    <hr>
     <!--loading-->
     <div ng-show="tvAdv.loading">loading...</div>
     <!--loading-->
-
-    <!--已添加的广告位 list-->
-    <ng-repeat ng-repeat="ad in tvAdv.adList">
-        <!--广告位标识-->
-        广告位标识: {{ad.PositionStrID}}<br>
-        <!--广告位标识-->
-
-        <!--广告位名称-->
-        广告位名称: {{ad.PositionName}}<br>
-        <!--广告位名称-->
-
-        <!--广告位策略参数-->
-        广告位策略参数: {{ad.PositionParam}}<br>
-        <!--广告位策略参数-->
-
-        <!--删除该广告位-->
-        <a ng-click="tvAdv.close(ad.PositionID)">删除该广告位</a><br>
-        <!--删除该广告位-->
-    </ng-repeat>
-    <!--已添加的广告位 list-->
-
     <!--添加新的广告位按钮-->
-    <a ng-click="tvAdv.add()">添加新的广告位</a>
-    <!--添加新的广告位按钮-->
+    <a ng-click="tvAdv.add()" class="button button-light ng-binding">
+        <i class="icon ion-ios-plus-outline"></i> 添加广告位
+    </a>
+    <!--已添加的广告位 list-->
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>广告位标识</th>
+                <th>广告位名称</th>
+                <th>广告位策略参数</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="ad in tvAdv.adList">
+                <!--广告位标识-->
+                <td>{{ad.PositionStrID}}</td>
+                <!--广告位名称-->
+                <td>{{ad.PositionName}}</td>
+                <!--广告位策略参数-->
+                <td>{{ad.PositionParam}}</td>
+                <!--删除该广告位-->
+                <td>
+                    <a ng-click="tvAdv.close(ad.PositionID)">删除</a>
+                </td>
+            </tr>
+    </table>
+    <!--已添加的广告位 list-->
 </div>
+</tbody>
