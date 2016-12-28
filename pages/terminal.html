@@ -11,70 +11,38 @@
         </ul>
     </div>
 
-    <!-- 右侧部分 -->
-    <div class="content-right">
-        
-        <!--当前选中名称--><!-- 在线状态 -->
-        <h4>"当前选中名称"<small>&nbsp&nbsp在线：{{terminal.form.online}} / 总数：{{terminal.form.total}}</small></h4>
-        <hr>
 
-        <!-- 搜索 -->
-        <div class="search-bar">
-            <!-- Online  -->
-            <div class="form-group">
-                <!-- <input type="number" name="" ng-model="terminal.form.Online" class="form-control" placeholder=""> -->
-                <select>
-                    <option>全部</option>
-                    <option>在线</option>
-                    <option>不在线</option>
-                </select>
-            </div>
-            <!-- RoomID     -->
-            <div class="form-group">
-                <input type="number" name="" ng-model="terminal.form.RoomID" class="form-control" placeholder="房间号">
-            </div>
-            <a ng-click="terminal.getDevList()" class="button button-light">
-                <i class="icon ion-ios-search-strong"></i>搜索
-            </a>
-        </div>
-        
-        <!-- 添加终端 -->
-        <a ng-click="terminal.addDev()" class="button button-light">
-            <i class="icon ion-ios-plus-outline"></i> 添加终端
-        </a>
-
-        <!-- 终端列表 -->
-        <table ng-table="terminal.tableParams" ng-show="!terminal.loading" class="table table-hover table-striped">
-            <tr ng-repeat="row in $data">
-                <td title="'HotelID'">
-                    {{row.HotelID}}
-                </td>
-                <td title="'TermMac'">
-                    {{row.TermMac}}
-                </td>
-                <td title="'Mem'">
-                    {{row.Mem}}
-                </td>
-                <td title="'DiskInfo'">
-                    {{row.DiskInfo}}
-                </td>
-                <td title="'IP'">
-                    {{row.IP}}
-                </td>
-                
-            </tr>
-        </table>
-
-        <!-- loading -->
-        <div ng-show="terminal.loading">loading...</div>
-        <div ng-show="terminal.noData">查无数据</div>
-        
-
-    </div>
-    <!-- 右侧部分 end -->
-    
+    Online <input type="number" name="" ng-model="terminal.form.Online"><br>
+    RoomID <input type="number" name="" ng-model="terminal.form.RoomID"><br>
+    <button ng-click="terminal.getDevList()">搜索</button> <br>
+    <button ng-click="terminal.addDev()">添加终端</button> <br>
+    在线：{{terminal.form.online}} / 总数：{{terminal.form.total}}<br>
 
 
 
 
+    <table ng-table="terminal.tableParams" ng-show="!terminal.loading" class="table table-hover table-striped">
+        <tr ng-repeat="row in $data">
+            <td title="'HotelID'">
+                {{row.HotelID}}
+            </td>
+            <td title="'TermMac'">
+                {{row.TermMac}}
+            </td>
+            <td title="'Mem'">
+                {{row.Mem}}
+            </td>
+            <td title="'DiskInfo'">
+                {{row.DiskInfo}}
+            </td>
+            <td title="'IP'">
+                {{row.IP}}
+            </td>
+            
+        </tr>
+    </table>
+
+    <!-- loading -->
+    <div ng-show="terminal.loading">loading...</div>
+    <div ng-show="terminal.noData">查无数据</div>
 </div>
