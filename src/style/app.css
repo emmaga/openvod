@@ -685,6 +685,16 @@ input.form-control{
 .search-bar>.button{
     top: -9px
 }
+.search-bar select{
+    position: relative;
+    top: -2px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
 
 .tag{
     cursor: pointer;
