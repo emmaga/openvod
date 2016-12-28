@@ -4,7 +4,7 @@
       "id": 1,
       "name": "酒店客房",
       "icon": "dist/imgs/app-icon-02.png",
-      "bgColor": "#fbb03b",
+      "bgColor": "rgb(96,64,24)",
       "themeColor":"#fbb03b"
     },
     {
