@@ -22,31 +22,31 @@
                         <label>平时价格</label>
                         <div class="form-group">
                             <label>周一</label>
-                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceMonday" required>
+                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceMonday" required step='0.01'>
                         </div>
                         <div class="form-group">
                             <label>周二</label>
-                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceTuesday" required>
+                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceTuesday" required step='0.01'>
                         </div>
                         <div class="form-group">
                             <label>周三</label>
-                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceWednesday" required>
+                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceWednesday" required step='0.01'>
                         </div>
                         <div class="form-group">
                             <label>周四</label>
-                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceThursday" required>
+                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceThursday" required step='0.01'>
                         </div>
                         <div class="form-group">
                             <label>周五</label>
-                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceFriday" required>
+                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceFriday" required step='0.01'>
                         </div>
                         <div class="form-group">
                             <label>周六</label>
-                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSaturday" required>
+                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSaturday" required step='0.01'>
                         </div>
                         <div class="form-group">
                             <label>周日</label>
-                            <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSunday" required>
+                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSunday" required step='0.01'>
                         </div>
                     </div>
                     <!-- 常规 end-->
@@ -70,7 +70,7 @@
 
                                     <!-- 数字输入框 -->
                                     <div class="col-xs-3 col-condensed">
-                                        <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.SpecialPrice[$index].Price" placeholder="请输入价格" required /> 
+                                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.SpecialPrice[$index].Price" placeholder="请输入价格" required step='0.01'/> 
                                         <!-- {{roomEditPrice.SpecialPrice[$index].Price | currency : '￥'}} -->
                                     </div>
 
