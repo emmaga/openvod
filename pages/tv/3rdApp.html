@@ -4,17 +4,21 @@
     <!-- loading -->
     
     <!--当前App组合-->
-    <ng-show ng-show="tv3rdApp.info.AppGroupName">
-        App 组合：{{tv3rdApp.info.AppGroupName}}<br>
-        描述：{{tv3rdApp.info.AppGroupDesc}}<br>
-    </ng-show>
+    <div class="form-group">
+        <label ng-show="tv3rdApp.info.AppGroupName">当前组合</label>
+        <!--更换当前App组合按钮-->
+        <a ng-click="tv3rdApp.edit()" ng-show="tv3rdApp.info.AppGroupName">更换</a>
+        <!--更换当前App组合按钮-->
+        <!--添加App组合按钮-->
+        <a ng-click="tv3rdApp.add()" ng-show="!tv3rdApp.info.AppGroupName" class="button button-light">
+            <i class="icon ion-ios-gear-outline"></i>
+            选取APP组合
+        </a>
+        <!--添加App组合按钮-->
+        <h5>{{tv3rdApp.info.AppGroupName}}</h5>
+        <p>{{tv3rdApp.info.AppGroupDesc}}</p>
+    </div>
     <!--当前App组合-->
     
-    <!--添加App组合按钮-->
-    <a ng-click="tv3rdApp.add()" ng-show="!tv3rdApp.info.AppGroupName">请选取App组合</a>
-    <!--添加App组合按钮-->
 
-    <!--更换当前App组合按钮-->
-    <a ng-click="tv3rdApp.edit()" ng-show="tv3rdApp.info.AppGroupName">更换</a>
-    <!--更换当前App组合按钮-->
 </div>

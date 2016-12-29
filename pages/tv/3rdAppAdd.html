@@ -1,33 +1,43 @@
-<div ng-controller="tv3rdAppAddController as tv3rdAppAdd" ng-init="tv3rdAppAdd.init()" style="position: absolute; left: 100px; top: 100px; padding-left: 10px; border:1px red solid; right: 0; bottom: 0; background: rgba(255,255,255,0.8);">
-    
-    <!--请选择App组合-->
-    请选择App组合<br>
-    <!--请选择App组合-->
-
-    <!--loading-->
-    <div ng-show="tv3rdAppAdd.loading">loading...</div>
-    <!--loading-->
-
-    <form name="tv3rdAppAddForm" ng-submit="tv3rdAppAddForm.$valid && tv3rdAppAdd.save()">
-        <!--App组合列表-->
-        <ng-repeat ng-repeat="app in tv3rdAppAdd.appList track by $index">
-            <input type="radio" ng-model="tv3rdAppAdd.selApp" value="{{$index}}" ng-checked="tv3rdAppAdd.selApp == $index"> 
-            <!--app名称-->
-            {{app.Name}}
-            <!--app名称-->
-
-            <!--app描述--> 
-            {{app.Description}}
-            <!--app描述--> 
-        </ng-repeat><br>
-        <!--App组合列表-->
-
-        <!--保存按钮-->
-        <button type="submit" ng-disabled="tv3rdAppAdd.saving">保存</button>
-        <!--保存按钮-->
-
-        <!--取消按钮-->
-        <div ng-click="tv3rdAppAdd.cancel()">取消</div>
-        <!--取消按钮-->
-    </form>
+<div ng-controller="tv3rdAppAddController as tv3rdAppAdd" ng-init="tv3rdAppAdd.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <form name="tv3rdAppAddForm" ng-submit="tv3rdAppAddForm.$valid && tv3rdAppAdd.save()">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="tv3rdAppAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <!--请选择App组合-->
+                <h5 class="modal-title">请选择App组合</h5>
+                <!--请选择App组合-->
+            </div>
+            <!--loading-->
+            <div class="modal-body">
+                <div ng-show="tv3rdAppAdd.loading">loading...</div>
+                <!--loading-->
+                <!--App组合列表-->
+                <ul class="list-group list-group-condensed">
+                    <li ng-repeat="app in tv3rdAppAdd.appList track by $index" class="list-group-item">
+                        <!--app名称-->
+                        <h5>
+                            <input type="radio" ng-model="tv3rdAppAdd.selApp" value="{{$index}}" ng-checked="tv3rdAppAdd.selApp == $index">
+                            {{app.Name}}
+                            <small><br>&nbsp&nbsp&nbsp&nbsp&nbsp{{app.Description}}</small>
+                        </h5>
+                        <!--app名称-->
+                        <!--app描述-->
+                        <!--app描述-->
+                    </li>
+                </ul>
+                <!--App组合列表-->
+            </div>
+            <div class="modal-footer">
+                <!--取消按钮-->
+                <button ng-click="tv3rdAppAdd.cancel()" class="btn btn-default btn-sm">取消</button>
+                <!--取消按钮-->
+                <!--保存按钮-->
+                <button type="submit" ng-disabled="tv3rdAppAdd.saving" class="btn btn-primary btn-sm">保存</button>
+                <!--保存按钮-->
+            </div>
+        </form>
+    </div>
 </div>
