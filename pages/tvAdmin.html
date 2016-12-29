@@ -37,7 +37,7 @@
     <div class="nav-left ">
         <ul class="nav nav-stacked nav-left-content">
             <span ng-if="doing_async">...loading...</span>
-            <abn-tree tree-data="my_data" tree-control="my_tree" icon-leaf="" on-select="my_tree_handler(branch)" initial-selection="{{tvAdmin.initS}}" expand-level="3"></abn-tree>
+            <abn-tree tree-data="my_data" tree-control="my_tree" icon-leaf="" on-select="my_tree_handler(branch); tvAdmin.tab=1" initial-selection="{{tvAdmin.initS}}" expand-level="3"></abn-tree>
         </ul>
     </div>
     <!-- 右侧 -->
@@ -77,7 +77,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane" ng-class="{'in active':(tvAdmin.tab==2)}">
+                <div class="tab-pane padding-bottom-72" ng-class="{'in active':(tvAdmin.tab==2)}">
                     <div class="row">
                         <div class="col-xs-6">
                             <!--菜单风格图-->
@@ -133,7 +133,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane" ng-class="{'in active':(tvAdmin.tab==2)}">
+                <div class="tab-pane padding-bottom-72" ng-class="{'in active':(tvAdmin.tab==2)}">
                     <button type="button" class="button button-light" title="删除当前菜单" ng-disabled="tvAdmin.menuDeleting" ng-click="tvAdmin.deleteMenu()">
                         <i class="icon ion-ios-trash-outline"></i> 删除当前模块
                     </button>
