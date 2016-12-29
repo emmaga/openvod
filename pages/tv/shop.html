@@ -1,14 +1,23 @@
 <div ng-controller="tvShopController as tvShop" ng-init="tvShop.init()">
-    <!-- loading -->
-    <div ng-show="tvShop.loading"></div>
-    <!-- loading -->
-    <form name="tvShopForm" ng-submit="tvShopForm.$valid && tvShop.save()">    
-        <!--商城标识-->
-        商城标识：<input type="text" ng-model="tvShop.shopSign" required/><br>
-        <!--商城标识-->
-        
-        <!--保存按钮-->
-        <button type="submit" ng-disabled="tvShop.saving">保存</button>
-        <!--保存按钮-->
-    </form>    
+    <div class="row">
+        <div class="col-xs-6">
+            <!-- loading -->
+            <div ng-show="tvShop.loading"></div>
+            <!-- loading -->
+            <form name="tvShopForm" ng-submit="tvShopForm.$valid && tvShop.save()">
+                <!--商城标识-->
+                <div class="form-group">
+                    <label>商城标识</label>
+                    <input type="text" ng-model="tvShop.shopSign" required class="form-control">
+                    <!--商城标识-->
+                </div>
+                <!--保存按钮-->
+                <div class="form-group">
+                    <label> </label>
+                    <button type="submit" ng-disabled="tvShop.saving" class="button theme-button-outline button-small button-block">保存</button>
+                </div>
+                <!--保存按钮-->
+            </form>
+        </div>
+    </div>
 </div>
