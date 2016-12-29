@@ -1,57 +1,42 @@
 <div ng-controller="tvLiveController as tvLive" ng-init="tvLive.init()">
-    <style>
-        .vi-height100 {
-            height: 100px;
-        }
-        .vi-valgin {
-            line-height: 100px;
-        }
-    </style>
-
     <!--添加直播频道按钮-->
-    <div class="row">
-        <button class="btn btn-primary" ng-click="tvLive.add()">添加频道</button>
-    </div>
-
+        <a class="button button-light" ng-click="tvLive.add()">
+            <i class="icon ion-ios-plus-outline"></i>
+            添加频道
+        </a>
     <!--添加直播频道按钮-->
+    <!--直播列表-->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>图标</th>
+                <th>频道名</th>
+                <th>直播地址</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="live in tvLive.lives track by $index">
+                <td>{{live.ChannelNum}}</td>
+                <td>
+                    <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{live.ChannelPicURL}})"></div>
+                </td>
+                <td>{{live.ChannelName[tvLive.defaultLangCode]}}</td>
+                <td>{{live.Src}}</td>
+                <td>
+                    <!--编辑按钮-->
+                    <a class="" ng-click="tvLive.edit($index)">编辑</a>
+                    <!--编辑按钮-->
+                    <!--删除按钮-->
+                    <a class="" ng-click="tvLive.del(live.ID, $index)">删除</a>
+                    <!--删除按钮-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-    <!--直播列表-->
-    <div class="row vi-marginTop20">
-        <div class="row text-center">
-            <div class="col-xs-12"><hr></div>
-            <div class="col-xs-2 col-xs-offset-1 ng-binding">频道序号</div>
-            <div class="col-xs-2 ng-binding">频道图标</div>
-            <div class="col-xs-2 ng-binding">频道名</div>
-            <div class="col-xs-2 ng-binding">频道直播地址</div>
-            <div class="col-xs-2 ng-binding">操作</div>
-            <div class="col-xs-12"><hr></div>
-        </div>
-        <div class="row text-center" ng-repeat="live in tvLive.lives track by $index">
-            <!--频道序号-->
-            <div class="col-xs-2 col-xs-offset-1 ng-binding vi-height100 vi-valgin"> {{live.ChannelNum}}</div>
-            <!--频道序号-->
-            <!--频道图标-->
-            <div class="col-xs-2 vi-height100 vi-valgin"><img src="{{live.ChannelPicURL}}" style="width: 100%;"></div>
-            <!--频道图标-->
-            <!--频道名-->
-            <div class="col-xs-2 vi-height100 vi-valgin ">{{live.ChannelName[tvLive.defaultLangCode]}}</div>
-            <!--频道名-->
-            <!--频道直播地址-->
-            <div class="col-xs-2 ng-binding vi-height100 vi-valgin">{{live.Src}}</div>
-            <!--频道直播地址-->
-            <div class="col-xs-2 ng-binding vi-height100 vi-valgin">
-                <!--编辑按钮-->
-                <button class="btn btn-default" ng-click="tvLive.edit($index)">编辑</button>
-                <!--编辑按钮-->
-                <!--删除按钮-->
-                <button class="btn btn-default" ng-click="tvLive.del(live.ID, $index)">删除</button>
-                <!--删除按钮-->
-            </div>
-            <div class="col-xs-12">
-                <hr>
-            </div>
-        </div>
-    </div>
-    
-    <!--直播列表-->
+
+
+<!--直播列表-->
 </div>

@@ -1,4 +1,4 @@
-<div ng-controller="tvLiveAddController as tvLiveAdd" ng-init="tvLiveAdd.init()" class="autoscroll modal-dialog">
+<div ng-controller="tvLiveAddController as tvLiveAdd" ng-init="tvLiveAdd.init()" class="autoscroll modal-dialog modal-sm">
     <div class="modal-content">
         <!--header-->
         <div class="modal-header">
@@ -18,6 +18,8 @@
                     <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
                             type="number" ng-model="tvLiveAdd.channelNum" min="1" required/>
                     <!--/频道序号-->
+                </div>
+                <div class="form-group">
                     <!--频道图标-->
                     <label>频道图标</label>
                     <!--频道图标上传按钮-->
@@ -25,7 +27,7 @@
                     <a ng-click="tvLiveAdd.clickUpload('upload1')">上传</a>
                     <a id="hidenUpload1" style="display: none;" ng-click="tvLiveAdd.imgs1.uploadFile('myFile', tvLiveAdd.imgs1)"></a>
                     <!--/频道图标上传按钮-->
-                    <div class="row vi-marginTop20" ng-repeat="img in tvLiveAdd.imgs1.data">
+                    <div class="row" ng-repeat="img in tvLiveAdd.imgs1.data">
                         <div class="col-xs-12">
                             <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
                                 <!--进度条-->
@@ -40,34 +42,36 @@
                     </div><!--/row-->
                     <!--/频道图标-->
                     <!--频道名-->
-                    <div class="form-group">
-                        <ng-repeat ng-repeat="lang in tvLiveAdd.editLangs">
-                            <ng-if ng-if="lang.default">
-                                <label>频道名{{lang.name}}：</label>
-                                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
-                                       ng-model="tvLiveAdd.channelName[lang.code]" required />
-                            </ng-if>
-                            <ng-if ng-if="lang.default !== true">
-                                <label>频道名 {{lang.name}}：</label>
-                                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
-                                       ng-model="tvLiveAdd.channelName[lang.code]" />
-                            </ng-if>
-                        </ng-repeat>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <ng-repeat ng-repeat="lang in tvLiveAdd.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>频道名{{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                                   ng-model="tvLiveAdd.channelName[lang.code]" required />
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <label>频道名 {{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                                   ng-model="tvLiveAdd.channelName[lang.code]" />
+                        </ng-if>
+                    </ng-repeat>
+                </div>
+                <div class="form-group">
                     <!--/频道名-->
                     <!--频道直播地址-->
-                    <label>频道直播地址 (例：http://1.1.1.1/cctv1.m3u8)</label>
-                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
-                           type="text" ng-model="tvLiveAdd.src" required/>
+                    <label>频道直播地址</label>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="text" ng-model="tvLiveAdd.src" required placeholder=" (例：http://1.1.1.1/cctv1.m3u8)" />
                     <!--/频道直播地址-->
                 </div><!--form-group-->
+
             </form>
         </div>
         <!--/body end-->
         <!--footer-->
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click="tvLiveAdd.cancel()">取消</button>
-            <button type="submit" class="btn btn-primary" form="tvLiveAddForm" ng-disabled="tvLiveAdd.saving">保存</button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="tvLiveAdd.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="tvLiveAddForm" ng-disabled="tvLiveAdd.saving">保存</button>
         </div>
         <!--/footer end-->
     </div>
