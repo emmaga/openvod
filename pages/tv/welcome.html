@@ -1,128 +1,121 @@
-<div ng-controller="tvWelcomeController as tvWelcome" ng-init="tvWelcome.init()">
-    <!-- loading -->
-    <div ng-show="tvWelcome.loading"></div>
-    <!-- form -->
-    <form name="welInfoEdit" ng-submit="welInfoEdit.$valid && tvWelcome.save()" class="padding-bottom-72">
-
-        <!--酒店logo图-->
-        <div class="form-group ">
-            <label>酒店LOGO</label>
-            <!--酒店logo图修改按钮-->
-            <a ng-click="tvWelcome.clickUpload('upload1')">上传</a><br>
-            <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-            <a id="hidenUpload1" style="display: none;" ng-click="tvWelcome.imgs1.uploadFile(myFile, tvWelcome.imgs1)"></a>
-            <!--酒店logo图修改按钮 end-->
-            <!-- 图 -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <div ng-repeat="img in tvWelcome.imgs1.data" class="form-thumbnail" style="background-image: url({{img.src}})">
-                        <!-- 进度条 --><!-- -1代表失败 -->
-                        <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
-                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+<div ng-controller="tvWelcomeController as tvWelcome" ng-init="tvWelcome.init()" class="row">
+    <div class="col-xs-6">
+        <!-- loading -->
+        <div ng-show="tvWelcome.loading"></div>
+        <!-- form -->
+        <form name="welInfoEdit" ng-submit="welInfoEdit.$valid && tvWelcome.save()" class="padding-bottom-72">
+            <!--酒店logo图-->
+            <div class="form-group ">
+                <label>酒店LOGO</label>
+                <!--酒店logo图修改按钮-->
+                <a ng-click="tvWelcome.clickUpload('upload1')">上传</a>
+                <br>
+                <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                <a id="hidenUpload1" style="display: none;" ng-click="tvWelcome.imgs1.uploadFile(myFile, tvWelcome.imgs1)"></a>
+                <!--酒店logo图修改按钮 end-->
+                <!-- 图 -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div ng-repeat="img in tvWelcome.imgs1.data" class="form-thumbnail" style="background-image: url({{img.src}})">
+                            <!-- 进度条 -->
+                            <!-- -1代表失败 -->
+                            <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--酒店logo图 end-->
-
-        
-        <!--酒店客人称呼-->
-        <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
-            <div ng-if="lang.default" class="form-group">
-                <label>客户称呼 {{lang.name}}</label>
-                <input ng-model="tvWelcome.guestName[lang.code]" required  class="form-control"/>
-            </div>
-            <div ng-if="lang.default !== true" class="form-group">
-                <label>客户称呼 {{lang.name}}</label>
-                <input ng-model="tvWelcome.guestName[lang.code]" class="form-control"/>
-            </div>
-        </ng-repeat>
-        <!--酒店客人称呼-->
-
-
-        <!--酒店欢迎辞-->
-        <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
-            <div ng-if="lang.default" class="form-group">
-                <label>欢迎辞 {{lang.name}}</label>
-                <textarea ng-model="tvWelcome.welcomeText[lang.code]" required class="form-control"></textarea>
-            </div>
-            <div ng-if="lang.default !== true" class="form-group">
-                <label>欢迎辞 {{lang.name}}</label>
-                <textarea ng-model="tvWelcome.welcomeText[lang.code]" class="form-control"></textarea>
-            </div>
-        </ng-repeat>
-        <!--酒店欢迎辞-->
-
-
-        <!--酒店经理-->
-        <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
-            <div ng-if="lang.default" class="form-group">
-                <label>酒店经理 {{lang.name}}</label>
-                <input ng-model="tvWelcome.hotelManagerName[lang.code]" required class="form-control"/>
-            </div>
-            <div ng-if="lang.default !== true" class="form-group">
-                <label>酒店经理 {{lang.name}}</label>
-                <input ng-model="tvWelcome.hotelManagerName[lang.code]" class="form-control"/>
-            </div>
-        </ng-repeat>    
-        <!--酒店经理-->
-
-
-        <!--酒店经理签名图-->
-        <div class="form-group">
-            <label>酒店经理签名图</label>
-            <!--酒店经理签名图修改-->
-            <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
-            <a ng-click="tvWelcome.clickUpload('upload2')">上传</a><br>
-            <a id="hidenUpload2" style="display: none;" ng-click="tvWelcome.imgs2.uploadFile(myFile, tvWelcome.imgs2)"></a>
-            <!--酒店经理签名图修改-->
-            <div class="row">
-                <div class="col-xs-12">
-                    <!-- 图 -->
-                    <div ng-repeat="img in tvWelcome.imgs2.data" class="form-thumbnail" style="background-image: url({{img.src}})">
-                        <!-- 进度条 --><!-- -1代表失败 -->
-                        <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
-                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;"></div>
+            <!--酒店logo图 end-->
+            <!--酒店客人称呼-->
+            <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
+                <div ng-if="lang.default" class="form-group">
+                    <label>客户称呼 {{lang.name}}</label>
+                    <input ng-model="tvWelcome.guestName[lang.code]" required class="form-control" />
+                </div>
+                <div ng-if="lang.default !== true" class="form-group">
+                    <label>客户称呼 {{lang.name}}</label>
+                    <input ng-model="tvWelcome.guestName[lang.code]" class="form-control" />
+                </div>
+            </ng-repeat>
+            <!--酒店客人称呼-->
+            <!--酒店欢迎辞-->
+            <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
+                <div ng-if="lang.default" class="form-group">
+                    <label>欢迎辞 {{lang.name}}</label>
+                    <textarea ng-model="tvWelcome.welcomeText[lang.code]" required class="form-control"></textarea>
+                </div>
+                <div ng-if="lang.default !== true" class="form-group">
+                    <label>欢迎辞 {{lang.name}}</label>
+                    <textarea ng-model="tvWelcome.welcomeText[lang.code]" class="form-control"></textarea>
+                </div>
+            </ng-repeat>
+            <!--酒店欢迎辞-->
+            <!--酒店经理-->
+            <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
+                <div ng-if="lang.default" class="form-group">
+                    <label>酒店经理 {{lang.name}}</label>
+                    <input ng-model="tvWelcome.hotelManagerName[lang.code]" required class="form-control" />
+                </div>
+                <div ng-if="lang.default !== true" class="form-group">
+                    <label>酒店经理 {{lang.name}}</label>
+                    <input ng-model="tvWelcome.hotelManagerName[lang.code]" class="form-control" />
+                </div>
+            </ng-repeat>
+            <!--酒店经理-->
+            <!--酒店经理签名图-->
+            <div class="form-group">
+                <label>酒店经理签名图</label>
+                <!--酒店经理签名图修改-->
+                <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2" />
+                <a ng-click="tvWelcome.clickUpload('upload2')">上传</a>
+                <br>
+                <a id="hidenUpload2" style="display: none;" ng-click="tvWelcome.imgs2.uploadFile(myFile, tvWelcome.imgs2)"></a>
+                <!--酒店经理签名图修改-->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- 图 -->
+                        <div ng-repeat="img in tvWelcome.imgs2.data" class="form-thumbnail" style="background-image: url({{img.src}})">
+                            <!-- 进度条 -->
+                            <!-- -1代表失败 -->
+                            <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--酒店经理签名图-->
-
-
-
-        <!--背景视频-->
-        <div class="form-group">
-            <label>背景视频</label>
-            <!--背景视频修改按钮-->
-            <input id="upload3" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload3"/>
-            <a ng-click="tvWelcome.clickUpload('upload3')">上传</a><br>
-            <a id="hidenUpload3" style="display: none;" ng-click="tvWelcome.imgs3.uploadFile(myFile, tvWelcome.imgs3)"></a>
-            <!--背景视频修改按钮-->
-            <div class="row">
-                <div class="col-xs-12">
-                    <div ng-repeat="img in tvWelcome.imgs3.data" class="form-thumbnail" style="background-image: url({{img.src}})">
-                        <video src="{{img.src}}" controls=""></video>
-                        <!-- 进度条 --><!-- -1代表失败 -->
-                        <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
-                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;"></div>
+            <!--酒店经理签名图-->
+            <!--背景视频-->
+            <div class="form-group">
+                <label>背景视频</label>
+                <!--背景视频修改按钮-->
+                <input id="upload3" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload3" />
+                <a ng-click="tvWelcome.clickUpload('upload3')">上传</a>
+                <br>
+                <a id="hidenUpload3" style="display: none;" ng-click="tvWelcome.imgs3.uploadFile(myFile, tvWelcome.imgs3)"></a>
+                <!--背景视频修改按钮-->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div ng-repeat="img in tvWelcome.imgs3.data" class="form-thumbnail form-thumbnail-screen-lg" style="background-image: url({{img.src}})">
+                            <video src="{{img.src}}" controls=""></video>
+                            <!-- 进度条 -->
+                            <!-- -1代表失败 -->
+                            <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--背景视频-->
-        
-        
-        <!--保存按钮-->
-        <div class="form-group">
-            <label> </label>
-            <button type="submit" class="btn btn-primary btn-block">保存</button>
-        </div>
-        <!--保存按钮-->
-
-    </form>
+            <!--背景视频-->
+            <!--保存按钮-->
+            <div class="form-group">
+                <label> </label>
+                <button type="submit" class="btn btn-primary btn-block">保存</button>
+            </div>
+            <!--保存按钮-->
+        </form>
+    </div>
 </div>
