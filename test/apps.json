@@ -33,7 +33,7 @@
       "name": "TV界面",
       "icon": "dist/imgs/app-icon-06.png",
       "bgColor": "rgb(1,21,51)",
-      "themeColor":"rgb(101,141,201)"
+      "themeColor":"rgb(51,91,151)"
     },
     {
       "id": 6,

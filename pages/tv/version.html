@@ -1,73 +1,87 @@
 <div ng-controller="tvVersionController as tvVersion" ng-init="tvVersion.init()">
+    <h4>提交版本</h4>
+    <hr>
     <!--提交版本按钮-->
-    <button ng-click="tvVersion.submit()" ng-disabled="tvVersion.saving">提交版本</button><br>
+    <a ng-click="tvVersion.submit()" ng-disabled="tvVersion.saving" class="button button-smal theme-button-outline">
+        <i class="icon ion-android-upload"></i> 提交版本
+    </a>
     <!--提交版本按钮-->
-
-    <!--服务端版本-->
-    服务端版本：
+    <!-- <div class="clearfix"></div> -->
+    <br>
+    <br>
+    <label>版本信息</label>
+    <hr>
     <!--loading-->
-    <div ng-show="tvVersion.loadingS">loading...</div>
     <!--loading-->
-    <ul>
-        <li>
-            Adv
-        </li>
-        <li>
-            版本号：{{tvVersion.serviceVersion.Adv.VersionNum}}
-        </li>
-    </ul>
-    <ul>
-        <li>
-            Video
-        </li>
-        <li>
-            版本号：{{tvVersion.serviceVersion.Video.VersionNum}}
-        </li>
-    </ul>
-    <ul>
-        <li>
-            App
-        </li>
-        <li>
-            版本号：{{tvVersion.serviceVersion.App.VersionNum}}
-        </li>
-    </ul>
-    <ul>
-        <li>
-            Main
-        </li>
-        <li>
-            版本号：{{tvVersion.serviceVersion.Main.VersionNum}}
-        </li>
-    </ul>
-    <ul>
-        <li>
-            Music
-        </li>
-        <li>
-            版本号：{{tvVersion.serviceVersion.Music.VersionNum}}
-        </li>
-    </ul>
-    <!--服务端版本-->
-    
-    <!--小前端版本-->
-    <!--loading-->
-    <div ng-show="tvVersion.loadingC">loading...</div>
-    <!--loading-->
-    本地版本：<br>
-    <ng-repeat ng-repeat="v in tvVersion.clientVersion">
-    {{v.ProxyID}}
-        <ul ng-repeat="i in v.VersionInfo track by $index">
-            <li>
-                {{i.SyncType}}
-            </li>
-            <li>
-                版本号：{{i.Version}}
-            </li>
-            <li>
-                更新时间：{{i.UpdateTime}}
-            </li>
-        </ul>
-    </ng-repeat>
-    <!--小前端版本-->
+    <div class="row">
+        <div class="col-xs-6">
+            <!--小前端版本-->
+            <!--loading-->
+            <div ng-show="tvVersion.loadingC">loading...</div>
+            <!--loading-->
+            本地版本：
+            <br>
+            <ng-repeat ng-repeat="v in tvVersion.clientVersion">
+                {{v.ProxyID}}
+                <ul ng-repeat="i in v.VersionInfo track by $index">
+                    <li>
+                        {{i.SyncType}}
+                    </li>
+                    <li>
+                        版本号：{{i.Version}}
+                    </li>
+                    <li>
+                        更新时间：{{i.UpdateTime}}
+                    </li>
+                </ul>
+            </ng-repeat>
+            <!--小前端版本-->
+        </div>
+        <div class="col-xs-6">
+            <div ng-show="tvVersion.loadingS">loading...</div>
+            <!--服务端版本-->
+            服务端版本：
+            <ul>
+                <li>
+                    Adv
+                </li>
+                <li>
+                    版本号：{{tvVersion.serviceVersion.Adv.VersionNum}}
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Video
+                </li>
+                <li>
+                    版本号：{{tvVersion.serviceVersion.Video.VersionNum}}
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    App
+                </li>
+                <li>
+                    版本号：{{tvVersion.serviceVersion.App.VersionNum}}
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Main
+                </li>
+                <li>
+                    版本号：{{tvVersion.serviceVersion.Main.VersionNum}}
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Music
+                </li>
+                <li>
+                    版本号：{{tvVersion.serviceVersion.Music.VersionNum}}
+                </li>
+            </ul>
+            <!--服务端版本-->
+        </div>
+    </div>
 </div>
