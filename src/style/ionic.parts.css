@@ -9074,7 +9074,8 @@ progress {
   padding: 2px 4px 1px;
   min-width: 28px;
   min-height: 30px;
-  font-size: 12px;
+  /*font-size: 12px;*/
+  font-size: 13px;
   line-height: 26px; }
   .button-small .icon:before, .button-small.icon:before, .button-small.icon-left:before, .button-small.icon-right:before {
     font-size: 16px;

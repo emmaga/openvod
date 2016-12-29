@@ -25,7 +25,7 @@
     <!-- app -->
     <div class="app-frame phase{{app.appFramePhase}}">
         <!-- white bg -->
-        <div class="app-title-blur-bg" ng-class="{'in':(app.showMaskClass)}" style="background-color: {{app.activeAppThemeColor}}"></div>
+        <div class="app-title-blur-bg" ng-class="{'in':(app.showMaskClass)}" style="background-color: {{app.activeAppBgColor}}"></div>
         <div class="app-view-blur-bg" ng-class="{'in':(app.showMaskClass)}"></div>
 
         <!-- blur wrapper -->
@@ -107,6 +107,16 @@
 
     .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
         border-color: {{app.activeAppThemeColor}};
+    }
+
+    .theme-button-outline{
+        background: #fff;
+        color: {{app.activeAppThemeColor}};
+        border-color:{{app.activeAppThemeColor}};
+    }
+    .theme-button-outline:hover{
+        background-color: #eee;
+        color: {{app.activeAppThemeColor}};
     }
 
     .pagination>.active>a,
