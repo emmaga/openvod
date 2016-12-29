@@ -2212,7 +2212,8 @@
                             HotelID: self.hotelId,
                             Description: self.room.Description,
                             RoomTypeName: self.room.RoomTypeName,
-                            Roomsummary: self.room.Roomsummary
+                            // Roomsummary: self.room.Roomsummary
+                            Roomsummary: ""
                         }
                     })
 
