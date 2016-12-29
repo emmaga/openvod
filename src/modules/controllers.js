@@ -2558,15 +2558,15 @@
                     }).then(function successCallback(response) {
                         var data = response.data;
                         if (data.rescode == '200') {
-                            self.addAlert('保存成功', true, 'success');
-                            // alert('保存成功')
-                            // $state.reload();
+                            // self.addAlert('保存成功', true, 'success');
+                            alert('保存成功')
+                            $state.reload();
                         } else {
-                            alert('保存失败' + data.rescode + ' ' + data.errInfo);
+                            alert('保存失败，' + data.errInfo);
                         }
                     }, function errorCallback(response) {
-                        // alert(response.status + ' 服务器出错');
-                        self.addAlert(response.status + ' 服务器出错', false, 'danger');
+                        alert(response.status + ' 服务器出错');
+                        // self.addAlert(response.status + ' 服务器出错', false, 'danger');
                     }).finally(function (e) {
                         self.saving = false;
                     });

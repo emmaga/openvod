@@ -302,6 +302,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.apkEntry', {
+                    url: '/apkEntry?moduleId&label',
+                    templateUrl: 'pages/tv/apkEntry.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.shop', {
                     url: '/shop?moduleId&label',
                     templateUrl: 'pages/tv/shop.html',
