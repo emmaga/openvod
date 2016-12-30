@@ -289,7 +289,8 @@
                 }
 
                 // 获取终端状态 总数目
-                self.getDevNum = function(ID) {
+                self.getDevNum = function(ID, index) {
+                    self.form.HotelName = self.hotelList[index].Name[self.defaultLangCode];
                     self.form.HotelID = ID;
                     self.getDevList()
                     var data = {

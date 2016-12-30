@@ -117,6 +117,7 @@
         <!-- 一级菜单 -->
         <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu' 
             || my_tree.get_selected_branch().data.type=='Live'
+            || my_tree.get_selected_branch().data.type=='SimplePicText'
             || my_tree.get_selected_branch().data.type=='3rdApp'
             || my_tree.get_selected_branch().data.type=='ApkEntry'
             || my_tree.get_selected_branch().data.type=='MovieCommon'
@@ -249,6 +250,7 @@
         <!--右侧容器-->
         <div class="tab-content" ng-if="my_tree.get_selected_branch().data.type=='welcome' 
             || my_tree.get_selected_branch().data.type=='Live'
+            || my_tree.get_selected_branch().data.type=='SimplePicText'
             || my_tree.get_selected_branch().data.type=='3rdApp'
             || my_tree.get_selected_branch().data.type=='ApkEntry'
             || my_tree.get_selected_branch().data.type=='MovieCommon'

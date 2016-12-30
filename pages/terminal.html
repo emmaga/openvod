@@ -3,7 +3,7 @@
     <!-- 左侧菜单 筛选条件——门店-->
     <div class="nav-left">
         <ul class="nav nav-stacked nav-left-content">
-            <li ng-repeat="hotel in terminal.hotelList track by $index" ng-click="terminal.getDevNum(hotel.ID)" ng-init="$first && terminal.getDevNum(hotel.ID)" class="nav-header">
+            <li ng-repeat="hotel in terminal.hotelList track by $index" ng-click="terminal.getDevNum(hotel.ID, $index)" ng-init="$first && terminal.getDevNum(hotel.ID, 0)" class="nav-header">
                 <a>{{hotel.Name[terminal.defaultLangCode]}}</a>
             </li>
         </ul>
@@ -12,7 +12,7 @@
     <div class="content-right">
         <!--当前选中名称-->
         <!-- 在线状态 -->
-        <h4>"当前选中名称"<small>&nbsp&nbsp在线：{{terminal.form.online}} / 总数：{{terminal.form.total}}</small></h4>
+        <h4>{{terminal.form.HotelName}}<small>&nbsp&nbsp在线：{{terminal.form.online}} / 总数：{{terminal.form.total}}</small></h4>
         <hr>
         <!-- 搜索 -->
         <div class="search-bar">

@@ -293,6 +293,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.simplePicText', {
+                    url: '/simplePicText?moduleId&label',
+                    templateUrl: 'pages/tv/simplePicText.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.3rdApp', {
                     url: '/3rdApp?moduleId&label',
                     templateUrl: 'pages/tv/3rdApp.html',
