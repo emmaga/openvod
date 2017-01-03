@@ -99,6 +99,7 @@ body, .app {
     /*background-image: url();*/
     background-position: center center;
     background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .app-grid>.app-icon{
@@ -315,7 +316,7 @@ body, .app {
 }
 .app-frame.phase2 .app-launcher .app-icon{
     transition-duration: .33s;
-    border: solid 1px rgba(255,255,255,0) 
+    /*border: solid 1px rgba(255,255,255,0) */
 }
 
 .app-frame.phase1 .app-launcher-mask{

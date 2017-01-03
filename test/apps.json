@@ -38,7 +38,7 @@
     {
       "id": 6,
       "name": "终端管理",
-      "icon": "dist/imgs/app-icon-06.png",
+      "icon": "dist/imgs/app-icon-07.png",
       "bgColor": "red",
       "themeColor":"#c1272d"
     },
