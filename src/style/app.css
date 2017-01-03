@@ -104,6 +104,7 @@ body, .app {
 .app-grid>.app-icon{
   width: 146px;
     height: 146px;
+    box-shadow: 0px 12px 25px 6px rgba(0,0,0,.22);
 }
 .app-launcher-grid>.app-icon{
   position: absolute;
