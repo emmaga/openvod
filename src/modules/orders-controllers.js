@@ -305,6 +305,7 @@
             
             self.init = function() {
                 self.orderInfo = $scope.app.maskParams.orderInfo;
+                self.defaultLangCode = util.getDefaultLangCode();
                 self.id = self.orderInfo.OrderID;
                 self.getInfo();
             }
