@@ -149,11 +149,21 @@ body, .app {
 
 .project-title{
     position: absolute;
-    top: 10px;
     left: 10px;
-    height: 36px;
-    
+    top: 6px;
+    height: 43px;
+    width: 120px;
 }
+
+.project-logo{
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: contain; 
+}
+
 .avatar{
   position: absolute;
   top: 10px;
