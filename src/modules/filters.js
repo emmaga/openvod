@@ -125,7 +125,7 @@
          case 'express':
              flag = '快递';
              break;
-         case 'self':
+         case 'bySelf':
              flag = '自提';
              break;
       }

@@ -83,22 +83,22 @@
                 <!--昵称-->
                 <li class="list-group-item">
                     昵称
-                    <span class="pull-right" {{sod.info.detail.name}}</span>
+                    <span class="pull-right"> {{sod.info.detail.name}}</span>
                 </li>
                 <!--手机号-->
                 <li class="list-group-item">
                     手机号
-                    <span class="pull-right" {{sod.info.detail.mobile}}</span>
+                    <span class="pull-right"> {{sod.info.detail.mobile}}</span>
                 </li>
                 <!--配送方式-->
                 <li class="list-group-item">
                     配送方式
-                    <span class="pull-right" {{sod.info.detail.deliverWay | deliverWay}}</span>
+                    <span class="pull-right"> {{sod.info.detail.deliverWay | deliverWay}}</span>
                 </li>
                 <!--收货地址-->
                 <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
                     收货地址
-                    <span class="pull-right" {{sod.info.detail.address}}</span>
+                    <span class="pull-right"> {{sod.info.detail.address}}</span>
                 </li>
             </ul>
             <hr>
