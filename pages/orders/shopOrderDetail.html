@@ -68,37 +68,37 @@
                 </li>
                 <hr>
                 <!--订单基本信息-->
-                <!--快递订单号-->
+                <!--快递单号-->
                 <li class="list-group-item">
-                    快递订单号
-                    <span class="pull-right">{{sod.info.detail.ExpressNum}}</span>
+                    快递单号
+                    <span class="pull-right">{{sod.deliverInfo.ExpressNum}}</span>
                 </li>
                 <!--快递公司-->
                 <li class="list-group-item">
                     快递公司
-                    <span class="pull-right">{{sod.info.detail.ExpressCompany}}</span>
+                    <span class="pull-right">{{sod.deliverInfo.ExpressCompany}}</span>
                 </li>
                 <hr>
                 <!--联系人信息-->
                 <!--昵称-->
                 <li class="list-group-item">
                     昵称
-                    <span class="pull-right"> {{sod.info.detail.name}}</span>
+                    <span class="pull-right">{{sod.info.detail.name}}</span>
                 </li>
                 <!--手机号-->
                 <li class="list-group-item">
                     手机号
-                    <span class="pull-right"> {{sod.info.detail.mobile}}</span>
+                    <span class="pull-right">{{sod.info.detail.mobile}}</span>
                 </li>
                 <!--配送方式-->
                 <li class="list-group-item">
                     配送方式
-                    <span class="pull-right"> {{sod.info.detail.deliverWay | deliverWay}}</span>
+                    <span class="pull-right">{{sod.info.detail.deliverWay | deliverWay}}</span>
                 </li>
                 <!--收货地址-->
                 <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
                     收货地址
-                    <span class="pull-right"> {{sod.info.detail.address}}</span>
+                    <span class="pull-right">{{sod.info.detail.address}}</span>
                 </li>
             </ul>
             <hr>

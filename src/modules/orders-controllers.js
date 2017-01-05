@@ -650,8 +650,8 @@
                 );
             }
 
-            self.gotoDetail = function(id) {
-                $scope.app.maskParams = {'orderId': id};
+            self.gotoDetail = function(info) {
+                $scope.app.maskParams = {'orderId': info.ID, 'orderInfo': info};
                 $scope.app.showHideMask(true,'pages/orders/shopOrderDetail.html');
             }
         }
@@ -663,6 +663,7 @@
             
             self.init = function() {
                 self.id = $scope.app.maskParams.orderId;
+                self.deliverInfo = $scope.app.maskParams.orderInfo;
                 self.getInfo();
             }
 
