@@ -15,82 +15,69 @@
             <!--header end-->
             <!--body-->
             <div class="modal-body">
-                <!-- row -->
-                <div class="row">
-                    <!-- 常规 -->
-                    <div class="col-xs-6 ">
-                        <label>平时价格</label>
-                        <div class="form-group">
-                            <label>周一</label>
-                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceMonday" required step='0.01'>
-                        </div>
-                        <div class="form-group">
-                            <label>周二</label>
-                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceTuesday" required step='0.01'>
-                        </div>
-                        <div class="form-group">
-                            <label>周三</label>
-                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceWednesday" required step='0.01'>
-                        </div>
-                        <div class="form-group">
-                            <label>周四</label>
-                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceThursday" required step='0.01'>
-                        </div>
-                        <div class="form-group">
-                            <label>周五</label>
-                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceFriday" required step='0.01'>
-                        </div>
-                        <div class="form-group">
-                            <label>周六</label>
-                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSaturday" required step='0.01'>
-                        </div>
-                        <div class="form-group">
-                            <label>周日</label>
-                            <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSunday" required step='0.01'>
-                        </div>
+                <!-- 常规 -->
+                <label>平时价格</label>
+                <br>
+                <div class="weeklysetting">
+                    <div class="form-group">
+                        <small>周一</small>
+                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceMonday" required step='0.01'>
                     </div>
-                    <!-- 常规 end-->
-                    <!-- 特殊 -->
-                    <div class="col-xs-6">
-                        
-                        <label>临时设置</label>
-                        <a type="button" ng-click="roomEditPrice.addTemporary(0)">添加设置</a>
-                        
-                        <ul class="setting-group">
-                            <!-- 设置块 -->
-                            <li class="setting-group-item" ng-repeat="reply in roomEditPrice.SpecialPrice">
-                                <label>&nbsp</label>
-                                <div class="row">
-
-
-                                    <!-- 日期选择器 -->
-                                    <div class="col-xs-7 col-condensed">
-                                        <input type="text" class="form-control" uib-datepicker-popup ng-model="roomEditPrice.SpecialPrice[$index].PriceDate" is-open="roomEditPrice.SpecialPrice[$index].Opened" datepicker-options="dateOptions" required close-text="Close" placeholder="请选择日期"  ng-click="roomEditPrice.open($index)"/>
-                                    </div>
-
-                                    <!-- 数字输入框 -->
-                                    <div class="col-xs-3 col-condensed">
-                                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.SpecialPrice[$index].Price" placeholder="请输入价格" required step='0.01'/> 
-                                        <!-- {{roomEditPrice.SpecialPrice[$index].Price | currency : '￥'}} -->
-                                    </div>
-
-
-                                    <!-- 关闭按钮 -->
-                                    <div class="col-xs-2 col-condensed">
-                                        <button type="button" data-dismiss="modal" ng-click="roomEditPrice.deleteTemporary($index)" class="button button-light button-small">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-
-
-
-                                </div>
-                            </li>
-                            <!--设置块 end-->
-                        </ul>
+                    <div class="form-group">
+                        <small>周二</small>
+                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceTuesday" required step='0.01'>
                     </div>
-                    <!-- 特殊 end -->
+                    <div class="form-group">
+                        <small>周三</small>
+                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceWednesday" required step='0.01'>
+                    </div>
+                    <div class="form-group">
+                        <small>周四</small>
+                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceThursday" required step='0.01'>
+                    </div>
+                    <div class="form-group">
+                        <small>周五</small>
+                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceFriday" required step='0.01'>
+                    </div>
+                    <div class="form-group">
+                        <small>周六</small>
+                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSaturday" required step='0.01'>
+                    </div>
+                    <div class="form-group">
+                        <small>周日</small>
+                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.roomDetail.PriceSunday" required step='0.01'>
+                    </div>
                 </div>
+                <!-- 常规 end-->
+                <!-- 特殊 -->
+                <label>临时设置</label>
+                <a type="button" ng-click="roomEditPrice.addTemporary(0)">添加设置</a>
+                <ul class="setting-group">
+                    <!-- 设置块 -->
+                    <li class="setting-group-item " ng-repeat="reply in roomEditPrice.SpecialPrice">
+                        <div class="row">
+                            <!-- 日期选择器 -->
+                            <div class="col-xs-7 col-condensed">
+                                <small>日期</small>
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="roomEditPrice.SpecialPrice[$index].PriceDate" is-open="roomEditPrice.SpecialPrice[$index].Opened" datepicker-options="dateOptions" required close-text="Close" placeholder="请选择日期" ng-click="roomEditPrice.open($index)" />
+                            </div>
+                            <!-- 数字输入框 -->
+                            <div class="col-xs-4 col-condensed">
+                                <small>价格</small>
+                                <input type="number" class="form-control" onkeyup="value=value.replace(/[^\d.]/g,'')" ng-model="roomEditPrice.SpecialPrice[$index].Price" placeholder="请输入价格" required step='0.01' />
+                                <!-- {{roomEditPrice.SpecialPrice[$index].Price | currency : '￥'}} -->
+                            </div>
+                            <!-- 关闭按钮 -->
+                            <div class="col-xs-1 col-condensed">
+                                <button type="button" data-dismiss="modal" ng-click="roomEditPrice.deleteTemporary($index)" class="button button-light setting-group-delete">
+                                    <i class="ion-ios-close-outline"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    <!--设置块 end-->
+                </ul>
+                <!-- 特殊 end -->
                 <!-- row end -->
             </div>
             <!--body end-->

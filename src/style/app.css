@@ -414,7 +414,7 @@ td{
 }
 
 label{
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     margin-top: 14px
 }
 
@@ -530,8 +530,8 @@ input.form-control{
     border-radius: inherit;
     box-shadow: none !important;
     padding-left: 1px;
-    padding-top: 3px;
-    margin-top: -10px;
+    /*padding-top: 3px;*/
+    margin-top: -5px;
     height: 28px;
 }
 
@@ -834,6 +834,7 @@ label + hr{
     /*设置组*/
 .setting-group{
     padding: 0;
+    padding-top: 7px;
 }
 .setting-group-item{
     position: relative;
@@ -845,7 +846,18 @@ label + hr{
     margin-top: -10px
 }
 .setting-group-item .form-control{
-    margin-top: 0px
+    /*margin-top: 0px*/
+}
+.weeklysetting>.form-group{
+    display: inline-block;
+    width: 103px
+}
+
+.setting-group-delete{
+    padding: 0 !important;
+    text-align: left !important;
+    font-size: 24px !important;
+    top: 7px;
 }
 
 
