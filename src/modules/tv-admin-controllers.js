@@ -3057,12 +3057,12 @@
                     action: "updateApk",
                     token: util.getParams('token'),
                     lang: util.langStyle(),
-                    viewID: self.viewId,
+                    viewID: self.viewId-0,
                     data: self.info
                 })
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('hotelroom', '', 'server'),
+                    url: util.getApiUrl('commonview', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
