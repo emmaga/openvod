@@ -121,15 +121,15 @@
                     imgs[i].ImageSize = self.imgs1.data[i].fileSize;
                 }
                 //检查图片未上传
-                if (imgs.length == 0) {
-                    alert('请上传酒店图片')
-                    return;
-                }
+                // if (imgs.length == 0) {
+                //     alert('请上传酒店图片')
+                //     return;
+                // }
                 //检查logo上传
-                if (self.imgs2.data.length == 0) {
-                    alert('请上传酒店LOGO')
-                    return;
-                }
+                // if (self.imgs2.data.length == 0) {
+                //     alert('请上传酒店LOGO')
+                //     return;
+                // }
 
                 var tags = [];
                 for (var i = 0; i < self.ifCheckedHotelTags.length; i++) {
@@ -145,14 +145,14 @@
                     data: {
                         "Name": self.hotel.Name,
                         "CityName": self.hotel.CityName,
-                        "LocationX": self.hotel.LocationX,
-                        "LocationY": self.hotel.LocationY,
-                        "LogoURL": self.imgs2.data[0].src,
+                        "LocationX": self.hotel.LocationX ? self.hotel.LocationX : '',
+                        "LocationY": self.hotel.LocationY ? self.hotel.LocationY : '',
+                        "LogoURL": self.imgs2.data.length > 0 ? self.imgs2.data[0].src : "",
                         "Features": tags,
                         "TelePhone": null,
                         "AdminPhoneNum": self.hotel.AdminPhoneNum,
-                        "Address": self.hotel.Address,
-                        "Description": self.hotel.Description,
+                        "Address": self.hotel.Address ? self.hotel.Address : {},
+                        "Description": self.hotel.Description ? self.hotel.Description : {},
                         "OfficePhone": null,
                         "Gallery": imgs
                     }
@@ -167,7 +167,7 @@
                         alert('添加成功');
                         $state.reload();
                     } else {
-                        alert('添加失败' + data.rescode + ' ' + data.errInfo);
+                        alert('添加失败' + data.err);
                     }
                 }, function errorCallback(response) {
                     alert(response.status + ' 服务器出错');

@@ -24,7 +24,7 @@
                 <!--城市-->
                 <div class="form-group">
                     <label>所在城市</label>
-                    <input type="text" class="form-control" ng-model="hotelEdit.hotel.CityName">
+                    <input type="text" class="form-control" ng-model="hotelEdit.hotel.CityName" required>
                 </div>
                 <!--酒店名-->
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
@@ -40,7 +40,7 @@
                 <!--酒店名-->
                 <!--酒店图-->
                 <div class="form-group">
-                    <label>客房图片</label>
+                    <label>酒店图片</label>
                     <div class="row">
                         <div class="col-xs-12">
                             <!-- 图 -->

@@ -42,6 +42,7 @@
                             <input type="radio" name="hotelName" value="{{hotel.ID}}" ng-model="shopAdd.form.HotelID">{{hotel.Name[shopAdd.langStyle]}}
                         </label>
                     </div>
+                    <div ng-show="shopAdd.noData">请先添加门店</div>
                 </div>
             </div>
             <!--body end-->

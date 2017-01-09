@@ -453,15 +453,6 @@
                     });
                 }
 
-                self.shopAdd = function() {
-                    $scope.app.maskParams = { 'ShopName': self.shopFirst.ShopName };
-                    $scope.app.showHideMask(true, 'pages/shopAdd.html');
-                }
-
-
-
-
-
             }
         ])
 
@@ -519,7 +510,6 @@
                 }
                 
                 self.shopAdd = function(){
-                    $scope.app.maskParams = {'ShopName': self.shopFirst.ShopName};
                     $scope.app.showHideMask(true,'pages/shopAdd.html');
                 }
 
@@ -608,8 +598,7 @@
                 self.saveForm = function() {
                     self.saving = true;
                     var shopList = {
-                        // "HotelID": self.form.HotelID - 0,
-                        "HotelID": 1,
+                        "HotelID": self.form.HotelID - 0,
                         "ShopName": self.form.shopName,
                         "ShopType": self.ShopType
                     }
@@ -1631,7 +1620,12 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.hotels = data.data;
-                            $state.go('app.hotelRoom.room', {hotelId: self.hotels[0].ID})
+                            if(self.hotels.length == 0) {
+                              self.noData = true;
+                            }
+                            else {
+                              $state.go('app.hotelRoom.room', {hotelId: self.hotels[0].ID})  
+                            }
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");
@@ -1954,7 +1948,7 @@
                             alert('修改成功');
                             $state.reload();
                         } else {
-                            alert('保存失败' + data.rescode + ' ' + data.errInfo);
+                            alert('保存失败' + data.err);
                         }
                     }, function errorCallback(response) {
                         alert(response.status + ' 服务器出错');
