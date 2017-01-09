@@ -1,0 +1,27 @@
+<div ng-controller="tvMovieCommonFreeController as tvMovieCommonFree" ng-init="tvMovieCommonFree.init()" class="row">
+    <div class="col-xs-6">
+        <!--loading-->
+        <div ng-show="tvMovieCommonFree.loading"></div>
+        <!--loading-->
+        <form name="tvMovieCommonFreeForm" ng-submit="tvMovieCommonFreeForm.$valid && tvMovieCommonFree.save()">
+            <div class="form-group">
+                <!--API参数-->
+                <label>API参数</label>
+                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="text" ng-model="tvMovieCommonFree.MovieContentAPIParam" required/>
+                <!--/API参数-->
+            </div>
+            <div class="form-group">
+                <!--API URL-->
+                <label>API URL</label>
+                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="text" ng-model="tvMovieCommonFree.MovieContentAPIURL" required/>
+                <!--/API URL-->
+            </div>
+            <div class="form-group">
+                <label> </label>
+                <!--保存按钮-->
+                <button class="button button-small button-block theme-button-outline" type="submit" ng-disabled="tvMovieCommonFree.saving">保存</button>
+                <!--/保存按钮-->
+            </div>
+        </form>
+    </div>
+</div>

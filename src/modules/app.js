@@ -177,7 +177,7 @@
                                             }
                                         }
                                     }
-                                    // type: MainMenu_THJ_SecondMenu, Live, MovieCommon
+                                    // type: MainMenu_THJ_SecondMenu, Live, MovieCommon, ...
                                     return{value: mainMenu};
                                     
                                     
@@ -332,6 +332,24 @@
                 .state('app.tvAdmin.movieCommon', {
                     url: '/movieCommon?moduleId&label',
                     templateUrl: 'pages/tv/movieCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.movieCommonFree', {
+                    url: '/movieCommonFree?moduleId&label',
+                    templateUrl: 'pages/tv/movieCommonFree.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.movieCommonAdv', {
+                    url: '/movieCommonAdv?moduleId&label',
+                    templateUrl: 'pages/tv/movieCommonAdv.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
