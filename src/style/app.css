@@ -491,10 +491,14 @@ textarea{
 }
 .modal-content{
     border: none;
-    -webkit-box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
-    box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);
+    /*-webkit-box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);*/
+    /*box-shadow: 0 5px 24px 8px rgba(0,0,0,.125);*/
+    -webkit-box-shadow:none;
+    box-shadow: none;
+    border-radius: 18px;
+    background-color: rgba(255,255,255,.88)
 }
-.modal-sm .modal-body{
+.modal-sm .modal-body{ 
     padding: 15px;
 }
 .modal-body{
@@ -507,6 +511,7 @@ textarea{
 }
 .modal-footer{
     border-top: none;
+    padding-right: 30px;
 }
 
 
@@ -523,6 +528,10 @@ textarea{
 
 
     /*form*/
+.form-control{
+    background-color:transparent; 
+}
+
 input.form-control{
     border-top: none;
     border-right: none;
