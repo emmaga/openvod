@@ -1,83 +1,78 @@
-<div ng-controller="tvApkEntryController as tvApkEntry" ng-init="tvApkEntry.init()">
-    
-    <!-- 读取中 -->
-    <div ng-show="tvApkEntry.loading">loading...</div>
-    <!-- 读取中 -->
-
-    <form class="form" name="tvApkEntryForm" ng-submit="tvApkEntryForm.$valid && tvApkEntry.save()">
-    
-        <!--ApkName-->
-        <ng-repeat ng-repeat="lang in tvApkEntry.editLangs">
-            <div class="form-group" ng-if="lang.default">
-                <label>ApkName {{lang.name}}</label>
-                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkName[lang.code]" required />
+<div ng-controller="tvApkEntryController as tvApkEntry" ng-init="tvApkEntry.init()" class="row">
+    <div class="col-xs-6">
+        <!-- 读取中 -->
+        <div ng-show="tvApkEntry.loading">loading...</div>
+        <!-- 读取中 -->
+        <form class="form" name="tvApkEntryForm" ng-submit="tvApkEntryForm.$valid && tvApkEntry.save()">
+            <!--ApkName-->
+            <ng-repeat ng-repeat="lang in tvApkEntry.editLangs">
+                <div class="form-group" ng-if="lang.default">
+                    <label>ApkName {{lang.name}}</label>
+                    <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkName[lang.code]" required />
+                </div>
+                <div class="form-group" ng-if="lang.default !== true">
+                    <label>ApkName {{lang.name}}</label>
+                    <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkName[lang.code]" />
+                </div>
+            </ng-repeat>
+            <!--ApkName-->
+            <!--ApkStartParam-->
+            <div class="form-group">
+                <label>ApkStartParam</label>
+                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkStartParam" required>
             </div>
-            <div class="form-group" ng-if="lang.default !== true">
-                <label>ApkName {{lang.name}}</label>
-                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkName[lang.code]" />
+            <!--ApkStartParam-->
+            <!--ApkVersion-->
+            <div class="form-group">
+                <label>ApkVersion</label>
+                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkVersion" required>
             </div>
-        </ng-repeat>
-        <!--ApkName-->
-
-        <!--ApkStartParam-->
-        <div class="form-group">
-            <label>ApkStartParam</label>
-            <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkStartParam" required>
-        </div>
-        <!--ApkStartParam-->
-
-        <!--ApkVersion-->
-        <div class="form-group">
-            <label>ApkVersion</label>
-            <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkVersion" required>
-        </div>
-        <!--ApkVersion-->
-
-        <!--ApkStartActivity-->
-        <div class="form-group">
-            <label>ApkStartActivity</label>
-            <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkStartActivity" required>
-        </div>
-        <!--ApkStartActivity-->
-
-        <!--ApkPackageName-->
-        <div class="form-group">
-            <label>ApkPackageName</label>
-            <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkPackageName" required>
-        </div>
-        <!--ApkPackageName-->
-
-        <!--ApkURL-->
-        <div class="form-group">
-            <label>Apk文件</label>
-            <!--酒店logo图修改按钮-->
-            <a ng-click="tvApkEntry.clickUpload('upload1')">上传 Apk</a>
-            <br>
-            <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
-            <a id="hidenUpload1" style="display: none;" ng-click="tvApkEntry.imgs1.uploadFile('myFile', tvApkEntry.imgs1)"></a>
-            <!--酒店logo图修改按钮-->
-            <div class="row">
-                <div class="col-xs-12">
-                    <!-- 图 -->
-                    <div ng-repeat="apk in tvApkEntry.imgs1.data">
-                        {{apk.src}}
-                        <!-- 进度条 -->
-                        <!-- -1代表失败 -->
-                        <div class="progress form-thumbnail-progress" ng-show="!({{apk.progress}}==100)">
-                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{apk.progress}}%;">
+            <!--ApkVersion-->
+            <!--ApkStartActivity-->
+            <div class="form-group">
+                <label>ApkStartActivity</label>
+                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkStartActivity" required>
+            </div>
+            <!--ApkStartActivity-->
+            <!--ApkPackageName-->
+            <div class="form-group">
+                <label>ApkPackageName</label>
+                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkPackageName" required>
+            </div>
+            <!--ApkPackageName-->
+            <!--ApkURL-->
+            <div class="form-group">
+                <label>Apk文件</label>
+                <!--酒店logo图修改按钮-->
+                <a ng-click="tvApkEntry.clickUpload('upload1')">上传 Apk</a>
+                <br>
+                <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                <a id="hidenUpload1" style="display: none;" ng-click="tvApkEntry.imgs1.uploadFile('myFile', tvApkEntry.imgs1)"></a>
+                <!--酒店logo图修改按钮-->
+                <!-- 图 -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div ng-repeat="apk in tvApkEntry.imgs1.data" class="form-thumbnail" style="background-image: url(dist/imgs/icon-07.png)">
+                            <!-- 进度条 -->
+                            <!-- -1代表失败 -->
+                            <div class="progress form-thumbnail-progress" ng-show="!({{apk.progress}}==100)">
+                                <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{apk.progress}}%;">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--ApkURL-->    
-        
-        <!-- 保存 -->
-        <button type="submit" class="btn btn-primary btn-sm"><i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}</button>
-        
-    </form>
-
-    <!-- 保存中 -->
-    <div ng-show="tvApkEntry.saving">saving...</div>
+            <!--ApkURL-->
+            <!-- 保存 -->
+            <div class="form-group">
+                <label> </label>
+                <button type="submit" class="button button-small button-block theme-button-outline">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+        </form>
+        <!-- 保存中 -->
+        <div ng-show="tvApkEntry.saving">saving...</div>
+    </div>
 </div>
