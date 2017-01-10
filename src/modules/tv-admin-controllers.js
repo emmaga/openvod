@@ -3207,7 +3207,7 @@
                     return;
                 }
 
-                self.info.ApkURL = self.imgs1.data[0].src;alert(self.imgs1.data[0].fileSize)
+                self.info.ApkURL = self.imgs1.data[0].src;
                 self.info.ApkSize = self.imgs1.data[0].fileSize-0;
                 self.saving = true;
 
