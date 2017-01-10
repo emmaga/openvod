@@ -432,7 +432,8 @@ textarea{
 }
 
 .container{
-    max-width: 980px;
+    /*max-width: 980px;*/
+    padding-left: 180px;
 }
 
 .container-fluid.has-nav-left{
@@ -920,6 +921,22 @@ label + hr{
     white-space: nowrap;
     overflow: hidden;
 }
+@media (max-width: 1200px){
+    .box {
+        width: 33%;
+    }
+}
+@media (max-width: 960px){
+    .box {
+        width: 50%;
+    }
+}
+@media (max-width: 720px){
+    .box {
+        width: 100%;
+    }
+}
+
 
 /* waterfall */
 .wf-container:before,.wf-container:after {
