@@ -3200,13 +3200,6 @@
             }
 
             self.save = function () {
-                var imgs = [];
-                for (var i = 0; i < self.imgs1.data.length; i++) {
-                    imgs[i] = {};
-                    imgs[i].Seq = i;
-                    imgs[i].ImageURL = self.imgs1.data[i].src;
-                    imgs[i].ImageSize = self.imgs1.data[i].fileSize;
-                }
                 
                 //检查logo上传
                 if (self.imgs1.data.length == 0) {
@@ -3214,7 +3207,8 @@
                     return;
                 }
 
-                self.info.ApkURL = self.imgs1.data[0].src;
+                self.info.ApkURL = self.imgs1.data[0].src;alert(self.imgs1.data[0].fileSize)
+                self.info.ApkSize = self.imgs1.data[0].fileSize-0;
                 self.saving = true;
 
                 var data = JSON.stringify({
