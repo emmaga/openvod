@@ -65,11 +65,11 @@
                 <ng-repeat ng-repeat="lang in goodsAdd.editLangs">
                     <div class="form-group" ng-show="lang.defaut==true">
                         <label>简介({{lang.name}})</label>
-                        <textarea ng-model="goodsAdd.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
+                        <textarea ng-trim="false" ng-model="goodsAdd.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
                     </div>
                     <div class="form-group" ng-show="lang.defaut!==true">
                         <label>简介({{lang.name}})</label>
-                        <textarea ng-model="goodsAdd.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
+                        <textarea ng-trim="false" ng-model="goodsAdd.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
                     </div>
                 </ng-repeat>
             </div>

@@ -101,15 +101,13 @@
                         <ng-if ng-if="lang.default">
                             <div class="col-md-12 farm-group" style="margin-bottom: 20px;">
                                 <label>客房介绍 {{lang.name}}：</label>
-                                <textarea class="form-control" rows="2" ng-model="roomAdd.room.Description[lang.code]"
-                                          required placeholder="（必填）"></textarea>
+                                <textarea ng-trim="false" class="form-control" rows="2" ng-model="roomAdd.room.Description[lang.code]" required placeholder="（必填）"></textarea>
                             </div>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <div class="col-md-12 form-group">
                                 <label>客房介绍 {{lang.name}}：</label>
-                                <textarea class="form-control" rows="2"
-                                          ng-model="roomAdd.room.Description[lang.code]"></textarea>
+                                <textarea ng-trim="false" class="form-control" rows="2" ng-model="roomAdd.room.Description[lang.code]"></textarea>
                             </div>
                         </ng-if>
                     </ng-repeat>
