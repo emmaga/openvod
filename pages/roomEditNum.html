@@ -4,7 +4,7 @@
         <div ng-show="loading">loading...</div>
         <div ng-show="saving">saving</div>
         <!-- form -->
-        <form id="roomEditNumForm" name="roomEditNumForm" ng-submit="roomEditNumForm.$valid && roomEditNum.save()" role="form">
+        <form id="roomEditNumForm" name="roomEditNumForm" ng-submit="roomEditNumForm.$valid && roomEditNum.deleteDate()" role="form">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="roomEditNum.cancel()">
@@ -34,16 +34,16 @@
                             <div class="col-xs-7 col-condensed">
                                 <!-- 日期选择器 -->
                                 <small>日期</small>
-                                <input type="text" class="form-control" uib-datepicker-popup ng-model="roomEditNum.SpecialNum[$index].AvailableDate" is-open="roomEditNum.SpecialNum[$index].Opened" datepicker-options="dateOptions" required placeholder="（必填）" close-text="Close" placeholder="请选择日期" ng-click="roomEditNum.open($index)" class="form-control" />
+                                <input ng-disabled="reply.disable" type="text" class="form-control" uib-datepicker-popup ng-model="reply.AvailableDate" is-open="reply.Opened" datepicker-options="dateOptions" required placeholder="（必填）" close-text="Close" placeholder="请选择日期" ng-click="roomEditNum.open($index)" class="form-control" />
                             </div>
                             <!-- 数字输入框 -->
                             <div class="col-xs-3 col-condensed">
                                 <small>可订数量</small>
-                                <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" ng-model="roomEditNum.SpecialNum[$index].AvailableNumCurrent" placeholder="请输入数量" required placeholder="（必填）" class="form-control">
+                                <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" ng-model="reply.AvailableNumCurrent" placeholder="请输入数量" required placeholder="（必填）" class="form-control">
                             </div>
                             <!-- 关闭按钮 -->
                             <div class="col-xs-1 col-condensed">
-                                <button type="button" data-dismiss="modal" ng-click="roomEditNum.deleteTemporary($index)" class="button button-light setting-group-delete">
+                                <button type="button" data-dismiss="modal" ng-click="roomEditNum.deleteTemporary($index, reply.AvailableDate)" class="button button-light setting-group-delete">
                                     <i class="ion-ios-close-outline"></i>
                                 </button>
                             </div>

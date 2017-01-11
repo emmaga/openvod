@@ -2882,6 +2882,7 @@
                 var lang,
                     token;
                 self.init = function () {
+                    self.delAvailableDate = [];
                     self.hotelId = $scope.app.maskParams.hotelId;
                     self.roomId = $scope.app.maskParams.roomId;
                     lang = util.langStyle();
@@ -2921,8 +2922,9 @@
                 /**
                  * 删除临时设置
                  */
-                self.deleteTemporary = function ($index) {
+                self.deleteTemporary = function ($index, AvailableDate) {
                     self.SpecialNum.splice($index, 1);
+                    self.delAvailableDate.push(AvailableDate);
                 }
 
                 /**
@@ -2948,6 +2950,7 @@
                             self.roomDetail.AvailableNum = msg.AvailableNum;
                             for (var i = 0; i < msg.SpecialNum.length; i++) {
                                 msg.SpecialNum[i].AvailableDate = new Date(msg.SpecialNum[i].AvailableDate);
+                                msg.SpecialNum[i].disable = true;
                             }
                             self.SpecialNum = msg.SpecialNum;
                         } else if (msg.rescode == '401') {
@@ -3000,8 +3003,54 @@
                     }).then(function successCallback(response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
-                            alert('保存成功');
-                            $state.reload();
+                              alert('保存成功');
+                              $state.reload(); 
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('保存失败，' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.saving = false;
+                    })
+                    ;
+                }
+
+                /**
+                 * 删除客房数量信息
+                 */
+                self.deleteDate = function () {
+                    if(self.delAvailableDate.length == 0) {
+                        self.save();
+                        return;
+                    }
+                    self.saving = true;
+                    var dellist = [];
+                    for(var i = 0; i < self.delAvailableDate.length; i++) {
+                        dellist[i] = {};
+                        dellist[i].RoomID = self.roomId + "";
+                        dellist[i].AvailableDate = self.delAvailableDate[i];
+                    }
+                    
+                    
+                    var data = JSON.stringify({
+                        action: "delRoomNum",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId,
+                        dellist: dellist
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                              self.save();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");
