@@ -712,6 +712,7 @@
                 self.goTo = function (categoryId, categoryName) {
                     // active
                     self.ShopGoodsCategoryID = categoryId;
+                    $scope.app.maskParams.name = categoryName;
                     $state.go('app.shop.goods.goodsList', {ShopGoodsCategoryID: categoryId});
                 }
             }
@@ -1396,6 +1397,7 @@
 
                 // 分类编辑
                 self.categoryEdit = function () {
+                    $scope.app.maskParams.id = self.stateParams.ShopGoodsCategoryID;
                     $scope.app.showHideMask(true,'pages/categoryEdit.html');
                 }
 
