@@ -18,11 +18,11 @@
             <div class="modal-body">
                 <!-- 商品名 -->
                 <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
-                    <div class="form-group" ng-show="lang.defaut==true">
+                    <div class="form-group" ng-if="lang.default==true">
                         <label>商品名({{lang.name}})</label>
                         <input type="text" name="" required placeholder="（必填）" ng-model="goodsEdit.name[lang.code]" class="form-control">
                     </div>
-                    <div class="form-group" ng-show="lang.defaut!==true">
+                    <div class="form-group" ng-if="lang.default!==true">
                         <label>商品名({{lang.name}})</label>
                         <input type="text" name="" required placeholder="（必填）" ng-model="goodsEdit.name[lang.code]" class="form-control">
                     </div>
@@ -64,11 +64,11 @@
                 </div>
                 <!-- 简介 -->
                 <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
-                    <div class="form-group" ng-show="lang.defaut==true">
+                    <div class="form-group" ng-if="lang.default==true">
                         <label>简介({{lang.name}})</label>
                         <textarea ng-trim="false" ng-model="goodsEdit.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
                     </div>
-                    <div class="form-group" ng-show="lang.defaut!==true">
+                    <div class="form-group" ng-if="lang.default!==true">
                         <label>简介({{lang.name}})</label>
                         <textarea ng-trim="false" ng-model="goodsEdit.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
                     </div>
