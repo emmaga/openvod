@@ -860,6 +860,13 @@ label + hr{
     height: 40px;
 }
 
+
+  /*针对图片上传控件*/
+.col-xs-12>.form-thumbnail{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
     /*设置组*/
 .setting-group{
     padding: 0;
