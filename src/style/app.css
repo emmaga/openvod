@@ -1032,6 +1032,9 @@ label + hr{
     line-height: 59px;
     text-align: center;
 }
+.button.button-light{
+    background-color: transparent !important;
+}
 
 /*blur*/
 @supports (-webkit-filter:blur(12px)) {
