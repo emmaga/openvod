@@ -11,7 +11,7 @@
                 <ng-repeat ng-repeat="lang in pcProjectInfo.editLangs">
                     <div ng-if="lang.default" class="form-group">
                         <label>项目名称 {{lang.name}}</label>
-                        <input ng-model="pcProjectInfo.projectName[lang.code]" required class="form-control" />
+                        <input ng-model="pcProjectInfo.projectName[lang.code]" required placeholder="（必填）" class="form-control" />
                     </div>
                     <div ng-if="lang.default !== true" class="form-group">
                         <label>项目名称 {{lang.name}}</label>

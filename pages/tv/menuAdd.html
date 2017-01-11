@@ -25,7 +25,7 @@
                     <ng-repeat ng-repeat="lang in tvMenuAdd.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>菜单名称 {{lang.name}}</label>
-                            <input ng-model="tvMenuAdd.menuName[lang.code]" required class="form-control" />
+                            <input ng-model="tvMenuAdd.menuName[lang.code]" required placeholder="（必填）" class="form-control" />
                             <br>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
@@ -39,7 +39,7 @@
                 <!--菜单排序-->
                 <div class="form-group ">
                     <label>顺序</label>
-                    <input type="number" ng-model="tvMenuAdd.seq" min="1" required class="form-control" />
+                    <input type="number" ng-model="tvMenuAdd.seq" min="1" required placeholder="（必填）" class="form-control" />
                 </div>
                 <!--菜单排序-->
                 <!--菜单图片-->

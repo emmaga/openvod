@@ -8,7 +8,7 @@
             <ng-repeat ng-repeat="lang in tvApkEntry.editLangs">
                 <div class="form-group" ng-if="lang.default">
                     <label>ApkName {{lang.name}}</label>
-                    <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkName[lang.code]" required />
+                    <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkName[lang.code]" required placeholder="（必填）" />
                 </div>
                 <div class="form-group" ng-if="lang.default !== true">
                     <label>ApkName {{lang.name}}</label>
@@ -19,25 +19,25 @@
             <!--ApkStartParam-->
             <div class="form-group">
                 <label>ApkStartParam</label>
-                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkStartParam" required>
+                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkStartParam" required placeholder="（必填）">
             </div>
             <!--ApkStartParam-->
             <!--ApkVersion-->
             <div class="form-group">
                 <label>ApkVersion</label>
-                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkVersion" required>
+                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkVersion" required placeholder="（必填）">
             </div>
             <!--ApkVersion-->
             <!--ApkStartActivity-->
             <div class="form-group">
                 <label>ApkStartActivity</label>
-                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkStartActivity" required>
+                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkStartActivity" required placeholder="（必填）">
             </div>
             <!--ApkStartActivity-->
             <!--ApkPackageName-->
             <div class="form-group">
                 <label>ApkPackageName</label>
-                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkPackageName" required>
+                <input type="text" class="form-control" ng-model="tvApkEntry.info.ApkPackageName" required placeholder="（必填）">
             </div>
             <!--ApkPackageName-->
             <!--ApkURL-->

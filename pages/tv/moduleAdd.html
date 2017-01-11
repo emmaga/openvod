@@ -36,12 +36,12 @@
                     <ng-repeat ng-repeat="lang in tvModuleAdd.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>模块名称{{lang.name}}：</label>
-                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="tvModuleAdd.menuName[lang.code]" required />
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="tvModuleAdd.menuName[lang.code]" required placeholder="（必填）" />
                             <br>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <label>模块名称 {{lang.name}}：</label>
-                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="tvModuleAdd.menuName[lang.code]" />
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="tvModuleAdd.menuName[lang.code]" />
                             <br>
                         </ng-if>
                     </ng-repeat>
@@ -50,7 +50,7 @@
                 <!--模块排序-->
                 <div class="form-group">
                     <label>模块序号</label>
-                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="number" ng-model="tvModuleAdd.seq" min="1" required/>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" type="number" ng-model="tvModuleAdd.seq" min="1" required placeholder="（必填）"/>
                 </div>
                 <!--/模块排序-->
 

@@ -18,11 +18,11 @@
                 <ng-repeat ng-repeat="lang in categoryEdit.multiLang track by $index">
                     <div class="form-group" ng-show="lang.defaut==true">
                         <label>分类名称({{lang.name}})</label>
-                        <input type="text" name="" required ng-model="categoryEdit.categoryDetail[lang.code]" class="form-control">
+                        <input type="text" name="" required placeholder="（必填）" ng-model="categoryEdit.categoryDetail[lang.code]" class="form-control">
                     </div>
                     <div class="form-group" ng-show="lang.defaut!==true">
                         <label>分类名称({{lang.name}})</label>
-                        <input type="text" name="" required ng-model="categoryEdit.categoryDetail[lang.code]" class="form-control">
+                        <input type="text" name="" required placeholder="（必填）" ng-model="categoryEdit.categoryDetail[lang.code]" class="form-control">
                     </div>
                 </ng-repeat>
             </div>

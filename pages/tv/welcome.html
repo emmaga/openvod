@@ -32,7 +32,7 @@
             <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
                 <div ng-if="lang.default" class="form-group">
                     <label>客户称呼 {{lang.name}}</label>
-                    <input ng-model="tvWelcome.guestName[lang.code]" required class="form-control" />
+                    <input ng-model="tvWelcome.guestName[lang.code]" required placeholder="（必填）" class="form-control" />
                 </div>
                 <div ng-if="lang.default !== true" class="form-group">
                     <label>客户称呼 {{lang.name}}</label>
@@ -44,7 +44,7 @@
             <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
                 <div ng-if="lang.default" class="form-group">
                     <label>欢迎辞 {{lang.name}}</label>
-                    <textarea ng-model="tvWelcome.welcomeText[lang.code]" required class="form-control"></textarea>
+                    <textarea ng-model="tvWelcome.welcomeText[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
                 </div>
                 <div ng-if="lang.default !== true" class="form-group">
                     <label>欢迎辞 {{lang.name}}</label>
@@ -56,7 +56,7 @@
             <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
                 <div ng-if="lang.default" class="form-group">
                     <label>酒店经理 {{lang.name}}</label>
-                    <input ng-model="tvWelcome.hotelManagerName[lang.code]" required class="form-control" />
+                    <input ng-model="tvWelcome.hotelManagerName[lang.code]" required placeholder="（必填）" class="form-control" />
                 </div>
                 <div ng-if="lang.default !== true" class="form-group">
                     <label>酒店经理 {{lang.name}}</label>

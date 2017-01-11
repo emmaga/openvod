@@ -18,19 +18,19 @@
                 <!--管理员手机号-->
                 <div class="form-group">
                     <label>管理员手机号</label>
-                    <input type="text" class="form-control" ng-model="hotelAdd.hotel.AdminPhoneNum" required>
+                    <input type="text" class="form-control" ng-model="hotelAdd.hotel.AdminPhoneNum" required placeholder="（必填）">
                 </div>
                 <!--管理员手机号-->
                 <!--城市-->
                 <div class="form-group">
                     <label>所在城市</label>
-                    <input type="text" class="form-control" ng-model="hotelAdd.hotel.CityName" required>
+                    <input type="text" class="form-control" ng-model="hotelAdd.hotel.CityName" required placeholder="（必填）">
                 </div>
                 <!--酒店名-->
                 <ng-repeat ng-repeat="lang in hotelAdd.editLangs">
                     <div class="form-group" ng-if="lang.default">
                         <label>酒店名 {{lang.name}}</label>
-                        <input type="text" class="form-control" ng-model="hotelAdd.hotel.Name[lang.code]" required />
+                        <input type="text" class="form-control" ng-model="hotelAdd.hotel.Name[lang.code]" required placeholder="（必填）" />
                     </div>
                     <div class="form-group" ng-if="lang.default !== true">
                         <label>酒店名 {{lang.name}}</label>

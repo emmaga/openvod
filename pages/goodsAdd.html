@@ -19,11 +19,11 @@
                 <ng-repeat ng-repeat="lang in goodsAdd.editLangs">
                     <div class="form-group" ng-show="lang.defaut==true">
                         <label>商品名({{lang.name}})</label>
-                        <input type="text" name="" required ng-model="goodsAdd.name[lang.code]" class="form-control">
+                        <input type="text" name="" required placeholder="（必填）" ng-model="goodsAdd.name[lang.code]" class="form-control">
                     </div>
                     <div class="form-group" ng-show="lang.defaut!==true">
                         <label>商品名({{lang.name}})</label>
-                        <input type="text" name="" required ng-model="goodsAdd.name[lang.code]" class="form-control">
+                        <input type="text" name="" required placeholder="（必填）" ng-model="goodsAdd.name[lang.code]" class="form-control">
                     </div>
                 </ng-repeat>
                 <!--商品图-->
@@ -54,22 +54,22 @@
                 <!-- 单价 -->
                 <div class="form-group">
                     <label>单价</label>
-                    <input ng-model="goodsAdd.price" required type="number" min="0" class="form-control" step="0.01" />
+                    <input ng-model="goodsAdd.price" required placeholder="（必填）" type="number" min="0" class="form-control" step="0.01" />
                 </div>
                 <!-- 库存 -->
                 <div class="form-group">
                     <label>库存</label>
-                    <input ng-model="goodsAdd.invetory" required type="number" min="0" class="form-control" />
+                    <input ng-model="goodsAdd.invetory" required placeholder="（必填）" type="number" min="0" class="form-control" />
                 </div>
                 <!-- 简介 -->
                 <ng-repeat ng-repeat="lang in goodsAdd.editLangs">
                     <div class="form-group" ng-show="lang.defaut==true">
                         <label>简介({{lang.name}})</label>
-                        <textarea ng-model="goodsAdd.intro[lang.code]" required class="form-control"></textarea>
+                        <textarea ng-model="goodsAdd.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
                     </div>
                     <div class="form-group" ng-show="lang.defaut!==true">
                         <label>简介({{lang.name}})</label>
-                        <textarea ng-model="goodsAdd.intro[lang.code]" required class="form-control"></textarea>
+                        <textarea ng-model="goodsAdd.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
                     </div>
                 </ng-repeat>
             </div>

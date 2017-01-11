@@ -18,19 +18,19 @@
                 <!--管理员手机号-->
                 <div class="form-group">
                     <label>管理员手机号</label>
-                    <input type="text" class="form-control" ng-model="hotelEdit.hotel.AdminPhoneNum" required>
+                    <input type="text" class="form-control" ng-model="hotelEdit.hotel.AdminPhoneNum" required placeholder="（必填）">
                 </div>
                 <!--管理员手机号-->
                 <!--城市-->
                 <div class="form-group">
                     <label>所在城市</label>
-                    <input type="text" class="form-control" ng-model="hotelEdit.hotel.CityName" required>
+                    <input type="text" class="form-control" ng-model="hotelEdit.hotel.CityName" required placeholder="（必填）">
                 </div>
                 <!--酒店名-->
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <div class="form-group" ng-if="lang.default">
                         <label>酒店名 {{lang.name}}</label>
-                        <input type="text" class="form-control" ng-model="hotelEdit.hotel.Name[lang.code]" required />
+                        <input type="text" class="form-control" ng-model="hotelEdit.hotel.Name[lang.code]" required placeholder="（必填）" />
                     </div>
                     <div class="form-group" ng-if="lang.default !== true">
                         <label>酒店名 {{lang.name}}</label>
@@ -77,7 +77,7 @@
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <div class="form-group" ng-if="lang.default">
                         <label>酒店地址 {{lang.name}}</label>
-                        <input type="text" class="form-control" ng-model="hotelEdit.hotel.Address[lang.code]" required />
+                        <input type="text" class="form-control" ng-model="hotelEdit.hotel.Address[lang.code]" required placeholder="（必填）" />
                     </div>
                     <div class="form-group" ng-if="lang.default !== true">
                         <label>酒店地址 {{lang.name}}</label>
@@ -91,10 +91,10 @@
                     <a href="http://lbs.qq.com/tool/getpoint/index.html" target="view_frame">获取门店坐标</a>
                     <div class="row">
                         <div class="col-xs-6">
-                            <input type="text" class="form-control" ng-model="hotelEdit.hotel.LocationX" placeholder="X坐标" required />
+                            <input type="text" class="form-control" ng-model="hotelEdit.hotel.LocationX" placeholder="X坐标" required placeholder="（必填）" />
                         </div>
                         <div class="col-xs-6">
-                            <input type="text" class="form-control" ng-model="hotelEdit.hotel.LocationY" placeholder="Y坐标" required />
+                            <input type="text" class="form-control" ng-model="hotelEdit.hotel.LocationY" placeholder="Y坐标" required placeholder="（必填）" />
                         </div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                 <ng-repeat ng-repeat="lang in hotelEdit.editLangs">
                     <div class="form-group" ng-if="lang.default">
                         <label>酒店介绍 {{lang.name}}</label>
-                        <textarea ng-model="hotelEdit.hotel.Description[lang.code]" required class="form-control"></textarea>
+                        <textarea ng-model="hotelEdit.hotel.Description[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
                     </div>
                     <div class="form-group" ng-if="lang.default !== true">
                         <label>酒店介绍 {{lang.name}}</label>
