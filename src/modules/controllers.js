@@ -596,7 +596,10 @@
                 }
 
                 self.saveForm = function() {
-                    self.saving = true;
+                    if(!self.form.HotelID) {
+                        alert('请选择门店');
+                        return;
+                    }
                     var shopList = {
                         "HotelID": self.form.HotelID - 0,
                         "ShopName": self.form.shopName,
@@ -609,6 +612,8 @@
                         "shopList": [shopList]
                     };
                     data = JSON.stringify(data);
+                    self.saving = true;
+                    
                     $http({
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
