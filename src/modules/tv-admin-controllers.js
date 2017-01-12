@@ -2488,16 +2488,16 @@
             self.save = function() {
 
                 //菜单图片必填验证
-                if(self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100) {
-                    alert('请上传菜单图片');
-                    return;
-                }
+                // if(self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100) {
+                //     alert('请上传菜单图片');
+                //     return;
+                // }
 
                 //菜单高亮图片必填验证
-                if(self.imgs2.data.length == 0 || self.imgs2.data[0].progress < 100) {
-                    alert('请上传菜单高亮图片');
-                    return;
-                }
+                // if(self.imgs2.data.length == 0 || self.imgs2.data[0].progress < 100) {
+                //     alert('请上传菜单高亮图片');
+                //     return;
+                // }
 
                 var action = self.menuLv == 1 ? 'addMainMenuFirstMenu' : 'addMainMenuSecondMenu';
                 var firstMenuID = self.menuLv == 1 ? '' : self.parentMenu.id;
@@ -2511,10 +2511,10 @@
                       "firstMenuID" : firstMenuID,
                       "viewType": self.module,
                       "Name":self.menuName,
-                      "IconURL":self.imgs1.data[0].src,
-                      "IconSize":self.imgs1.data[0].fileSize,
-                      "IconFocusURL":self.imgs2.data[0].src,
-                      "IconFocusSize":self.imgs2.data[0].fileSize,
+                      "IconURL":self.imgs1.data[0] ? self.imgs1.data[0].src : '',
+                      "IconSize":self.imgs1.data[0] ? self.imgs1.data[0].fileSize : 0,
+                      "IconFocusURL":self.imgs2.data[0] ? self.imgs2.data[0].src : '',
+                      "IconFocusSize":self.imgs2.data[0] ? self.imgs2.data[0].fileSize : 0,
                       "Seq":self.seq  //在一级菜单中的排序号，从1开始
                     },
                     "lang": util.langStyle()
