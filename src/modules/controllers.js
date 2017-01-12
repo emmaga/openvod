@@ -1604,8 +1604,8 @@
             }
         ])
 
-        .controller('hotelRoomController', ['$scope', '$http', '$state', 'util',
-            function ($scope, $http, $state, util) {
+        .controller('hotelRoomController', ['$scope', '$http', '$stateParams', '$state', 'util',
+            function ($scope, $http, $stateParams, $state, util) {
                 var self = this;
                 var lang;
                 self.init = function () {
@@ -1631,7 +1631,13 @@
                               self.noData = true;
                             }
                             else {
-                              $state.go('app.hotelRoom.room', {hotelId: self.hotels[0].ID})  
+                              if($stateParams.hotelId) {
+                                $state.go('app.hotelRoom.room', {hotelId: $stateParams.hotelId}) 
+                              }  
+                              else {
+                                $state.go('app.hotelRoom.room', {hotelId: self.hotels[0].ID}) 
+                              }
+                               
                             }
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
