@@ -492,8 +492,16 @@
                                 return;
                             }
                             self.shopList = data.data.data.shopList;
-                            // 默认加载 第一个 商城
+                            // 默认加载 指定 商城 or 第一个 商城
                             self.shopFirst = self.shopList[0];
+                            if($stateParams.ShopID) {
+                                for(var i = 0; i < self.shopList.length; i++) {
+                                    if ($stateParams.ShopID == self.shopList[i].ShopID) {
+                                        self.shopFirst = self.shopList[i];
+                                        break;
+                                    }
+                                }
+                            }
                             self.goTo(self.shopFirst.ShopID, self.shopFirst.HotelID, self.shopFirst.ShopName, self.shopFirst.HotelName, self.shopFirst.ShopType);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
@@ -696,7 +704,17 @@
                                 self.noData = true;
                             }
                             self.categoryList = data.data.data.categoryList;
-                            self.goTo('all', '全部商城');
+                            
+                            self.gotoShopCate = {'id': 'all', name: {'en-US': 'All', 'zh-CN': '全部商城'}};
+                            if($stateParams.ShopGoodsCategoryID) {
+                                for(var i = 0; i < self.categoryList.length; i++) {
+                                    if ($stateParams.ShopGoodsCategoryID == self.categoryList[i].id) {
+                                        self.gotoShopCate = self.categoryList[i];
+                                        break;
+                                    }
+                                }
+                            }
+                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name[util.getDefaultLangCode()]);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
