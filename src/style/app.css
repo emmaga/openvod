@@ -427,6 +427,9 @@ textarea{
     min-height: 5em
 }
 
+textarea.form-control{
+    height: 94px;
+}
 
 .form-control{
     background-color:transparent; 
