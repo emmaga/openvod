@@ -197,8 +197,7 @@
         // 终端管理
         .controller('terminalController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
             function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
-                console.log('terminalController')
-                console.log($scope.app.maskParams);
+                console.log('terminalController');
                 var self = this;
                 self.init = function() {
                         self.form = {};
@@ -335,8 +334,6 @@
         .controller('addDevController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
             function($scope, $state, $http, $stateParams, $translate, $filter, util) {
                 console.log('addDevController');
-                console.log($scope.app.maskParams);
-                console.log($stateParams)
                 var self = this;
                 self.init = function() {
                     self.langStyle = util.langStyle();
@@ -396,8 +393,7 @@
         // 微信用户管理
         .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
             function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
-                console.log('wxUserController')
-                console.log($scope.app.maskParams);
+                console.log('wxUserController');
                 var self = this;
                 self.init = function() {
                     self.langStyle = util.langStyle();
@@ -458,8 +454,7 @@
 
         .controller('shopController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util',
             function($scope,$state,$translate,$http,$stateParams,$filter,util) {
-                console.log('shopController')
-                console.log($scope.app.maskParams);
+                console.log('shopController');
                 var self = this;
                 self.init = function() {
                     self.langStyle = util.langStyle();
@@ -547,13 +542,11 @@
         .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
             function($scope,$state,$http,$stateParams,$translate,$filter,util) {
                 console.log('shopAddController');
-                console.log($scope.app.maskParams);
                 var self = this;
                 self.init = function() {
                      self.langStyle = util.langStyle();
                      self.multiLang = util.getParams('editLangs');
                      self.saving = false;
-                     console.log(self.langStyle)
                      self.searchHotelList();
                      // 表单提交 商城信息
                      self.form = {};
@@ -565,7 +558,6 @@
                 }
 
                 self.cancel = function(){
-                    console.log('cancel')
                     $scope.app.showHideMask(false);
                 }
 
@@ -714,7 +706,7 @@
                                     }
                                 }
                             }
-                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name[util.getDefaultLangCode()]);
+                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -1149,7 +1141,6 @@
                 var self = this;
                 self.init = function () {
                     self.maskParams = $scope.app.maskParams;
-                    console.log(self.maskParams);
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.noData = false;
@@ -1330,7 +1321,7 @@
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('分类添加成功');
-                            $state.reload('app.shop.goods');
+                            $state.reload();
                             self.cancel();
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
@@ -1541,7 +1532,6 @@
 
                 // 更改商品分类
                 self.changeGoodsCategory = function (productId, categoryId, value, categoryList) {
-                    console.log(' productId:' + productId + ' categoryId:' + categoryId + ' value:' + value + ' categoryList:' + categoryList)
                     // 商品 的分类，保存在此对象
                     self.categoryObj = {};
                     self.categoryObj[productId] = [];
