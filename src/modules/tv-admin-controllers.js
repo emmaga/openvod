@@ -207,7 +207,7 @@
                 var name = JSON.stringify(my_tree.get_selected_branch().data.name);
                 self.menu.name = JSON.parse(name);
                 // 以上
-                self.imgs3 = new Imgs([{"ImageURL": my_tree.get_selected_branch().data.img, "ImageSize": my_tree.get_selected_branch().data.focusImg}], true);
+                self.imgs3 = new Imgs([{"ImageURL": my_tree.get_selected_branch().data.img, "ImageSize": my_tree.get_selected_branch().data.imgSize}], true);
                 self.imgs3.initImgs();
                 self.imgs4 = new Imgs([{"ImageURL": my_tree.get_selected_branch().data.focusImg, "ImageSize": my_tree.get_selected_branch().data.focusImgSize}], true);
                 self.imgs4.initImgs();
