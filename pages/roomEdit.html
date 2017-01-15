@@ -18,7 +18,7 @@
                 <ng-repeat ng-repeat="lang in roomEdit.editLangs">
                     <div class="form-group" ng-if="lang.default">
                         <label for="roomNameCN">客房名 {{lang.name}}</label>
-                        <input type="text" class="form-control" id="roomNameCN" placeholder="请输入客房名" ng-model="roomEdit.room.RoomTypeName[lang.code]" required placeholder="（必填）"/>
+                        <input type="text" class="form-control" id="roomNameCN" placeholder="请输入客房名" ng-model="roomEdit.room.RoomTypeName[lang.code]" required placeholder="（必填）" />
                     </div>
                     <div class="form-group" ng-if="lang.default !== true">
                         <label for="roomNameEN">客房名 {{lang.name}}</label>
@@ -29,6 +29,7 @@
                 <!--客房图-->
                 <div class="form-group">
                     <label>客房图片</label>
+                    <small>建议使用宽高16:9、大小200kb以内的图片</small>
                     <div class="row">
                         <div class="col-xs-12">
                             <!-- 图 -->
