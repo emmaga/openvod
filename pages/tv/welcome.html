@@ -63,22 +63,22 @@
                     <input ng-model="tvWelcome.hotelManagerName[lang.code]" class="form-control" />
                 </div>
             </ng-repeat>
-            <!--酒店经理-->
-            <!--酒店经理签名图-->
+            <!--酒店经理
+            <!--酒店经理签名图
             <div class="form-group">
                 <label>酒店经理签名图</label>
-                <!--酒店经理签名图修改-->
+                <!--酒店经理签名图修改
                 <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2" />
                 <a ng-click="tvWelcome.clickUpload('upload2')">上传</a>
                 <br>
                 <a id="hidenUpload2" style="display: none;" ng-click="tvWelcome.imgs2.uploadFile(myFile, tvWelcome.imgs2)"></a>
-                <!--酒店经理签名图修改-->
+                <!--酒店经理签名图修改
                 <div class="row">
                     <div class="col-xs-12">
-                        <!-- 图 -->
+                        <!-- 图 
                         <div ng-repeat="img in tvWelcome.imgs2.data" class="form-thumbnail" style="background-image: url({{img.src}})">
-                            <!-- 进度条 -->
-                            <!-- -1代表失败 -->
+                            <!-- 进度条 
+                            <!-- -1代表失败 
                             <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
                                 <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;"></div>
                             </div>

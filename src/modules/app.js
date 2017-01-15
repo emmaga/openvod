@@ -168,9 +168,9 @@
                                                         "styleImg": secondMenu[j].ViewTemplateImage,
                                                         "name": secondMenu[j].Name,
                                                         "img": secondMenu[j].IconURL,
-                                                        "imgSize": preData[i].IconSize,
+                                                        "imgSize": secondMenu[j].IconSize,
                                                         "focusImg":secondMenu[j].IconFocusURL,
-                                                        "focusImgSize": preData[i].IconFocusSize,
+                                                        "focusImgSize": secondMenu[j].IconFocusSize,
                                                         "seq": secondMenu[j].Seq
                                                     }
                                                 })

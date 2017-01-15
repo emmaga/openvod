@@ -439,13 +439,13 @@
                         self.hotelManagerName = data.data.HotelManagerName;
 
                         // 酒店经理签名图
-                        if(data.data.HotelManageSignURL){
+                        /*if(data.data.HotelManageSignURL){
                             self.imgs2 = new Imgs([{"ImageURL": data.data.HotelManageSignURL, "ImageSize": data.data.HotelManageSignSize}], true);
                             self.imgs2.initImgs();
                         }
                         else {
                             self.imgs2 = new Imgs([], true);
-                        }
+                        }*/
                         
 
                         // 背景视频
@@ -480,10 +480,10 @@
                 }
 
                 // 酒店经理签名图
-                if(self.imgs2.data.length == 0) {
+                /*if(self.imgs2.data.length == 0) {
                     alert('请上传酒店经理签名图');
                     return;
-                }
+                }*/
 
                 // 背景视频
                 // 视频未上传
@@ -514,8 +514,10 @@
                       "WelcomeText": self.welcomeText,
                       "GuestName":self.guestName,
                       "HotelManagerName":self.hotelManagerName,
-                      "HotelManageSignURL":self.imgs2.data[0].src,
-                      "HotelManageSignSize":self.imgs2.data[0].fileSize,
+                      /*"HotelManageSignURL":self.imgs2.data[0].src,
+                      "HotelManageSignSize":self.imgs2.data[0].fileSize,*/
+                      "HotelManageSignURL":"",
+                      "HotelManageSignSize":0,
                       "BackgroundVideoURL":self.imgs3.data[0].src,
                       "BackgroundVideoSize":self.imgs3.data[0].fileSize
                     },
