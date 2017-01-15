@@ -18,7 +18,7 @@
                 <!--管理员手机号-->
                 <div class="form-group">
                     <label>管理员手机号</label>
-                    <input type="text" class="form-control" ng-model="hotelEdit.hotel.AdminPhoneNum" required placeholder="（必填）">
+                    <input type="text" pattern="[0-9]{11,}" oninvalid="this.setCustomValidity('至少输入11位数字')" onchange="try{setCustomValidity('')}catch(e){}" class="form-control" ng-model="hotelAdd.hotel.AdminPhoneNum" required placeholder="（必填，至少输入11位数字）">
                 </div>
                 <!--管理员手机号-->
                 <!--城市-->
