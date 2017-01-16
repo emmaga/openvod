@@ -1,4 +1,4 @@
-<div ng-controller="appController as app" ng-init="app.init()" class="app phase{{app.appPhase}}">
+<div ng-controller="appController as app" ng-init="app.init(); app.avatarPhase = 'phase1' " class="app phase{{app.appPhase}}">
     <!-- desktop -->
     <div class="desktop ">
         <!-- loading... -->
@@ -7,8 +7,15 @@
         <div class="project-title">
             <div class="project-logo" style="background-image: url(dist/imgs/icon-05.png)"></div>
         </div>
-        <div ng-click="app.logout()" class="avatar" ng-class="{'blur':(app.showMaskClass)}" style="transition-duration: .33s">
-            <i class="icon ion-ios-arrow-right"></i>
+        
+        <!-- 头像/菜单 -->
+        <div  class="avatar {{app.avatarPhase}}" ng-class="{'blur':(app.showMaskClass)}" ng-click="app.avatarPhase = app.avatarPhase == 'phase1' ? 'phase2' : 'phase1'">
+            <i class="icon ion-ios-more"></i>
+            <ul class="list-group">
+                <li class="list-group-item">使用反馈</li>
+                <li class="list-group-item" ng-click="app.logout()">退出</li>
+            </ul>
+
         </div>
         <!-- grid -->
         <div class="app-grid-wrapper">
