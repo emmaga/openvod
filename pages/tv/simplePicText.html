@@ -13,7 +13,7 @@
                 <th>图片</th>
                 <th>标题</th>
                 <th>详情</th>
-                <th>操作</th>
+                <th>操作</th> 
             </tr>
         </thead>
         <tbody>
@@ -23,7 +23,7 @@
                     <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicURL}})"></div>
                 </td>
                 <td>{{pic.Title[tvSimplePicText.defaultLangCode]}}</td>
-                <td>{{pic.Text[tvSimplePicText.defaultLangCode]}}</td>
+                <td style="max-width: 491px">{{pic.Text[tvSimplePicText.defaultLangCode]}}</td>
                 <td>
                     <!--编辑按钮-->
                     <a class="" ng-click="tvSimplePicText.edit($index)">编辑</a>
