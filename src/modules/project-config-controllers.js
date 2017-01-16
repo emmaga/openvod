@@ -145,8 +145,8 @@
                     data: {
                         "Name": self.hotel.Name,
                         "CityName": self.hotel.CityName,
-                        "LocationX": self.hotel.LocationX ? self.hotel.LocationX : '',
-                        "LocationY": self.hotel.LocationY ? self.hotel.LocationY : '',
+                        "LocationX": self.hotel.LocationX ? self.hotel.LocationX : 0,
+                        "LocationY": self.hotel.LocationY ? self.hotel.LocationY : 0,
                         "LogoURL": self.imgs2.data.length > 0 ? self.imgs2.data[0].src : "",
                         "Features": tags,
                         "TelePhone": null,
