@@ -98,6 +98,10 @@
                     // console.log(util.getParams('editLangs'))
                 }
 
+                self.feedback = function() {
+                    $scope.app.showHideMask(true,'pages/feedback.html');
+                }
+
                 self.setFocusApp = function (id) {
                     var l = $scope.appList;
                     for (var i = 0; i < l.length; i++) {
@@ -194,6 +198,16 @@
             }
         ])
         
+        .controller('feedbackController', ['$scope', function($scope) {
+            var self = this;
+            self.init = function() {
+
+            }
+            self.exit = function() {
+                $scope.app.showHideMask(false);
+            }
+        }])
+
         // 终端管理
         .controller('terminalController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
             function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {

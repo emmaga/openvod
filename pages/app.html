@@ -12,7 +12,7 @@
         <div  class="avatar {{app.avatarPhase}}" ng-class="{'blur':(app.showMaskClass)}" ng-click="app.avatarPhase = app.avatarPhase == 'phase1' ? 'phase2' : 'phase1'">
             <i class="icon ion-ios-more"></i>
             <ul class="list-group">
-                <li class="list-group-item">使用反馈</li>
+                <li ng-click="app.feedback()" class="list-group-item">使用反馈</li>
                 <li class="list-group-item" ng-click="app.logout()">退出</li>
             </ul>
 
