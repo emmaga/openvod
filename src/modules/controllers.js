@@ -291,6 +291,7 @@
                 self.getDevNum = function(ID, index) {
                     self.form.HotelName = self.hotelList[index].Name[self.defaultLangCode];
                     self.form.HotelID = ID;
+                    self.hotelListIndex = index;
                     self.getDevList()
                     var data = {
                         "action": "getDevNum",
@@ -302,7 +303,7 @@
                     data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
-                        url: util.getApiUrl('devinfo', 'shopList', 'server'),
+                        url: util.getApiUrl('devinfo', '', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == '200') {
@@ -323,6 +324,37 @@
 
                 }
 
+                self.delTerm = function(id) {
+                    var conf = confirm('确认删除？');
+                    if(!conf) {
+                        return;
+                    }
+                    var data = {
+                        "action": "delDev",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "ID": id
+                    }
+
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('devinfo', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == '200') {
+                            self.getDevList();
+                            self.getDevNum(self.form.HotelID, self.hotelListIndex);
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert(data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错');
+                    })
+                }
 
                 self.addDev = function() {
                     $scope.app.maskParams = { 'HotelID': self.form.HotelID };
