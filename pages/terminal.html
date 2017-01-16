@@ -21,7 +21,7 @@
                 <select ng-model="terminal.form.Online" class="form-control">
                     <option value="">全部</option>
                     <option value="1">在线</option>
-                    <option value="0">不在线</option>
+                    <option value="0">离线</option>
                 </select>
             </div>
             <!-- RoomID -->
@@ -39,8 +39,8 @@
         <!-- 终端列表 -->
         <table ng-table="terminal.tableParams" ng-show="!terminal.loading" class="table table-hover">
             <tr ng-repeat="row in $data">
-                <td title="'状态'">
-                    {{row.Online == 0 ? "不在线" : "在线"}}
+                <td title="'状态'" style="color:{{row.Online == 0 ? '' : 'rgb(0,185,120)'}}">
+                    {{row.Online == 0 ? "离线" : "在线"}}
                 </td>
                 <td title="'房间号'">
                     {{row.RoomID}}
