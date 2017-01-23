@@ -370,6 +370,44 @@
                     })
                 }
 
+                // 授权操作
+                // todo 未做批量操作
+                self.validDev = function(ID,Registered){
+                    // return;
+                    var data = {
+                        "action": "validDev",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "ID":[ID]
+                    };
+                    if(Registered) {
+                        data.status =0;
+                    } else {
+                        data.status =1;
+                    }
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('devinfo', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('操作成功');
+                            $state.reload($state.current.name,$stateParams,true)
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('列表获取失败， ' + data.data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('获取失败， ' + data.data.errInfo);
+                    }).finally(function(value) {
+                        self.loading = false;
+                    });
+                }
+
                 self.addDev = function() {
                     $scope.app.maskParams = { 'HotelID': self.form.HotelID };
                     $scope.app.showHideMask(true, 'pages/addDev.html');

@@ -38,7 +38,7 @@
         </a>
         <!-- 终端列表 -->
         <table ng-table="terminal.tableParams" ng-show="!terminal.loading" class="table table-hover">
-            <tr ng-repeat="row in $data">
+            <tr ng-repeat="row in $data track by $index">
                 <td title="'状态'" style="color:{{row.Online == 0 ? '' : 'rgb(0,185,120)'}}">
                     {{row.Online == 0 ? "离线" : "在线"}}
                 </td>
@@ -59,6 +59,10 @@
                 </td>
                 <td title="'操作'">
                     <a ng-click="terminal.delTerm(row.ID)">删除</a>
+                </td>
+                <td title="'授权'">
+                    <input type="checkbox" ng-checked="row.Registered==1"  ng-click="terminal.validDev(row.ID,row.Registered)">
+                    {{row.Registered}}
                 </td>
             </tr>
         </table>
