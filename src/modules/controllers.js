@@ -398,13 +398,12 @@
                             alert('访问超时，请重新登录');
                             $state.go('login')
                         } else {
-                            alert('列表获取失败， ' + data.data.errInfo);
+                            alert('操作失败， ' + data.data.errInfo);
                         }
 
                     }, function errorCallback(data, status, headers, config) {
-                        alert('获取失败， ' + data.data.errInfo);
+                        alert('操作失败， ' + data.data.errInfo);
                     }).finally(function(value) {
-                        self.loading = false;
                     });
                 }
 
