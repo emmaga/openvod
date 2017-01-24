@@ -302,6 +302,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.multPic', {
+                    url: '/multPic?moduleId&label',
+                    templateUrl: 'pages/tv/multPic.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.3rdApp', {
                     url: '/3rdApp?moduleId&label',
                     templateUrl: 'pages/tv/3rdApp.html',
