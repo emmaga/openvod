@@ -99,7 +99,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div ng-repeat="img in tvWelcome.imgs3.data" class="form-thumbnail form-thumbnail-screen-lg" style="background-image: url({{img.src}})">
-                            <video src="{{img.src}}" controls=""></video>
+                            <video src="{{img.src}}" controls="" preload="none" ></video>
                             <!-- 进度条 -->
                             <!-- -1代表失败 -->
                             <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
