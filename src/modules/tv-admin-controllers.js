@@ -1674,11 +1674,11 @@
     .controller('tvMultPicController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
             var self = this;
-
             self.init = function() {
                 self.viewId = $stateParams.moduleId;
                 console.log(self.viewId);
                 self.defaultLangCode = util.getDefaultLangCode();
+                console.log(self.defaultLangCode);
                 self.loadList();
             }
 
@@ -1743,6 +1743,12 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         self.pics = data.data.pic;
+                        // var DFL = util.getDefaultLangCode();
+                        // self.defaultLangPic = [];
+                        // for(var i=0;i<self.pics.length;i++){
+                        //     self.defaultLangPic[i] = self.pics[i].SourceData[DFL]
+                        // }
+                        console.log(self.pics);
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -1779,12 +1785,13 @@
             }
 
             self.setInfo = function () {
-
+                console.log(self.picInfo);
                 self.Seq = self.picInfo.Seq;
-                self.imgs1 = new Imgs([{"ImageURL": self.picInfo.PicChsURL, "ImageSize": self.picInfo.PicChsSize}], true);
-                self.imgs1.initImgs();
-                self.imgs2 = new Imgs([{"ImageURL": self.picInfo.PicEngURL, "ImageSize": self.picInfo.PicEngSize}], true);
-                self.imgs2.initImgs();
+                self.images = self.picInfo.SourceData;
+                for(var i =0;i<self.images.length;i++){
+                    self[imgs+i] = new Imgs([{"ImageURL": self.images[i].PicURL, "ImageSize": self.images[i].PicSize}], true);
+                    self[imgs+i].initImgs();
+                }
             }
 
             self.save = function() {
@@ -1977,10 +1984,16 @@
                 self.defaultLangCode = util.getDefaultLangCode();
 
                 // 初始化频道图片
-                self.imgs1 = new Imgs([], true);
-                self.imgs2 = new Imgs([], true);
-                console.log(self.editLangs);
-
+                self.images = new Array(self.editLangs.length);
+                for(var i=0;i<self.editLangs.length;i++){
+                    self.images[i] = new Imgs([],true);
+                    // var name = "images" + i;
+                    // self[name] = new Imgs([],true);
+                }
+                console.log(self.images);
+                // self.imgs1 = new Imgs([], true);
+                // console.log(self.imgs1);
+                // self.imgs2 = new Imgs([], true);
             }
 
 

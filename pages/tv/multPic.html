@@ -10,8 +10,7 @@
         <thead>
         <tr>
             <th>序号</th>
-            <th>中文图片</th>
-            <th>英文图片</th>
+            <th>图片</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -19,10 +18,7 @@
         <tr ng-repeat="pic in tvMultPic.pics track by $index">
             <td>{{pic.Seq}}</td>
             <td>
-                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicChsURL}})"></div>
-            </td>
-            <td>
-                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicEngURL}})"></div>
+                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.SourceData[tvMultPic.defaultLangCode].PicURL}})"></div>
             </td>
             <td>
                 <!--编辑按钮-->
