@@ -1977,17 +1977,9 @@
                 self.defaultLangCode = util.getDefaultLangCode();
 
                 // 初始化频道图片
-                console.log(self.editLangs.length);
-                self.images = new Array(self.editLangs.length);
-                for(var i=0;i<self.editLangs.length;i++){
-                    self.images[i] = i;
-                    var name = "images" + i;
-                    self[name] = new Imgs([],true);
-                }
-                console.log(self.images0);
-                self.imgs5 = new Imgs([], true);
-                console.log(self.imgs5);
-                // self.imgs2 = new Imgs([], true);
+                self.imgs1 = new Imgs([], true);
+                self.imgs2 = new Imgs([], true);
+                console.log(self.editLangs);
 
             }
 
