@@ -1964,10 +1964,10 @@
         }
     ])
 
-    // 添加“Live“模块内的直播
     .controller('tvMultPicAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
+            self.uplImgs = [];
 
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
@@ -1975,11 +1975,11 @@
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
                 self.defaultLangCode = util.getDefaultLangCode();
-
+                
                 // 初始化频道图片
-                self.imgs1 = new Imgs([], true);
-                self.imgs2 = new Imgs([], true);
-                console.log(self.editLangs);
+                for(var i=0; i<self.editLangs.length; i++) {
+                    self.uplImgs[i] = new Imgs([], true);
+                }
 
             }
 
@@ -2115,7 +2115,6 @@
                             this.deleteById(this.data[i].id);
                         }
                     }
-
 
                     var file = $scope[e];
                     var uploadUrl = CONFIG.uploadUrl;
