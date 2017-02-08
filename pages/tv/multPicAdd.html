@@ -19,38 +19,15 @@
                     type="number" ng-model="tvMultPicAdd.Seq" min="1" required placeholder="（必填）"/>
                     <!--/序号-->
                 </div>
-                <div class="form-group">
-                    <!--图片-->
-                    <label>中文图片</label>
-                    <!--图片上传按钮-->
-                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-                    <a ng-click="tvMultPicAdd.clickUpload('upload1')">上传</a>
-                    <a id="hidenUpload1" style="display: none;" ng-click="tvMultPicAdd.imgs1.uploadFile('myFile', tvMultPicAdd.imgs1)"></a>
-                    <!--/图片上传按钮-->
-                    <div class="row" ng-repeat="img in tvMultPicAdd.imgs1.data">
-                        <div class="col-xs-12">
-                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
-                                <!--进度条-->
-                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
-                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
-                                    <!-- -1代表失败 -->
-                                    <!-- 大小： {{img.fileSize}}
-                                    剩余： {{img.leftSize}} -->
-                                </div><!--/progress-->
-                            </div><!--/form-thumbnail-->
-                        </div> <!--/col-xs-12-->
-                    </div><!--/row-->
-                    <!--/图片-->
-                </div>
-                <div class="form-group">
+                <div class="form-group" ng-repeat="i in tvMultPicAdd.images">
                     <!--图片-->
                     <label>英文图片</label>
                     <!--图片上传按钮-->
-                    <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
-                    <a ng-click="tvMultPicAdd.clickUpload('upload2')">上传</a>
-                    <a id="hidenUpload2" style="display: none;" ng-click="tvMultPicAdd.imgs2.uploadFile('myFile', tvMultPicAdd.imgs2)"></a>
+                    <input id="upload{{$index}}" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload{{$index}}"/>
+                    <a ng-click="tvMultPicAdd.clickUpload('upload1')">上传</a>
+                    <a id="hidenUpload{{$index}}" style="display: none;" ng-click="tvMultPicAdd.images{{$index}}.uploadFile('myFile', tvMultPicAdd.images{{$index}})"></a>
                     <!--/图片上传按钮-->
-                    <div class="row" ng-repeat="img in tvMultPicAdd.imgs2.data">
+                    <div class="row" ng-repeat="img in tvMultPicAdd.images{{$index}}.data">
                         <div class="col-xs-12">
                             <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
                                 <!--进度条-->
