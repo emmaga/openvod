@@ -19,15 +19,15 @@
                     type="number" ng-model="tvMultPicAdd.Seq" min="1" required placeholder="（必填）"/>
                     <!--/序号-->
                 </div>
-                <div class="form-group" ng-repeat="item in tvMultPicAdd.images">
+                <div ng-repeat="lang in tvMultPicAdd.editLangs track by $index" class="form-group">
                     <!--图片-->
-                    <label>英文图片</label>
+                    <label>图片（{{lang.name}}）</label>
                     <!--图片上传按钮-->
-                    <input id="upload{{$index}}" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload{{$index}}"/>
-                    <a ng-click="tvMultPicAdd.clickUpload('upload1')">上传</a>
-                    <a id="hidenUpload{{$index}}" style="display: none;" ng-click="item.uploadFile('myFile', item)"></a>
+                    <input id="upload{{$index}}" style="display: none;" type="file" file-model="myFile{{$index}}" data-e="hidenUpload{{$index}}"/>
+                    <a ng-click="tvMultPicAdd.clickUpload('upload'+$index)">上传</a>
+                    <a id="hidenUpload{{$index}}" style="display: none;" ng-click="tvMultPicAdd.uplImgs[$index].uploadFile('myFile'+$index, tvMultPicAdd.uplImgs[$index])"></a>
                     <!--/图片上传按钮-->
-                    <div class="row" ng-repeat="img in item.data">
+                    <div class="row" ng-repeat="img in tvMultPicAdd.uplImgs[$index].data">
                         <div class="col-xs-12">
                             <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
                                 <!--进度条-->
@@ -42,6 +42,7 @@
                     </div><!--/row-->
                     <!--/图片-->
                 </div>
+                
 
             </form>
         </div>
