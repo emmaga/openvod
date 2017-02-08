@@ -1,0 +1,31 @@
+<div ng-controller="tvMusicCommonController as tvMusicCommon" ng-init="tvMusicCommon.init()" class="row">
+    <div class="col-xs-6">
+        <!-- 读取中 -->
+        <div ng-show="tvMusicCommon.loading">loading...</div>
+        <!-- 读取中 -->
+        <form class="form" name="tvApkEntryForm" ng-submit="tvApkEntryForm.$valid && tvMusicCommon.save()">
+
+            <!--ApkStartParam-->
+            <div class="form-group">
+                <label>MusicContentAPIParam</label>
+                <input type="text" class="form-control" ng-model="tvMusicCommon.info.MusicContentAPIParam" required placeholder="（必填）">
+            </div>
+            <!--ApkStartParam-->
+            <!--ApkVersion-->
+            <div class="form-group">
+                <label>MusicContentAPIURL</label>
+                <input type="text" class="form-control" ng-model="tvMusicCommon.info.MusicContentAPIURL" required placeholder="（必填）">
+            </div>
+            <!--ApkVersion-->
+            <!-- 保存 -->
+            <div class="form-group">
+                <label> </label>
+                <button type="submit" class="button button-small button-block theme-button-outline">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+        </form>
+        <!-- 保存中 -->
+        <div ng-show="tvMusicCommon.saving">saving...</div>
+    </div>
+</div>

@@ -198,6 +198,13 @@
                     self.changeMenuInfo();
                 }
 
+                // MusicCommon
+                if(branch.data.type == 'MusicCommon') {
+                    
+                    $state.go('app.tvAdmin.MusicCommon', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // MainMenu_THJ_SecondMenu
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu') {
                     
@@ -3652,10 +3659,10 @@
     ]) 
 
     .controller('tvApkEntryController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-        function ($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
             console.log('tvApkEntryController')
             var self = this;
-            self.init = function () {
+            self.init = function() {
                 self.info = {};
                 self.viewId = $stateParams.moduleId;
                 self.defaultLangCode = util.getDefaultLangCode();
@@ -3663,10 +3670,10 @@
                 self.getInfo().then(function() {
                     self.initImgs1();
                 })
-                
+
             }
 
-            self.getInfo = function () {
+            self.getInfo = function() {
                 var deferred = $q.defer();
                 self.loading = true;
                 var data = JSON.stringify({
@@ -3694,20 +3701,20 @@
                 }, function errorCallback(response) {
                     alert('服务器出错');
                     deferred.reject();
-                }).finally(function (e) {
+                }).finally(function(e) {
                     self.loading = false;
                 });
                 return deferred.promise;
             }
 
-            self.initImgs1 = function () {
+            self.initImgs1 = function() {
                 // 初始化apk url
-                self.imgs1 = new Imgs([{"ImageURL": self.info.ApkURL, "ImageSize": self.info.ApkSize}], true);
+                self.imgs1 = new Imgs([{ "ImageURL": self.info.ApkURL, "ImageSize": self.info.ApkSize }], true);
                 self.imgs1.initImgs();
             }
 
-            self.save = function () {
-                
+            self.save = function() {
+
                 //检查logo上传
                 if (self.imgs1.data.length == 0) {
                     alert('请上传酒店Apk');
@@ -3715,14 +3722,14 @@
                 }
 
                 self.info.ApkURL = self.imgs1.data[0].src;
-                self.info.ApkSize = self.imgs1.data[0].fileSize-0;
+                self.info.ApkSize = self.imgs1.data[0].fileSize - 0;
                 self.saving = true;
 
                 var data = JSON.stringify({
                     action: "updateApk",
                     token: util.getParams('token'),
                     lang: util.langStyle(),
-                    viewID: self.viewId-0,
+                    viewID: self.viewId - 0,
                     data: self.info
                 })
                 $http({
@@ -3739,13 +3746,13 @@
                     }
                 }, function errorCallback(response) {
                     alert('服务器出错');
-                }).finally(function (e) {
+                }).finally(function(e) {
                     self.saving = false;
                 });
             }
 
-            self.clickUpload = function (e) {
-                setTimeout(function () {
+            self.clickUpload = function(e) {
+                setTimeout(function() {
                     document.getElementById(e).click();
                 }, 0);
             }
@@ -3758,7 +3765,7 @@
             }
 
             Imgs.prototype = {
-                initImgs: function () {
+                initImgs: function() {
                     var l = this.initImgList;
                     for (var i = 0; i < l.length; i++) {
                         this.data[i] = {
@@ -3769,7 +3776,7 @@
                         };
                     }
                 },
-                deleteById: function (id) {
+                deleteById: function(id) {
                     var l = this.data;
                     for (var i = 0; i < l.length; i++) {
                         if (l[i].id == id) {
@@ -3783,7 +3790,7 @@
                     }
                 },
 
-                add: function (xhr, fileName, fileSize) {
+                add: function(xhr, fileName, fileSize) {
                     this.data.push({
                         "xhr": xhr,
                         "fileName": fileName,
@@ -3794,7 +3801,7 @@
                     return this.maxId++;
                 },
 
-                update: function (id, progress, leftSize, fileSize) {
+                update: function(id, progress, leftSize, fileSize) {
                     for (var i = 0; i < this.data.length; i++) {
                         var f = this.data[i];
                         if (f.id === id) {
@@ -3806,7 +3813,7 @@
                     }
                 },
 
-                setSrcSizeByXhr: function (xhr, src, size) {
+                setSrcSizeByXhr: function(xhr, src, size) {
                     for (var i = 0; i < this.data.length; i++) {
                         if (this.data[i].xhr == xhr) {
                             this.data[i].src = src;
@@ -3816,7 +3823,7 @@
                     }
                 },
 
-                uploadFile: function (e, o) {
+                uploadFile: function(e, o) {
 
                     // 如果这个对象只允许上传一张图片
                     if (this.single) {
@@ -3833,8 +3840,8 @@
                     // self.search();
 
                     util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                        function (evt) {
-                            $scope.$apply(function () {
+                        function(evt) {
+                            $scope.$apply(function() {
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
@@ -3842,10 +3849,10 @@
                                 }
                             });
                         },
-                        function (xhr) {
+                        function(xhr) {
                             var ret = JSON.parse(xhr.responseText);
                             console && console.log(ret);
-                            $scope.$apply(function () {
+                            $scope.$apply(function() {
                                 o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
                                 // 如果这个对象只允许上传一张图片
                                 if (o.single) {
@@ -3854,8 +3861,8 @@
                                 }
                             });
                         },
-                        function (xhr) {
-                            $scope.$apply(function () {
+                        function(xhr) {
+                            $scope.$apply(function() {
                                 o.update(fileId, -1, '', '');
                             });
                             console.log('failure');
@@ -3866,5 +3873,227 @@
             }
         }
     ])
+
+
+    // 音乐库
+    .controller('tvMusicCommonController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('tvMusicCommonController')
+            var self = this;
+            self.init = function() {
+                self.info = {};
+                self.viewId = $stateParams.moduleId;
+                self.defaultLangCode = util.getDefaultLangCode();
+                self.editLangs = util.getParams('editLangs');
+                self.getInfo().then(function() {
+                    self.initImgs1();
+                })
+
+            }
+
+            self.getInfo = function() {
+                var deferred = $q.defer();
+                self.loading = true;
+                var data = JSON.stringify({
+                    action: "getAPIInfo",
+                    token: util.getParams('token'),
+                    lang: util.langStyle(),
+                    viewID: Number(self.viewId)
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.info = data.data;
+                        deferred.resolve();
+                    } else if (data.rescode == '401') {
+                        alert('访问超时，请重新登录');
+                        $location.path("pages/login.html");
+                    } else {
+                        alert('读取信息失败，' + data.errInfo);
+                        deferred.reject();
+                    }
+                }, function errorCallback(response) {
+                    alert('服务器出错');
+                    deferred.reject();
+                }).finally(function(e) {
+                    self.loading = false;
+                });
+                return deferred.promise;
+            }
+
+            self.initImgs1 = function() {
+                // 初始化apk url
+                self.imgs1 = new Imgs([{ "ImageURL": self.info.ApkURL, "ImageSize": self.info.ApkSize }], true);
+                self.imgs1.initImgs();
+            }
+
+            self.save = function() {
+
+                //检查logo上传
+                if (self.imgs1.data.length == 0) {
+                    alert('请上传酒店Apk');
+                    return;
+                }
+
+                self.info.ApkURL = self.imgs1.data[0].src;
+                self.info.ApkSize = self.imgs1.data[0].fileSize - 0;
+                self.saving = true;
+
+                var data = JSON.stringify({
+                    action: "updateAPIInfo",
+                    token: util.getParams('token'),
+                    lang: util.langStyle(),
+                    viewID: self.viewId - 0,
+                    data: {
+                        "MusicContentAPIParam": self.info.MusicContentAPIParam,
+                        "MusicContentAPIURL": self.info.MusicContentAPIURL
+                    }
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('保存成功');
+                        $state.reload();
+                    } else {
+                        alert('保存失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('服务器出错');
+                }).finally(function(e) {
+                    self.saving = false;
+                });
+            }
+
+            self.clickUpload = function(e) {
+                setTimeout(function() {
+                    document.getElementById(e).click();
+                }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single ? true : false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function() {
+                    var l = this.initImgList;
+                    for (var i = 0; i < l.length; i++) {
+                        this.data[i] = {
+                            "src": l[i].ImageURL,
+                            "fileSize": l[i].ImageSize,
+                            "id": this.maxId++,
+                            "progress": 100
+                        };
+                    }
+                },
+                deleteById: function(id) {
+                    var l = this.data;
+                    for (var i = 0; i < l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if (l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add: function(xhr, fileName, fileSize) {
+                    this.data.push({
+                        "xhr": xhr,
+                        "fileName": fileName,
+                        "fileSize": fileSize,
+                        "progress": 0,
+                        "id": this.maxId
+                    });
+                    return this.maxId++;
+                },
+
+                update: function(id, progress, leftSize, fileSize) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        var f = this.data[i];
+                        if (f.id === id) {
+                            f.progress = progress;
+                            f.leftSize = leftSize;
+                            f.fileSize = fileSize;
+                            break;
+                        }
+                    }
+                },
+
+                setSrcSizeByXhr: function(xhr, src, size) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        if (this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function(e, o) {
+
+                    // 如果这个对象只允许上传一张图片
+                    if (this.single) {
+                        // 删除第二张以后的图片
+                        for (var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = $scope[e];
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function(evt) {
+                            $scope.$apply(function() {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console.log(percentComplete);
+                                }
+                            });
+                        },
+                        function(xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function() {
+                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                // 如果这个对象只允许上传一张图片
+                                if (o.single) {
+                                    // 删除第一站图片
+                                    o.deleteById(o.data[0].id);
+                                }
+                            });
+                        },
+                        function(xhr) {
+                            $scope.$apply(function() {
+                                o.update(fileId, -1, '', '');
+                            });
+                            console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
+            }
+        }
+    ])
+
 
 })();
