@@ -17,6 +17,18 @@
                 <!--/API URL-->
             </div>
             <div class="form-group">
+                <!--折扣率-->
+                <label>折扣率（％）</label>
+                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" type="number" min="0" max="100" ng-model="tvMovieCommon.FeeDiscount" required placeholder="（必填）"/>
+                <!--/折扣率-->
+            </div>
+            <div class="form-group">
+                <!--包天价-->
+                <label>包天价（元）</label>
+                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" type="number" min="0" ng-model="tvMovieCommon.PackageFee" required placeholder="（必填）"/>
+                <!--/包天价-->
+            </div>
+            <div class="form-group">
                 <label> </label>
                 <!--保存按钮-->
                 <button class="button button-small button-block theme-button-outline" type="submit" ng-disabled="tvMovieCommon.saving">

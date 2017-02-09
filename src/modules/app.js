@@ -329,6 +329,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.worldClock', {
+                    url: '/worldClock?moduleId&label',
+                    templateUrl: 'pages/tv/worldClock.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.shop', {
                     url: '/shop?moduleId&label',
                     templateUrl: 'pages/tv/shop.html',

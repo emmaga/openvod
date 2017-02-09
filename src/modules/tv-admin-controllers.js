@@ -171,6 +171,12 @@
                     self.changeMenuInfo();        
                 }
 
+                // worldClock
+                if(branch.data.type == 'WorldClock') {
+                    $state.go('app.tvAdmin.worldClock', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();        
+                }
+
                 // shop
                 if(branch.data.type == 'Shop') {
                     $state.go('app.tvAdmin.shop', {moduleId: branch.data.moduleId, label: branch.label});
@@ -2518,7 +2524,9 @@
                     "viewID": self.viewId-0,
                     "data": {
                       "MovieContentAPIParam": self.MovieContentAPIParam,
-                      "MovieContentAPIURL": self.MovieContentAPIURL
+                      "MovieContentAPIURL": self.MovieContentAPIURL,
+                      "PackageFee": self.PackageFee,
+                      "FeeDiscount": self.FeeDiscount
                     },
                     "lang": util.langStyle()
                 })
@@ -3867,6 +3875,16 @@
                         }
                     );
                 }
+            }
+        }
+    ])
+
+    .controller('tvWorldClockController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('tvWorldClockController')
+            var self = this;
+            self.init = function() {
+
             }
         }
     ])
