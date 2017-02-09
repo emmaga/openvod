@@ -367,7 +367,7 @@
                 })
                 // 音乐库
                 .state('app.tvAdmin.MusicCommon', {
-                    url: '/MusicCommon?moduleId&label',
+                    url: '/musicCommon?moduleId&label',
                     templateUrl: 'pages/tv/MusicCommon.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
