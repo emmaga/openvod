@@ -1,30 +1,35 @@
-<div ng-controller="tvPicTextClassListController as tvPicTextListClass" ng-init="tvPicTextListClass.init()">
+<div ng-controller="tvPicTextClassListController as tvPicTextClassList" ng-init="tvPicTextClassList.init()">
+    <!-- loading -->
+    <div ng-show="tvPicTextClassList.loading">loading...</div>
+    <!-- loading -->
+
     <!-- 分类标签 -->
     <ul class="nav nav-tabs">
-        <li class="cursor-pointer ShopGoodsCategoryID {{class.ID == tvPicTextListClass.currentClassID ? 'active' : ''}}" ng-repeat="class in tvPicTextListClass.classList">
-            <a ng-click="tvPicTextListClass.switch(class.ID)">{{class.name}}</a>
+        <li ng-repeat="cate in tvPicTextClassList.info track by $index" class="cursor-pointer {{$index == tvPicTextClassList.cateIndex ? 'active': ''}}">
+            <a ng-click="tvPicTextClassList.loadPics($index)">{{cate.Title[tvPicTextClassList.defaultLangCode]}}</a>
         </li>
+
         <li class="cursor-pointer">
-            <a ng-click="tvPicTextClass.add()">
+            <a ng-click="tvPicTextClassList.addCategory()">
                 <i class="icon ion-android-add-circle"></i> 分类添加
             </a>
         </li>
     </ul>
     <!-- 按钮: 编辑分类 -->
-    <a ng-click="tvPicTextListClass.edit()" class="button button-light">
+    <a ng-if="tvPicTextClassList.info.length > 0" ng-click="tvPicTextClassList.editCate()" class="button button-light">
         <i class="icon ion-ios-compose-outline"></i> 编辑分类
     </a>
     <!-- 按钮: 删除分类 -->
-    <a ng-click="tvPicTextListClass.delete()" class="button button-light">
+    <a ng-if="tvPicTextClassList.info.length > 0" ng-disabled="tvPicTextClassList.cateDeleting" ng-click="tvPicTextClassList.delCate()" class="button button-light">
         <i class="icon ion-ios-trash-outline"></i> 删除分类
     </a>
     <!--添加图片按钮-->
-    <a class="button button-light" ng-click="tvPicTextListClass.add()">
+    <a ng-if="tvPicTextClassList.info.length > 0" class="button button-light" ng-click="tvPicTextClassList.addPic()">
         <i class="icon ion-ios-plus-outline"></i>
         添加图片
     </a>
-    <!--添加直播频道按钮-->
-    <!--直播列表-->
+
+    <!--图文列表 开始-->
     <table class="table">
         <thead>
         <tr>
@@ -36,26 +41,24 @@
         </tr>
         </thead>
         <tbody>
-        <!--<tr ng-repeat="pic in tvPicTextListClass.pics track by $index">-->
-        <!--<td>{{pic.Seq}}</td>-->
-        <!--<td>-->
-        <!--<div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicURL}})"></div>-->
-        <!--</td>-->
-        <!--<td>{{pic.Title[tvPicTextListClass.defaultLangCode]}}</td>-->
-        <!--<td style="max-width: 491px">{{pic.Text[tvPicTextListClass.defaultLangCode]}}</td>-->
-        <!--<td>-->
-        <!--&lt;!&ndash;编辑按钮&ndash;&gt;-->
-        <!--<a class="" ng-click="tvPicTextListClass.edit($index)">编辑</a>-->
-        <!--&lt;!&ndash;编辑按钮&ndash;&gt;-->
-        <!--&lt;!&ndash;删除按钮&ndash;&gt;-->
-        <!--<a class="" ng-click="tvPicTextListClass.del(pic.ID, $index)">删除</a>-->
-        <!--&lt;!&ndash;删除按钮&ndash;&gt;-->
-        <!--</td>-->
-        <!--</tr>-->
+        <tr ng-repeat="pic in tvPicTextClassList.info[tvPicTextClassList.cateIndex].sub track by $index">
+            <td>{{pic.Seq}}</td>
+            <td>
+                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicURL}})"></div>
+            </td>
+            <td>{{pic.Title[tvPicTextClassList.defaultLangCode]}}</td>
+            <td>{{pic.Text[tvPicTextClassList.defaultLangCode]}}</td>
+            <td>
+                <!--编辑按钮-->
+                <a class="" ng-click="tvPicTextClassList.editPic($index)">编辑</a>
+                <!--编辑按钮-->
+                <!--删除按钮-->
+                <a class="" ng-click="tvPicTextClassList.delPic($index)">删除</a>
+                <!--删除按钮-->
+            </td>
+        </tr>
         </tbody>
     </table>
-
-
-
-    <!--直播列表-->
+    <div ng-if="tvPicTextClassList.info[tvPicTextClassList.cateIndex].sub.length == 0">空</div>
+    <!--图文列表 结束-->
 </div>
