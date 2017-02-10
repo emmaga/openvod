@@ -2099,7 +2099,7 @@
             self.edit = function(index) {
                 $scope.app.maskParams.viewId = self.viewId;
                 $scope.app.maskParams.picInfo = self.pics[index];
-                $scope.app.showHideMask(true,'pages/tv/simplePicTextEdit.html');
+                $scope.app.showHideMask(true,'pages/tv/SimpleSmallPicTextEdit.html');
             }
 
             self.del = function(id, index) {
@@ -2138,7 +2138,7 @@
 
             self.add = function() {
                 $scope.app.maskParams.viewId = self.viewId;
-                $scope.app.showHideMask(true,'pages/tv/simplePicTextAdd.html');
+                $scope.app.showHideMask(true,'pages/tv/SimpleSmallPicTextAdd.html');
             }
 
             self.loadList = function() {
