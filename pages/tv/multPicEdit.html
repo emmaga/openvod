@@ -19,38 +19,15 @@
                 </div>
                 <!--序号-->
                 <!--图片-->
-                <div class="form-group">
-                    <label>中文图片</label>
+                <div class="form-group" ng-repeat="pic in tvMultPicEdit.images">
+                    <label>图片（{{tvMultPicEdit.langNameArr[$index]}}）</label>
                     <!--图片上传按钮-->
-                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
-                    <a ng-click="tvMultPicEdit.clickUpload('upload1')">更改图片</a>
-                    <a id="hidenUpload1" style="display: none;" ng-click="tvMultPicEdit.imgs1.uploadFile('myFile', tvMultPicEdit.imgs1)"></a>
-                    <!--图片上传按钮-->
-                    <!--频道名-->
-                    <div class="row" ng-repeat="img in tvMultPicEdit.imgs1.data">
-                        <div class="col-xs-12">
-                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
-                                <!--进度条-->
-                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
-                                    <!-- -1代表失败 -->
-                                    <!-- 大小： {{img.fileSize}}
-                                    剩余： {{img.leftSize}} -->
-                                </div>
-                                <!--/progress-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>英文图片</label>
-                    <!--图片上传按钮-->
-                    <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2" />
-                    <a ng-click="tvMultPicEdit.clickUpload('upload2')">更改图片</a>
-                    <a id="hidenUpload2" style="display: none;" ng-click="tvMultPicEdit.imgs2.uploadFile('myFile', tvMultPicEdit.imgs2)"></a>
+                    <input id="upload{{$index}}" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload{{$index}}" />
+                    <a ng-click="tvMultPicEdit.clickUpload('upload'+$index)">更改图片</a>
+                    <a id="hidenUpload{{$index}}" style="display: none;" ng-click="tvMultPicEdit.upImgs[$index].uploadFile('myFile', tvMultPicEdit.upImgs[$index])"></a>
                     <!--图片上传按钮-->
                     <!--频道名-->
-                    <div class="row" ng-repeat="img in tvMultPicEdit.imgs2.data">
+                    <div class="row" ng-repeat="img in tvMultPicEdit.upImgs[$index].data">
                         <div class="col-xs-12">
                             <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
                                 <!--进度条-->

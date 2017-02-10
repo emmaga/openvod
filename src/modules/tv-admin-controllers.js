@@ -159,6 +159,12 @@
                     self.changeMenuInfo();
                 }
 
+                //pictext_classification 带分类的图文
+                if(branch.data.type == 'PicText_Classification') {
+                    $state.go('app.tvAdmin.PicText_Classification', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // 3rdApp
                 if(branch.data.type == '3rdApp') {
                     $state.go('app.tvAdmin.3rdApp', {moduleId: branch.data.moduleId, label: branch.label});
@@ -1215,6 +1221,7 @@
                 self.Text = self.picInfo.Text;
                 self.imgs1 = new Imgs([{"ImageURL": self.picInfo.PicURL, "ImageSize": self.picInfo.PicSize}], true);
                 self.imgs1.initImgs();
+                console.log(self.imgs1);
             }
 
             self.save = function() {
@@ -1660,7 +1667,7 @@
                 }).then(function successCallback(response) {
                     var data = response.data;
                     if (data.rescode == '200') {
-                        self.pics = data.data.apk;
+                        self.pics = data.data.res;
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -1780,7 +1787,9 @@
 
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
-
+                self.langArr = [];
+                self.langNameArr = [];
+                self.upImgs = [];
                 self.setInfo();
 
             }
@@ -1791,39 +1800,55 @@
             }
 
             self.setInfo = function () {
-                console.log(self.picInfo);
                 self.Seq = self.picInfo.Seq;
                 self.images = self.picInfo.SourceData;
-                for(var i =0;i<self.images.length;i++){
-                    self[imgs+i] = new Imgs([{"ImageURL": self.images[i].PicURL, "ImageSize": self.images[i].PicSize}], true);
-                    self[imgs+i].initImgs();
+                //多语言信息数组
+                for(var key in self.images){
+                    for(var i=0;i<self.editLangs.length;i++){
+                        if(key == self.editLangs[i].code){
+                            self.langNameArr.push(self.editLangs[i].name);
+                            self.langArr.push(key);
+                        }
+                    }
+                }
+                //创建图片实例
+                for(var i =0;i<self.langArr.length;i++){
+                    var lang = self.langArr[i];
+                    self.upImgs[i] = new Imgs([{"ImageURL": self.images[lang].PicURL, "ImageSize": self.images[lang].PicSize}], true);
+                    self.upImgs[i].initImgs();
+                    console.log(self.upImgs[i]);
                 }
             }
 
             self.save = function() {
 
-                //频道图片必填验证
-                if(self.imgs1.data.length == 0) {
-                    alert('请上传频道图片');
-                    return;
-                }
+                //频道图片必填验证(新建的时候验证，编辑的时候不可能为空，所以不用验证)
+                // if(self.imgs1.data.length == 0) {
+                //     alert('请上传频道图片');
+                //     return;
+                // }
 
-                var data = JSON.stringify({
+                var data = {
                     "token": util.getParams('token'),
                     "action": "edit",
                     "viewID": Number(self.viewId),
                     "data":{
                         "ID": Number(self.picInfo.ID),
-                        "Seq": self.Seq,
-                        "PicChsURL": self.imgs1.data[0].src,
-                        "PicChsSize": self.imgs1.data[0].fileSize,
-                        "PicEngURL": self.imgs2.data[0].src,
-                        "PicEngSize": self.imgs2.data[0].fileSize
+                        "Seq": self.Seq
                     },
                     "lang": util.langStyle()
-                })
-
+                }
+                for(var i =0;i<self.langArr.length;i++) {
+                    var lang = self.langArr[i];
+                    var url = self.upImgs[i].data[0].src;
+                    var size = self.upImgs[i].data[0].fileSize;
+                    data.data[lang] = {"PicURL":url,"PicSize":size}
+                }
+                console.log(data);
+                data = JSON.stringify(data);
                 self.saving = true;
+                // var URL = util.getApiUrl('commonview', '', 'server');
+                // console.log(URL);
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('commonview', '', 'server'),
@@ -2001,26 +2026,37 @@
             }
 
             self.save = function() {
-
+                var defaultLang;
                 //频道图片必填验证
-                if(self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100 || self.imgs2.data.length == 0 || self.imgs2.data[0].progress < 100) {
-                    alert('请上传图片');
+                for(var i=0; i<self.editLangs.length; i++) {
+                    if(self.editLangs[i].code == self.defaultLangCode){
+                        defaultLang = i;
+                    }
+                }
+                if(self.uplImgs[defaultLang].data.length == 0 || self.uplImgs[defaultLang].data[0].progress < 100) {
+                    alert('请上传默认语言图片');
                     return;
                 }
 
-                var data = JSON.stringify({
+                var data = {
                     "token": util.getParams('token'),
                     "action": "add",
                     "viewID": Number(self.viewId),
-                    "data":{
-                        "Seq": self.Seq,
-                        "PicChsURL": self.imgs1.data[0].src,
-                        "PicChsSize": self.imgs1.data[0].fileSize,
-                        "PicEngURL": self.imgs2.data[0].src,
-                        "PicEngSize": self.imgs2.data[0].fileSize
-                    },
+                    "data":[{
+                        "Seq":self.Seq,
+                        "SourceData":{}
+                    }],
                     "lang": util.langStyle()
-                })
+                };
+                for(var i=0;i<self.editLangs.length; i++) {
+                    var lang = self.editLangs[i].code;
+                    data.data[0].SourceData[lang] = {
+                        "PicURL":self.uplImgs[i].data[0].src,
+                        "PicSize":self.uplImgs[i].data[0].fileSize
+                    }
+                }
+                console.log(data);
+                data = JSON.stringify(data);
                 self.saving = true;
                 $http({
                     method: 'POST',
@@ -2246,6 +2282,125 @@
 
         }
     ])
+
+
+    .controller('tvPicTextClassListController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;
+                self.pics = [];
+                self.classList = [];
+
+                self.init = function() {
+                    //self.viewId = $stateParams.moduleId;
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.loadList();
+                }
+
+                self.edit = function(index) {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.picInfo = self.pics[index];
+                    $scope.app.showHideMask(true,'pages/tv/simplePicTextEdit.html');
+                }
+
+                self.del = function(id, index) {
+                    var index = index;
+                    if(!confirm('确认删除？')) {
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "delete",
+                        "viewID": self.viewId,
+                        "data": {
+                            "ID":id-0
+                        },
+                        "lang": util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('删除成功');
+                            self.pics.splice(index,1);
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('删除失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    });
+                }
+
+                self.add = function() {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.showHideMask(true,'pages/tv/simplePicTextAdd.html');
+                }
+
+                self.loadList = function() {
+                    self.stateParams = $stateParams;
+                    self.classID = self.stateParams.PicTextClassID;
+                    self.viewId = self.stateParams.moduleId;
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "get",
+                        "viewID": self.viewId-0,
+                        "lang": util.langStyle()
+                    })
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            console.log(data);
+                            self.pics = data.data.res;
+                            var lang = self.defaultLangCode;
+                            self.dataInfo = data.data.res;
+                            for(var i=0;i<self.dataInfo.length;i++){
+                                // if(self.classID == dataInfo[i].ID){
+                                //     self.pics = dataInfo[i].sub;
+                                // }
+                                var classData = {
+                                    name:self.dataInfo[i].Title[lang],
+                                    ID:self.dataInfo[i].ID
+                                }
+                                self.classList.push(classData);
+                            }
+                            self.pics = self.dataInfo[0].sub;
+                            self.currentClassID = self.dataInfo[0].ID;
+                            console.log(self.pics);
+
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+                self.switch = function (id) {
+                    self.currentClassID = id;
+                    for(var i=0;i<self.dataInfo.length;i++){
+                        if(self.dataInfo[i].ID = id){
+                            self.pics = self.dataInfo[i].sub;
+                        }
+                    }
+                }
+
+            }
+        ])
+
 
     .controller('tv3rdAppController', ['$scope', '$state', '$http', '$stateParams', 'util',
         function ($scope, $state, $http, $stateParams, util) {
