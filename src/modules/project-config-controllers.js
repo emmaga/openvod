@@ -154,7 +154,8 @@
                         "Address": self.hotel.Address ? self.hotel.Address : {},
                         "Description": self.hotel.Description ? self.hotel.Description : {},
                         "OfficePhone": null,
-                        "Gallery": imgs
+                        "Gallery": imgs,
+                        "TermMainPage": self.hotel.TermMainPage
                     }
                 })
                 $http({

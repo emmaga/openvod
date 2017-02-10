@@ -1963,6 +1963,7 @@
                             self.hotel.LogoImg = data.data.LogoURL;
                             self.hotel.CityName = data.data.CityName;
                             self.hotel.AdminPhoneNum = data.data.AdminPhoneNum;
+                            self.hotel.TermMainPage = data.data.TermMainPage;
                             deferred.resolve();
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
@@ -2028,6 +2029,7 @@
                         lang: util.langStyle(),
                         HotelID: Number(self.hotelId),
                         data: {
+                            "TermMainPage": self.hotel.TermMainPage,
                             "Name": self.hotel.Name,
                             "CityName": self.hotel.CityName,
                             "LocationX": self.hotel.LocationX,
