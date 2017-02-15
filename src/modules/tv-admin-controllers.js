@@ -3342,6 +3342,10 @@
                         if(!self.cateIndex || (self.cateIndex + 1) > self.info.length) {
                             self.cateIndex = 0;
                         }
+                        //判断分类下内容为空时，sub属性为空数组，不然模板的ng-repeat会报错
+                        if(self.info.length ==0 ){
+                            self.info[0].sub = [];
+                        }
                     } 
                     else {
                         alert('连接服务器出错' + data.errInfo);
