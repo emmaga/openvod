@@ -1,0 +1,57 @@
+<div ng-controller="tvMultPicSxSmallAddController as tvMultPicSxSmallAdd" ng-init="tvMultPicSxSmallAdd.init()" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="tvMultPicSxSmallAdd.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">添加图片</h5>
+        </div>
+        <!--/header end-->
+        <!--body-->
+        <div class="modal-body">
+            <form id="tvSimplePicTextAddForm" name="tvSimplePicTextAddForm" ng-submit="tvSimplePicTextAddForm.$valid && tvMultPicSxSmallAdd.save()">
+                <div class="form-group">
+                    <!--序号-->
+                    <label>序号</label>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                    type="number" ng-model="tvMultPicSxSmallAdd.Seq" min="1" required placeholder="（必填）"/>
+                    <!--/序号-->
+                </div>
+                <div ng-repeat="lang in tvMultPicSxSmallAdd.editLangs track by $index" class="form-group">
+                    <!--图片-->
+                    <label>图片（{{lang.name}}）</label>
+                    <!--图片上传按钮-->
+                    <input id="upload{{$index}}" style="display: none;" type="file" file-model="myFile{{$index}}" data-e="hidenUpload{{$index}}"/>
+                    <a ng-click="tvMultPicSxSmallAdd.clickUpload('upload'+$index)">上传</a>
+                    <a id="hidenUpload{{$index}}" style="display: none;" ng-click="tvMultPicSxSmallAdd.uplImgs[$index].uploadFile('myFile'+$index, tvMultPicSxSmallAdd.uplImgs[$index])"></a>
+                    <!--/图片上传按钮-->
+                    <div class="row" ng-repeat="img in tvMultPicSxSmallAdd.uplImgs[$index].data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div><!--/progress-->
+                            </div><!--/form-thumbnail-->
+                        </div> <!--/col-xs-12-->
+                    </div><!--/row-->
+                    <!--/图片-->
+                </div>
+
+
+            </form>
+        </div>
+        <!--/body end-->
+        <!--footer-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm" ng-click="tvMultPicSxSmallAdd.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="tvSimplePicTextAddForm" ng-disabled="tvSimplePicTextAdd.saving">保存</button>
+        </div>
+        <!--/footer end-->
+    </div>
+</div>

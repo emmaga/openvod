@@ -329,6 +329,51 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.MultPic_SX_Small', {
+                    url: '/MultPic_SX_Small?moduleId&label',
+                    templateUrl: 'pages/tv/MultPic_SX_Small.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.MultPic_SX_Big', {
+                    url: '/MultPic_SX_Big?moduleId&label',
+                    templateUrl: 'pages/tv/MultPic_SX_Big.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.SimplePicText_Price', {
+                    url: '/SimplePicText_Price?moduleId&label',
+                    templateUrl: 'pages/tv/SimplePicText_Price.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.SimplePicText_SX', {
+                    url: '/SimplePicText_SX?moduleId&label',
+                    templateUrl: 'pages/tv/SimplePicText_SX.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.PicText_Classification_SX', {
+                    url: '/PicText_Classification_SX?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_SX.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.3rdApp', {
                     url: '/3rdApp?moduleId&label',
                     templateUrl: 'pages/tv/3rdApp.html',

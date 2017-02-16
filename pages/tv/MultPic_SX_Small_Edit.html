@@ -1,0 +1,58 @@
+<div ng-controller="tvMultPicSxSmallEditController as tvMultPicSxSmallEdit" ng-init="tvMultPicSxSmallEdit.init()" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <form name="tvSimplePicTextEditForm" ng-submit="tvSimplePicTextEditForm.$valid && tvMultPicSxSmallEdit.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="tvMultPicSxSmallEdit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑图片信息</h5>
+            </div>
+            <!--/header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!--序号-->
+                <div class="form-group">
+                    <label>序号</label>
+                    <input type="number" ng-model="tvMultPicSxSmallEdit.Seq" min="1" required placeholder="（必填）" class="form-control" />
+                </div>
+                <!--序号-->
+                <!--图片-->
+                <div class="form-group" ng-repeat="pic in tvMultPicSxSmallEdit.images">
+                    <label>图片（{{tvMultPicSxSmallEdit.langNameArr[$index]}}）</label>
+                    <!--图片上传按钮-->
+                    <input id="upload{{$index}}" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload{{$index}}" />
+                    <a ng-click="tvMultPicSxSmallEdit.clickUpload('upload'+$index)">更改图片</a>
+                    <a id="hidenUpload{{$index}}" style="display: none;" ng-click="tvMultPicSxSmallEdit.upImgs[$index].uploadFile('myFile', tvMultPicSxSmallEdit.upImgs[$index])"></a>
+                    <!--图片上传按钮-->
+                    <!--频道名-->
+                    <div class="row" ng-repeat="img in tvMultPicSxSmallEdit.upImgs[$index].data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div>
+                                <!--/progress-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!--取消按钮-->
+                <div ng-click="tvMultPicSxSmallEdit.cancel()" class="btn btn-default btn-sm">取消</div>
+                <!--取消按钮-->
+                <!--保存按钮-->
+                <button type="submit" ng-disabled="tvMultPicSxSmallEdit.saving" class="btn btn-primary btn-sm">保存</button>
+                <!--保存按钮-->
+            </div>
+        </form>
+    </div>
+</div>
