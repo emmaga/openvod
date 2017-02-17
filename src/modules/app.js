@@ -244,7 +244,7 @@
                             {
                               label: '广告位设置',
                               data: {
-                                type: "adv"
+                                type: "guangGaoWei"
                               }
                             },
                             {
@@ -266,18 +266,18 @@
                         }]
                     }
                 })
-                .state('app.tvAdmin.adv', {
-                    url: '/adv?label',
-                    templateUrl: 'pages/tv/adv.html',
+                .state('app.tvAdmin.version', {
+                    url: '/version?label',
+                    templateUrl: 'pages/tv/version.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
                         }]
                     }
                 })
-                .state('app.tvAdmin.version', {
-                    url: '/version?label',
-                    templateUrl: 'pages/tv/version.html',
+                .state('app.tvAdmin.guangGaoWei', {
+                    url: '/guangGaoWei?label',
+                    templateUrl: 'pages/tv/guangGaoWei.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
