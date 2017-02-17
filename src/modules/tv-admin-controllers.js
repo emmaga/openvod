@@ -14,6 +14,7 @@
                 self.initS = $stateParams.label ? $stateParams.label : '欢迎页面';
                 self.menuRoot = false;
                 self.MainMenu_THJ_SecondMenu = false;
+                self.MainMenu_SX_SecondMenu = false;
 
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
@@ -251,7 +252,7 @@
                 }
 
                 // MainMenu_THJ_SecondMenu
-                if(branch.data.type == 'MainMenu_THJ_SecondMenu') {
+                if(branch.data.type == 'MainMenu_THJ_SecondMenu' || branch.data.type == 'MainMenu_SX_SecondMenu') {
                     
                     $state.go('app.tvAdmin.blank', {label: branch.label});
                     self.changeMenuInfo();
