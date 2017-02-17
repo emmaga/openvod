@@ -34,7 +34,7 @@
                 </ng-repeat>
                 <!-- 分类名称 -->
 
-                <!--图片-->
+                <!--图片1-->
                 <div class="form-group">
                     <label>图片</label>
                     <!--图片上传按钮-->
@@ -56,7 +56,30 @@
                         </div> <!--/col-xs-12-->
                     </div><!--/row-->
                 </div>
-                <!--/图片-->
+                <!--/图片1-->
+                <!--图片2-->
+                <div class="form-group">
+                    <label>高亮图片</label>
+                    <!--图片上传按钮-->
+                    <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
+                    <a ng-click="tvPicTextClassCateAddSX.clickUpload('upload2')">上传</a>
+                    <a id="hidenUpload2" style="display: none;" ng-click="tvPicTextClassCateAddSX.imgs2.uploadFile('myFile', tvPicTextClassCateAddSX.imgs2)"></a>
+                    <!--/图片上传按钮-->
+                    <div class="row" ng-repeat="img in tvPicTextClassCateAddSX.imgs2.data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div><!--/progress-->
+                            </div><!--/form-thumbnail-->
+                        </div> <!--/col-xs-12-->
+                    </div><!--/row-->
+                </div>
+                <!--/图片2-->
             </div>
             <!--body end-->
             <!--footer-->

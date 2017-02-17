@@ -148,6 +148,12 @@
                     self.changeMenuInfo();        
                 }
 
+                // liveSX
+                if(branch.data.type == 'Live_SX') {
+                    $state.go('app.tvAdmin.Live_SX', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // simplePicText
                 if(branch.data.type == 'SimplePicText') {
                     $state.go('app.tvAdmin.simplePicText', {moduleId: branch.data.moduleId, label: branch.label});
@@ -248,6 +254,20 @@
                 if(branch.data.type == 'MusicCommon') {
                     
                     $state.go('app.tvAdmin.MusicCommon', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // MusicCommonSX
+                if(branch.data.type == 'MusicCommon_SX') {
+
+                    $state.go('app.tvAdmin.MusicCommon_SX', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // WeatherSX
+                if(branch.data.type == 'Weather_SX') {
+
+                    $state.go('app.tvAdmin.Weather_SX', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
 
@@ -5373,6 +5393,7 @@
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
                 self.imgs1 = new Imgs([], true);
+                self.imgs2 = new Imgs([], true);
             }
 
             /**
@@ -5406,7 +5427,9 @@
                         "Text": self.cateName,
                         "Title": self.cateName,
                         "Seq": self.Seq,
-                        "PicSize": self.imgs1.data[0].fileSize-0
+                        "PicSize": self.imgs1.data[0].fileSize-0,
+                        "IconURL":self.imgs2.data[0].src,
+                        "IconSize":self.imgs2.data[0].fileSize-0
                     }
                 });
 
@@ -5560,6 +5583,7 @@
             var self = this;
             self.viewId = 0;
             self.imgs1 = null;
+            self.imgs2 = null;
             self.editLangs = util.getParams('editLangs');
 
             self.init = function() {
@@ -5569,6 +5593,8 @@
                 self.cateName = self.info.Title;
                 self.imgs1 = new Imgs([{ "ImageURL": self.info.PicURL, "ImageSize": self.info.PicSize }], true);
                 self.imgs1.initImgs();
+                self.imgs2 = new Imgs([{ "ImageURL": self.info.IconURL, "ImageSize": self.info.IconSize }], true);
+                self.imgs2.initImgs();
             }
 
             /**
@@ -5603,7 +5629,9 @@
                         "Text": self.cateName,
                         "Title": self.cateName,
                         "Seq": self.Seq,
-                        "PicSize": self.imgs1.data[0].fileSize-0
+                        "PicSize": self.imgs1.data[0].fileSize-0,
+                        "IconURL": self.imgs2.data[0].src,
+                        "IconSize": self.imgs2.data[0].fileSize-0
                     }
                 });
 
@@ -8448,6 +8476,17 @@
         }
     ])
 
+        //书香天气
+    .controller('tvWeatherSXController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                console.log('tvWeatherSXController')
+                var self = this;
+                self.init = function() {
+
+                }
+            }
+        ])
+
 
     // 音乐库
     .controller('tvMusicCommonController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
@@ -8669,5 +8708,313 @@
         }
     ])
 
+    //书香音乐库
+    .controller('tvMusicCommonSXController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                console.log('tvMusicCommonController')
+                var self = this;
+                self.init = function() {
+                    self.info = {};
+                    self.viewId = $stateParams.moduleId;
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.editLangs = util.getParams('editLangs');
+                    self.getInfo().then(function() {
+                        self.initImgs1();
+                    })
 
+                }
+
+                self.getInfo = function() {
+                    var deferred = $q.defer();
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        action: "getAPIInfo",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        viewID: Number(self.viewId)
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.info = data.data;
+                            deferred.resolve();
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('读取信息失败，' + data.errInfo);
+                            deferred.reject();
+                        }
+                    }, function errorCallback(response) {
+                        alert('服务器出错');
+                        deferred.reject();
+                    }).finally(function(e) {
+                        self.loading = false;
+                    });
+                    return deferred.promise;
+                }
+
+                self.initImgs1 = function() {
+                    // 初始化apk url
+                    self.imgs1 = new Imgs([{ "ImageURL": self.info.ApkURL, "ImageSize": self.info.ApkSize }], true);
+                    self.imgs1.initImgs();
+                }
+
+                self.save = function() {
+
+                    //检查logo上传
+                    if (self.imgs1.data.length == 0) {
+                        alert('请上传酒店Apk');
+                        return;
+                    }
+
+                    self.info.ApkURL = self.imgs1.data[0].src;
+                    self.info.ApkSize = self.imgs1.data[0].fileSize - 0;
+                    self.saving = true;
+
+                    var data = JSON.stringify({
+                        action: "updateAPIInfo",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        viewID: self.viewId - 0,
+                        data: {
+                            "MusicContentAPIParam": self.info.MusicContentAPIParam,
+                            "MusicContentAPIURL": self.info.MusicContentAPIURL
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('保存成功');
+                            $state.reload();
+                        } else {
+                            alert('保存失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('服务器出错');
+                    }).finally(function(e) {
+                        self.saving = false;
+                    });
+                }
+
+                self.clickUpload = function(e) {
+                    setTimeout(function() {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
+
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
+
+                Imgs.prototype = {
+                    initImgs: function() {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
+                        }
+                    },
+                    deleteById: function(id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
+                            }
+                        }
+                    },
+
+                    add: function(xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
+
+                    update: function(id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
+                            }
+                        }
+                    },
+
+                    setSrcSizeByXhr: function(xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
+                            }
+                        }
+                    },
+
+                    uploadFile: function(e, o) {
+
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = $scope[e];
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function(evt) {
+                                $scope.$apply(function() {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function(xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function() {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 删除第一站图片
+                                        o.deleteById(o.data[0].id);
+                                    }
+                                });
+                            },
+                            function(xhr) {
+                                $scope.$apply(function() {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
+                }
+            }
+        ])
+
+    //书香直播
+    .controller('tvLiveSXController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;
+
+                self.init = function() {
+                    self.viewId = $stateParams.moduleId;
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.loadLiveList();
+                }
+
+                self.edit = function(index) {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.liveInfo = self.lives[index];
+                    $scope.app.showHideMask(true,'pages/tv/liveEdit.html');
+                }
+
+                self.del = function(id, index) {
+                    var index = index;
+                    if(!confirm('确认删除？')) {
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "delChannel",
+                        "viewID": self.viewId,
+                        "data": {
+                            "ChannelList":[
+                                {"ID":id-0}
+                            ]
+                        },
+                        "lang": util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('删除成功');
+                            self.lives.splice(index,1);
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('删除失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    });
+                }
+
+                self.add = function() {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.showHideMask(true,'pages/tv/liveAdd.html');
+                }
+
+                self.loadLiveList = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "get",
+                        "viewID": self.viewId-0,
+                        "lang": util.langStyle()
+                    })
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.lives = data.data.ChannelList;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载直播列表信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+            }
+        ])
 })();

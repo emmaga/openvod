@@ -447,6 +447,39 @@
                         }]
                     }
                 })
+                // 书香音乐库
+                .state('app.tvAdmin.MusicCommon_SX', {
+                    url: '/MusicCommon_SX?moduleId&label',
+                    templateUrl: 'pages/tv/MusicCommon_SX.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 书香直播
+                .state('app.tvAdmin.Live_SX', {
+                    url: '/Live_SX?moduleId&label',
+                    templateUrl: 'pages/tv/Live_SX.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 书香天气
+                .state('app.tvAdmin.Weather_SX', {
+                    url: '/Weather_SX?moduleId&label',
+                    templateUrl: 'pages/tv/Weather_SX.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                 .state('app.tvAdmin.blank', {
                     url: '/blank?label',
                     templateUrl: 'pages/tv/blank.html'
@@ -465,7 +498,7 @@
         }])
 
         .constant('CONFIG', {
-            serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
+            serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',
             testUrl: 'test/',
             test: false,
