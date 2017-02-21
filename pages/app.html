@@ -7,8 +7,9 @@
         <div class="project-title">
             <div class="project-logo" style="background-image: url(dist/imgs/icon-05.png)"></div>
         </div>
-        
+        <span class="project-name navbar-header"><a class="navbar-brand title-name">{{app.projectDes}}</a></span>
         <!-- 头像/菜单 -->
+
         <div  class="avatar {{app.avatarPhase}}" ng-class="{'blur':(app.showMaskClass)}" ng-click="app.avatarPhase = app.avatarPhase == 'phase1' ? 'phase2' : 'phase1'">
             <i class="icon ion-ios-more"></i>
             <ul class="list-group">
@@ -151,6 +152,26 @@
     .pagination>li>span:hover{
         color: {{app.activeAppThemeColor}};
     }
+
+    .project-name{
+        position: absolute;
+        width:150px;
+        height: 43px;
+        color: white;
+        right:40px;
+        top: 6px;
+        line-height: 43px;
+        overflow: hidden;
+        z-index: 2;
+    }
+    .title-name{
+        color: #ccc;
+        cursor: auto;
+    }
+    .title-name:hover{
+        color: white;
+    }
+
 
 
 

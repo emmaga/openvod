@@ -36,6 +36,7 @@
                             util.setParams('userName', self.userName);
                             util.setParams('projectName', self.projectName);
                             util.setParams('token', msg.token);
+                            util.setParams('projectDes',msg.ProjectNameCN)
                             self.getEditLangs();
                         } else {
                             alert(msg.rescode + ' ' + msg.errInfo);
@@ -65,6 +66,12 @@
             function ($http, $scope, $state, $stateParams, util) {
                 var self = this;
                 self.init = function () {
+                    if(util.getParams("projectDes")){
+                        this.projectDes = util.getParams("projectDes")
+                    }else {
+                        alert("访问超时，请重新登录")
+                        $state.go('login')
+                    }
                     // app 页面展开desktop
                     if ($state.current.name !== 'app') {
                         self.appPhase = 2;
