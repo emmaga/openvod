@@ -90,7 +90,10 @@
                  * 获取多语言编辑中的默认语言code
                  */
                 'getDefaultLangCode': function() {
-                    var langs = JSON.parse($cookies.get('editLangs'));
+                    var langs = [];
+                    if($cookies.get('editLangs')) {
+                        langs = JSON.parse($cookies.get('editLangs'));
+                    }
                     for (var i = 0; i < langs.length; i++) {
                         if(langs[i].default) {
                             return langs[i].code;
