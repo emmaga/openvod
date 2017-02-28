@@ -1,10 +1,10 @@
 <!-- 丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号  编辑页面-->
 <div ng-controller="tvSimpleSmallPicTextLFEditController as tvSimpleSmallPicTextLFEdit" ng-init="tvSimpleSmallPicTextLFEdit.init()" class="autoscroll modal-dialog modal-sm">
     <div class="modal-content">
-        <form name="tvSimpleSmallPicTextLFEdit.Form" ng-submit="tvSimpleSmallPicTextEditForm.$valid && tvSimpleSmallPicTextLFEdit..save()">
+        <form name="tvSimpleSmallPicTextLFEditForm" ng-submit="tvSimpleSmallPicTextLFEditForm.$valid && tvSimpleSmallPicTextLFEdit.save()">
             <!--header-->
             <div class="modal-header">
-                <button type="button" class="close" ng-click="tvSimpleSmallPicTextLFEdit..cancel()">
+                <button type="button" class="close" ng-click="tvSimpleSmallPicTextLFEdit.cancel()">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
@@ -16,7 +16,7 @@
                 <!--序号-->
                 <div class="form-group">
                     <label>序号</label>
-                    <input type="number" ng-model="tvSimpleSmallPicTextLFEdit..Seq" min="1" required placeholder="（必填）" class="form-control" />
+                    <input type="number" ng-model="tvSimpleSmallPicTextLFEdit.Seq" min="1" required placeholder="（必填）" class="form-control" />
                 </div>
                 <!--序号-->
                 <!--图片-->
@@ -24,11 +24,11 @@
                     <label>图片</label>
                     <!--图片上传按钮-->
                     <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
-                    <a ng-click="tvSimpleSmallPicTextLFEdit..clickUpload('upload1')">更改图片</a>
-                    <a id="hidenUpload1" style="display: none;" ng-click="tvSimpleSmallPicTextLFEdit..imgs1.uploadFile('myFile', tvSimpleSmallPicTextLFEdit..imgs1)"></a>
+                    <a ng-click="tvSimpleSmallPicTextLFEdit.clickUpload('upload1')">更改图片</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="tvSimpleSmallPicTextLFEdit.imgs1.uploadFile('myFile', tvSimpleSmallPicTextLFEdit.imgs1)"></a>
                     <!--图片上传按钮-->
                     <!--频道名-->
-                    <div class="row" ng-repeat="img in tvSimpleSmallPicTextLFEdit..imgs1.data">
+                    <div class="row" ng-repeat="img in tvSimpleSmallPicTextLFEdit.imgs1.data">
                         <div class="col-xs-12">
                             <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
                                 <!--进度条-->
@@ -45,30 +45,30 @@
                 </div>
                 <!--图片-->
                 <div class="form-group">
-                    <ng-repeat ng-repeat="lang in tvSimpleSmallPicTextLFEdit..editLangs">
+                    <ng-repeat ng-repeat="lang in tvSimpleSmallPicTextLFEdit.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>标题{{lang.name}}：</label>
                             <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                            ng-model="tvSimpleSmallPicTextLFEdit..Title[lang.code]" required placeholder="（必填）" />
+                            ng-model="tvSimpleSmallPicTextLFEdit.Title[lang.code]" required placeholder="（必填）" />
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <label>标题 {{lang.name}}：</label>
                             <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                            ng-model="tvSimpleSmallPicTextLFEdit..Title[lang.code]" />
+                            ng-model="tvSimpleSmallPicTextLFEdit.Title[lang.code]" />
                         </ng-if>
                     </ng-repeat>
                     <!--标题-->
                 </div>
                 <div class="form-group">
                     <!--详情-->
-                    <ng-repeat ng-repeat="lang in tvSimpleSmallPicTextLFEdit..editLangs">
+                    <ng-repeat ng-repeat="lang in tvSimpleSmallPicTextLFEdit.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>详情{{lang.name}}：</label>
-                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）" ng-model="tvSimpleSmallPicTextLFEdit..Text[lang.code]">{{tvSimpleSmallPicTextLFEdit..Text[lang.code]}}</textarea>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）" ng-model="tvSimpleSmallPicTextLFEdit.Text[lang.code]">{{tvSimpleSmallPicTextLFEdit.Text[lang.code]}}</textarea>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <label>详情 {{lang.name}}：</label>
-                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="tvSimpleSmallPicTextLFEdit..Text[lang.code]">{{tvSimpleSmallPicTextLFEdit..Text[lang.code]}}</textarea>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="tvSimpleSmallPicTextLFEdit.Text[lang.code]">{{tvSimpleSmallPicTextLFEdit.Text[lang.code]}}</textarea>
                         </ng-if>
                     </ng-repeat>
                     <!--详情-->
@@ -78,10 +78,10 @@
             <!--footer-->
             <div class="modal-footer">
                 <!--取消按钮-->
-                <div ng-click="tvSimpleSmallPicTextLFEdit..cancel()" class="btn btn-default btn-sm">取消</div>
+                <div ng-click="tvSimpleSmallPicTextLFEdit.cancel()" class="btn btn-default btn-sm">取消</div>
                 <!--取消按钮-->
                 <!--保存按钮-->
-                <button type="submit" ng-disabled="tvSimpleSmallPicTextLFEdit..saving" class="btn btn-primary btn-sm">保存</button>
+                <button type="submit" ng-disabled="tvSimpleSmallPicTextLFEdit.saving" class="btn btn-primary btn-sm">保存</button>
                 <!--保存按钮-->
             </div>
         </form>

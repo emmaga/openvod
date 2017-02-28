@@ -311,6 +311,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.LiFeng_MultPic', {
+                    url: '/LiFeng_MultPic?moduleId&label',
+                    templateUrl: 'pages/tv/multPic_LiFeng.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.PicText_Classification', {
                     url: '/PicText_Classification?moduleId&label',
                     templateUrl: 'pages/tv/PicText_Classification.html',

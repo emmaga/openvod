@@ -1,0 +1,39 @@
+<!-- 丽枫 全屏图片模板 多语言图+序号 LiFeng_MultPic -->
+<div ng-controller="tvMultPicLFController as tvMultPicLF" ng-init="tvMultPicLF.init()">
+    <!--添加直播频道按钮-->
+    <a class="button button-light" ng-click="tvMultPicLF.add()">
+        <i class="icon ion-ios-plus-outline"></i>
+        添加图片
+    </a>
+    <!--添加直播频道按钮-->
+    <!--直播列表-->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>图片</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="pic in tvMultPicLF.pics track by $index">
+            <td>{{pic.Seq}}</td>
+            <td>
+                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.SourceData[tvMultPicLF.defaultLangCode].PicURL}})"></div>
+            </td>
+            <td>
+                <!--编辑按钮-->
+                <a class="" ng-click="tvMultPicLF.edit($index)">编辑</a>
+                <!--编辑按钮-->
+                <!--删除按钮-->
+                <a class="" ng-click="tvMultPicLF.del(pic.ID, $index)">删除</a>
+                <!--删除按钮-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+    <!--直播列表-->
+</div>
