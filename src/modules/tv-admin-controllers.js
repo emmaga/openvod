@@ -8142,6 +8142,8 @@
                     if (data.rescode == '200') {
                         self.MovieContentAPIParam = data.data.MovieContentAPIParam;
                         self.MovieContentAPIURL = data.data.MovieContentAPIURL;
+                        self.PackageFee = data.data.PackageFee;
+                        self.FeeDiscount = data.data.FeeDiscount;
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
