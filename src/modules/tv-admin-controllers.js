@@ -236,6 +236,21 @@
                     $state.go('app.tvAdmin.worldClock', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();        
                 }
+                // SkyworthATV
+                if(branch.data.type == 'SkyworthATV') {
+                    $state.go('app.tvAdmin.SkyworthATV', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();        
+                }
+                // SkyworthHDMI
+                if(branch.data.type == 'SkyworthHDMI') {
+                    $state.go('app.tvAdmin.SkyworthHDMI', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();        
+                }
+                // SkyworthDTV
+                if(branch.data.type == 'SkyworthDTV') {
+                    $state.go('app.tvAdmin.SkyworthDTV', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();        
+                }
 
                 // shop
                 if(branch.data.type == 'Shop') {
@@ -9288,6 +9303,36 @@
     .controller('tvWorldClockController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
             console.log('tvWorldClockController')
+            var self = this;
+            self.init = function() {
+
+            }
+        }
+    ])
+
+    .controller('tvSkyworthATVController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('tvSkyworthATVController')
+            var self = this;
+            self.init = function() {
+
+            }
+        }
+    ])
+
+    .controller('tvSkyworthHDMIController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('tvSkyworthHDMIController')
+            var self = this;
+            self.init = function() {
+
+            }
+        }
+    ])
+
+    .controller('tvSkyworthDTVController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('tvSkyworthDTVController')
             var self = this;
             self.init = function() {
 

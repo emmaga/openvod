@@ -420,6 +420,33 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.SkyworthATV', {
+                    url: '/SkyworthATV?moduleId&label',
+                    templateUrl: 'pages/tv/SkyworthATV.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.SkyworthHDMI', {
+                    url: '/SkyworthHDMI?moduleId&label',
+                    templateUrl: 'pages/tv/SkyworthHDMI.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.SkyworthDTV', {
+                    url: '/SkyworthDTV?moduleId&label',
+                    templateUrl: 'pages/tv/SkyworthDTV.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.shop', {
                     url: '/shop?moduleId&label',
                     templateUrl: 'pages/tv/shop.html',
