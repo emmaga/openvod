@@ -34,6 +34,7 @@
         <thead>
         <tr>
             <th>序号</th>
+            <th>图片</th>
             <th>详情</th>
             <th>操作</th>
         </tr>
@@ -41,6 +42,9 @@
         <tbody>
         <tr ng-repeat="pic in tvPicTextClassListZF.info[tvPicTextClassListZF.cateIndex].sub track by $index">
             <td>{{pic.Seq}}</td>
+            <td>
+                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicURL}})"></div>
+            </td>
             <td>{{pic.Text[tvPicTextClassListZF.defaultLangCode]}}</td>
             <td>
                 <!--编辑按钮-->
