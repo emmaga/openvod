@@ -348,6 +348,26 @@
                         }]
                     }
                 })
+                 // 喆啡酒店 
+                .state('app.tvAdmin.ZheFei_PicText_Classification', {
+                    url: '/ZheFei_PicText_Classification?moduleId&label',
+                    templateUrl: 'pages/tv/ZheFei_PicText_Classification.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                 // 喆啡酒店 
+                .state('app.tvAdmin.ZheFei_SimpleSmallPicText_Small', {
+                    url: '/ZheFei_SimpleSmallPicText_Small?moduleId&label',
+                    templateUrl: 'pages/tv/ZheFei_SimpleSmallPicText_Small.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.MultPic_SX_Small', {
                     url: '/MultPic_SX_Small?moduleId&label',
                     templateUrl: 'pages/tv/MultPic_SX_Small.html',
