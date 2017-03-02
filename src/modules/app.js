@@ -348,6 +348,16 @@
                         }]
                     }
                 })
+                 
+                .state('app.tvAdmin.LiFeng_SimpleSmallPicText_Left', {
+                    url: '/LiFeng_SimpleSmallPicText_Left?moduleId&label',
+                    templateUrl: 'pages/tv/LiFeng_SimpleSmallPicText_Left.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                  // 喆啡酒店 
                 .state('app.tvAdmin.ZheFei_PicText_Classification', {
                     url: '/ZheFei_PicText_Classification?moduleId&label',
