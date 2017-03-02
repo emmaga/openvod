@@ -320,6 +320,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.ZheFei_MultPic', {
+                    url: '/ZheFei_MultPic?moduleId&label',
+                    templateUrl: 'pages/tv/multPic_ZheFei.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.PicText_Classification', {
                     url: '/PicText_Classification?moduleId&label',
                     templateUrl: 'pages/tv/PicText_Classification.html',
@@ -348,7 +357,7 @@
                         }]
                     }
                 })
-                 
+
                 .state('app.tvAdmin.LiFeng_SimpleSmallPicText_Left', {
                     url: '/LiFeng_SimpleSmallPicText_Left?moduleId&label',
                     templateUrl: 'pages/tv/LiFeng_SimpleSmallPicText_Left.html',
