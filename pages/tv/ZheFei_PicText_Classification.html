@@ -24,10 +24,10 @@
         <i class="icon ion-ios-trash-outline"></i> 删除分类
     </a>
     <!--添加图片按钮-->
-<!--     <a ng-if="tvPicTextClassListZF.info.length > 0" class="button button-light" ng-click="tvPicTextClassListZF.addPic()">
+    <a ng-if="tvPicTextClassListZF.info.length > 0" class="button button-light" ng-click="tvPicTextClassListZF.addPic()">
         <i class="icon ion-ios-plus-outline"></i>
-        添加图片
-    </a> -->
+        添加
+    </a>
 
     <!--图文列表 开始-->
     <table class="table">
@@ -41,10 +41,6 @@
         <tbody>
         <tr ng-repeat="pic in tvPicTextClassListZF.info[tvPicTextClassListZF.cateIndex].sub track by $index">
             <td>{{pic.Seq}}</td>
-<!--             <td>
-                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicURL}})"></div>
-            </td> -->
-            <!-- <td>{{pic.Title[tvPicTextClassListZF.defaultLangCode]}}</td> -->
             <td>{{pic.Text[tvPicTextClassListZF.defaultLangCode]}}</td>
             <td>
                 <!--编辑按钮-->

@@ -387,6 +387,16 @@
                         }]
                     }
                 })
+                 // 喆啡酒店 
+                .state('app.tvAdmin.ZheFei_SimpleSmallPicText_Carousel', {
+                    url: '/ZheFei_SimpleSmallPicText_Carousel?moduleId&label',
+                    templateUrl: 'pages/tv/ZheFei_SimpleSmallPicText_Carousel.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.MultPic_SX_Small', {
                     url: '/MultPic_SX_Small?moduleId&label',
                     templateUrl: 'pages/tv/MultPic_SX_Small.html',
