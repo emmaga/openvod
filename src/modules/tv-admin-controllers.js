@@ -9760,6 +9760,11 @@
             }
 
             self.save = function() {
+                //图片必填验证
+                if(self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100) {
+                    alert('请上传图片');
+                    return;
+                }
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
                     "action": "add",
@@ -10163,6 +10168,7 @@
             }
 
             self.save = function() {
+
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
                     "action": "edit",
