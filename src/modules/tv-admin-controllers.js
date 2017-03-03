@@ -2645,7 +2645,7 @@
 
                 //图片必填验证
                 if(self.imgs1.data.length == 0) {
-                    alert('请上传频道图片');
+                    alert('请上传图片');
                     return;
                 }
 
@@ -2853,7 +2853,7 @@
 
                 //图片必填验证
                 if(self.imgs1.data.length == 0) {
-                    alert('请上传频道图片');
+                    alert('请上传图片');
                     return;
                 }
 
