@@ -2643,7 +2643,7 @@
 
             self.save = function() {
 
-                //频道图片必填验证
+                //图片必填验证
                 if(self.imgs1.data.length == 0) {
                     alert('请上传频道图片');
                     return;
@@ -2851,7 +2851,7 @@
 
             self.save = function() {
 
-                //频道图片必填验证
+                //图片必填验证
                 if(self.imgs1.data.length == 0) {
                     alert('请上传频道图片');
                     return;
