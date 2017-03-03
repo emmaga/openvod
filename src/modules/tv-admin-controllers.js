@@ -9353,10 +9353,6 @@
                 self.info = $scope.app.maskParams.info;
                 self.Seq = self.info.Seq;
                 self.cateName = self.info.Title;
-                self.imgs1 = new Imgs([{ "ImageURL": self.info.PicURL, "ImageSize": self.info.PicSize }], true);
-                self.imgs1.initImgs();
-                self.imgs2 = new Imgs([{ "ImageURL": self.info.IconURL, "ImageSize": self.info.IconSize }], true);
-                self.imgs2.initImgs();
             }
 
             /**
@@ -9375,10 +9371,7 @@
              */
             self.save = function() {
 
-                if(!(self.imgs1.data[0] && self.imgs1.data[0].src)) {
-                    alert('请上传图片');
-                    return;
-                }
+
 
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
@@ -9387,13 +9380,17 @@
                     "lang": util.langStyle(),
                     "data": {
                         "ID": self.info.ID,
-                        "PicURL": self.imgs1.data[0].src,
+                        // "PicURL": self.imgs1.data[0].src,
+                        "PicURL": '',
                         "Text": self.cateName,
                         "Title": self.cateName,
                         "Seq": self.Seq,
-                        "PicSize": self.imgs1.data[0].fileSize-0,
-                        "IconURL": self.imgs2.data[0].src,
-                        "IconSize": self.imgs2.data[0].fileSize-0
+                        // "PicSize": self.imgs1.data[0].fileSize-0,
+                        "PicSize": 0,
+                        // "IconURL": self.imgs2.data[0].src,
+                        "IconURL": '',
+                        // "IconSize": self.imgs2.data[0].fileSize-0
+                        "IconSize": 0
                     }
                 });
 
