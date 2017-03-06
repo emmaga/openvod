@@ -3905,7 +3905,6 @@
 
                 }
 
-
                 // 图片上传相关
                 self.clickUpload = function(e) {
                     setTimeout(function() {
