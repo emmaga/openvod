@@ -2826,6 +2826,10 @@
                     self.multiLang = util.getParams('editLangs');
                 }
 
+                self.delAddPrice = function (n) {
+                    self.addPrice.splice(n, 1);
+                }
+
                 self.saveAddPrice = function () {
                     self.savingAddPrice = true;
                     var addPriceData = [];
