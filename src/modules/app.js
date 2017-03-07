@@ -608,6 +608,17 @@
                         }]
                     }
                 })
+                //雅思特 天气 Yeste_Weather
+                .state('app.tvAdmin.Yeste_Weather', {
+                    url: '/Yeste_Weather?moduleId&label',
+                    templateUrl: 'pages/tv/Weather_Yeste.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
 
                 .state('app.tvAdmin.blank', {
                     url: '/blank?label',

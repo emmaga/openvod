@@ -344,6 +344,12 @@
                     $state.go('app.tvAdmin.Weather_SX', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
+                //Yeste_Weather
+                if(branch.data.type == 'Yeste_Weather') {
+
+                    $state.go('app.tvAdmin.Yeste_Weather', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
 
                 // MainMenu_THJ_SecondMenu
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu' || branch.data.type == 'MainMenu_SX_SecondMenu' || branch.data.type == 'MainMenu_LiFeng_SecondMenu'|| branch.data.type == 'Yeste_MainMenu') {
@@ -13463,14 +13469,25 @@
 
         //书香天气
     .controller('tvWeatherSXController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-            function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-                console.log('tvWeatherSXController')
-                var self = this;
-                self.init = function() {
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('tvWeatherSXController')
+            var self = this;
+            self.init = function() {
 
-                }
             }
-        ])
+        }
+    ])
+
+    //雅思特天气 Yeste_Weather
+    .controller('Yeste_Weather', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('Yeste_Weather test')
+            var self = this;
+            self.init = function() {
+
+            }
+        }
+    ])
 
 
     // 音乐库
