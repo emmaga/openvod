@@ -1,0 +1,73 @@
+<div ng-controller="Yeste_SimpleSmallPicText_Carousel_Edit as Yeste_SimpleSmallPicText_Carousel_Edit" ng-init="Yeste_SimpleSmallPicText_Carousel_Edit.init()" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <form name="Yeste_SimpleSmallPicText_Carousel_EditForm" ng-submit="Yeste_SimpleSmallPicText_Carousel_EditForm.$valid && Yeste_SimpleSmallPicText_Carousel_Edit.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="Yeste_SimpleSmallPicText_Carousel_Edit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑图片信息</h5>
+            </div>
+            <!--/header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!--序号-->
+                <div class="form-group">
+                    <label>序号</label>
+                    <input type="number" ng-model="Yeste_SimpleSmallPicText_Carousel_Edit.Seq" min="1" required placeholder="（必填）" class="form-control" />
+                </div>
+                <!--序号-->
+                <!--图片-->
+                <div class="form-group">
+                    <label>图片</label>
+                    <!--图片上传按钮-->
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                    <a ng-click="Yeste_SimpleSmallPicText_Carousel_Edit.clickUpload('upload1')">更改图片</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="Yeste_SimpleSmallPicText_Carousel_Edit.imgs1.uploadFile('myFile', Yeste_SimpleSmallPicText_Carousel_Edit.imgs1)"></a>
+                    <!--图片上传按钮-->
+                    <!--频道名-->
+                    <div class="row" ng-repeat="img in Yeste_SimpleSmallPicText_Carousel_Edit.imgs1.data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div>
+                                <!--/progress-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--图片-->
+                <div class="form-group">
+                    <!--详情-->
+                    <ng-repeat ng-repeat="lang in Yeste_SimpleSmallPicText_Carousel_Edit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>详情{{lang.name}}：</label>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）" ng-model="Yeste_SimpleSmallPicText_Carousel_Edit.Text[lang.code]">{{Yeste_SimpleSmallPicText_Carousel_Edit.Text[lang.code]}}</textarea>
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <label>详情 {{lang.name}}：</label>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="Yeste_SimpleSmallPicText_Carousel_Edit.Text[lang.code]">{{Yeste_SimpleSmallPicText_Carousel_Edit.Text[lang.code]}}</textarea>
+                        </ng-if>
+                    </ng-repeat>
+                    <!--详情-->
+                </div>
+            </div>
+            <!--/body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!--取消按钮-->
+                <div ng-click="Yeste_SimpleSmallPicText_Carousel_Edit.cancel()" class="btn btn-default btn-sm">取消</div>
+                <!--取消按钮-->
+                <!--保存按钮-->
+                <button type="submit" ng-disabled="Yeste_SimpleSmallPicText_Carousel_Edit.saving" class="btn btn-primary btn-sm">保存</button>
+                <!--保存按钮-->
+            </div>
+        </form>
+    </div>
+</div>

@@ -409,6 +409,18 @@
                         }]
                     }
                 })
+                //雅思特 Yeste_SimpleSmallPicText_Carousel
+                .state('app.tvAdmin.Yeste_SimpleSmallPicText_Carousel', {
+                    url: '/Yeste_SimpleSmallPicText_Carousel?moduleId&label',
+                    templateUrl: 'pages/tv/Yeste_SimpleSmallPicText_Carousel.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+
                 .state('app.tvAdmin.MultPic_SX_Small', {
                     url: '/MultPic_SX_Small?moduleId&label',
                     templateUrl: 'pages/tv/MultPic_SX_Small.html',
