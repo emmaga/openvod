@@ -493,6 +493,16 @@
                         }]
                     }
                 })
+                //雅思特 世界时钟 Yeste_WorldClock
+                .state('app.tvAdmin.Yeste_WorldClock', {
+                    url: '/Yeste_WorldClock?moduleId&label',
+                    templateUrl: 'pages/tv/WorldClock_Yeste.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.SkyworthATV', {
                     url: '/SkyworthATV?moduleId&label',
                     templateUrl: 'pages/tv/SkyworthATV.html',

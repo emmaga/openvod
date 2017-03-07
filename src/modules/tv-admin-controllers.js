@@ -275,6 +275,11 @@
                     $state.go('app.tvAdmin.worldClock', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();        
                 }
+                //雅思特 世界时钟 Yeste_WorldClock
+                if(branch.data.type == 'Yeste_WorldClock') {
+                    $state.go('app.tvAdmin.Yeste_WorldClock', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
                 // SkyworthATV
                 if(branch.data.type == 'SkyworthATV') {
                     $state.go('app.tvAdmin.SkyworthATV', {moduleId: branch.data.moduleId, label: branch.label});
@@ -13408,6 +13413,16 @@
     .controller('tvWorldClockController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
             console.log('tvWorldClockController')
+            var self = this;
+            self.init = function() {
+
+            }
+        }
+    ])
+    //雅思特 世界时钟 Yeste_WorldClock
+    .controller('Yeste_WorldClock', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('Yeste_WorldClock')
             var self = this;
             self.init = function() {
 
