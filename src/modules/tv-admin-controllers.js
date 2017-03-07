@@ -352,10 +352,14 @@
                 }
 
                 // MainMenu_THJ_SecondMenu
+<<<<<<< HEAD
+                if(branch.data.type == 'MainMenu_THJ_SecondMenu' || branch.data.type == 'MainMenu_SX_SecondMenu' || branch.data.type == 'MainMenu_LiFeng_SecondMenu'|| branch.data.type == 'MainMenu_Yeste_SecondMenu') {
+=======
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu'
                     || branch.data.type == 'MainMenu_SX_SecondMenu'
                     || branch.data.type == 'MainMenu_LiFeng_SecondMenu'
                     || branch.data.type == 'MainMenu_Yeste_SecondMenu') {
+>>>>>>> origin/lengxue
                     
                     $state.go('app.tvAdmin.blank', {label: branch.label});
                     self.changeMenuInfo();
