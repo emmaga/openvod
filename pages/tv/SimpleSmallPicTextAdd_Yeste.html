@@ -16,7 +16,7 @@
                     <!--序号-->
                     <label>序号</label>
                     <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                    type="number" ng-model="tvSimpleSmallPicTextLFAdd.Seq" min="1" required placeholder="（必填）"/>
+                    type="number" ng-model="tvSimpleSmallPicTextYesteAdd.Seq" min="1" required placeholder="（必填）"/>
                     <!--/序号-->
                 </div>
                 <div class="form-group">
@@ -24,7 +24,7 @@
                     <label>图片</label>
                     <!--图片上传按钮-->
                     <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-                    <a ng-click="tvSimpleSmallPicTextLFAdd.clickUpload('upload1')">上传</a>
+                    <a ng-click="tvSimpleSmallPicTextYesteAdd.clickUpload('upload1')">上传</a>
                     <a id="hidenUpload1" style="display: none;" ng-click="tvSimpleSmallPicTextYesteAdd.imgs1.uploadFile('myFile', tvSimpleSmallPicTextYesteAdd.imgs1)"></a>
                     <!--/图片上传按钮-->
                     <div class="row" ng-repeat="img in tvSimpleSmallPicTextYesteAdd.imgs1.data">
