@@ -1963,6 +1963,7 @@
                             self.hotel.Imgs = data.data.Gallery;
                             self.hotel.Tags = data.data.Features;
                             self.hotel.Name = data.data.Name;
+                            self.hotel.ViewURL = data.data.ViewURL;
                             self.hotel.Address = data.data.Address;
                             self.hotel.Description = data.data.Description;
                             self.hotel.LocationX = data.data.LocationX;
@@ -2038,6 +2039,7 @@
                         data: {
                             "TermMainPage": self.hotel.TermMainPage,
                             "Name": self.hotel.Name,
+                            "ViewURL": self.hotel.ViewURL,
                             "CityName": self.hotel.CityName,
                             "LocationX": self.hotel.LocationX,
                             "LocationY": self.hotel.LocationY,
@@ -2318,6 +2320,7 @@
                         IntroImgs: imgs,
                         roomDetail: {
                             HotelID: self.hotelId,
+                            ViewURL: self.room.ViewURL,
                             Description: self.room.Description,
                             RoomTypeName: self.room.RoomTypeName,
                             // Roomsummary: self.room.Roomsummary
@@ -2563,6 +2566,7 @@
                         // console.log(data);
                         if (data.rescode == '200') {
                             self.room.RoomTypeName = data.RoomTypeName;
+                            self.room.ViewURL = data.ViewURL;
                             self.room.Roomsummary = data.Roomsummary;
                             self.room.Description = data.Description;
                             for (var i = 0; i < self.ifCheckedTags.length; i++) {
@@ -2655,6 +2659,7 @@
                         IntroImgs: imgs,
                         roomDetail: {
                             "HotelID": self.hotelId,
+                            "ViewURL": self.room.ViewURL,
                             "Description": self.room.Description,
                             "RoomTypeName": self.room.RoomTypeName
                         }
