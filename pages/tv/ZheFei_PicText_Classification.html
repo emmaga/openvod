@@ -1,0 +1,62 @@
+<div ng-controller="tvPicTextClassListZFController as tvPicTextClassListZF" ng-init="tvPicTextClassListZF.init()">
+    <!-- loading -->
+    <div ng-show="tvPicTextClassListZF.loading">loading...</div>
+    <!-- loading -->
+
+    <!-- 分类标签 -->
+    <ul class="nav nav-tabs">
+        <li ng-repeat="cate in tvPicTextClassListZF.info track by $index" class="cursor-pointer {{$index == tvPicTextClassListZF.cateIndex ? 'active': ''}}">
+            <a ng-click="tvPicTextClassListZF.loadPics($index)">{{cate.Title[tvPicTextClassListZF.defaultLangCode]}}</a>
+        </li>
+
+        <li class="cursor-pointer">
+            <a ng-click="tvPicTextClassListZF.addCategory()">
+                <i class="icon ion-android-add-circle"></i> 分类添加
+            </a>
+        </li>
+    </ul>
+    <!-- 按钮: 编辑分类 -->
+    <a ng-if="tvPicTextClassListZF.info.length > 0" ng-click="tvPicTextClassListZF.editCate()" class="button button-light">
+        <i class="icon ion-ios-compose-outline"></i> 编辑分类
+    </a>
+    <!-- 按钮: 删除分类 -->
+    <a ng-if="tvPicTextClassListZF.info.length > 0" ng-disabled="tvPicTextClassListZF.cateDeleting" ng-click="tvPicTextClassListZF.delCate()" class="button button-light">
+        <i class="icon ion-ios-trash-outline"></i> 删除分类
+    </a>
+    <!--添加图片按钮-->
+    <a ng-if="tvPicTextClassListZF.info.length > 0" class="button button-light" ng-click="tvPicTextClassListZF.addPic()">
+        <i class="icon ion-ios-plus-outline"></i>
+        添加
+    </a>
+
+    <!--图文列表 开始-->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>图片</th>
+            <th>详情</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="pic in tvPicTextClassListZF.info[tvPicTextClassListZF.cateIndex].sub track by $index">
+            <td>{{pic.Seq}}</td>
+            <td>
+                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicURL}})"></div>
+            </td>
+            <td>{{pic.Text[tvPicTextClassListZF.defaultLangCode]}}</td>
+            <td>
+                <!--编辑按钮-->
+                <a class="" ng-click="tvPicTextClassListZF.editPic($index)">编辑</a>
+                <!--编辑按钮-->
+                <!--删除按钮-->
+                <a class="" ng-click="tvPicTextClassListZF.delPic($index)">删除</a>
+                <!--删除按钮-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div ng-if="tvPicTextClassListZF.info[tvPicTextClassListZF.cateIndex].sub.length == 0">空</div>
+    <!--图文列表 结束-->
+</div>

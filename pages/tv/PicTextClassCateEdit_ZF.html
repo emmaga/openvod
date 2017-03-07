@@ -1,0 +1,51 @@
+<div ng-controller="tvPicTextClassCateEditZFController as tvPicTextClassCateEditZF" ng-init="tvPicTextClassCateEditZF.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form novalidate name="tvPicTextClassCateEditSXForm" ng-submit="tvPicTextClassCateEditSXForm.$valid && tvPicTextClassCateEditZF.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="tvPicTextClassCateEditZF.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加分类</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 分类序号 -->
+                <div class="form-group">
+                    <label>序号</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="tvPicTextClassCateEditZF.Seq" class="form-control">
+                </div>
+                <!-- 分类序号 -->
+
+                <!-- 分类名称 -->
+                <ng-repeat ng-repeat="lang in tvPicTextClassCateEditZF.editLangs track by $index">
+                    <div class="form-group" ng-if="lang.default==true">
+                        <label>分类名称({{lang.name}})</label>
+                        <input type="text" name="" required placeholder="（必填）" ng-model="tvPicTextClassCateEditZF.cateName[lang.code]" class="form-control">
+                    </div>
+                    <div class="form-group" ng-if="lang.default!==true">
+                        <label>分类名称({{lang.name}})</label>
+                        <input type="text" name="" ng-model="tvPicTextClassCateEditZF.cateName[lang.code]" class="form-control">
+                    </div>
+                </ng-repeat>
+                <!-- 分类名称 -->
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="tvPicTextClassCateEditZF.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="tvPicTextClassCateEditSXForm.$invalid || tvPicTextClassCateEditZF.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
+
+        </form>
+    </div>
+</div>

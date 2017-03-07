@@ -1,0 +1,43 @@
+<!-- 丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号 -->
+<div ng-controller="tvLFSimpleSmallPicTextLeftController as tvLFSimpleSmallPicTextLeft" ng-init="tvLFSimpleSmallPicTextLeft.init()">
+    <!--添加直播频道按钮-->
+    <a class="button button-light" ng-click="tvLFSimpleSmallPicTextLeft.add()">
+        <i class="icon ion-ios-plus-outline"></i>
+        添加图片
+    </a>
+    <!--添加直播频道按钮-->
+    <!--直播列表-->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>图片</th>
+            <th>标题</th>
+            <th>详情</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="pic in tvLFSimpleSmallPicTextLeft.pics track by $index">
+            <td>{{pic.Seq}}</td>
+            <td>
+                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.PicURL}})"></div>
+            </td>
+            <td>{{pic.Title[tvLFSimpleSmallPicTextLeft.defaultLangCode]}}</td>
+            <td style="max-width: 491px">{{pic.Text[tvLFSimpleSmallPicTextLeft.defaultLangCode]}}</td>
+            <td>
+                <!--编辑按钮-->
+                <a class="" ng-click="tvLFSimpleSmallPicTextLeft.edit($index)">编辑</a>
+                <!--编辑按钮-->
+                <!--删除按钮-->
+                <a class="" ng-click="tvLFSimpleSmallPicTextLeft.del(pic.ID, $index)">删除</a>
+                <!--删除按钮-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+    <!--直播列表-->
+</div>

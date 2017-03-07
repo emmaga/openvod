@@ -311,6 +311,24 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.LiFeng_MultPic', {
+                    url: '/LiFeng_MultPic?moduleId&label',
+                    templateUrl: 'pages/tv/multPic_LiFeng.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.ZheFei_MultPic', {
+                    url: '/ZheFei_MultPic?moduleId&label',
+                    templateUrl: 'pages/tv/multPic_ZheFei.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.PicText_Classification', {
                     url: '/PicText_Classification?moduleId&label',
                     templateUrl: 'pages/tv/PicText_Classification.html',
@@ -323,6 +341,56 @@
                 .state('app.tvAdmin.SimpleSmallPicText', {
                     url: '/SimpleSmallPicText?moduleId&label',
                     templateUrl: 'pages/tv/SimpleSmallPicText.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                 // 丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号
+                .state('app.tvAdmin.SimpleSmallPicText_LiFeng', {
+                    url: '/SimpleSmallPicText_LiFeng?moduleId&label',
+                    templateUrl: 'pages/tv/SimpleSmallPicText_LiFeng.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                .state('app.tvAdmin.LiFeng_SimpleSmallPicText_Left', {
+                    url: '/LiFeng_SimpleSmallPicText_Left?moduleId&label',
+                    templateUrl: 'pages/tv/LiFeng_SimpleSmallPicText_Left.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                 // 喆啡酒店 
+                .state('app.tvAdmin.ZheFei_PicText_Classification', {
+                    url: '/ZheFei_PicText_Classification?moduleId&label',
+                    templateUrl: 'pages/tv/ZheFei_PicText_Classification.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                 // 喆啡酒店 
+                .state('app.tvAdmin.ZheFei_SimpleSmallPicText_Small', {
+                    url: '/ZheFei_SimpleSmallPicText_Small?moduleId&label',
+                    templateUrl: 'pages/tv/ZheFei_SimpleSmallPicText_Small.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                 // 喆啡酒店 
+                .state('app.tvAdmin.ZheFei_SimpleSmallPicText_Carousel', {
+                    url: '/ZheFei_SimpleSmallPicText_Carousel?moduleId&label',
+                    templateUrl: 'pages/tv/ZheFei_SimpleSmallPicText_Carousel.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
@@ -395,6 +463,33 @@
                 .state('app.tvAdmin.worldClock', {
                     url: '/worldClock?moduleId&label',
                     templateUrl: 'pages/tv/worldClock.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.SkyworthATV', {
+                    url: '/SkyworthATV?moduleId&label',
+                    templateUrl: 'pages/tv/SkyworthATV.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.SkyworthHDMI', {
+                    url: '/SkyworthHDMI?moduleId&label',
+                    templateUrl: 'pages/tv/SkyworthHDMI.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.SkyworthDTV', {
+                    url: '/SkyworthDTV?moduleId&label',
+                    templateUrl: 'pages/tv/SkyworthDTV.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
