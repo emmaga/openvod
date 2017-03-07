@@ -173,7 +173,7 @@
                     $state.go('app.tvAdmin.Yeste_SimpleSmallPicText', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
-                //雅思特 Yeste_SimpleSmallPicText_Carousel
+                //雅思特 轮播图 Yeste_SimpleSmallPicText_Carousel
                 if(branch.data.type == 'Yeste_SimpleSmallPicText_Carousel') {
                     $state.go('app.tvAdmin.Yeste_SimpleSmallPicText_Carousel', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
@@ -2427,213 +2427,7 @@
 
         }
     ])
-    //雅思特小图 Lengxue 编辑
-    .controller('tvSimpleSmallPicTextYesteEditController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
-        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
-            var self = this;
 
-            self.init = function() {
-                self.viewId = $scope.app.maskParams.viewId;
-                self.picInfo = $scope.app.maskParams.picInfo;
-
-                // 获取编辑多语言信息
-                self.editLangs = util.getParams('editLangs');
-
-                self.setInfo();
-
-            }
-
-
-            self.cancel = function() {
-                $scope.app.showHideMask(false);
-            }
-
-            self.setInfo = function () {
-
-                self.Seq = self.picInfo.Seq;
-                self.Title = self.picInfo.Title;
-                self.Text = self.picInfo.Text;
-                self.imgs1 = new Imgs([{"ImageURL": self.picInfo.PicURL, "ImageSize": self.picInfo.PicSize}], true);
-                self.imgs1.initImgs();
-                console.log(self.imgs1);
-            }
-
-            self.save = function() {
-
-                //频道图片必填验证
-                if(self.imgs1.data.length == 0) {
-                    alert('请上传频道图片');
-                    return;
-                }
-
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "edit",
-                    "viewID": Number(self.viewId),
-                    "data":{
-                        "ID": Number(self.picInfo.ID),
-                        "Seq": self.Seq,
-                        "Title": self.Title,
-                        "PicURL": self.imgs1.data[0].src,
-                        "Text": self.Text,
-                        "PicSize": self.imgs1.data[0].fileSize
-                    },
-                    "lang": util.langStyle()
-                })
-
-                self.saving = true;
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('修改成功');
-                        $state.reload();
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('修改失败，' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function (value) {
-                    self.saving = false;
-                });
-
-            }
-
-
-            // 图片上传相关
-            self.clickUpload = function (e) {
-                setTimeout(function () {
-                    document.getElementById(e).click();
-                }, 0);
-            }
-
-            function Imgs(imgList, single) {
-                this.initImgList = imgList;
-                this.data = [];
-                this.maxId = 0;
-                this.single = single ? true : false;
-            }
-
-            Imgs.prototype = {
-                initImgs: function () {
-                    var l = this.initImgList;
-                    for (var i = 0; i < l.length; i++) {
-                        this.data[i] = {
-                            "src": l[i].ImageURL,
-                            "fileSize": l[i].ImageSize,
-                            "id": this.maxId++,
-                            "progress": 100
-                        };
-                    }
-                },
-                deleteById: function (id) {
-                    var l = this.data;
-                    for (var i = 0; i < l.length; i++) {
-                        if (l[i].id == id) {
-                            // 如果正在上传，取消上传
-                            if (l[i].progress < 100 && l[i].progress != -1) {
-                                l[i].xhr.abort();
-                            }
-                            l.splice(i, 1);
-                            break;
-                        }
-                    }
-                },
-
-                add: function (xhr, fileName, fileSize) {
-                    this.data.push({
-                        "xhr": xhr,
-                        "fileName": fileName,
-                        "fileSize": fileSize,
-                        "progress": 0,
-                        "id": this.maxId
-                    });
-                    return this.maxId++;
-                },
-
-                update: function (id, progress, leftSize, fileSize) {
-                    for (var i = 0; i < this.data.length; i++) {
-                        var f = this.data[i];
-                        if (f.id === id) {
-                            f.progress = progress;
-                            f.leftSize = leftSize;
-                            f.fileSize = fileSize;
-                            break;
-                        }
-                    }
-                },
-
-                setSrcSizeByXhr: function (xhr, src, size) {
-                    for (var i = 0; i < this.data.length; i++) {
-                        if (this.data[i].xhr == xhr) {
-                            this.data[i].src = src;
-                            this.data[i].fileSize = size;
-                            break;
-                        }
-                    }
-                },
-
-                uploadFile: function (e, o) {
-
-                    // 如果这个对象只允许上传一张图片
-                    if (this.single) {
-                        // 删除第二张以后的图片
-                        for (var i = 1; i < this.data.length; i++) {
-                            this.deleteById(this.data[i].id);
-                        }
-                    }
-
-                    var file = $scope[e];
-                    var uploadUrl = CONFIG.uploadUrl;
-                    var xhr = new XMLHttpRequest();
-                    var fileId = this.add(xhr, file.name, file.size, xhr);
-                    // self.search();
-
-                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                        function (evt) {
-                            $scope.$apply(function () {
-                                if (evt.lengthComputable) {
-                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console && console.log(percentComplete);
-                                }
-                            });
-                        },
-                        function (xhr) {
-                            var ret = JSON.parse(xhr.responseText);
-                            console && console.log(ret);
-                            $scope.$apply(function () {
-                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
-                                // 如果这个对象只允许上传一张图片
-                                if (o.single) {
-                                    // 如果长度大于1张图片，删除前几张图片
-                                    if(o.data.length > 1) {
-                                        for(var i=0; i<o.data.length-1;i++) {
-                                            o.deleteById(o.data[i].id);
-                                        }
-                                    }
-                                }
-                            });
-                        },
-                        function (xhr) {
-                            $scope.$apply(function () {
-                                o.update(fileId, -1, '', '');
-                            });
-                            console && console.log('failure');
-                            xhr.abort();
-                        }
-                    );
-                }
-            }
-
-        }
-    ])
 
     // (丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号)    编辑
     .controller('tvSimpleSmallPicTextLFEditController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
@@ -3466,214 +3260,8 @@
 
        }
     ])
-    //雅思特 轮播图Edit Yeste_SimpleSmallPicText_Carousel
-    .controller('Yeste_SimpleSmallPicText_Carousel_Edit', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
-        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
-            var self = this;
-            console.log('Yeste_SimpleSmallPicText_Carousel_Edit')
-            self.init = function() {
-                self.viewId = $scope.app.maskParams.viewId;
-                self.picInfo = $scope.app.maskParams.picInfo;
-
-                // 获取编辑多语言信息
-                self.editLangs = util.getParams('editLangs');
-
-                self.setInfo();
-
-            }
 
 
-            self.cancel = function() {
-                $scope.app.showHideMask(false);
-            }
-
-            self.setInfo = function () {
-
-                self.Seq = self.picInfo.Seq;
-                // self.Title = self.picInfo.Title;
-                self.Text = self.picInfo.Text;
-                self.imgs1 = new Imgs([{"ImageURL": self.picInfo.PicURL, "ImageSize": self.picInfo.PicSize}], true);
-                self.imgs1.initImgs();
-                console.log(self.imgs1);
-            }
-
-            self.save = function() {
-
-                //频道图片必填验证
-                if(self.imgs1.data.length == 0) {
-                    alert('请上传频道图片');
-                    return;
-                }
-
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "edit",
-                    "viewID": Number(self.viewId),
-                    "data":{
-                        "ID": Number(self.picInfo.ID),
-                        "Seq": self.Seq,
-                        // "Title": self.Title,
-                        "Title": {},
-                        "PicURL": self.imgs1.data[0].src,
-                        "Text": self.Text,
-                        "PicSize": self.imgs1.data[0].fileSize
-                    },
-                    "lang": util.langStyle()
-                })
-
-                self.saving = true;
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('修改成功');
-                        $state.reload();
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('修改失败，' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function (value) {
-                    self.saving = false;
-                });
-
-            }
-
-
-            // 图片上传相关
-            self.clickUpload = function (e) {
-                setTimeout(function () {
-                    document.getElementById(e).click();
-                }, 0);
-            }
-
-            function Imgs(imgList, single) {
-                this.initImgList = imgList;
-                this.data = [];
-                this.maxId = 0;
-                this.single = single ? true : false;
-            }
-
-            Imgs.prototype = {
-                initImgs: function () {
-                    var l = this.initImgList;
-                    for (var i = 0; i < l.length; i++) {
-                        this.data[i] = {
-                            "src": l[i].ImageURL,
-                            "fileSize": l[i].ImageSize,
-                            "id": this.maxId++,
-                            "progress": 100
-                        };
-                    }
-                },
-                deleteById: function (id) {
-                    var l = this.data;
-                    for (var i = 0; i < l.length; i++) {
-                        if (l[i].id == id) {
-                            // 如果正在上传，取消上传
-                            if (l[i].progress < 100 && l[i].progress != -1) {
-                                l[i].xhr.abort();
-                            }
-                            l.splice(i, 1);
-                            break;
-                        }
-                    }
-                },
-
-                add: function (xhr, fileName, fileSize) {
-                    this.data.push({
-                        "xhr": xhr,
-                        "fileName": fileName,
-                        "fileSize": fileSize,
-                        "progress": 0,
-                        "id": this.maxId
-                    });
-                    return this.maxId++;
-                },
-
-                update: function (id, progress, leftSize, fileSize) {
-                    for (var i = 0; i < this.data.length; i++) {
-                        var f = this.data[i];
-                        if (f.id === id) {
-                            f.progress = progress;
-                            f.leftSize = leftSize;
-                            f.fileSize = fileSize;
-                            break;
-                        }
-                    }
-                },
-
-                setSrcSizeByXhr: function (xhr, src, size) {
-                    for (var i = 0; i < this.data.length; i++) {
-                        if (this.data[i].xhr == xhr) {
-                            this.data[i].src = src;
-                            this.data[i].fileSize = size;
-                            break;
-                        }
-                    }
-                },
-
-                uploadFile: function (e, o) {
-
-                    // 如果这个对象只允许上传一张图片
-                    if (this.single) {
-                        // 删除第二张以后的图片
-                        for (var i = 1; i < this.data.length; i++) {
-                            this.deleteById(this.data[i].id);
-                        }
-                    }
-
-                    var file = $scope[e];
-                    var uploadUrl = CONFIG.uploadUrl;
-                    var xhr = new XMLHttpRequest();
-                    var fileId = this.add(xhr, file.name, file.size, xhr);
-                    // self.search();
-
-                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                        function (evt) {
-                            $scope.$apply(function () {
-                                if (evt.lengthComputable) {
-                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console && console.log(percentComplete);
-                                }
-                            });
-                        },
-                        function (xhr) {
-                            var ret = JSON.parse(xhr.responseText);
-                            console && console.log(ret);
-                            $scope.$apply(function () {
-                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
-                                // 如果这个对象只允许上传一张图片
-                                if (o.single) {
-                                    // 如果长度大于1张图片，删除前几张图片
-                                    if(o.data.length > 1) {
-                                        for(var i=0; i<o.data.length-1;i++) {
-                                            o.deleteById(o.data[i].id);
-                                        }
-                                    }
-                                }
-                            });
-                        },
-                        function (xhr) {
-                            $scope.$apply(function () {
-                                o.update(fileId, -1, '', '');
-                            });
-                            console && console.log('failure');
-                            xhr.abort();
-                        }
-                    );
-                }
-            }
-
-        }
-    ])
 
     .controller('tvSimpleSmallPicTextAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
@@ -4065,201 +3653,7 @@
         }
     ])
 
-    // 雅思特 小图 Add controler Lengxue
-    .controller('tvSimpleSmallPicTextYesteAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
-            function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
-                var self = this;
 
-                console.log('tvSimpleSmallPicTextYesteAdd Controller')
-                self.init = function() {
-                    self.viewId = $scope.app.maskParams.viewId;
-
-                    // 获取编辑多语言信息
-                    self.editLangs = util.getParams('editLangs');
-
-                    // 初始化频道图片
-                    self.imgs1 = new Imgs([], true);
-
-                }
-
-
-                self.cancel = function() {
-                    $scope.app.showHideMask(false);
-                }
-
-                self.save = function() {
-
-                    //频道图片必填验证
-                    if (self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100) {
-                        alert('请上传图片');
-                        return;
-                    }
-
-                    var data = JSON.stringify({
-                        "token": util.getParams('token'),
-                        "action": "add",
-                        "viewID": Number(self.viewId),
-                        "data": {
-                            "PicURL": self.imgs1.data[0].src,
-                            "Seq": self.Seq,
-                            "Text": self.Text,
-                            "Title": self.Title,
-                            "PicSize": self.imgs1.data[0].fileSize
-                        },
-                        "lang": util.langStyle()
-                    })
-                    self.saving = true;
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl('commonview', '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        var data = response.data;
-                        if (data.rescode == '200') {
-                            alert('添加成功');
-                            $state.reload();
-                        } else if (data.rescode == '401') {
-                            alert('访问超时，请重新登录');
-                            $state.go('login');
-                        } else {
-                            alert('添加失败，' + data.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        alert('连接服务器出错');
-                    }).finally(function(value) {
-                        self.saving = false;
-                    });
-
-                }
-
-                // 图片上传相关
-                self.clickUpload = function(e) {
-                    setTimeout(function() {
-                        document.getElementById(e).click();
-                    }, 0);
-                }
-
-                function Imgs(imgList, single) {
-                    this.initImgList = imgList;
-                    this.data = [];
-                    this.maxId = 0;
-                    this.single = single ? true : false;
-                }
-
-                Imgs.prototype = {
-                    initImgs: function() {
-                        var l = this.initImgList;
-                        for (var i = 0; i < l.length; i++) {
-                            this.data[i] = {
-                                "src": l[i].ImageURL,
-                                "fileSize": l[i].ImageSize,
-                                "id": this.maxId++,
-                                "progress": 100
-                            };
-                        }
-                    },
-                    deleteById: function(id) {
-                        var l = this.data;
-                        for (var i = 0; i < l.length; i++) {
-                            if (l[i].id == id) {
-                                // 如果正在上传，取消上传
-                                if (l[i].progress < 100 && l[i].progress != -1) {
-                                    l[i].xhr.abort();
-                                }
-                                l.splice(i, 1);
-                                break;
-                            }
-                        }
-                    },
-
-                    add: function(xhr, fileName, fileSize) {
-                        this.data.push({
-                            "xhr": xhr,
-                            "fileName": fileName,
-                            "fileSize": fileSize,
-                            "progress": 0,
-                            "id": this.maxId
-                        });
-                        return this.maxId++;
-                    },
-
-                    update: function(id, progress, leftSize, fileSize) {
-                        for (var i = 0; i < this.data.length; i++) {
-                            var f = this.data[i];
-                            if (f.id === id) {
-                                f.progress = progress;
-                                f.leftSize = leftSize;
-                                f.fileSize = fileSize;
-                                break;
-                            }
-                        }
-                    },
-
-                    setSrcSizeByXhr: function(xhr, src, size) {
-                        for (var i = 0; i < this.data.length; i++) {
-                            if (this.data[i].xhr == xhr) {
-                                this.data[i].src = src;
-                                this.data[i].fileSize = size;
-                                break;
-                            }
-                        }
-                    },
-
-                    uploadFile: function(e, o) {
-
-                        // 如果这个对象只允许上传一张图片
-                        if (this.single) {
-                            // 删除第二张以后的图片
-                            for (var i = 1; i < this.data.length; i++) {
-                                this.deleteById(this.data[i].id);
-                            }
-                        }
-
-                        var file = $scope[e];
-                        var uploadUrl = CONFIG.uploadUrl;
-                        var xhr = new XMLHttpRequest();
-                        var fileId = this.add(xhr, file.name, file.size, xhr);
-                        // self.search();
-
-                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                            function(evt) {
-                                $scope.$apply(function() {
-                                    if (evt.lengthComputable) {
-                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                        console && console.log(percentComplete);
-                                    }
-                                });
-                            },
-                            function(xhr) {
-                                var ret = JSON.parse(xhr.responseText);
-                                console && console.log(ret);
-                                $scope.$apply(function() {
-                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
-                                    // 如果这个对象只允许上传一张图片
-                                    if (o.single) {
-                                        // 如果长度大于1张图片，删除前几张图片
-                                        if (o.data.length > 1) {
-                                            for (var i = 0; i < o.data.length - 1; i++) {
-                                                o.deleteById(o.data[i].id);
-                                            }
-                                        }
-                                    }
-                                });
-                            },
-                            function(xhr) {
-                                $scope.$apply(function() {
-                                    o.update(fileId, -1, '', '');
-                                });
-                                console && console.log('failure');
-                                xhr.abort();
-                            }
-                        );
-                    }
-                }
-
-            }
-    ])
 
 
     .controller('tvSimpleSmallPicTextZFAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
@@ -4461,203 +3855,6 @@
         function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
             console.log('tvSimpleSmallPicTextZFCarouselAddController')
-            self.init = function() {
-                self.viewId = $scope.app.maskParams.viewId;
-
-                // 获取编辑多语言信息
-                self.editLangs = util.getParams('editLangs');
-
-                // 初始化频道图片
-                self.imgs1 = new Imgs([], true);
-
-            }
-
-
-            self.cancel = function() {
-                $scope.app.showHideMask(false);
-            }
-
-            self.save = function() {
-
-                //频道图片必填验证
-                if (self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100) {
-                    alert('请上传图片');
-                    return;
-                }
-
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "add",
-                    "viewID": Number(self.viewId),
-                    "data": {
-                        "PicURL": self.imgs1.data[0].src,
-                        "Seq": self.Seq,
-                        "Text": self.Text,
-                        // "Title": self.Title,
-                        "Title": {},
-                        "PicSize": self.imgs1.data[0].fileSize
-                    },
-                    "lang": util.langStyle()
-                })
-                self.saving = true;
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('添加成功');
-                        $state.reload();
-                    } else if (data.rescode == '401') {
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else {
-                        alert('添加失败，' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function(value) {
-                    self.saving = false;
-                });
-
-            }
-
-
-            // 图片上传相关
-            self.clickUpload = function(e) {
-                setTimeout(function() {
-                    document.getElementById(e).click();
-                }, 0);
-            }
-
-            function Imgs(imgList, single) {
-                this.initImgList = imgList;
-                this.data = [];
-                this.maxId = 0;
-                this.single = single ? true : false;
-            }
-
-            Imgs.prototype = {
-                initImgs: function() {
-                    var l = this.initImgList;
-                    for (var i = 0; i < l.length; i++) {
-                        this.data[i] = {
-                            "src": l[i].ImageURL,
-                            "fileSize": l[i].ImageSize,
-                            "id": this.maxId++,
-                            "progress": 100
-                        };
-                    }
-                },
-                deleteById: function(id) {
-                    var l = this.data;
-                    for (var i = 0; i < l.length; i++) {
-                        if (l[i].id == id) {
-                            // 如果正在上传，取消上传
-                            if (l[i].progress < 100 && l[i].progress != -1) {
-                                l[i].xhr.abort();
-                            }
-                            l.splice(i, 1);
-                            break;
-                        }
-                    }
-                },
-
-                add: function(xhr, fileName, fileSize) {
-                    this.data.push({
-                        "xhr": xhr,
-                        "fileName": fileName,
-                        "fileSize": fileSize,
-                        "progress": 0,
-                        "id": this.maxId
-                    });
-                    return this.maxId++;
-                },
-
-                update: function(id, progress, leftSize, fileSize) {
-                    for (var i = 0; i < this.data.length; i++) {
-                        var f = this.data[i];
-                        if (f.id === id) {
-                            f.progress = progress;
-                            f.leftSize = leftSize;
-                            f.fileSize = fileSize;
-                            break;
-                        }
-                    }
-                },
-
-                setSrcSizeByXhr: function(xhr, src, size) {
-                    for (var i = 0; i < this.data.length; i++) {
-                        if (this.data[i].xhr == xhr) {
-                            this.data[i].src = src;
-                            this.data[i].fileSize = size;
-                            break;
-                        }
-                    }
-                },
-
-                uploadFile: function(e, o) {
-
-                    // 如果这个对象只允许上传一张图片
-                    if (this.single) {
-                        // 删除第二张以后的图片
-                        for (var i = 1; i < this.data.length; i++) {
-                            this.deleteById(this.data[i].id);
-                        }
-                    }
-
-                    var file = $scope[e];
-                    var uploadUrl = CONFIG.uploadUrl;
-                    var xhr = new XMLHttpRequest();
-                    var fileId = this.add(xhr, file.name, file.size, xhr);
-                    // self.search();
-
-                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                        function(evt) {
-                            $scope.$apply(function() {
-                                if (evt.lengthComputable) {
-                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                    console && console.log(percentComplete);
-                                }
-                            });
-                        },
-                        function(xhr) {
-                            var ret = JSON.parse(xhr.responseText);
-                            console && console.log(ret);
-                            $scope.$apply(function() {
-                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
-                                // 如果这个对象只允许上传一张图片
-                                if (o.single) {
-                                    // 如果长度大于1张图片，删除前几张图片
-                                    if (o.data.length > 1) {
-                                        for (var i = 0; i < o.data.length - 1; i++) {
-                                            o.deleteById(o.data[i].id);
-                                        }
-                                    }
-                                }
-                            });
-                        },
-                        function(xhr) {
-                            $scope.$apply(function() {
-                                o.update(fileId, -1, '', '');
-                            });
-                            console && console.log('failure');
-                            xhr.abort();
-                        }
-                    );
-                }
-            }
-
-        }
-    ])
-
-    //雅思特 轮播图Add Yeste_SimpleSmallPicText_Carousel
-    .controller('Yeste_SimpleSmallPicText_Carousel_Add', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
-        function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
-            var self = this;
-            console.log('Yeste_SimpleSmallPicText_Carousel_Add')
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
 
@@ -5397,7 +4594,7 @@
         }
     ])
 
-    // Yeste_SimpleSmallPicText Controler Lengxue
+    // 雅思特 小图 Yeste_SimpleSmallPicText Controler
     .controller('Yeste_SimpleSmallPicText', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
             function ($scope, $state, $http, $stateParams, $location, util) {
                 var self = this;
@@ -5486,6 +4683,901 @@
 
             }
         ])
+    // 雅思特 小图 Add controler
+    .controller('tvSimpleSmallPicTextYesteAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+
+            console.log('tvSimpleSmallPicTextYesteAdd Controller')
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+
+                // 获取编辑多语言信息
+                self.editLangs = util.getParams('editLangs');
+
+                // 初始化频道图片
+                self.imgs1 = new Imgs([], true);
+
+            }
+
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.save = function() {
+
+                //频道图片必填验证
+                if (self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100) {
+                    alert('请上传图片');
+                    return;
+                }
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "add",
+                    "viewID": Number(self.viewId),
+                    "data": {
+                        "PicURL": self.imgs1.data[0].src,
+                        "Seq": self.Seq,
+                        "Text": self.Text,
+                        "Title": self.Title,
+                        "PicSize": self.imgs1.data[0].fileSize
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('添加成功');
+                        $state.reload();
+                    } else if (data.rescode == '401') {
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else {
+                        alert('添加失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function(value) {
+                    self.saving = false;
+                });
+
+            }
+
+            // 图片上传相关
+            self.clickUpload = function(e) {
+                setTimeout(function() {
+                    document.getElementById(e).click();
+                }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single ? true : false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function() {
+                    var l = this.initImgList;
+                    for (var i = 0; i < l.length; i++) {
+                        this.data[i] = {
+                            "src": l[i].ImageURL,
+                            "fileSize": l[i].ImageSize,
+                            "id": this.maxId++,
+                            "progress": 100
+                        };
+                    }
+                },
+                deleteById: function(id) {
+                    var l = this.data;
+                    for (var i = 0; i < l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if (l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add: function(xhr, fileName, fileSize) {
+                    this.data.push({
+                        "xhr": xhr,
+                        "fileName": fileName,
+                        "fileSize": fileSize,
+                        "progress": 0,
+                        "id": this.maxId
+                    });
+                    return this.maxId++;
+                },
+
+                update: function(id, progress, leftSize, fileSize) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        var f = this.data[i];
+                        if (f.id === id) {
+                            f.progress = progress;
+                            f.leftSize = leftSize;
+                            f.fileSize = fileSize;
+                            break;
+                        }
+                    }
+                },
+
+                setSrcSizeByXhr: function(xhr, src, size) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        if (this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function(e, o) {
+
+                    // 如果这个对象只允许上传一张图片
+                    if (this.single) {
+                        // 删除第二张以后的图片
+                        for (var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = $scope[e];
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function(evt) {
+                            $scope.$apply(function() {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console && console.log(percentComplete);
+                                }
+                            });
+                        },
+                        function(xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function() {
+                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                // 如果这个对象只允许上传一张图片
+                                if (o.single) {
+                                    // 如果长度大于1张图片，删除前几张图片
+                                    if (o.data.length > 1) {
+                                        for (var i = 0; i < o.data.length - 1; i++) {
+                                            o.deleteById(o.data[i].id);
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        function(xhr) {
+                            $scope.$apply(function() {
+                                o.update(fileId, -1, '', '');
+                            });
+                            console && console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
+            }
+
+        }
+    ])
+    //雅思特 小图 Edit Yeste_SimpleSmallPicText
+    .controller('tvSimpleSmallPicTextYesteEditController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+                self.picInfo = $scope.app.maskParams.picInfo;
+
+                // 获取编辑多语言信息
+                self.editLangs = util.getParams('editLangs');
+
+                self.setInfo();
+
+            }
+
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.setInfo = function () {
+
+                self.Seq = self.picInfo.Seq;
+                self.Title = self.picInfo.Title;
+                self.Text = self.picInfo.Text;
+                self.imgs1 = new Imgs([{"ImageURL": self.picInfo.PicURL, "ImageSize": self.picInfo.PicSize}], true);
+                self.imgs1.initImgs();
+                console.log(self.imgs1);
+            }
+
+            self.save = function() {
+
+                //频道图片必填验证
+                if(self.imgs1.data.length == 0) {
+                    alert('请上传频道图片');
+                    return;
+                }
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "edit",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "ID": Number(self.picInfo.ID),
+                        "Seq": self.Seq,
+                        "Title": self.Title,
+                        "PicURL": self.imgs1.data[0].src,
+                        "Text": self.Text,
+                        "PicSize": self.imgs1.data[0].fileSize
+                    },
+                    "lang": util.langStyle()
+                })
+
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            }
+
+
+            // 图片上传相关
+            self.clickUpload = function (e) {
+                setTimeout(function () {
+                    document.getElementById(e).click();
+                }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single ? true : false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function () {
+                    var l = this.initImgList;
+                    for (var i = 0; i < l.length; i++) {
+                        this.data[i] = {
+                            "src": l[i].ImageURL,
+                            "fileSize": l[i].ImageSize,
+                            "id": this.maxId++,
+                            "progress": 100
+                        };
+                    }
+                },
+                deleteById: function (id) {
+                    var l = this.data;
+                    for (var i = 0; i < l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if (l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add: function (xhr, fileName, fileSize) {
+                    this.data.push({
+                        "xhr": xhr,
+                        "fileName": fileName,
+                        "fileSize": fileSize,
+                        "progress": 0,
+                        "id": this.maxId
+                    });
+                    return this.maxId++;
+                },
+
+                update: function (id, progress, leftSize, fileSize) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        var f = this.data[i];
+                        if (f.id === id) {
+                            f.progress = progress;
+                            f.leftSize = leftSize;
+                            f.fileSize = fileSize;
+                            break;
+                        }
+                    }
+                },
+
+                setSrcSizeByXhr: function (xhr, src, size) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        if (this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function (e, o) {
+
+                    // 如果这个对象只允许上传一张图片
+                    if (this.single) {
+                        // 删除第二张以后的图片
+                        for (var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = $scope[e];
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function (evt) {
+                            $scope.$apply(function () {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console && console.log(percentComplete);
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function () {
+                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                // 如果这个对象只允许上传一张图片
+                                if (o.single) {
+                                    // 如果长度大于1张图片，删除前几张图片
+                                    if(o.data.length > 1) {
+                                        for(var i=0; i<o.data.length-1;i++) {
+                                            o.deleteById(o.data[i].id);
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            $scope.$apply(function () {
+                                o.update(fileId, -1, '', '');
+                            });
+                            console && console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
+            }
+
+        }
+    ])
+
+
+    //雅思特 轮播图 Yeste_SimpleSmallPicText_Carousel
+    .controller('Yeste_SimpleSmallPicText_Carousel', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+        function ($scope, $state, $http, $stateParams, $location, util) {
+            var self = this;
+            console.log('Yeste_SimpleSmallPicText_Carousel_Add controler')
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                self.defaultLangCode = util.getDefaultLangCode();
+                self.loadList();
+            }
+
+            self.edit = function(index) {
+                console.log('edit');
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.picInfo = self.pics[index];
+                $scope.app.showHideMask(true,'pages/tv/SimpleSmallPicTextEdit_Yeste_Carousel.html');
+            }
+
+            self.del = function(id, index) {
+                var index = index;
+                if(!confirm('确认删除？')) {
+                    return;
+                }
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "delete",
+                    "viewID": self.viewId,
+                    "data": {
+                        "ID":id-0
+                    },
+                    "lang": util.langStyle()
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('删除成功');
+                        self.pics.splice(index,1);
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('删除失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                });
+            }
+
+            self.add = function() {
+                console.log('add');
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.showHideMask(true,'pages/tv/SimpleSmallPicTextAdd_Yeste_Carousel.html');
+            }
+
+            self.loadList = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "get",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.pics = data.data.apk;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+        }
+    ])
+    //雅思特 轮播图 Add Yeste_SimpleSmallPicText_Carousel_Add
+    .controller('Yeste_SimpleSmallPicText_Carousel_Add', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+
+            console.log('Yeste_SimpleSmallPicText_Carousel_Add Controller')
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+
+                // 获取编辑多语言信息
+                self.editLangs = util.getParams('editLangs');
+
+                // 初始化频道图片
+                self.imgs1 = new Imgs([], true);
+
+            }
+
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.save = function() {
+
+                //频道图片必填验证
+                if (self.imgs1.data.length == 0 || self.imgs1.data[0].progress < 100) {
+                    alert('请上传图片');
+                    return;
+                }
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "add",
+                    "viewID": Number(self.viewId),
+                    "data": {
+                        "PicURL": self.imgs1.data[0].src,
+                        "Seq": self.Seq,
+                        "Text": self.Text,
+                        "Title": self.Title,
+                        "PicSize": self.imgs1.data[0].fileSize
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('添加成功');
+                        $state.reload();
+                    } else if (data.rescode == '401') {
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else {
+                        alert('添加失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function(value) {
+                    self.saving = false;
+                });
+
+            }
+
+            // 图片上传相关
+            self.clickUpload = function(e) {
+                setTimeout(function() {
+                    document.getElementById(e).click();
+                }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single ? true : false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function() {
+                    var l = this.initImgList;
+                    for (var i = 0; i < l.length; i++) {
+                        this.data[i] = {
+                            "src": l[i].ImageURL,
+                            "fileSize": l[i].ImageSize,
+                            "id": this.maxId++,
+                            "progress": 100
+                        };
+                    }
+                },
+                deleteById: function(id) {
+                    var l = this.data;
+                    for (var i = 0; i < l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if (l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add: function(xhr, fileName, fileSize) {
+                    this.data.push({
+                        "xhr": xhr,
+                        "fileName": fileName,
+                        "fileSize": fileSize,
+                        "progress": 0,
+                        "id": this.maxId
+                    });
+                    return this.maxId++;
+                },
+
+                update: function(id, progress, leftSize, fileSize) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        var f = this.data[i];
+                        if (f.id === id) {
+                            f.progress = progress;
+                            f.leftSize = leftSize;
+                            f.fileSize = fileSize;
+                            break;
+                        }
+                    }
+                },
+
+                setSrcSizeByXhr: function(xhr, src, size) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        if (this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function(e, o) {
+
+                    // 如果这个对象只允许上传一张图片
+                    if (this.single) {
+                        // 删除第二张以后的图片
+                        for (var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = $scope[e];
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function(evt) {
+                            $scope.$apply(function() {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console && console.log(percentComplete);
+                                }
+                            });
+                        },
+                        function(xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function() {
+                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                // 如果这个对象只允许上传一张图片
+                                if (o.single) {
+                                    // 如果长度大于1张图片，删除前几张图片
+                                    if (o.data.length > 1) {
+                                        for (var i = 0; i < o.data.length - 1; i++) {
+                                            o.deleteById(o.data[i].id);
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        function(xhr) {
+                            $scope.$apply(function() {
+                                o.update(fileId, -1, '', '');
+                            });
+                            console && console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
+            }
+
+        }
+    ])
+    //雅思特 轮播图 Add Yeste_SimpleSmallPicText_Carousel_Edit
+    .controller('Yeste_SimpleSmallPicText_Carousel_Edit', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+                self.picInfo = $scope.app.maskParams.picInfo;
+
+                // 获取编辑多语言信息
+                self.editLangs = util.getParams('editLangs');
+
+                self.setInfo();
+
+            }
+
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.setInfo = function () {
+
+                self.Seq = self.picInfo.Seq;
+                self.Title = self.picInfo.Title;
+                self.Text = self.picInfo.Text;
+                self.imgs1 = new Imgs([{"ImageURL": self.picInfo.PicURL, "ImageSize": self.picInfo.PicSize}], true);
+                self.imgs1.initImgs();
+                console.log(self.imgs1);
+            }
+
+            self.save = function() {
+
+                //频道图片必填验证
+                if(self.imgs1.data.length == 0) {
+                    alert('请上传频道图片');
+                    return;
+                }
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "edit",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "ID": Number(self.picInfo.ID),
+                        "Seq": self.Seq,
+                        "Title": self.Title,
+                        "PicURL": self.imgs1.data[0].src,
+                        "Text": self.Text,
+                        "PicSize": self.imgs1.data[0].fileSize
+                    },
+                    "lang": util.langStyle()
+                })
+
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            }
+
+
+            // 图片上传相关
+            self.clickUpload = function (e) {
+                setTimeout(function () {
+                    document.getElementById(e).click();
+                }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single ? true : false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function () {
+                    var l = this.initImgList;
+                    for (var i = 0; i < l.length; i++) {
+                        this.data[i] = {
+                            "src": l[i].ImageURL,
+                            "fileSize": l[i].ImageSize,
+                            "id": this.maxId++,
+                            "progress": 100
+                        };
+                    }
+                },
+                deleteById: function (id) {
+                    var l = this.data;
+                    for (var i = 0; i < l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if (l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add: function (xhr, fileName, fileSize) {
+                    this.data.push({
+                        "xhr": xhr,
+                        "fileName": fileName,
+                        "fileSize": fileSize,
+                        "progress": 0,
+                        "id": this.maxId
+                    });
+                    return this.maxId++;
+                },
+
+                update: function (id, progress, leftSize, fileSize) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        var f = this.data[i];
+                        if (f.id === id) {
+                            f.progress = progress;
+                            f.leftSize = leftSize;
+                            f.fileSize = fileSize;
+                            break;
+                        }
+                    }
+                },
+
+                setSrcSizeByXhr: function (xhr, src, size) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        if (this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function (e, o) {
+
+                    // 如果这个对象只允许上传一张图片
+                    if (this.single) {
+                        // 删除第二张以后的图片
+                        for (var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = $scope[e];
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function (evt) {
+                            $scope.$apply(function () {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console && console.log(percentComplete);
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function () {
+                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                // 如果这个对象只允许上传一张图片
+                                if (o.single) {
+                                    // 如果长度大于1张图片，删除前几张图片
+                                    if(o.data.length > 1) {
+                                        for(var i=0; i<o.data.length-1;i++) {
+                                            o.deleteById(o.data[i].id);
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            $scope.$apply(function () {
+                                o.update(fileId, -1, '', '');
+                            });
+                            console && console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
+            }
+
+        }
+    ])
 
 
     .controller('tvSimpleSmallPicTextZFCarouselController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
@@ -5574,94 +5666,6 @@
 
         }
     ])
-    //雅思特 轮播图 Yeste_SimpleSmallPicText_Carousel
-    .controller('Yeste_SimpleSmallPicText_Carousel', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
-        function ($scope, $state, $http, $stateParams, $location, util) {
-            var self = this;
-            console.log('Yeste_SimpleSmallPicText_Carousel')
-            self.init = function() {
-                self.viewId = $stateParams.moduleId;
-                self.defaultLangCode = util.getDefaultLangCode();
-                self.loadList();
-            }
-
-            self.edit = function(index) {
-                $scope.app.maskParams.viewId = self.viewId;
-                $scope.app.maskParams.picInfo = self.pics[index];
-                $scope.app.showHideMask(true,'pages/tv/SimpleSmallPicTextEdit_Yeste_Carousel.html');
-            }
-
-            self.del = function(id, index) {
-                var index = index;
-                if(!confirm('确认删除？')) {
-                    return;
-                }
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "delete",
-                    "viewID": self.viewId,
-                    "data": {
-                        "ID":id-0
-                    },
-                    "lang": util.langStyle()
-                })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('删除成功');
-                        self.pics.splice(index,1);
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('删除失败，' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                });
-            }
-
-            self.add = function() {
-                $scope.app.maskParams.viewId = self.viewId;
-                $scope.app.showHideMask(true,'pages/tv/SimpleSmallPicTextAdd_Yeste_Carousel.html');
-            }
-
-            self.loadList = function() {
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "get",
-                    "viewID": self.viewId-0,
-                    "lang": util.langStyle()
-                })
-                self.loading = true;
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        self.pics = data.data.apk;
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('加载信息失败，' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function (value) {
-                    self.loading = false;
-                });
-            }
-
-        }
-    ])
-
 
     .controller('tvSimpleSmallPicTextCarouselController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
