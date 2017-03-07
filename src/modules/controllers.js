@@ -2815,7 +2815,82 @@
                     token = util.getParams('token');
                     self.SpecialPrice = [];
                     self.roomDetail = [];
+                    self.addPrice = [];
                     self.load();
+                    self.loadAddPrice();
+                }
+
+                self.saveAddPrice = function () {
+                    self.savingAddPrice = true;
+                    for(var i = 0; i < self.addPrice.length; i++) {
+                        self.addPrice[i].Price *= 100;
+                    }
+
+                    var data = JSON.stringify({
+                        action: "setRoomServicePrice",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId,
+                        data: self.addPrice
+                    })
+                    
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            alert('保存成功');
+                            $state.reload();
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('保存失败，' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.savingAddPrice = false;
+                    });
+                }
+
+                self.addAddPrice = function () {
+                    self.addPrice.push ({Name: '', Desc: '', Price: ''});
+                }
+
+                self.loadAddPrice = function () {
+                    var data = JSON.stringify({
+                        action: "getRoomServicePrice",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId
+                    })
+                    self.loadingAddPrice = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.addPrice = data.data;
+                            for(var i = 0; i < self.addPrice.length; i++) {
+                                self.addPrice[i].Price /= 100;
+                            }
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('读取信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                            self.loadingAddPrice = false;
+                        }
+                    );
                 }
 
                 self.cancel = function () {
