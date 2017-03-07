@@ -16,7 +16,7 @@
                 self.MainMenu_THJ_SecondMenu = false;
                 self.MainMenu_LiFeng_SecondMenu = false;
                 self.MainMenu_SX_SecondMenu = false;
-                self.Yeste_MainMenu = false;
+                self.MainMenu_Yeste_SecondMenu = false;
 
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
@@ -352,7 +352,7 @@
                 }
 
                 // MainMenu_THJ_SecondMenu
-                if(branch.data.type == 'MainMenu_THJ_SecondMenu' || branch.data.type == 'MainMenu_SX_SecondMenu' || branch.data.type == 'MainMenu_LiFeng_SecondMenu'|| branch.data.type == 'Yeste_MainMenu') {
+                if(branch.data.type == 'MainMenu_THJ_SecondMenu' || branch.data.type == 'MainMenu_SX_SecondMenu' || branch.data.type == 'MainMenu_LiFeng_SecondMenu'|| branch.data.type == 'MainMenu_Yeste_SecondMenu') {
                     
                     $state.go('app.tvAdmin.blank', {label: branch.label});
                     self.changeMenuInfo();
