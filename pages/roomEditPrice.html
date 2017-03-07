@@ -108,19 +108,19 @@
                     <li class="setting-group-item " ng-repeat="addPrice in roomEditPrice.addPrice">
                         <div class="row">
                             <!-- 变价名称 -->
-                            <div class="col-xs-4 col-condensed">
-                                <small>名称</small>
-                                <input type="text" class="form-control" ng-model="addPrice.Name" required placeholder="请输入名称（必填）" />
+                            <div ng-repeat="lan in roomEditPrice.multiLang" class="col-xs-4 col-condensed">
+                                <small>名称（{{lan.code}}）</small>
+                                <input type="text" class="form-control" ng-model="addPrice.Name[lan.code]" required placeholder="请输入名称" />
                             </div>
                             <!-- 变价描述 -->
-                            <div class="col-xs-4 col-condensed">
-                                <small>描述</small>
-                                <input type="text" class="form-control" ng-model="addPrice.Desc" required placeholder="请输入描述" />
+                            <div ng-repeat="lan in roomEditPrice.multiLang" class="col-xs-4 col-condensed">
+                                <small>描述（{{lan.code}}）</small>
+                                <input type="text" class="form-control" ng-model="addPrice.Desc[lan.code]" required placeholder="请输入描述" />
                             </div>
                             <!-- 数字输入框 -->
                             <div class="col-xs-3 col-condensed">
                                 <small>价格</small>
-                                <input type="number" class="form-control" ng-model="addPrice.Price" required placeholder="请输入价格（必填）" step='0.01' min="0" />
+                                <input type="number" class="form-control" ng-model="addPrice.Price" required placeholder="请输入价格" step='0.01' min="0" />
                             </div>
                             <!-- 关闭按钮 -->
                             <div class="col-xs-1 col-condensed">

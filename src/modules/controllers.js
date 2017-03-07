@@ -2818,12 +2818,17 @@
                     self.addPrice = [];
                     self.load();
                     self.loadAddPrice();
+                    self.multiLang = util.getParams('editLangs');
                 }
 
                 self.saveAddPrice = function () {
                     self.savingAddPrice = true;
+                    var addPriceData = [];
                     for(var i = 0; i < self.addPrice.length; i++) {
-                        self.addPrice[i].Price *= 100;
+                        addPriceData[i] = {};
+                        addPriceData[i].Name = self.addPrice[i].Name;
+                        addPriceData[i].Desc = self.addPrice[i].Desc;
+                        addPriceData[i].Price = self.addPrice[i].Price*100;
                     }
 
                     var data = JSON.stringify({
@@ -2831,9 +2836,9 @@
                         lang: lang,
                         token: token,
                         roomID: self.roomId,
-                        data: self.addPrice
+                        data: addPriceData
                     })
-                    
+
                     $http({
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
@@ -2857,7 +2862,13 @@
                 }
 
                 self.addAddPrice = function () {
-                    self.addPrice.push ({Name: '', Desc: '', Price: ''});
+
+                    var index = self.addPrice.push ({Name: {}, Desc: {}, Price: ''});
+
+                    for(var i = 0; i < self.multiLang.length; i++) {
+                        self.addPrice[index-1].Name[self.multiLang[i]] = '';
+                        self.addPrice[index-1].Desc[self.multiLang[i]] = '';
+                    }
                 }
 
                 self.loadAddPrice = function () {
