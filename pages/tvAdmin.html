@@ -118,6 +118,7 @@
         <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu' 
             || my_tree.get_selected_branch().data.type=='MainMenu_LiFeng_SecondMenu'
             || my_tree.get_selected_branch().data.type=='MainMenu_SX_SecondMenu'
+            || my_tree.get_selected_branch().data.type=='Yeste_MainMenu'
             || my_tree.get_selected_branch().data.type=='Live'
             || my_tree.get_selected_branch().data.type=='SimplePicText'
             || my_tree.get_selected_branch().data.type=='MultPic'
@@ -269,8 +270,10 @@
                 </div>
                 <!--添加模块-->
                 <div class="tab-pane" ng-class="{'in active':(tvAdmin.tab==1)}">
-                    <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu' || my_tree.get_selected_branch().data.type=='MainMenu_SX_SecondMenu'
-                    || my_tree.get_selected_branch().data.type=='MainMenu_LiFeng_SecondMenu'">
+                    <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu'
+                    || my_tree.get_selected_branch().data.type=='MainMenu_SX_SecondMenu'
+                    || my_tree.get_selected_branch().data.type=='MainMenu_LiFeng_SecondMenu'
+                    || my_tree.get_selected_branch().data.type=='Yeste_MainMenu'">
                             <a ng-click="tvAdmin.addModule(2)" class="button button-light">
                                 <i class="icon ion-ios-plus-outline"></i>添加模块
                             </a>
