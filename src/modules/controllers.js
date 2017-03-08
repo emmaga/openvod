@@ -2871,13 +2871,7 @@
                 }
 
                 self.addAddPrice = function () {
-
-                    var index = self.addPrice.push ({Name: {}, Desc: {}, Price: ''});
-
-                    for(var i = 0; i < self.multiLang.length; i++) {
-                        self.addPrice[index-1].Name[self.multiLang[i]] = '';
-                        self.addPrice[index-1].Desc[self.multiLang[i]] = '';
-                    }
+                    self.addPrice.push ({Name: {}, Desc: {}, Price: ''});
                 }
 
                 self.loadAddPrice = function () {
