@@ -161,6 +161,20 @@ body, .app {
     width: 120px;
 }
 
+.project-name{
+    position: absolute;
+    /*width:150px;*/ 
+    height: 43px;
+    color: white;
+    right:53px;
+    top: 6px;
+    line-height: 46px;
+    overflow: hidden;
+    font-size: 16px;
+    z-index: 2;
+}
+
+
 .project-logo{
     display: inline-block;
     height: 100%;
@@ -333,11 +347,19 @@ body, .app {
 }
 
 
+.app.phase1 .project-title {
+    transition-duration: .53s;
+    opacity: 1;
+}
+.app.phase1 .project-name {
+    transition-duration: .53s;
+    opacity: 1;
+}
 .app.phase2 .project-title {
     transition-duration: .53s;
     opacity: 0;
 }
-.app.phase2 .project-title {
+.app.phase2 .project-name {
     transition-duration: .53s;
     opacity: 0;
 }
