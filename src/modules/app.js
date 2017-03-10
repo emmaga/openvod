@@ -521,6 +521,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.BaoFengHDMI', {
+                    url: '/BaoFengHDMI?moduleId&label',
+                    templateUrl: 'pages/tv/BaoFengHDMI.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.SkyworthDTV', {
                     url: '/SkyworthDTV?moduleId&label',
                     templateUrl: 'pages/tv/SkyworthDTV.html',
