@@ -5881,6 +5881,40 @@
                 $scope.app.maskParams.ENlang = self.ENlang;
                 $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Yeste.html');
             }
+            //删除
+            self.del = function(id, index) {
+                var index = index;
+                if(!confirm('确认删除？')) {
+                    return;
+                }
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "delete",
+                    "viewID": self.viewId,
+                    "data": {
+                        "ID":id-0
+                    },
+                    "lang": util.langStyle()
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('删除成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('删除失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                });
+            }
 
         }
     ])
