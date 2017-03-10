@@ -5864,7 +5864,6 @@
                 $scope.app.maskParams.viewId = self.viewId;
                 $scope.app.maskParams.num = num;
                 $scope.app.showHideMask(true,'pages/tv/WeatherAdd_Yeste.html');
-
             }
 
             self.Country = function () {
@@ -5873,6 +5872,14 @@
                 }else {
                     return "Oversea";
                 }
+            }
+            //修改
+            self.edit = function(Item) {
+                console.log('edit');
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.cityInfo = Item;
+                $scope.app.maskParams.ENlang = self.ENlang;
+                $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Yeste.html');
             }
 
         }
@@ -5937,6 +5944,63 @@
                 });
 
             };
+        }
+    ])
+    //雅思特天气 Edit Yeste_Weather
+    .controller('Yeste_Weather_Edit_Controler', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+                self.cityInfo = $scope.app.maskParams.cityInfo;
+                self.ENlang = $scope.app.maskParams.ENlang;
+                // 获取编辑多语言信息
+                self.editLangs = util.getParams('editLangs');
+            }
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "edit",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "ID": Number(self.cityInfo.ID),
+                        "Seq": self.cityInfo.Seq,
+                        "Country": self.cityInfo.Country,
+                        "City": self.cityInfo.City
+                    },
+                    "lang": util.langStyle()
+                })
+
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            }
         }
     ])
 
