@@ -4812,7 +4812,6 @@
     .controller('Yeste_SimpleSmallPicText', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
             function ($scope, $state, $http, $stateParams, $location, util) {
                 var self = this;
-                console.log('Yeste_SimpleSmallPicText controler')
                 self.init = function() {
                     self.viewId = $stateParams.moduleId;
                     self.defaultLangCode = util.getDefaultLangCode();
@@ -4901,8 +4900,6 @@
     .controller('tvSimpleSmallPicTextYesteAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
-
-            console.log('tvSimpleSmallPicTextYesteAdd Controller')
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
 
@@ -5096,7 +5093,6 @@
     .controller('tvSimpleSmallPicTextYesteEditController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
-
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
                 self.picInfo = $scope.app.maskParams.picInfo;
@@ -5299,13 +5295,10 @@
 
         }
     ])
-
-
     //雅思特 轮播图 Yeste_SimpleSmallPicText_Carousel
     .controller('Yeste_SimpleSmallPicText_Carousel', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
             var self = this;
-            console.log('Yeste_SimpleSmallPicText_Carousel_Add controler')
             self.init = function() {
                 self.viewId = $stateParams.moduleId;
                 self.defaultLangCode = util.getDefaultLangCode();
@@ -5394,8 +5387,6 @@
     .controller('Yeste_SimpleSmallPicText_Carousel_Add', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
-
-            console.log('Yeste_SimpleSmallPicText_Carousel_Add Controller')
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
                 // 获取编辑多语言信息
@@ -5589,12 +5580,9 @@
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
                 self.picInfo = $scope.app.maskParams.picInfo;
-
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
-
                 self.setInfo();
-
             }
 
             self.cancel = function() {
@@ -5790,17 +5778,14 @@
     //雅思特 世界时钟 Yeste_WorldClock
     .controller('Yeste_WorldClock', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
             function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-                console.log('Yeste_WorldClock')
                 var self = this;
                 self.init = function() {
-
                 }
             }
         ])
     //雅思特天气 Yeste_Weather
     .controller('Yeste_Weather', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-            console.log('Yeste_Weather Controler');
             var self = this;
             self.init = function() {
                 self.info = {};
@@ -5921,7 +5906,6 @@
     //雅思特天气 Add Yeste_Weather
     .controller('Yeste_Weather_Add_Controler',['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
-            console.log('Yeste_Weather_Add Controler');
             var self = this;
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
@@ -5995,9 +5979,6 @@
             self.cancel = function() {
                 $scope.app.showHideMask(false);
             }
-
-
-
             self.save = function() {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
