@@ -1792,6 +1792,7 @@
                             self.hotel.LogoImg = data.data.LogoURL;
                             self.hotel.CityName = data.data.CityName;
                             self.hotel.AdminPhoneNum = data.data.AdminPhoneNum;
+                            self.hotel.ViewURL = data.data.ViewURL;
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");
