@@ -291,6 +291,12 @@
                     $state.go('app.tvAdmin.SkyworthHDMI', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();        
                 }
+                //BaoFengHDMI
+                if(branch.data.type == 'BaoFengHDMI') {
+                    $state.go('app.tvAdmin.BaoFengHDMI', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // SkyworthDTV
                 if(branch.data.type == 'SkyworthDTV') {
                     $state.go('app.tvAdmin.SkyworthDTV', {moduleId: branch.data.moduleId, label: branch.label});
@@ -5780,6 +5786,7 @@
             function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 var self = this;
                 self.init = function() {
+
                 }
             }
         ])
@@ -13886,6 +13893,16 @@
     .controller('tvSkyworthHDMIController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
             console.log('tvSkyworthHDMIController')
+            var self = this;
+            self.init = function() {
+
+            }
+        }
+    ])
+    //BaoFengHDMI
+    .controller('tvBaoFengHDMIController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('tvBaoFengHDMIController')
             var self = this;
             self.init = function() {
 
