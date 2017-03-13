@@ -1,8 +1,8 @@
-<div ng-controller="tvSimpleSmallPicTextYesteAddController as tvSimpleSmallPicTextYesteAdd" ng-init="tvSimpleSmallPicTextYesteAdd.init()" class="autoscroll modal-dialog modal-sm">
+<div ng-controller="tvSimpleSmallPicTextYesteAddController as Add" ng-init="Add.init()" class="autoscroll modal-dialog modal-sm">
     <div class="modal-content">
         <!--header-->
         <div class="modal-header">
-            <button type="button" class="close" ng-click="tvSimpleSmallPicTextYesteAdd.cancel()">
+            <button type="button" class="close" ng-click="Add.cancel()">
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
             </button>
@@ -11,12 +11,12 @@
         <!--/header end-->
         <!--body-->
         <div class="modal-body">
-            <form id="tvSimpleSmallPicTextAddForm" name="tvSimpleSmallPicTextAddForm" ng-submit="tvSimpleSmallPicTextAddForm.$valid && tvSimpleSmallPicTextYesteAdd.save()">
+            <form id="Add" name="tvSimpleSmallPicTextAddForm" ng-submit="Add.$valid && Add.save()">
                 <div class="form-group">
                     <!--序号-->
                     <label>序号</label>
                     <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                    type="number" ng-model="tvSimpleSmallPicTextYesteAdd.Seq" min="1" required placeholder="（必填）"/>
+                    type="number" ng-model="Add.Seq" min="1" required placeholder="（必填）"/>
                     <!--/序号-->
                 </div>
                 <div class="form-group">
@@ -24,10 +24,10 @@
                     <label>图片</label>
                     <!--图片上传按钮-->
                     <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-                    <a ng-click="tvSimpleSmallPicTextYesteAdd.clickUpload('upload1')">上传</a>
-                    <a id="hidenUpload1" style="display: none;" ng-click="tvSimpleSmallPicTextYesteAdd.imgs1.uploadFile('myFile', tvSimpleSmallPicTextYesteAdd.imgs1)"></a>
+                    <a ng-click="Add.clickUpload('upload1')">上传</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="Add.imgs1.uploadFile('myFile', Add.imgs1)"></a>
                     <!--/图片上传按钮-->
-                    <div class="row" ng-repeat="img in tvSimpleSmallPicTextYesteAdd.imgs1.data">
+                    <div class="row" ng-repeat="img in Add.imgs1.data">
                         <div class="col-xs-12">
                             <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
                                 <!--进度条-->
@@ -44,30 +44,31 @@
                 </div>
                 <!--标题-->
                 <div class="form-group">
-                    <ng-repeat ng-repeat="lang in tvSimpleSmallPicTextYesteAdd.editLangs">
+                    <ng-repeat ng-repeat="lang in Add.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>标题{{lang.name}}：</label>
                             <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                            ng-model="tvSimpleSmallPicTextYesteAdd.Title[lang.code]" required placeholder="（必填）" />
+                            ng-model="Add.Title[lang.code]" required placeholder="（必填）" />
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <label>标题 {{lang.name}}：</label>
                             <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                            ng-model="tvSimpleSmallPicTextYesteAdd.Title[lang.code]" />
+                            ng-model="Add.Title[lang.code]" />
                         </ng-if>
                     </ng-repeat>
                 </div>
                 <!--/标题-->
                 <div class="form-group">
                     <!--详情-->
-                    <ng-repeat ng-repeat="lang in tvSimpleSmallPicTextYesteAdd.editLangs">
+                    <ng-repeat ng-repeat="lang in Add.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>详情{{lang.name}}：</label>
-                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）" ng-model="tvSimpleSmallPicTextYesteAdd.Text[lang.code]">{{tvSimpleSmallPicTextYesteAdd.Text[lang.code]}}</textarea>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）"
+                            ng-model="Add.Text[lang.code]">{{Add.Text[lang.code]}}</textarea>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <label>详情 {{lang.name}}：</label>
-                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="tvSimpleSmallPicTextYesteAdd.Text[lang.code]">{{tvSimpleSmallPicTextYesteAdd.Text[lang.code]}}</textarea>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="Add.Text[lang.code]">{{Add.Text[lang.code]}}</textarea>
                         </ng-if>
                     </ng-repeat>
                     <!--/详情-->
@@ -78,8 +79,8 @@
         <!--/body end-->
         <!--footer-->
         <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-sm" ng-click="tvSimpleSmallPicTextYesteAdd.cancel()">取消</button>
-            <button type="submit" class="btn btn-primary btn-sm" form="tvSimpleSmallPicTextAddForm" ng-disabled="tvSimpleSmallPicTextYesteAdd.saving">保存</button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="Add.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="Add" ng-disabled="Add.saving">保存</button>
         </div>
         <!--/footer end-->
     </div>

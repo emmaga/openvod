@@ -291,6 +291,12 @@
                     $state.go('app.tvAdmin.SkyworthHDMI', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();        
                 }
+                //BaoFengHDMI
+                if(branch.data.type == 'BaoFengHDMI') {
+                    $state.go('app.tvAdmin.BaoFengHDMI', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // SkyworthDTV
                 if(branch.data.type == 'SkyworthDTV') {
                     $state.go('app.tvAdmin.SkyworthDTV', {moduleId: branch.data.moduleId, label: branch.label});
@@ -4812,7 +4818,6 @@
     .controller('Yeste_SimpleSmallPicText', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
             function ($scope, $state, $http, $stateParams, $location, util) {
                 var self = this;
-                console.log('Yeste_SimpleSmallPicText controler')
                 self.init = function() {
                     self.viewId = $stateParams.moduleId;
                     self.defaultLangCode = util.getDefaultLangCode();
@@ -4901,8 +4906,6 @@
     .controller('tvSimpleSmallPicTextYesteAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
-
-            console.log('tvSimpleSmallPicTextYesteAdd Controller')
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
 
@@ -5096,7 +5099,6 @@
     .controller('tvSimpleSmallPicTextYesteEditController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
-
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
                 self.picInfo = $scope.app.maskParams.picInfo;
@@ -5299,13 +5301,10 @@
 
         }
     ])
-
-
     //雅思特 轮播图 Yeste_SimpleSmallPicText_Carousel
     .controller('Yeste_SimpleSmallPicText_Carousel', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
             var self = this;
-            console.log('Yeste_SimpleSmallPicText_Carousel_Add controler')
             self.init = function() {
                 self.viewId = $stateParams.moduleId;
                 self.defaultLangCode = util.getDefaultLangCode();
@@ -5394,17 +5393,12 @@
     .controller('Yeste_SimpleSmallPicText_Carousel_Add', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
-
-            console.log('Yeste_SimpleSmallPicText_Carousel_Add Controller')
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
-
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
-
                 // 初始化频道图片
                 self.imgs1 = new Imgs([], true);
-
             }
 
 
@@ -5585,22 +5579,17 @@
 
         }
     ])
-    //雅思特 轮播图 Add Yeste_SimpleSmallPicText_Carousel_Edit
+    //雅思特 轮播图 Edit Yeste_SimpleSmallPicText_Carousel_Edit
     .controller('Yeste_SimpleSmallPicText_Carousel_Edit', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
-
             self.init = function() {
                 self.viewId = $scope.app.maskParams.viewId;
                 self.picInfo = $scope.app.maskParams.picInfo;
-
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
-
                 self.setInfo();
-
             }
-
 
             self.cancel = function() {
                 $scope.app.showHideMask(false);
@@ -5792,7 +5781,250 @@
 
         }
     ])
+    //雅思特 世界时钟 Yeste_WorldClock
+    .controller('Yeste_WorldClock', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                var self = this;
+                self.init = function() {
 
+                }
+            }
+        ])
+    //雅思特天气 Yeste_Weather
+    .controller('Yeste_Weather', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            var self = this;
+            self.init = function() {
+                self.info = {};
+                self.viewId = $stateParams.moduleId;
+                self.defaultLangCode = util.getDefaultLangCode();
+                self.editLangs = util.getParams('editLangs');
+                self.ENlang = self.getENlang();
+                self.getInfo();
+            }
+
+            //获取英文城市名
+            self.getENlang = function() {
+                var ENlang;
+                for(var i=0; i<self.editLangs.length; i++) {
+                    ENlang = self.editLangs[i];
+                    if(ENlang.name=="en") {
+                        return ENlang.code;
+                    }
+                }
+            }
+
+            //获取
+            self.getInfo = function () {
+                var deferred = $q.defer();
+                self.loading = true;
+                var data = JSON.stringify({
+                    viewID: Number(self.viewId),
+                    token: util.getParams('token'),
+                    action: "get",
+                    lang: util.langStyle()
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.info = data.data.data;
+                        console.log('self.info');
+                        console.log(self.info);
+                        deferred.resolve();
+                    } else if (data.rescode == '401') {
+                        alert('访问超时，请重新登录');
+                        $location.path("pages/login.html");
+                    } else {
+                        alert('读取信息失败，' + data.errInfo);
+                        deferred.reject();
+                    }
+                }, function errorCallback(response) {
+                    alert('服务器出错');
+                    deferred.reject();
+                }).finally(function(e) {
+                    self.loading = false;
+                });
+                return deferred.promise;
+
+            };
+            //新增
+            self.add = function(num) {
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.num = num;
+                $scope.app.showHideMask(true,'pages/tv/WeatherAdd_Yeste.html');
+            }
+
+            self.Country = function () {
+                if(self.tab==1) {
+                    return "China";
+                }else {
+                    return "Oversea";
+                }
+            }
+            //修改
+            self.edit = function(Item) {
+                console.log('edit');
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.cityInfo = Item;
+                $scope.app.maskParams.ENlang = self.ENlang;
+                $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Yeste.html');
+            }
+            //删除
+            self.del = function(id, index) {
+                var index = index;
+                if(!confirm('确认删除？')) {
+                    return;
+                }
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "delete",
+                    "viewID": self.viewId,
+                    "data": {
+                        "ID":id-0
+                    },
+                    "lang": util.langStyle()
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('删除成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('删除失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                });
+            }
+
+        }
+    ])
+    //雅思特天气 Add Yeste_Weather
+    .controller('Yeste_Weather_Add_Controler',['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+                self.editLangs = util.getParams('editLangs');
+                self.tabNum  = $scope.app.maskParams.num;
+                self.getCountry(self.tabNum)
+            };
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            };
+            self.getCountry = function (para) {
+                if(para==1) {
+                    self.whichCountry = "China";
+                }else {
+                    self.whichCountry = "Overseas";
+                }
+            }
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "add",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "Seq": self.Seq,
+                        "Country": self.whichCountry,
+                        "City": self.City
+                    },
+                    "lang": util.langStyle()
+                })
+
+
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('添加成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('添加失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            };
+        }
+    ])
+    //雅思特天气 Edit Yeste_Weather
+    .controller('Yeste_Weather_Edit_Controler', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+                self.cityInfo = $scope.app.maskParams.cityInfo;
+                self.ENlang = $scope.app.maskParams.ENlang;
+                // 获取编辑多语言信息
+                self.editLangs = util.getParams('editLangs');
+            }
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "edit",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "ID": Number(self.cityInfo.ID),
+                        "Seq": self.cityInfo.Seq,
+                        "Country": self.cityInfo.Country,
+                        "City": self.cityInfo.City
+                    },
+                    "lang": util.langStyle()
+                })
+
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            }
+        }
+    ])
 
     .controller('tvSimpleSmallPicTextZFCarouselController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
@@ -13646,16 +13878,7 @@
             }
         }
     ])
-    //雅思特 世界时钟 Yeste_WorldClock
-    .controller('Yeste_WorldClock', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-            console.log('Yeste_WorldClock')
-            var self = this;
-            self.init = function() {
 
-            }
-        }
-    ])
 
     .controller('tvSkyworthATVController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
@@ -13670,6 +13893,16 @@
     .controller('tvSkyworthHDMIController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
             console.log('tvSkyworthHDMIController')
+            var self = this;
+            self.init = function() {
+
+            }
+        }
+    ])
+    //BaoFengHDMI
+    .controller('tvBaoFengHDMIController', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+            console.log('tvBaoFengHDMIController')
             var self = this;
             self.init = function() {
 
@@ -13698,16 +13931,7 @@
         }
     ])
 
-    //雅思特天气 Yeste_Weather
-    .controller('Yeste_Weather', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-            console.log('Yeste_Weather test')
-            var self = this;
-            self.init = function() {
 
-            }
-        }
-    ])
 
 
     // 音乐库
@@ -13723,6 +13947,7 @@
                 self.getInfo().then(function() {
                     self.initImgs1();
                 })
+
 
             }
 
