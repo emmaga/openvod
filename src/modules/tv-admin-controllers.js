@@ -5801,6 +5801,9 @@
                 self.editLangs = util.getParams('editLangs');
                 self.ENlang = self.getENlang();
                 self.getInfo();
+                self.tab = $scope.app.Yeste_Weather_tabNum ? $scope.app.Yeste_Weather_tabNum:1;
+                // 使用一次后，赋值为空
+                $scope.app.Yeste_Weather_tabNum  = null;
             }
 
             //获取英文城市名
@@ -5908,6 +5911,11 @@
                 });
             }
 
+            //
+            $scope.$on("tabNum",function(){
+                alert('success')
+            })
+
         }
     ])
     //雅思特天气 Add Yeste_Weather
@@ -5955,7 +5963,10 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('添加成功');
-                        $state.reload();
+                        $state.reload('app.tvAdmin.Yeste_Weather');
+                        // 在app控制器上面加了一个天气的参数
+                        $scope.app.Yeste_Weather_tabNum = self.tabNum;
+                        self.cancel();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -5981,6 +5992,7 @@
                 self.ENlang = $scope.app.maskParams.ENlang;
                 // 获取编辑多语言信息
                 self.editLangs = util.getParams('editLangs');
+                self.tabNum  = $scope.app.maskParams.num;
             }
 
             self.cancel = function() {
@@ -6009,7 +6021,10 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.reload();
+                        $state.reload('app.tvAdmin.Yeste_Weather');
+                        // 在app控制器上面加了一个天气的参数
+                        $scope.app.Yeste_Weather_tabNum = self.tabNum;
+                        self.cancel();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
