@@ -368,6 +368,17 @@
                     }
                 })
 
+                //司马台 二级分类图文 SiMaTai_SimpleSmallPicText
+                .state('app.tvAdmin.SiMaTai_PicText_Classification', {
+                    url: '/SiMaTai_PicText_Classification?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_SiMaTai.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                  // 丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号
                 .state('app.tvAdmin.SimpleSmallPicText_LiFeng', {
                     url: '/SimpleSmallPicText_LiFeng?moduleId&label',
@@ -428,7 +439,6 @@
                         }]
                     }
                 })
-
 
                 .state('app.tvAdmin.MultPic_SX_Small', {
                     url: '/MultPic_SX_Small?moduleId&label',
