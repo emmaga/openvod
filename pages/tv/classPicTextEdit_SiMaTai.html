@@ -72,22 +72,7 @@
                     </ng-repeat>
                     <!--/详情-->
                 </div>
-                <!--/地址-->
-                <div class="form-group">
-                    <!--地址-->
-                    <ng-repeat ng-repeat="lang in SMT.editLangs">
-                        <ng-if ng-if="lang.default">
-                            <label>地址{{lang.name}}：</label>
-                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）" ng-model="SMT.Addr[lang.code]">{{SMT.Addr[lang.code]}}</textarea>
-                        </ng-if>
-                        <ng-if ng-if="lang.default !== true">
-                            <label>地址 {{lang.name}}：</label>
-                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="SMT.Addr[lang.code]">{{SMT.Addr[lang.code]}}</textarea>
-                        </ng-if>
-                    </ng-repeat>
-                    <!--/地址-->
-                </div><!--form-group-->
-
+                <!--form-group-->
             </form>
         </div>
         <!--/body end-->

@@ -6560,7 +6560,7 @@
              * @method delCate
              */
             self.delCate = function() {
-                if(!confirm('确认删除？')){
+                if(!confirm('确认删除此分类？（分类下内容将全部删除）')){
                     return;
                 }
                 var data = JSON.stringify({
@@ -6637,7 +6637,7 @@
              * @param index 图文在列表中的序号
              */
             self.delPic = function(index) {
-                if(!confirm('确认删除？')){
+                if(!confirm('确认删除此图片？')){
                     return;
                 }
                 var data = JSON.stringify({
@@ -7129,7 +7129,6 @@
                     self.Seq = self.info.Seq;
                     self.Text = self.info.Text;
                     self.Title = self.info.Title;
-                    // self.Addr = self.info.Addr;
 
                     // 获取编辑多语言信息
                     self.editLangs = util.getParams('editLangs');
@@ -7163,7 +7162,6 @@
                             "Seq": self.Seq,
                             "Text": self.Text,
                             "Title": self.Title,
-                            // "Addr": self.Addr,
                             "PicSize": self.imgs1.data[0].fileSize
                         },
                         "lang": util.langStyle()
@@ -7361,7 +7359,6 @@
                             "Seq": self.Seq,
                             "Text": self.Text,
                             "Title": self.Title,
-                            // "Addr": self.Addr,
                             "PicSize": self.imgs1.data[0].fileSize
                         },
                         "lang": util.langStyle()
