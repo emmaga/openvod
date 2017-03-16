@@ -10,8 +10,8 @@
                     <span class="sr-only">Close</span>
                 </button>
                 <!--<h5 class="modal-title">添加分类</h5>-->
-                <h5 class="modal-title" ng-if="SMT.addParam.isLeaf == 0 ">添加分类</h5>
-                <h5 class="modal-title" ng-if="SMT.addParam.isLeaf == 1 ">添加图片</h5>
+                <h5 class="modal-title" ng-if="SMT.addParam.isLeaf == 0">添加分类</h5>
+                <h5 class="modal-title" ng-if="SMT.addParam.isLeaf == 1">添加图片</h5>
             </div>
             <!--header end-->
             <!--body-->
@@ -26,11 +26,13 @@
                 <!-- 分类名称 -->
                 <ng-repeat ng-repeat="lang in SMT.editLangs track by $index">
                     <div class="form-group" ng-if="lang.default==true">
-                        <label>分类名称({{lang.name}})</label>
+                        <label ng-if="SMT.addParam.isLeaf == 0">分类名称({{lang.name}})</label>
+                        <label ng-if="SMT.addParam.isLeaf == 1">标题({{lang.name}})</label>
                         <input type="text" name="" required placeholder="（必填）" ng-model="SMT.cateName[lang.code]" class="form-control">
                     </div>
                     <div class="form-group" ng-if="lang.default!==true">
-                        <label>分类名称({{lang.name}})</label>
+                        <label ng-if="SMT.addParam.isLeaf == 0">分类名称({{lang.name}})</label>
+                        <label ng-if="SMT.addParam.isLeaf == 1">标题({{lang.name}})</label>
                         <input type="text" name="" ng-model="SMT.cateName[lang.code]" class="form-control">
                     </div>
                 </ng-repeat>
@@ -60,7 +62,7 @@
                 </div>
                 <!--/图片1-->
                 <!--图片2-->
-                <div class="form-group">
+                <div class="form-group"  ng-if="SMT.addParam.isLeaf == 0">
                     <label>高亮图片</label>
                     <!--图片上传按钮-->
                     <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2"/>
@@ -82,6 +84,20 @@
                     </div><!--/row-->
                 </div>
                 <!--/图片2-->
+                <!--添加图片详情-->
+                <div class="form-group"  ng-if="SMT.addParam.isLeaf == 1">
+                    <ng-repeat ng-repeat="lang in SMT.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>详情{{lang.name}}：</label>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填)'" required placeholder="（必填）" ng-model="SMT.Text[lang.code]">{{SMT.Text[lang.code]}}</textarea>
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <label>详情 {{lang.name}}：</label>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填)'" ng-model="SMT.Text[lang.code]">{{SMT.Text[lang.code]}}</textarea>
+                        </ng-if>
+                    </ng-repeat>
+                </div>
+                <!--/添加图片详情-->
             </div>
             <!--body end-->
             <!--footer-->

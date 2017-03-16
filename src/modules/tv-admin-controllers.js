@@ -7616,11 +7616,12 @@
                  *
                  * @method addPic
                  */
-                self.addPic = function() {
+                self.addPic = function(isLeaf, PID) {
                     $scope.app.maskParams.viewId = self.viewId;
                     $scope.app.maskParams.cateId = self.info[self.cateIndex].ID;
+                    $scope.app.maskParams.addParam = {isLeaf: isLeaf,PID: PID};
                     $scope.app.maskParams.loadInfo = self.loadInfo;
-                    $scope.app.showHideMask(true,'pages/tv/classPicTextAdd_SiMaTai_ThreeLevel.html');
+                    $scope.app.showHideMask(true,'pages/tv/PicTextClassCateAdd_SiMaTai_ThreeLevel.html');
                 }
 
                 /**
@@ -7683,15 +7684,17 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.info = data.data.res;
-                            // 默认去第一个 一级分类
-                            self.firstCategoryId = self.info[0]["ID"];
+                            // 默认去第一个 一级分类 下 第一个子分类
+                            self.firstCategoryId = self.info[0]['ID'];
+                            self.secondCategoryId = self.info[0].sub[0]['ID'];
+
                             if(!self.cateIndex || (self.cateIndex + 1) > self.info.length) {
                                 self.cateIndex = 0;
                             }
-                            //判断分类下内容为空时，sub属性为空数组，不然模板的ng-repeat会报错
-                            // if(self.info.length ==0 ){
-                            //     self.info[0].sub = [];
-                            // }
+                            // 判断分类下内容为空时，sub属性为空数组，不然模板的ng-repeat会报错
+                            if(self.info.length ==0 ){
+                                self.info[0].sub = [];
+                            }
                         }
                         else {
                             alert('连接服务器出错' + data.errInfo);
@@ -7709,10 +7712,15 @@
                  * @method loadInfo
                  * @param index 跳转分类在self.info中的index
                  */
-                self.loadPics = function (index,id) {
+                self.loadPics = function (index, ID) {
                     self.cateIndex = index;
                     // 一级分类的id
-                    self.firstCategoryId = id;
+                    self.firstCategoryId = ID;
+                }
+                self.loadSecondPics = function (index, ID) {
+                    self.secondIndex = index;
+                    //二级分类的id
+                    self.secondCategoryId = ID;
                 }
 
             }
