@@ -10,13 +10,31 @@
                 字体：
             </div>
             <div class="col-sm-4">
-                <input id="upload1"  type="file" file-model="myFile" data-e="hidenUpload1"/>
+                <div class="row">
+                    <input id="upload1"  type="file" file-model="myFile" data-e="hidenUpload1"/>
+                </div>
+                <div class="row">
+                    <a id="hidenUpload1"  ng-click="projectConfig.imgs1.uploadFile('myFile', projectConfig.imgs1)" ng-show="false">上传</a>
+                </div>
+                <div class="row">
+                    <div class="row" ng-repeat="img in projectConfig.imgs1.data">
+                        <div class="col-xs-12" style="word-wrap: break-word;">
+                           上传进度：{{img.progress}}%
+                           <!-- 上传地址：{{img.src}} -->
+                        </div> <!--/col-xs-12-->
+                    </div>
+                </div>
+
                 <!-- <a ng-click="projectConfig.clickUpload('upload1')">上传</a> -->
-                <a id="hidenUpload1"  ng-click="projectConfig.imgs1.uploadFile('myFile', projectConfig.imgs1)">上传</a>
+                
+                <!--/图片上传按钮-->
+
             </div>
             <div class="col-s-4">
                 是否生效&nbsp;&nbsp;
-                <input type="checkbox">
+                <!-- ng-diabled 和 ng-model 放在一起使用会产生bug -->
+                <input type="checkbox" ng-model="projectConfig.projectData.Font.Enable"
+                ng-true-value="1" ng-false-value="0">
             </div>
         </div>
         <div class="row">
@@ -24,27 +42,15 @@
                 重启时间：
             </div>
             <div class="col-sm-4">
-                <input type="time" id="restartTime" ng-model="projectConfig.projectData.RestartTime.Data" >
+                <input type="time" id="restartTime"  >
             </div>
             <div class="col-s-4">
-                是否生效&nbsp;&nbsp;
-                <input type="checkbox">
+                是否生效&nbsp;&nbsp; 
+                <input type="checkbox" ng-model="projectConfig.projectData.RestartTime.Enable" ng-true-value="1" ng-false-value="0">
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
-                重启时间：
-            </div>
-            <div class="col-sm-4">
-                <input type="time" ng-model="projectConfig.testTime" >
-            </div>
-            <div class="col-s-4">
-                是否生效&nbsp;&nbsp;
-                <input type="checkbox">
-            </div>
-        </div>
-        <div class="row">
-            <input type="submit">
+            <input type="submit" ng-disabled="projectConfig.formDisabled" class="btn btn-primary" style="margin-left:20px">
         </div>
     </form>
 </div>

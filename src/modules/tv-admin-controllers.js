@@ -13898,7 +13898,8 @@
                 self.getProjectConfig();
                 // 初始化
                 self.imgs1 = new Imgs([], true);
-                self.testTime = 1489661237
+                // angular.element 不支持选择器？
+                self.restartTime = angular.element(document.querySelector("#restartTime"));
             }
             self.getProjectConfig = function() {
                 var data = JSON.stringify({
@@ -13913,17 +13914,14 @@
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
-                    console.log(data.data)
                     if (data.rescode == '200') {
                         var projectData = data.data;
                             self.projectData = {};
                         for (var i = 0; i < projectData.length; i++) {
                             self.projectData[projectData[i]["Type"]] = projectData[i]
                         }
-                        // self.projectData.RestartTime.Data = $filter("date")(self.projectData.RestartTime.Data,"MM/dd/yyyy")
-                        angular.element('#restartTime').value("04:30:30");
-                        self.projectData.RestartTime.Data = 1489661237
-                        console.log(self.projectData)
+                        self.restartTime.val(self.projectData.RestartTime.Data);
+                        self.imgs1.data[0] = {src:self.projectData.Font.Data,progress:100};
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -13938,15 +13936,25 @@
             }
 
             self.saveProjectConfig = function() {
-                console.log(self.imgs1)
-                console.log(self.RestartTime)
-                return;
+                if (self.imgs1.data.length == 0) {
+                    alert("请上传图片");
+                    return;
+                }
+                self.formDisabled =true;
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
-                    "action": "getTermConfig",
-                    "lang": util.langStyle()
+                    "action": "setTermConfig",
+                    "data":{
+                        "Font": {
+                            "Data": self.imgs1.data[0].src,
+                            "Enable": Number(self.projectData.Font.Enable)
+                        },
+                        "RestartTime": {
+                            "Data": self.restartTime.val(),
+                            "Enable": Number(self.projectData.RestartTime.Enable)
+                        }
+                    }
                 });
-                self.loading = true;
                 $http({
                     method: 'POST',
                     url: util.getApiUrl('termconfig', '', 'server'),
@@ -13954,11 +13962,8 @@
                 }).then(function successCallback(response) {
                     var data = response.data;
                     if (data.rescode == '200') {
-                        var projectData = data.data;
-                            self.projectData = {};
-                        for (var i = 0; i < projectData.length; i++) {
-                            self.projectData[projectData[i]["type"]] = projectData[i]
-                        }
+                        $state.reload("app.tvAdmin.projectConfig")
+                        alert('保存成功')
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -13968,7 +13973,7 @@
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
                 }).finally(function(value) {
-                    self.loading = false;
+                    self.formDisabled =false;
                 });
             }
 
@@ -14047,7 +14052,7 @@
                 },
 
                 uploadFile: function (e, o) {
-
+                    
                     // 如果这个对象只允许上传一张图片
                     if (this.single) {
                         // 删除第二张以后的图片
@@ -14055,8 +14060,11 @@
                             this.deleteById(this.data[i].id);
                         }
                     }
-
                     var file = $scope[e];
+                    if(!file){
+                        alert("请先选择图片")
+                        return;
+                    }
                     var uploadUrl = CONFIG.uploadUrl;
                     var xhr = new XMLHttpRequest();
                     var fileId = this.add(xhr, file.name, file.size, xhr);

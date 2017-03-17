@@ -121,7 +121,6 @@
                                 if (data.rescode == '200') {
                                     var defaultLang = util.getDefaultLangCode();
                                     var preData = data.data.Content;
-
                                     var menu = [];
                                     var mainMenu = 
                                     {
