@@ -24,9 +24,9 @@
     </a>
 
     <!-- 二级分类标签 -->
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" ng-if="SMT.info.length > 0">
         <li ng-repeat="cate in SMT.info[SMT.cateIndex].sub track by $index" class="cursor-pointer {{$index == SMT.secondIndex ? 'active': ''}}">
-            <a ng-click="SMT.loadSecondPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}</a>{{SMT.cateIndex}}-{{SMT.secondIndex}}-{{SMT.firstCategoryId}}-{{SMT.secondCategoryId}}
+            <a ng-click="SMT.loadSecondPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}</a>
         </li>
 
         <li class="cursor-pointer">
@@ -50,7 +50,7 @@
     </a>
 
     <!--图文列表 开始-->
-    <table class="table">
+    <table class="table" ng-if="SMT.info.length > 0">
         <thead>
         <tr>
             <th>序号</th>

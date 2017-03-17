@@ -7691,6 +7691,9 @@
                             if(!self.cateIndex || (self.cateIndex + 1) > self.info.length) {
                                 self.cateIndex = 0;
                             }
+                            if(!self.secondIndex || (self.secondIndex + 1) > self.info.length) {
+                                self.secondIndex = 0;
+                            }
                             // 判断分类下内容为空时，sub属性为空数组，不然模板的ng-repeat会报错
                             if(self.info.length ==0 ){
                                 self.info[0].sub = [];
