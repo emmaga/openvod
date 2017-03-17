@@ -30,7 +30,7 @@
     <ul class="nav nav-tabs" ng-if="SMT.info.length > 0 ">
         <li class="cursor-pointer"><h5 class="cursor-pointer" style="padding-right: 3em;">二级分类</h5></li>
         <li ng-repeat="cate in SMT.info[SMT.cateIndex].sub track by $index" class="cursor-pointer {{$index == SMT.secondIndex ? 'active': ''}}">
-            <a ng-click="SMT.loadSecondPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}?{{cate.ID}}</a>
+            <a ng-click="SMT.loadSecondPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}</a>
         </li>
 
         <li class="cursor-pointer">
