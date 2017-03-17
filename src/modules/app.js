@@ -121,7 +121,6 @@
                                 if (data.rescode == '200') {
                                     var defaultLang = util.getDefaultLangCode();
                                     var preData = data.data.Content;
-
                                     var menu = [];
                                     var mainMenu = 
                                     {
@@ -248,6 +247,12 @@
                               }
                             },
                             {
+                              label: '项目设置',
+                              data: {
+                                type: "projectConfig"
+                              }
+                            },
+                            {
                               label: '提交版本',
                               data: {
                                 type: "version"
@@ -278,6 +283,15 @@
                 .state('app.tvAdmin.guangGaoWei', {
                     url: '/guangGaoWei?label',
                     templateUrl: 'pages/tv/guangGaoWei.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.projectConfig', {
+                    url: '/projectConfig?label',
+                    templateUrl: 'pages/tv/projectConfig.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
@@ -357,7 +371,38 @@
                         }]
                     }
                 })
+                // 司马台 小图 SiMaTai_SimpleSmallPicText
+                .state('app.tvAdmin.SiMaTai_SimpleSmallPicText', {
+                    url: '/SiMaTai_SimpleSmallPicText?moduleId&label',
+                    templateUrl: 'pages/tv/SimpleSmallPicText_SiMaTai.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
+                        }]
+                    }
+                })
+
+                //司马台 二级分类图文 SiMaTai_SimpleSmallPicText
+                .state('app.tvAdmin.SiMaTai_PicText_Classification', {
+                    url: '/SiMaTai_PicText_Classification?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_SiMaTai.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                //司马台 三级分类图文 SiMaTai_PicText_Classification_ThreeLevel
+                .state('app.tvAdmin.SiMaTai_PicText_Classification_ThreeLevel', {
+                    url: '/SiMaTai_PicText_Classification_ThreeLevel?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_SiMaTai_ThreeLevel.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
 
                  // 丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号
                 .state('app.tvAdmin.SimpleSmallPicText_LiFeng', {
@@ -419,7 +464,6 @@
                         }]
                     }
                 })
-
 
                 .state('app.tvAdmin.MultPic_SX_Small', {
                     url: '/MultPic_SX_Small?moduleId&label',
@@ -647,7 +691,10 @@
         }])
 
         .constant('CONFIG', {
-            serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
+
+            // serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
+            // 张舰 自己 起了一个测试服务器
+            serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
             // serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',
             testUrl: 'test/',
