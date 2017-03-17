@@ -7628,6 +7628,10 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.info = data.data.res;
+                            // 判断分类下内容为空时，sub属性为空数组，不然模板的ng-repeat会报错
+                            if(self.info[0].sub === undefined ){
+                                self.info[0].sub = [];
+                            }
                             // 默认去第一个 一级分类 下 第一个子分类
                             self.firstCategoryId = self.info[0]['ID'];
                             self.secondCategoryId = self.info[0].sub[0]['ID'];
@@ -7637,10 +7641,6 @@
                             }
                             if(!self.secondIndex || (self.secondIndex + 1) > self.info.length) {
                                 self.secondIndex = 0;
-                            }
-                            // 判断分类下内容为空时，sub属性为空数组，不然模板的ng-repeat会报错
-                            if(self.info.length ==0 ){
-                                self.info[0].sub = [];
                             }
                         }
                         else {
@@ -7663,6 +7663,8 @@
                     self.cateIndex = index;
                     // 一级分类的id
                     self.firstCategoryId = ID;
+                    //默认先进入第一个二级分类
+                    self.secondCategoryId = self.info[index].sub[0].ID;
                 }
                 self.loadSecondPics = function (index, ID) {
                     self.secondIndex = index;
@@ -7728,19 +7730,34 @@
 
                     self.saving = true;
 
-                    return $http({
+                    $http({
                         method: 'POST',
                         url: util.getApiUrl('commonview', '', 'server'),
                         data: data
                     }).then(function successCallback(response) {
-                        $scope.app.showHideMask(false);
-                        $scope.app.maskParams.loadInfo();
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('添加成功');
+                            $state.reload("app.tvAdmin.SiMaTai_PicText_Classification_ThreeLevel");
+                            self.cancel();
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('添加失败，' + data.errInfo);
+                        }
                     }, function errorCallback(response) {
                         alert('连接服务器出错');
                     }).finally(function(value) {
                         self.saving = false;
                     });
+
+
                 }
+
+
+
+
 
                 // 图片上传相关
                 self.clickUpload = function (e) {

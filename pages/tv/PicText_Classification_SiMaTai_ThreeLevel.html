@@ -5,7 +5,7 @@
     <!-- 一级分类标签 -->
     <ul class="nav nav-tabs">
         <li ng-repeat="cate in SMT.info track by $index" class="cursor-pointer {{$index == SMT.cateIndex ? 'active': ''}}">
-            <a ng-click="SMT.loadPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}</a>
+            <a ng-click="SMT.loadPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}?{{cate.ID}}++{{$index}}</a>
         </li>
 
         <li class="cursor-pointer">
@@ -24,9 +24,9 @@
     </a>
 
     <!-- 二级分类标签 -->
-    <ul class="nav nav-tabs" ng-if="SMT.info.length > 0">
+    <ul class="nav nav-tabs" ng-if="SMT.info.length > 0 ">
         <li ng-repeat="cate in SMT.info[SMT.cateIndex].sub track by $index" class="cursor-pointer {{$index == SMT.secondIndex ? 'active': ''}}">
-            <a ng-click="SMT.loadSecondPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}</a>
+            <a ng-click="SMT.loadSecondPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}?{{cate.ID}}</a>
         </li>
 
         <li class="cursor-pointer">
@@ -36,21 +36,21 @@
         </li>
     </ul>
     <!-- 按钮: 编辑分类 -->
-    <a ng-if="SMT.info.length > 0" ng-click="SMT.editCate(0, SMT.firstCategoryId)" class="button button-light">
+    <a ng-if="SMT.info.length > 0  && SMT.info[SMT.cateIndex].sub.length>0"  ng-click="SMT.editCate(0, SMT.firstCategoryId)" class="button button-light">
         <i class="icon ion-ios-compose-outline"></i> 编辑二级分类
     </a>
     <!-- 按钮: 删除分类 -->
-    <a ng-if="SMT.info.length > 0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate(0,SMT.secondCategoryId)" class="button button-light">
+    <a ng-if="SMT.info.length > 0  && SMT.info[SMT.cateIndex].sub.length>0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate(0,SMT.secondCategoryId)" class="button button-light">
         <i class="icon ion-ios-trash-outline"></i> 删除二级分类
     </a>
     <!--添加图片按钮-->
-    <a ng-if="SMT.info.length > 0" class="button button-light" ng-click="SMT.addCategory(1, SMT.secondCategoryId)">
+    <a ng-if="SMT.info.length > 0  && SMT.info[SMT.cateIndex].sub.length>0" class="button button-light" ng-click="SMT.addCategory(1, SMT.secondCategoryId)">
         <i class="icon ion-ios-plus-outline"></i>
-        添加图片
+        添加图片{{SMT.secondCategoryId}}
     </a>
 
     <!--图文列表 开始-->
-    <table class="table" ng-if="SMT.info.length > 0">
+    <table class="table" ng-if="SMT.info.length > 0   && SMT.info[SMT.cateIndex].sub.length>0">
         <thead>
         <tr>
             <th>序号</th>
