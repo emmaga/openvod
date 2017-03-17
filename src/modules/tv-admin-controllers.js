@@ -6184,7 +6184,8 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('添加成功');
-                        $state.reload();
+                        $state.reload("app.tvAdmin.SiMaTai_SimpleSmallPicText");
+                        self.cancel();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -6387,7 +6388,8 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.reload();
+                        $state.reload("app.tvAdmin.SiMaTai_SimpleSmallPicText");
+                        self.cancel();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
