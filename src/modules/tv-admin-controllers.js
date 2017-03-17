@@ -7552,17 +7552,19 @@
                  *
                  * @method delCate
                  */
-                self.delCate = function() {
-                    if(!confirm('确认删除此分类？（分类下内容将全部删除）')){
+                self.delCate = function(isLeaf, id) {
+                    if(!confirm('确认删除?')){
                         return;
                     }
+
                     var data = JSON.stringify({
                         "token": util.getParams('token'),
                         "action": "delete",
                         "viewID": self.viewId,
                         "lang": util.langStyle(),
                         "data": {
-                            "ID": self.info[self.cateIndex].ID
+                            "ID": id,
+                            "isLeaf": isLeaf
                         }
                     });
                     self.cateDeleting = true;
@@ -7595,72 +7597,6 @@
                     $scope.app.maskParams.info = self.info[self.cateIndex];
                     $scope.app.maskParams.loadInfo = self.loadInfo;
                     $scope.app.showHideMask(true,'pages/tv/PicTextClassCateEdit_SiMaTai_ThreeLevel.html');
-                }
-
-                /**
-                 * 编辑图文
-                 *
-                 * @method editPic
-                 * @param index 图片在该分类下列表中的序号
-                 */
-                self.editPic = function (index) {
-                    $scope.app.maskParams.viewId = self.viewId;
-                    $scope.app.maskParams.cateId = self.info[self.cateIndex].ID;
-                    $scope.app.maskParams.info = self.info[self.cateIndex].sub[index];
-                    $scope.app.maskParams.loadInfo = self.loadInfo;
-                    $scope.app.showHideMask(true,'pages/tv/classPicTextEdit_SiMaTai_ThreeLevel.html');
-                }
-
-                /**
-                 * 添加该模版的图文
-                 *
-                 * @method addPic
-                 */
-                self.addPic = function(isLeaf, PID) {
-                    $scope.app.maskParams.viewId = self.viewId;
-                    $scope.app.maskParams.cateId = self.info[self.cateIndex].ID;
-                    $scope.app.maskParams.addParam = {isLeaf: isLeaf,PID: PID};
-                    $scope.app.maskParams.loadInfo = self.loadInfo;
-                    $scope.app.showHideMask(true,'pages/tv/PicTextClassCateAdd_SiMaTai_ThreeLevel.html');
-                }
-
-                /**
-                 * 删除图文
-                 *
-                 * @method delPic
-                 * @param index 图文在列表中的序号
-                 */
-                self.delPic = function(index) {
-                    if(!confirm('确认删除此图片？')){
-                        return;
-                    }
-                    var data = JSON.stringify({
-                        "token": util.getParams('token'),
-                        "action": "delete",
-                        "viewID": self.viewId,
-                        "lang": util.langStyle(),
-                        "data": {
-                            "PID": self.info[self.cateIndex].sub[index].ID
-                        }
-                    });
-                    self.picDeleting = true;
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl('commonview', '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        var data = response.data;
-                        if (data.rescode == '200') {
-                            self.loadInfo();
-                        }
-                        else {
-                            alert('连接服务器出错' + data.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        alert('连接服务器出错');
-                    }).finally(function(value) {
-                        self.picDeleting = false;
-                    });
                 }
 
                 /**

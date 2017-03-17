@@ -19,7 +19,7 @@
         <i class="icon ion-ios-compose-outline"></i> 编辑一级分类
     </a>
     <!-- 按钮: 删除分类 -->
-    <a ng-if="SMT.info.length > 0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate()" class="button button-light">
+    <a ng-if="SMT.info.length > 0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate(0,SMT.firstCategoryId)" class="button button-light">
         <i class="icon ion-ios-trash-outline"></i> 删除一级分类
     </a>
 
@@ -40,7 +40,7 @@
         <i class="icon ion-ios-compose-outline"></i> 编辑二级分类
     </a>
     <!-- 按钮: 删除分类 -->
-    <a ng-if="SMT.info.length > 0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate()" class="button button-light">
+    <a ng-if="SMT.info.length > 0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate(0,SMT.secondCategoryId)" class="button button-light">
         <i class="icon ion-ios-trash-outline"></i> 删除二级分类
     </a>
     <!--添加图片按钮-->
@@ -73,7 +73,7 @@
                 <a class="" ng-click="SMT.editPic($index)">编辑</a>
                 <!--编辑按钮-->
                 <!--删除按钮-->
-                <a class="" ng-click="SMT.delPic($index)">删除</a>
+                <a class="" ng-click="SMT.delCate(1,SMT.info[SMT.cateIndex].sub[SMT.secondIndex].sub[$index].ID)">删除</a>
                 <!--删除按钮-->
             </td>
         </tr>
