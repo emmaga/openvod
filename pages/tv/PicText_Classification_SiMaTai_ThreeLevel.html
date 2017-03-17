@@ -15,7 +15,7 @@
         </li>
     </ul>
     <!-- 按钮: 编辑分类 -->
-    <a ng-if="SMT.info.length > 0" ng-click="SMT.editCate()" class="button button-light">
+    <a ng-if="SMT.info.length > 0" ng-click="SMT.editCate(0,-1)" class="button button-light">
         <i class="icon ion-ios-compose-outline"></i> 编辑一级分类
     </a>
     <!-- 按钮: 删除分类 -->
@@ -36,7 +36,7 @@
         </li>
     </ul>
     <!-- 按钮: 编辑分类 -->
-    <a ng-if="SMT.info.length > 0" ng-click="SMT.editCate()" class="button button-light">
+    <a ng-if="SMT.info.length > 0" ng-click="SMT.editCate(0, SMT.firstCategoryId)" class="button button-light">
         <i class="icon ion-ios-compose-outline"></i> 编辑二级分类
     </a>
     <!-- 按钮: 删除分类 -->
@@ -70,7 +70,7 @@
             <td>{{pic.Text[SMT.defaultLangCode]}}</td>
             <td>
                 <!--编辑按钮-->
-                <a class="" ng-click="SMT.editPic($index)">编辑</a>
+                <a class="" ng-click="SMT.editCate(1, SMT.secondIndex,$index)">编辑</a>
                 <!--编辑按钮-->
                 <!--删除按钮-->
                 <a class="" ng-click="SMT.delCate(1,SMT.info[SMT.cateIndex].sub[SMT.secondIndex].sub[$index].ID)">删除</a>
