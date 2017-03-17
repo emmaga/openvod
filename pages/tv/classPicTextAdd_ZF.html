@@ -48,7 +48,7 @@
                     <!--详情-->
                     <ng-repeat ng-repeat="lang in tvClassPicTextAddZF.editLangs">
                         <ng-if ng-if="lang.default">
-                            <label>详情{{lang.name}}：</label>
+                            <label>详情{{lang.name}}：</label>         
                             <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）" ng-model="tvClassPicTextAddZF.Text[lang.code]">{{tvClassPicTextAddZF.Text[lang.code]}}</textarea>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">

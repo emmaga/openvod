@@ -1,0 +1,50 @@
+<div ng-controller="tvprojectConfigController as projectConfig" ng-init="projectConfig.init()">
+    <h4>项目设置</h4>
+    <hr>
+    <!--loading-->
+    <div ng-show="projectConfig.loading">loading...</div>
+    <!--loading-->
+    <form name="formName" novalidate ng-submit="projectConfig.saveProjectConfig()">
+        <div class="row">
+            <div class="col-sm-4">
+                字体：
+            </div>
+            <div class="col-sm-4">
+                <input id="upload1"  type="file" file-model="myFile" data-e="hidenUpload1"/>
+                <!-- <a ng-click="projectConfig.clickUpload('upload1')">上传</a> -->
+                <a id="hidenUpload1"  ng-click="projectConfig.imgs1.uploadFile('myFile', projectConfig.imgs1)">上传</a>
+            </div>
+            <div class="col-s-4">
+                是否生效&nbsp;&nbsp;
+                <input type="checkbox">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                重启时间：
+            </div>
+            <div class="col-sm-4">
+                <input type="time" id="restartTime" ng-model="projectConfig.projectData.RestartTime.Data" >
+            </div>
+            <div class="col-s-4">
+                是否生效&nbsp;&nbsp;
+                <input type="checkbox">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                重启时间：
+            </div>
+            <div class="col-sm-4">
+                <input type="time" ng-model="projectConfig.testTime" >
+            </div>
+            <div class="col-s-4">
+                是否生效&nbsp;&nbsp;
+                <input type="checkbox">
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit">
+        </div>
+    </form>
+</div>

@@ -248,6 +248,12 @@
                               }
                             },
                             {
+                              label: '项目设置',
+                              data: {
+                                type: "projectConfig"
+                              }
+                            },
+                            {
                               label: '提交版本',
                               data: {
                                 type: "version"
@@ -278,6 +284,15 @@
                 .state('app.tvAdmin.guangGaoWei', {
                     url: '/guangGaoWei?label',
                     templateUrl: 'pages/tv/guangGaoWei.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.projectConfig', {
+                    url: '/projectConfig?label',
+                    templateUrl: 'pages/tv/projectConfig.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
@@ -647,7 +662,9 @@
         }])
 
         .constant('CONFIG', {
-            serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
+            // serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
+            // 张舰 自己 起了一个测试服务器
+            serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
             // serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',
             testUrl: 'test/',
