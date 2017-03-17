@@ -4,49 +4,60 @@
     <!-- loading -->
     <!-- 一级分类标签 -->
     <ul class="nav nav-tabs">
+        <li class="cursor-pointer"><h5 class="cursor-pointer" style="padding-right: 3em;">一级分类</h5></li>
         <li ng-repeat="cate in SMT.info track by $index" class="cursor-pointer {{$index == SMT.cateIndex ? 'active': ''}}">
-            <a ng-click="SMT.loadPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}?{{cate.ID}}++{{$index}}</a>
+            <a ng-click="SMT.loadPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}</a>
         </li>
-
         <li class="cursor-pointer">
             <a ng-click="SMT.addCategory(0,-1)">
-                <i class="icon ion-android-add-circle"></i> 添加一级分类
+                <i class="icon ion-android-add-circle"></i> 添加
+            </a>
+        </li>
+        <li class="cursor-pointer">
+            <!-- 按钮: 编辑分类 -->
+            <a ng-if="SMT.info.length > 0" ng-click="SMT.editCate(0,-1)">
+                <i class="icon ion-ios-compose-outline"></i> 编辑
+            </a>
+        </li>
+        <li class="cursor-pointer">
+            <!-- 按钮: 删除分类 -->
+            <a ng-if="SMT.info.length > 0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate(0,SMT.firstCategoryId)">
+                <i class="icon ion-ios-trash-outline"></i> 删除
             </a>
         </li>
     </ul>
-    <!-- 按钮: 编辑分类 -->
-    <a ng-if="SMT.info.length > 0" ng-click="SMT.editCate(0,-1)" class="button button-light">
-        <i class="icon ion-ios-compose-outline"></i> 编辑一级分类
-    </a>
-    <!-- 按钮: 删除分类 -->
-    <a ng-if="SMT.info.length > 0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate(0,SMT.firstCategoryId)" class="button button-light">
-        <i class="icon ion-ios-trash-outline"></i> 删除一级分类
-    </a>
-
     <!-- 二级分类标签 -->
     <ul class="nav nav-tabs" ng-if="SMT.info.length > 0 ">
+        <li class="cursor-pointer"><h5 class="cursor-pointer" style="padding-right: 3em;">二级分类</h5></li>
         <li ng-repeat="cate in SMT.info[SMT.cateIndex].sub track by $index" class="cursor-pointer {{$index == SMT.secondIndex ? 'active': ''}}">
             <a ng-click="SMT.loadSecondPics($index, cate.ID)">{{cate.Title[SMT.defaultLangCode]}}?{{cate.ID}}</a>
         </li>
 
         <li class="cursor-pointer">
             <a ng-click="SMT.addCategory(0, SMT.firstCategoryId)">
-                <i class="icon ion-android-add-circle"></i> 添加二级分类
+                <i class="icon ion-android-add-circle"></i> 添加
+            </a>
+        </li>
+        <!-- 按钮: 编辑分类 -->
+        <li class="cursor-pointer">
+            <a ng-if="SMT.info.length > 0  && SMT.info[SMT.cateIndex].sub.length>0"
+               ng-click="SMT.editCate(0, SMT.firstCategoryId)" >
+                <i class="icon ion-ios-compose-outline"></i> 编辑
+            </a>
+        </li>
+        <li class="cursor-pointer">
+            <!-- 按钮: 删除分类 -->
+            <a ng-if="SMT.info.length > 0  && SMT.info[SMT.cateIndex].sub.length>0" class="cursor-pointer"
+               ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate(0,SMT.secondCategoryId)">
+                <i class="icon ion-ios-trash-outline"></i> 删除
             </a>
         </li>
     </ul>
-    <!-- 按钮: 编辑分类 -->
-    <a ng-if="SMT.info.length > 0  && SMT.info[SMT.cateIndex].sub.length>0"  ng-click="SMT.editCate(0, SMT.firstCategoryId)" class="button button-light">
-        <i class="icon ion-ios-compose-outline"></i> 编辑二级分类
-    </a>
-    <!-- 按钮: 删除分类 -->
-    <a ng-if="SMT.info.length > 0  && SMT.info[SMT.cateIndex].sub.length>0" ng-disabled="SMT.cateDeleting" ng-click="SMT.delCate(0,SMT.secondCategoryId)" class="button button-light">
-        <i class="icon ion-ios-trash-outline"></i> 删除二级分类
-    </a>
+
     <!--添加图片按钮-->
     <a ng-if="SMT.info.length > 0  && SMT.info[SMT.cateIndex].sub.length>0" class="button button-light" ng-click="SMT.addCategory(1, SMT.secondCategoryId)">
         <i class="icon ion-ios-plus-outline"></i>
-        添加图片{{SMT.secondCategoryId}}
+        添加图片
     </a>
 
     <!--图文列表 开始-->
