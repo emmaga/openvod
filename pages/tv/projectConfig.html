@@ -42,7 +42,8 @@
                 重启时间：
             </div>
             <div class="col-sm-4">
-                <input type="time" id="restartTime"  step="1">
+            <input type="time" id="restartTime" name="input" ng-model = "projectConfig.restartTime"
+                       placeholder="HH:mm:ss" min="00:00:00" max="23:59:59" required />
             </div>
             <div class="col-s-4">
                 是否生效&nbsp;&nbsp; 
@@ -50,7 +51,7 @@
             </div>
         </div>
         <div class="row">
-            <input type="submit" ng-disabled="projectConfig.formDisabled" class="btn btn-primary" style="margin-left:20px">
+            <input type="submit" ng-disabled="projectConfig.formDisabled" class="btn btn-primary" margi style="margin-left:20px">
         </div>
     </form>
 </div>

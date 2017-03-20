@@ -15974,8 +15974,8 @@
                 self.getProjectConfig();
                 // 初始化
                 self.imgs1 = new Imgs([], true);
-                // angular.element 不支持选择器？
-                self.restartTime = angular.element(document.querySelector("#restartTime"));
+                // // angular.element 不支持选择器？
+                // self.restartTime = angular.element(document.querySelector("#restartTime"));
             }
             self.getProjectConfig = function() {
                 var data = JSON.stringify({
@@ -15996,7 +15996,7 @@
                         for (var i = 0; i < projectData.length; i++) {
                             self.projectData[projectData[i]["Type"]] = projectData[i]
                         }
-                        self.restartTime.val(self.projectData.RestartTime.Data);
+                        self.restartTime = new Date("2000 "+self.projectData.RestartTime.Data);
                         self.imgs1.data[0] = {src:self.projectData.Font.Data,progress:100};
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
@@ -16016,6 +16016,12 @@
                     alert("请上传图片");
                     return;
                 }
+                var date= angular.element(document.querySelector("#restartTime")).val(),
+                re = /\d*:\d*:*\d*/;
+                var dateString = re.exec(date)[0];
+                if (dateString.length == 5 ) {
+                   dateString += ":00"
+                }
                 self.formDisabled =true;
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
@@ -16026,7 +16032,7 @@
                             "Enable": Number(self.projectData.Font.Enable)
                         },
                         "RestartTime": {
-                            "Data": self.restartTime.val(),
+                            "Data": dateString,
                             "Enable": Number(self.projectData.RestartTime.Enable)
                         }
                     }
