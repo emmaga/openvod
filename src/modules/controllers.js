@@ -2040,7 +2040,7 @@
                         data: {
                             "TermMainPage": self.hotel.TermMainPage,
                             "Name": self.hotel.Name,
-                            "ViewURL": self.hotel.ViewURL,
+                            "ViewURL": self.hotel.ViewURL ? self.hotel.ViewURL : '',
                             "CityName": self.hotel.CityName,
                             "LocationX": self.hotel.LocationX,
                             "LocationY": self.hotel.LocationY,
@@ -2321,7 +2321,7 @@
                         IntroImgs: imgs,
                         roomDetail: {
                             HotelID: self.hotelId,
-                            ViewURL: self.room.ViewURL,
+                            ViewURL: self.room.ViewURL ? self.room.ViewURL : '',
                             Description: self.room.Description,
                             RoomTypeName: self.room.RoomTypeName,
                             // Roomsummary: self.room.Roomsummary
@@ -2660,7 +2660,7 @@
                         IntroImgs: imgs,
                         roomDetail: {
                             "HotelID": self.hotelId,
-                            "ViewURL": self.room.ViewURL,
+                            "ViewURL": self.room.ViewURL ? self.room.ViewURL : '',
                             "Description": self.room.Description,
                             "RoomTypeName": self.room.RoomTypeName
                         }
