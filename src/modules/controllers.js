@@ -123,7 +123,7 @@
                     }
                 }
 
-                // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面, 6:终端管理，7:微信用户
+                // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面, 6:终端管理，7:微信用户，9：字幕
                 self.switchApp = function (n) {
                     // 收起桌面
                     self.appPhase = 2;
@@ -163,6 +163,9 @@
                             if(!$state.includes('app.projectConfig')) {
                                 $state.go('app.projectConfig', { 'appId': n });
                             }
+                            break;
+                        case 9:
+                                $state.go('app.realTimeCommand', { 'appId': n });
                             break;
                         default:
                             break;
@@ -539,6 +542,127 @@
                     });
                 }
 
+            }
+        ])
+
+        // 字幕
+        .controller('realTimeCommandController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+                console.log('realTimeCommandController');
+                var self = this;
+                self.init = function() {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.realTimeCmdInfo = {
+                        Content:"test",
+                        startDate:123213213,
+                        endDate:13123213213,
+                        Duration:2,
+                        switch:0
+                    }
+                }
+
+                self.edit = function(info){
+                    $scope.app.maskParams = info;
+                    $scope.app.showHideMask(true, 'pages/realTimeCommandEdit.html');
+                }
+                // 添加字幕
+                self.addRealTimeCmd = function() {
+                    var data = {
+                        "action": "addRealTimeCmd",
+                        "token": util.getParams("token"),
+                        // -1 为全部
+                        "terms":[-1],
+                        "data":{
+                        }
+                    }
+                    var paramsUrl = params.url();
+                    data.per_page = paramsUrl.count - 0;
+                    data.page = paramsUrl.page - 0;
+                    data = JSON.stringify(data);
+                    return $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('devinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == '200') {
+                            if (data.data.total == 0) {
+                                self.noData = true;
+                            }
+                            params.total(data.data.total);
+                            return data.data.userinfo;
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert(data.rescode + ' ' + data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function(value) {
+                        self.loading = false;
+                    })
+                }
+            }
+        ])
+
+        // 字幕编辑
+        .controller('realTimeCommandController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+                console.log('realTimeCommandController');
+                var self = this;
+                self.init = function() {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.realTimeCmdInfo = $scope.app.maskParams;
+                }
+
+                self.edit = function(info){
+                    $scope.app.maskParams = info;
+                    $scope.app.showHideMask(true, 'pages/realTimeCommandEdit.html');
+                }
+                // 添加字幕
+                self.addRealTimeCmd = function() {
+                    var data = {
+                        "action": "addRealTimeCmd",
+                        "token": util.getParams("token"),
+                        // -1 为全部
+                        "terms":[-1],
+                        "data":{
+                        }
+                    }
+                    var paramsUrl = params.url();
+                    data.per_page = paramsUrl.count - 0;
+                    data.page = paramsUrl.page - 0;
+                    data = JSON.stringify(data);
+                    return $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('devinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == '200') {
+                            if (data.data.total == 0) {
+                                self.noData = true;
+                            }
+                            params.total(data.data.total);
+                            return data.data.userinfo;
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert(data.rescode + ' ' + data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function(value) {
+                        self.loading = false;
+                    })
+                }
+                self.cancel = function(){
+                    $scope.app.showHideMask(false)
+                }
             }
         ])
 

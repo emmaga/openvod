@@ -1,0 +1,34 @@
+<div ng-controller="realTimeCommandEditController as rTCE" ng-init="rTCE.init()" class="container">
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <!--当前选中名称-->
+        <!-- 在线状态 -->
+        <h4>字幕列表</h4>
+        <hr>
+        <table  class="table table-hover">
+            <tr>
+                <td title="'字幕内容'">
+                    {{rTCE.realTimeCmdInfo.Content}}
+                </td>
+                <td title="'开始日期'">
+                    {{rTCE.realTimeCmdInfo.startDate | date:"yyyy-mm-dd"}}
+                </td>
+                <td title="'结束日期'">
+                    {{rTCE.realTimeCmdInfo.endDate | date:"yyyy-mm-dd"}}
+                </td>
+                <td title="'时长（s）'">
+                    {{rTCE.realTimeCmdInfo.Duration}}
+                </td>
+                <td title="'是否生效'">
+                    {{rTCE.realTimeCmdInfo.switch }}
+                </td>
+                <td title="'操作'">
+                    {{rTCE.edit(rTCE.realTimeCmdInfo)}}
+                </td>
+
+            </tr>
+        </table>
+        <div ng-show="rTCE.loading">loading...</div>
+        <div ng-show="rTCE.noData">查无数据</div>
+    </div>
+</div>
