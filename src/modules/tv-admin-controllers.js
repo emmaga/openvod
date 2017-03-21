@@ -7952,7 +7952,7 @@
                  * @method save
                  */
                 self.save = function() {
-
+                    console.log(123)
                     if(!(self.imgs1.data[0] && self.imgs1.data[0].src)) {
                         alert('请上传图片');
                         return;
@@ -7967,7 +7967,7 @@
                             "isLeaf" : self.addParam.isLeaf,
                             "ID": self.info.ID,
                             "PicURL": self.imgs1.data[0].src,
-                            "Text": self.cateName,
+                            "Text": self.Text,
                             "Title": self.cateName,
                             "Seq": self.Seq,
                             "PicSize": self.imgs1.data[0].fileSize-0,
@@ -7978,7 +7978,7 @@
 
                     self.saving = true;
 
-                    return $http({
+                    $http({
                         method: 'POST',
                         url: util.getApiUrl('commonview', '', 'server'),
                         data: data
