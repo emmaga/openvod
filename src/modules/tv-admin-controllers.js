@@ -16013,7 +16013,7 @@
 
             self.saveProjectConfig = function() {
                 if (self.imgs1.data.length == 0) {
-                    alert("请上传图片");
+                    alert("请上传字体");
                     return;
                 }
                 var date= angular.element(document.querySelector("#restartTime")).val(),
@@ -16144,7 +16144,7 @@
                     }
                     var file = $scope[e];
                     if(!file){
-                        alert("请先选择图片")
+                        alert("请先选择字体")
                         return;
                     }
                     var uploadUrl = CONFIG.uploadUrl;
@@ -16158,6 +16158,7 @@
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console.log("percentComplete");
                                     console && console.log(percentComplete);
                                 }
                             });
