@@ -28,7 +28,7 @@
                     {{rTC.realTimeCmdInfo.Duration}}
                 </td>
                 <td>
-                    {{rTC.realTimeCmdInfo.switch }}
+                    {{rTC.realTimeCmdInfo.switch | isValid}}
                 </td>
                 <td>
                 <button ng-click="rTC.edit(rTC.realTimeCmdInfo)" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</button>
