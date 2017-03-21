@@ -6,24 +6,32 @@
         <h4>字幕列表</h4>
         <hr>
         <table  class="table table-hover">
+            <thead>
+                <th>字幕内容</th>
+                <th>开始日期</th>
+                <th>结束日期</th>
+                <th>时长（s）</th>
+                <th>是否生效</th>
+                <th>操作</th>
+            </thead>
             <tr>
-                <td title="'字幕内容'">
+                <td>
                     {{rTC.realTimeCmdInfo.Content}}
                 </td>
-                <td title="'开始日期'">
-                    {{rTC.realTimeCmdInfo.startDate | date:"yyyy-mm-dd"}}
+                <td>
+                    {{rTC.realTimeCmdInfo.startDate | date:"yyyy-MM-dd"}}
                 </td>
-                <td title="'结束日期'">
-                    {{rTC.realTimeCmdInfo.endDate | date:"yyyy-mm-dd"}}
+                <td>
+                    {{rTC.realTimeCmdInfo.endDate | date:"yyyy-MM-dd"}}
                 </td>
-                <td title="'时长（s）'">
+                <td>
                     {{rTC.realTimeCmdInfo.Duration}}
                 </td>
-                <td title="'是否生效'">
+                <td>
                     {{rTC.realTimeCmdInfo.switch }}
                 </td>
-                <td title="'操作'">
-                    {{rTC.edit(rTC.realTimeCmdInfo)}}
+                <td>
+                <button ng-click="rTC.edit(rTC.realTimeCmdInfo)" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</button>
                 </td>
 
             </tr>
