@@ -15996,7 +15996,7 @@
                             self.projectData[projectData[i]["Type"]] = projectData[i]
                         }
                         self.restartTime = new Date("2000 "+self.projectData.RestartTime.Data);
-                        self.imgs1.data[0] = {src:self.projectData.Font.Data,progress:100};
+                        self.imgs1.data[0] = {src:self.projectData.Font.Data.URL,progress:100,fileSize:self.projectData.Font.Data.Size};
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -16027,7 +16027,10 @@
                     "action": "setTermConfig",
                     "data":{
                         "Font": {
-                            "Data": self.imgs1.data[0].src,
+                            "Data": {
+                                "URL": self.imgs1.data[0].src,
+                                "Size": Number(self.imgs1.data[0].fileSize)
+                            },
                             "Enable": Number(self.projectData.Font.Enable)
                         },
                         "RestartTime": {
