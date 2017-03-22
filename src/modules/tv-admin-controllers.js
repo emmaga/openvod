@@ -7952,7 +7952,6 @@
                  * @method save
                  */
                 self.save = function() {
-                    console.log(123)
                     if(!(self.imgs1.data[0] && self.imgs1.data[0].src)) {
                         alert('请上传图片');
                         return;
@@ -15974,7 +15973,7 @@
                 self.getProjectConfig();
                 // 初始化
                 self.imgs1 = new Imgs([], true);
-                // // angular.element 不支持选择器？
+                // angular.element 不支持选择器？
                 // self.restartTime = angular.element(document.querySelector("#restartTime"));
             }
             self.getProjectConfig = function() {
