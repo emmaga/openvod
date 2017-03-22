@@ -51,6 +51,10 @@
                     url: '/wxUser',
                     templateUrl: 'pages/wxUser.html'
                 })
+                .state('app.realTimeCommand', {
+                    url: '/realTimeCommand',
+                    templateUrl: 'pages/realTimeCommand.html'
+                })
                 .state('app.shop.goods', {
                     url: '/goods?HotelID&ShopID',
                     templateUrl: 'pages/goods.html'

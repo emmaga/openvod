@@ -1,0 +1,57 @@
+<div ng-controller="realTimeCommandEditController as rTCE" ng-init="rTCE.init() " class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- form -->
+        <form id="rTCEForm" name="rTCEForm" ng-submit="rTCEForm.$valid && rTCE.addRealTimeCmd()" role="form">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="rTCE.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑字幕</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 字幕内容 -->
+                <div class="form-group">
+                    <label>字幕内容</label>
+                    <textarea ng-model="rTCE.realTimeCmdInfo.Content" required style="width:100%;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>开始日期</label>
+                    <div class="row">
+                        <div class="col-xs-12 col-condensed">
+                            <!-- 日期选择器 -->
+                            <input type="text" name="startDate" class="form-control" uib-datepicker-popup ng-model="rTCE.realTimeCmdInfo.startDate" is-open="rTCE.realTimeCmdInfo.startDate.opened" datepicker-options="dateOptions" required placeholder="（必填）" close-text="Close" placeholder="请选择日期" ng-click="rTCE.open('start')" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>结束日期</label>
+                    <div class="row">
+                        <div class="col-xs-12 col-condensed">
+                            <!-- 日期选择器 -->
+                            <input type="text" name="endDate" class="form-control" uib-datepicker-popup ng-model="rTCE.realTimeCmdInfo.endDate" is-open="rTCE.realTimeCmdInfo.endDate.opened" datepicker-options="dateOptions" required placeholder="（必填）" close-text="Close" placeholder="请选择日期" ng-click="rTCE.open('end')" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>时长(s)</label>
+                    <input type="number" class="form-control"  ng-model="rTCE.realTimeCmdInfo.Duration" required placeholder="（必填）">
+                </div>
+                <div class="form-group">
+                    <label>是否生效</label>
+                    <input type="checkbox" class="form-control"  ng-model="rTCE.realTimeCmdInfo.switch">
+                </div>
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="rTCE.cancel()">{{'CANCEL' | translate}}</button>
+                <button class="btn btn-primary" type="submit" ng-disabled="rTCE.saving" form="rTCEForm">{{'SAVE' | translate}}</button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
+</div>

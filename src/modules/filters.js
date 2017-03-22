@@ -132,6 +132,19 @@
       return flag;
     }
   }])
+
+  // 是否生效
+  .filter('isValid', function() {
+    return function(input) {
+      var flag;
+      if (input == 0) {
+        flag = "否";
+      } else {
+        flag = "是";
+      }
+      return flag;
+    }
+  });
   
   
 

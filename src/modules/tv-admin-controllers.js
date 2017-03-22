@@ -7952,7 +7952,7 @@
                  * @method save
                  */
                 self.save = function() {
-
+                    console.log(123)
                     if(!(self.imgs1.data[0] && self.imgs1.data[0].src)) {
                         alert('请上传图片');
                         return;
@@ -7967,7 +7967,7 @@
                             "isLeaf" : self.addParam.isLeaf,
                             "ID": self.info.ID,
                             "PicURL": self.imgs1.data[0].src,
-                            "Text": self.cateName,
+                            "Text": self.Text,
                             "Title": self.cateName,
                             "Seq": self.Seq,
                             "PicSize": self.imgs1.data[0].fileSize-0,
@@ -7978,7 +7978,7 @@
 
                     self.saving = true;
 
-                    return $http({
+                    $http({
                         method: 'POST',
                         url: util.getApiUrl('commonview', '', 'server'),
                         data: data
@@ -15974,8 +15974,8 @@
                 self.getProjectConfig();
                 // 初始化
                 self.imgs1 = new Imgs([], true);
-                // angular.element 不支持选择器？
-                self.restartTime = angular.element(document.querySelector("#restartTime"));
+                // // angular.element 不支持选择器？
+                // self.restartTime = angular.element(document.querySelector("#restartTime"));
             }
             self.getProjectConfig = function() {
                 var data = JSON.stringify({
@@ -15996,7 +15996,7 @@
                         for (var i = 0; i < projectData.length; i++) {
                             self.projectData[projectData[i]["Type"]] = projectData[i]
                         }
-                        self.restartTime.val(self.projectData.RestartTime.Data);
+                        self.restartTime = new Date("2000 "+self.projectData.RestartTime.Data);
                         self.imgs1.data[0] = {src:self.projectData.Font.Data,progress:100};
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
@@ -16013,8 +16013,14 @@
 
             self.saveProjectConfig = function() {
                 if (self.imgs1.data.length == 0) {
-                    alert("请上传图片");
+                    alert("请上传字体");
                     return;
+                }
+                var date= angular.element(document.querySelector("#restartTime")).val(),
+                re = /\d*:\d*:*\d*/;
+                var dateString = re.exec(date)[0];
+                if (dateString.length == 5 ) {
+                   dateString += ":00"
                 }
                 self.formDisabled =true;
                 var data = JSON.stringify({
@@ -16026,7 +16032,7 @@
                             "Enable": Number(self.projectData.Font.Enable)
                         },
                         "RestartTime": {
-                            "Data": self.restartTime.val(),
+                            "Data": dateString,
                             "Enable": Number(self.projectData.RestartTime.Enable)
                         }
                     }
@@ -16138,7 +16144,7 @@
                     }
                     var file = $scope[e];
                     if(!file){
-                        alert("请先选择图片")
+                        alert("请先选择字体")
                         return;
                     }
                     var uploadUrl = CONFIG.uploadUrl;
@@ -16152,6 +16158,7 @@
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console.log("percentComplete");
                                     console && console.log(percentComplete);
                                 }
                             });
