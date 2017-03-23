@@ -14,13 +14,22 @@
                     <input id="upload1"  style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
                     <a id="hidenUpload1" style="display: none;" ng-click="projectConfig.imgs1.uploadFile('myFile', projectConfig.imgs1)"></a>
                     <!-- 进度条 -->
-                    <div class="font-upload" ng-repeat="img in projectConfig.imgs1.data" style="background-image: url(http://placehold.it/80x80);" ng-show="!({{img.progress}}==100)||{{projectConfig.imgs1.data}}">
+
+                    <div class="font-upload" ng-repeat="img in projectConfig.imgs1.data" style="background-image: url('http://placehold.it/80*80');" ng-show="!({{img.progress}}==100)||{{projectConfig.imgs1.data}}">
                         <div class="progress form-thumbnail-progress" style="width: 75px; left: 2px;" ng-show="!({{img.progress}}==100)">
                             <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
                             </div>
                             <!--上传地址：{{img.src}} -->
                         </div>
                     </div>
+
+                    <!--<div class="font-upload" ng-repeat="img in projectConfig.imgs1.data" style="background-image: url('src/image/upload.png');" ng-show="!({{img.progress}}==100)||{{projectConfig.imgs1.data}}">-->
+                        <!--<div class="progress form-thumbnail-progress" style="width: 75px; left: 2px;" ng-show="!({{img.progress}}==100)">-->
+                            <!--<div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;上传地址：{{img.src}} &ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </div>
             <div class="font-item text-center">

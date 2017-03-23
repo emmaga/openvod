@@ -756,8 +756,11 @@ input.form-control{
 .font-container,
 .restart-container,
 .procon-sub {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-start;
     margin: 2em;
@@ -770,7 +773,11 @@ input.form-control{
 
 .font-item,
 .restart-item {
-    flex-grow: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: flex;
 }
 
  .font-upload-container,
