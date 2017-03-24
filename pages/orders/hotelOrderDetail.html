@@ -29,6 +29,11 @@
                     订单状态
                     <span class="pull-right">{{hod.orderInfo.Status | orderStatus}}</span>
                 </li>
+                <!--优惠-->
+                <li class="list-group-item">
+                    优惠券
+                    <span class="pull-right">{{hod.orderInfo.card_info_title | arrToString}}</span>
+                </li>
                 <!--订单总价-->
                 <li class="list-group-item">
                     订单总价

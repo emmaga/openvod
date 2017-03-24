@@ -144,6 +144,14 @@
       }
       return flag;
     }
+  })
+
+  
+  // 数组转化为字符串
+  .filter('arrToString', function() {
+    return function(arr) {
+        return arr.join('; ')
+    }
   });
   
   
