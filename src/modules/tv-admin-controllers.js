@@ -5854,7 +5854,6 @@
                 // 使用一次后，赋值为空
                 $scope.app.tabNum  = null;
             }
-
             //获取英文城市名
             self.getENlang = function() {
                 var ENlang;
