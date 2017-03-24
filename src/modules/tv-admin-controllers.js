@@ -5836,7 +5836,7 @@
             }
         ])
     //雅思特天气 Yeste_Weather
-    .controller('Yeste_Weather', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+    .controller('Yeste_Weather_Controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
             var self = this;
             self.init = function() {
@@ -5846,9 +5846,13 @@
                 self.editLangs = util.getParams('editLangs');
                 self.ENlang = self.getENlang();
                 self.getInfo();
-                self.tab = $scope.app.Yeste_Weather_tabNum ? $scope.app.Yeste_Weather_tabNum:1;
+                if($scope.app.maskParams.num) {
+                    self.tab = $scope.app.maskParams.num
+                }else {
+                    self.tab = $scope.app.tabNum ? $scope.app.tabNum:1;
+                }
                 // 使用一次后，赋值为空
-                $scope.app.Yeste_Weather_tabNum  = null;
+                $scope.app.tabNum  = null;
             }
 
             //获取英文城市名
@@ -5880,8 +5884,6 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         self.info = data.data.data;
-                        console.log('self.info');
-                        console.log(self.info);
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
@@ -5922,7 +5924,7 @@
                 $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Yeste.html');
             }
             //删除
-            self.del = function(id, index) {
+            self.del = function(id, index, num) {
                 var index = index;
                 if(!confirm('确认删除？')) {
                     return;
@@ -5944,7 +5946,8 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('删除成功');
-                        $state.reload();
+                        $scope.app.maskParams.num = num;
+                        $state.reload('app.tvAdmin.Yeste_Weather');
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -6010,7 +6013,7 @@
                         alert('添加成功');
                         $state.reload('app.tvAdmin.Yeste_Weather');
                         // 在app控制器上面加了一个天气的参数
-                        $scope.app.Yeste_Weather_tabNum = self.tabNum;
+                        $scope.app.tabNum = self.tabNum;
                         self.cancel();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
@@ -8391,7 +8394,7 @@
     ])
 
     //通用天气（土豪金） WeatherCommon
-    .controller('WeatherCommon_controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+    .controller('WeatherCommon_Controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
         console.log('WeatherCommon');
             var self = this;
