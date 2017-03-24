@@ -419,6 +419,18 @@
                     }
                 })
 
+                //通用天气（土豪金） WeatherCommon
+                .state('app.tvAdmin.WeatherCommon', {
+                    url: '/WeatherCommon?moduleId&label',
+                    templateUrl: 'pages/tv/WeatherCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+
                  // 丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号
                 .state('app.tvAdmin.SimpleSmallPicText_LiFeng', {
                     url: '/SimpleSmallPicText_LiFeng?moduleId&label',

@@ -1,0 +1,104 @@
+<div ng-controller="WeatherCommon as Common" ng-init="Common.init()" class="col-md-12">
+    <!--tab for contry-->
+    <ul class="nav nav-tabs">
+        <li ng-class="{'active':(Common.tab==1)}" class="cursor-pointer">
+            <a ng-click="Common.tab=1">国内</a>
+        </li>
+        <li ng-class="{'active':(Common.tab==2)}" class="cursor-pointer">
+            <a role="tab" ng-click="Common.tab=2">国外</a>
+        </li>
+    </ul>
+
+    <!--tab-content-->
+    <div class="tab-content">
+        <!--国内-->
+        <div class="tab-pane" ng-class="{'in active':(Common.tab==1)}">
+            <div class="tab-pane">
+                <ng-if ng-if="my_tree.get_selected_branch().data.type=='Common'">
+                    <a ng-click="Common.add(Common.tab)" class="button button-light">
+                        <i class="icon ion-ios-plus-outline"></i>添加国内城市
+                    </a>
+                </ng-if>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>城市(CN)</th>
+                    <th>城市(EN)</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="Item in Common.info track by $index" ng-if="Item.Country == 'China'">
+                    <td>{{Item.Seq}}</td>
+                    <ng-repeat ng-repeat="lang in Common.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <td>{{Item.City[Common.defaultLangCode]}}</td>
+                        </ng-if>
+                        <ng-if ng-if="lang.name=='en'">
+                            <td>{{Item.City[Common.ENlang]}}</td>
+                        </ng-if>
+                    </ng-repeat>
+                    <td>
+                        <!--编辑按钮-->
+                        <a class="" ng-click="Common.edit(Item)">编辑</a>
+                        <!--编辑按钮-->
+                        <!--删除按钮-->
+                        <a class="" ng-click="Common.del(Item.ID, $index)">删除</a>
+                        <!--删除按钮-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--城市列表end-->
+        </div>
+        <!--国外-->
+        <div class="tab-pane" ng-class="{'in active':(Common.tab==2)}">
+            <div class="tab-pane">
+                <ng-if ng-if="my_tree.get_selected_branch().data.type=='Common'">
+                    <a ng-click="Common.add(Common.tab)" class="button button-light">
+                        <i class="icon ion-ios-plus-outline"></i>添加国外城市
+                    </a>
+                </ng-if>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>城市(CN)</th>
+                    <th>城市(EN)</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="Item in Common.info track by $index" ng-if="Item.Country == 'Overseas'  ">
+
+                    <td>{{Item.Seq}}</td>
+                    <ng-repeat ng-repeat="lang in Common.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <td>{{Item.City[Common.defaultLangCode]}}</td>
+                        </ng-if>
+                        <ng-if ng-if="lang.name=='en'">
+                            <td>{{Item.City[Common.ENlang]}}</td>
+                        </ng-if>
+                    </ng-repeat>
+                    <td>
+                        <!--编辑按钮-->
+                        <a class="" ng-click="Common.edit(Item)">编辑</a>
+                        <!--编辑按钮-->
+                        <!--删除按钮-->
+                        <a class="" ng-click="Common.del(Item.ID, $index)">删除</a>
+                        <!--删除按钮-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--城市列表end-->
+
+        </div>
+        <!--国外end-->
+    </div>
+
+
+</div>

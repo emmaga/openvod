@@ -1,0 +1,49 @@
+<div ng-controller="WeatherCommon_Edit_Controler as Edit" ng-init="Edit.init();" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="Edit.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">修改城市</h5>
+        </div>
+        <!--/header end-->
+        <!--body-->
+        <div class="modal-body">
+            <form  id="EditForm" name="EditForm" ng-submit="EditForm.$valid && Edit.save()">
+                <div class="form-group">
+                    <!--序号-->
+                    <label>序号</label>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填）'"
+                    type="number" ng-model="Edit.cityInfo.Seq" min="1" required placeholder="（必填）"/>
+                    <!--/序号-->
+                </div>
+                <!--城市-->
+                <div class="form-group">
+                    <ng-repeat ng-repeat="lang in Edit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>城市{{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填）'"
+                            ng-model="Edit.cityInfo.City[lang.code]" required placeholder="（必填）" />
+                        </ng-if>
+
+                        <ng-if ng-if="lang.default !== true">
+                            <label>城市 {{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填）'"
+                            ng-model="Edit.cityInfo.City[lang.code]" required placeholder="（必填）" />
+                        </ng-if>
+                    </ng-repeat>
+                </div>
+                <!--/标题-->
+            </form>
+        </div>
+        <!--/body end-->
+        <!--footer-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm" ng-click="Edit.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="EditForm" ng-disabled="Edit.saving">保存</button>
+        </div>
+        <!--/footer end-->
+    </div>
+</div>
