@@ -8402,7 +8402,11 @@
                 self.editLangs = util.getParams('editLangs');
                 self.ENlang = self.getENlang();
                 self.getInfo();
-                self.tab = $scope.app.tabNum ? $scope.app.tabNum:1;
+                if($scope.app.maskParams.num) {
+                    self.tab = $scope.app.maskParams.num
+                }else {
+                    self.tab = $scope.app.tabNum ? $scope.app.tabNum:1;
+                }
                 // 使用一次后，赋值为空
                 $scope.app.tabNum  = null;
             }
@@ -8436,8 +8440,6 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         self.info = data.data.data;
-                        console.log('self.info');
-                        console.log(self.info);
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
@@ -8478,7 +8480,7 @@
                 $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Common.html');
             }
             //删除
-            self.del = function(id, index) {
+            self.del = function(id, index, num) {
                 var index = index;
                 if(!confirm('确认删除？')) {
                     return;
@@ -8500,7 +8502,8 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('删除成功');
-                        $state.reload();
+                        $scope.app.maskParams.num = num;
+                        $state.reload('app.tvAdmin.WeatherCommon');
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
