@@ -411,7 +411,7 @@
                 //三星 天气 Samsung_Weather
                 .state('app.tvAdmin.Samsung_Weather', {
                     url: '/Samsung_Weather?moduleId&label',
-                    templateUrl: 'pages/tv/Samsung_Weather.html',
+                    templateUrl: 'pages/tv/Weather_Samsung.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 

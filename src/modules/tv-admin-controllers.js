@@ -8142,133 +8142,134 @@
         ])
 
     //三星天气 Samsung_Weather
-    .controller('Samsung_Weather', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
-        function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
-            var self = this;
-            self.init = function() {
-                self.info = {};
-                self.viewId = $stateParams.moduleId;
-                self.defaultLangCode = util.getDefaultLangCode();
-                self.editLangs = util.getParams('editLangs');
-                self.ENlang = self.getENlang();
-                self.getInfo();
-                self.tab = $scope.app.Yeste_Weather_tabNum ? $scope.app.Yeste_Weather_tabNum:1;
-                // 使用一次后，赋值为空
-                $scope.app.Yeste_Weather_tabNum  = null;
-            }
+    .controller('Samsung_Weather_Controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                var self = this;
+                self.init = function() {
+                    self.info = {};
+                    self.viewId = $stateParams.moduleId;
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.editLangs = util.getParams('editLangs');
+                    self.ENlang = self.getENlang();
+                    self.getInfo();
+                    if($scope.app.maskParams.num) {
+                        self.tab = $scope.app.maskParams.num
+                    }else {
+                        self.tab = $scope.app.tabNum ? $scope.app.tabNum:1;
+                    }
+                    // 使用一次后，赋值为空
+                    $scope.app.tabNum  = null;
+                }
 
-            //获取英文城市名
-            self.getENlang = function() {
-                var ENlang;
-                for(var i=0; i<self.editLangs.length; i++) {
-                    ENlang = self.editLangs[i];
-                    if(ENlang.name=="en") {
-                        return ENlang.code;
+                //获取英文城市名
+                self.getENlang = function() {
+                    var ENlang;
+                    for(var i=0; i<self.editLangs.length; i++) {
+                        ENlang = self.editLangs[i];
+                        if(ENlang.name=="en") {
+                            return ENlang.code;
+                        }
                     }
                 }
-            }
 
-            //获取
-            self.getInfo = function () {
-                var deferred = $q.defer();
-                self.loading = true;
-                var data = JSON.stringify({
-                    viewID: Number(self.viewId),
-                    token: util.getParams('token'),
-                    action: "get",
-                    lang: util.langStyle()
-                })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        self.info = data.data.data;
-                        console.log('self.info');
-                        console.log(self.info);
-                        deferred.resolve();
-                    } else if (data.rescode == '401') {
-                        alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
-                    } else {
-                        alert('读取信息失败，' + data.errInfo);
+                //获取
+                self.getInfo = function () {
+                    var deferred = $q.defer();
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        viewID: Number(self.viewId),
+                        token: util.getParams('token'),
+                        action: "get",
+                        lang: util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.info = data.data.data;
+                            deferred.resolve();
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('读取信息失败，' + data.errInfo);
+                            deferred.reject();
+                        }
+                    }, function errorCallback(response) {
+                        alert('服务器出错');
                         deferred.reject();
+                    }).finally(function(e) {
+                        self.loading = false;
+                    });
+                    return deferred.promise;
+
+                };
+                //新增
+                self.add = function(num) {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.num = num;
+                    $scope.app.showHideMask(true,'pages/tv/WeatherAdd_Samsung.html');
+                }
+
+                self.Country = function () {
+                    if(self.tab==1) {
+                        return "China";
+                    }else {
+                        return "Oversea";
                     }
-                }, function errorCallback(response) {
-                    alert('服务器出错');
-                    deferred.reject();
-                }).finally(function(e) {
-                    self.loading = false;
-                });
-                return deferred.promise;
-
-            };
-            //新增
-            self.add = function(num) {
-                $scope.app.maskParams.viewId = self.viewId;
-                $scope.app.maskParams.num = num;
-                $scope.app.showHideMask(true,'pages/tv/WeatherAdd_Samsung.html');
-            }
-
-            self.Country = function () {
-                if(self.tab==1) {
-                    return "China";
-                }else {
-                    return "Oversea";
                 }
-            }
-            //修改
-            self.edit = function(Item) {
-                console.log('edit');
-                $scope.app.maskParams.viewId = self.viewId;
-                $scope.app.maskParams.cityInfo = Item;
-                $scope.app.maskParams.ENlang = self.ENlang;
-                $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Samsung.html');
-            }
-            //删除
-            self.del = function(id, index) {
-                var index = index;
-                if(!confirm('确认删除？')) {
-                    return;
+                //修改
+                self.edit = function(Item) {
+                    console.log('edit');
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.cityInfo = Item;
+                    $scope.app.maskParams.ENlang = self.ENlang;
+                    $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Samsung.html');
                 }
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "delete",
-                    "viewID": self.viewId,
-                    "data": {
-                        "ID":id-0
-                    },
-                    "lang": util.langStyle()
+                //删除
+                self.del = function(id, index, num) {
+                    var index = index;
+                    if(!confirm('确认删除？')) {
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "delete",
+                        "viewID": self.viewId,
+                        "data": {
+                            "ID":id-0
+                        },
+                        "lang": util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('删除成功');
+                            $scope.app.maskParams.num = num;
+                            $state.reload('app.tvAdmin.Samsung_Weather');
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('删除失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    });
+                }
+                $scope.$on("tabNum",function(){
+                    alert('success')
                 })
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('删除成功');
-                        $state.reload();
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('删除失败，' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                });
+
             }
-
-            //
-            $scope.$on("tabNum",function(){
-                alert('success')
-            })
-
-        }
-    ])
+        ])
     //三星天气 Add Samsung_Weather
     .controller('Samsung_Weather_Add_Controler',['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
@@ -8314,7 +8315,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('添加成功');
-                        $state.reload('app.tvAdmin.Yeste_Weather');
+                        $state.reload('app.tvAdmin.Samsung_Weather');
                         // 在app控制器上面加了一个天气的参数
                         $scope.app.Yeste_Weather_tabNum = self.tabNum;
                         self.cancel();
@@ -8372,7 +8373,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.reload('app.tvAdmin.Yeste_Weather');
+                        $state.reload('app.tvAdmin.Samsung_Weather');
                         // 在app控制器上面加了一个天气的参数
                         $scope.app.Yeste_Weather_tabNum = self.tabNum;
                         self.cancel();
