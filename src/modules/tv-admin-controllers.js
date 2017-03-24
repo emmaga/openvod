@@ -5835,6 +5835,7 @@
                 }
             }
         ])
+
     //雅思特天气 Yeste_Weather
     .controller('Yeste_Weather_Controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
@@ -5853,7 +5854,9 @@
                 }
                 // 使用一次后，赋值为空
                 $scope.app.tabNum  = null;
+                $scope.app.maskParams.num = null;
             }
+
             //获取英文城市名
             self.getENlang = function() {
                 var ENlang;
@@ -5915,11 +5918,12 @@
                 }
             }
             //修改
-            self.edit = function(Item) {
+            self.edit = function(Item, num) {
                 console.log('edit');
                 $scope.app.maskParams.viewId = self.viewId;
                 $scope.app.maskParams.cityInfo = Item;
                 $scope.app.maskParams.ENlang = self.ENlang;
+                $scope.app.maskParams.num = num;
                 $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Yeste.html');
             }
             //删除
@@ -5957,8 +5961,6 @@
                     alert('连接服务器出错');
                 });
             }
-
-            //
             $scope.$on("tabNum",function(){
                 alert('success')
             })
@@ -6068,10 +6070,10 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.reload('app.tvAdmin.Yeste_Weather');
                         // 在app控制器上面加了一个天气的参数
-                        $scope.app.Yeste_Weather_tabNum = self.tabNum;
+                        $scope.app.tabNum = self.tabNum;
                         self.cancel();
+                        $state.reload('app.tvAdmin.Yeste_Weather');
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -6087,6 +6089,7 @@
             }
         }
     ])
+
 
     //司马台 小图 SiMaTai_SimpleSmallPicTextControler
     .controller('SiMaTai_SimpleSmallPicTextControler', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
@@ -8144,6 +8147,7 @@
     //三星天气 Samsung_Weather
     .controller('Samsung_Weather_Controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
             function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                console.log('WeatherCommon');
                 var self = this;
                 self.init = function() {
                     self.info = {};
@@ -8159,6 +8163,7 @@
                     }
                     // 使用一次后，赋值为空
                     $scope.app.tabNum  = null;
+                    $scope.app.maskParams.num = null;
                 }
 
                 //获取英文城市名
@@ -8222,11 +8227,12 @@
                     }
                 }
                 //修改
-                self.edit = function(Item) {
+                self.edit = function(Item, num) {
                     console.log('edit');
                     $scope.app.maskParams.viewId = self.viewId;
                     $scope.app.maskParams.cityInfo = Item;
                     $scope.app.maskParams.ENlang = self.ENlang;
+                    $scope.app.maskParams.num = num;
                     $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Samsung.html');
                 }
                 //删除
@@ -8272,126 +8278,126 @@
         ])
     //三星天气 Add Samsung_Weather
     .controller('Samsung_Weather_Add_Controler',['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
-        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
-            var self = this;
-            self.init = function() {
-                self.viewId = $scope.app.maskParams.viewId;
-                self.editLangs = util.getParams('editLangs');
-                self.tabNum  = $scope.app.maskParams.num;
-                self.getCountry(self.tabNum)
-            };
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+                self.init = function() {
+                    self.viewId = $scope.app.maskParams.viewId;
+                    self.editLangs = util.getParams('editLangs');
+                    self.tabNum  = $scope.app.maskParams.num;
+                    self.getCountry(self.tabNum)
+                };
 
-            self.cancel = function() {
-                $scope.app.showHideMask(false);
-            };
-            self.getCountry = function (para) {
-                if(para==1) {
-                    self.whichCountry = "China";
-                }else {
-                    self.whichCountry = "Overseas";
-                }
-            }
-
-            self.save = function() {
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "add",
-                    "viewID": Number(self.viewId),
-                    "data":{
-                        "Seq": self.Seq,
-                        "Country": self.whichCountry,
-                        "City": self.City
-                    },
-                    "lang": util.langStyle()
-                })
-
-
-                self.saving = true;
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('添加成功');
-                        $state.reload('app.tvAdmin.Samsung_Weather');
-                        // 在app控制器上面加了一个天气的参数
-                        $scope.app.Yeste_Weather_tabNum = self.tabNum;
-                        self.cancel();
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('添加失败，' + data.errInfo);
+                self.cancel = function() {
+                    $scope.app.showHideMask(false);
+                };
+                self.getCountry = function (para) {
+                    if(para==1) {
+                        self.whichCountry = "China";
+                    }else {
+                        self.whichCountry = "Overseas";
                     }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function (value) {
-                    self.saving = false;
-                });
+                }
 
-            };
-        }
-    ])
+                self.save = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "add",
+                        "viewID": Number(self.viewId),
+                        "data":{
+                            "Seq": self.Seq,
+                            "Country": self.whichCountry,
+                            "City": self.City
+                        },
+                        "lang": util.langStyle()
+                    })
+
+
+                    self.saving = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('添加成功');
+                            $state.reload('app.tvAdmin.Samsung_Weather');
+                            // 在app控制器上面加了一个天气的参数
+                            $scope.app.tabNum = self.tabNum;
+                            self.cancel();
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('添加失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+
+                };
+            }
+        ])
     //三星天气 Edit Samsung_Weather
     .controller('Samsung_Weather_Edit_Controler', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
-        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
-            var self = this;
-            self.init = function() {
-                self.viewId = $scope.app.maskParams.viewId;
-                self.cityInfo = $scope.app.maskParams.cityInfo;
-                self.ENlang = $scope.app.maskParams.ENlang;
-                // 获取编辑多语言信息
-                self.editLangs = util.getParams('editLangs');
-                self.tabNum  = $scope.app.maskParams.num;
-            }
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+                self.init = function() {
+                    self.viewId = $scope.app.maskParams.viewId;
+                    self.cityInfo = $scope.app.maskParams.cityInfo;
+                    self.ENlang = $scope.app.maskParams.ENlang;
+                    // 获取编辑多语言信息
+                    self.editLangs = util.getParams('editLangs');
+                    self.tabNum  = $scope.app.maskParams.num;
+                }
 
-            self.cancel = function() {
-                $scope.app.showHideMask(false);
-            }
-            self.save = function() {
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "edit",
-                    "viewID": Number(self.viewId),
-                    "data":{
-                        "ID": Number(self.cityInfo.ID),
-                        "Seq": self.cityInfo.Seq,
-                        "Country": self.cityInfo.Country,
-                        "City": self.cityInfo.City
-                    },
-                    "lang": util.langStyle()
-                })
+                self.cancel = function() {
+                    $scope.app.showHideMask(false);
+                }
+                self.save = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "edit",
+                        "viewID": Number(self.viewId),
+                        "data":{
+                            "ID": Number(self.cityInfo.ID),
+                            "Seq": self.cityInfo.Seq,
+                            "Country": self.cityInfo.Country,
+                            "City": self.cityInfo.City
+                        },
+                        "lang": util.langStyle()
+                    })
 
-                self.saving = true;
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('commonview', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('修改成功');
-                        $state.reload('app.tvAdmin.Samsung_Weather');
-                        // 在app控制器上面加了一个天气的参数
-                        $scope.app.Yeste_Weather_tabNum = self.tabNum;
-                        self.cancel();
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('修改失败，' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function (value) {
-                    self.saving = false;
-                });
+                    self.saving = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            // 在app控制器上面加了一个天气的参数
+                            $scope.app.tabNum = self.tabNum;
+                            self.cancel();
+                            $state.reload('app.tvAdmin.Samsung_Weather');
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('修改失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
 
+                }
             }
-        }
-    ])
+        ])
 
     //通用天气（土豪金） WeatherCommon
     .controller('WeatherCommon_Controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
@@ -8412,6 +8418,7 @@
                 }
                 // 使用一次后，赋值为空
                 $scope.app.tabNum  = null;
+                $scope.app.maskParams.num = null;
             }
 
             //获取英文城市名
@@ -8475,11 +8482,12 @@
                 }
             }
             //修改
-            self.edit = function(Item) {
+            self.edit = function(Item, num) {
                 console.log('edit');
                 $scope.app.maskParams.viewId = self.viewId;
                 $scope.app.maskParams.cityInfo = Item;
                 $scope.app.maskParams.ENlang = self.ENlang;
+                $scope.app.maskParams.num = num;
                 $scope.app.showHideMask(true,'pages/tv/WeatherEdit_Common.html');
             }
             //删除
@@ -8626,10 +8634,10 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.reload('app.tvAdmin.WeatherCommon');
                         // 在app控制器上面加了一个天气的参数
-                        $scope.app.Yeste_Weather_tabNum = self.tabNum;
+                        $scope.app.tabNum = self.tabNum;
                         self.cancel();
+                        $state.reload('app.tvAdmin.WeatherCommon');
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
                         $state.go('login');

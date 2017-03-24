@@ -408,6 +408,17 @@
                     }
                 })
 
+                //雅思特 天气 Yeste_Weather
+                .state('app.tvAdmin.Yeste_Weather', {
+                    url: '/Yeste_Weather?moduleId&label',
+                    templateUrl: 'pages/tv/Weather_Yeste.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                 //三星 天气 Samsung_Weather
                 .state('app.tvAdmin.Samsung_Weather', {
                     url: '/Samsung_Weather?moduleId&label',
@@ -686,16 +697,7 @@
                         }]
                     }
                 })
-                //雅思特 天气 Yeste_Weather
-                .state('app.tvAdmin.Yeste_Weather', {
-                    url: '/Yeste_Weather?moduleId&label',
-                    templateUrl: 'pages/tv/Weather_Yeste.html',
-                    resolve: {
-                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
-                        }]
-                    }
-                })
 
 
                 .state('app.tvAdmin.blank', {
