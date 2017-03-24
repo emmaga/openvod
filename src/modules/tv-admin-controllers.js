@@ -203,10 +203,15 @@
                     self.changeMenuInfo();
                 }
 
-                //三星 天气 Samsung_Weather
+                //三星天气 Samsung_Weather
                 if(branch.data.type == 'Samsung_Weather') {
-
                     $state.go('app.tvAdmin.Samsung_Weather', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                //通用天气 WeatherCommon
+                if(branch.data.type == 'WeatherCommon') {
+                    $state.go('app.tvAdmin.WeatherCommon', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
 
@@ -8386,8 +8391,9 @@
     ])
 
     //通用天气（土豪金） WeatherCommon
-    .controller('WeatherCommon', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+    .controller('WeatherCommon_controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
         function($q, $scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+        console.log('WeatherCommon');
             var self = this;
             self.init = function() {
                 self.info = {};
@@ -8396,9 +8402,9 @@
                 self.editLangs = util.getParams('editLangs');
                 self.ENlang = self.getENlang();
                 self.getInfo();
-                self.tab = $scope.app.Yeste_Weather_tabNum ? $scope.app.Yeste_Weather_tabNum:1;
+                self.tab = $scope.app.tabNum ? $scope.app.tabNum:1;
                 // 使用一次后，赋值为空
-                $scope.app.Yeste_Weather_tabNum  = null;
+                $scope.app.tabNum  = null;
             }
 
             //获取英文城市名
@@ -8505,8 +8511,6 @@
                     alert('连接服务器出错');
                 });
             }
-
-            //
             $scope.$on("tabNum",function(){
                 alert('success')
             })
@@ -8558,9 +8562,9 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('添加成功');
-                        $state.reload('app.tvAdmin.Yeste_Weather');
+                        $state.reload('app.tvAdmin.WeatherCommon');
                         // 在app控制器上面加了一个天气的参数
-                        $scope.app.Yeste_Weather_tabNum = self.tabNum;
+                        $scope.app.tabNum = self.tabNum;
                         self.cancel();
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
@@ -8616,7 +8620,7 @@
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
-                        $state.reload('app.tvAdmin.Yeste_Weather');
+                        $state.reload('app.tvAdmin.WeatherCommon');
                         // 在app控制器上面加了一个天气的参数
                         $scope.app.Yeste_Weather_tabNum = self.tabNum;
                         self.cancel();

@@ -422,14 +422,12 @@
                 //通用天气（土豪金） WeatherCommon
                 .state('app.tvAdmin.WeatherCommon', {
                     url: '/WeatherCommon?moduleId&label',
-                    templateUrl: 'pages/tv/WeatherCommon.html',
+                    templateUrl: 'pages/tv/Weather_Common.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-
                         }]
                     }
                 })
-
 
                  // 丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号
                 .state('app.tvAdmin.SimpleSmallPicText_LiFeng', {
@@ -719,9 +717,9 @@
 
         .constant('CONFIG', {
 
-            // serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
+            serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
             // 张舰 自己 起了一个测试服务器
-            serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
+            // serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
             // serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',
             testUrl: 'test/',
