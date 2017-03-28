@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>OPEN VOD</title>
+
+  <!-- <link rel="stylesheet" href="src/style/ionic.parts.css" /> -->
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="node_modules/ng-table/bundles/ng-table.min.css" />
+  <link rel="stylesheet" href="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css" />
+  <link rel="stylesheet" href="node_modules/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.min.css" />
+  <link rel="stylesheet" type="text/css" href="node_modules/angular-bootstrap-nav-tree/dist/abn_tree.css">
+  <link rel="stylesheet" href="dist/style/app.min.css" />
+  <!-- <link rel="stylesheet" href="src/style/app.css" /> -->
+  <link rel="shortcut icon" href="dist/imgs/favicon4.ico" />
+</head>
+<body ng-app="openvod">
+
+  <div class="bg" style="background-image: url('dist/imgs/bg-01.png'); "></div>
+  <ui-view></ui-view>
+
+  <div ng-include="index.maskUrl" class="autoscroll"></div>
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/angular-md5/angular-md5.min.js"></script>
+  <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js" ></script>
+  <script src="node_modules/angular-translate/dist/angular-translate.min.js" ></script>
+  <script src="node_modules/angular-translate/dist/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js" ></script>
+  <script src="node_modules/ng-table/bundles/ng-table.min.js"></script>
+  <script src="node_modules/angular-cookies/angular-cookies.min.js"></script>
+  <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+  <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+  <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+  <script src="node_modules/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.min.js"></script>
+  <script src="node_modules/angular-bootstrap-nav-tree/dist/abn_tree_directive.js"></script>
+
+  <script src="dist/js/app.min.js"></script>
+  <script src="src/modules/app.js"></script>
+  <!--<script src="src/modules/controllers.js"></script>-->
+  <!--<script src="src/modules/tv-admin-controllers.js"></script>-->
+  <!--<script src="src/modules/project-config-controllers.js"></script>-->
+  <!--<script src="src/modules/orders-controllers.js"></script>-->
+  <!--<script src="src/modules/directives.js"></script>-->
+  <!--<script src="src/modules/filters.js"></script>-->
+  <!--<script src="src/modules/services.js"></script>-->
+</body>
+</html>
