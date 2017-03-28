@@ -18076,7 +18076,7 @@
                             "Data":{
                                 "URL":self.imgs2.data[0].src,
                                 "Size":Number(self.imgs2.data[0].fileSize)
-                        },
+                            },
                             "Enable": Number(self.projectData.Signature.Enable)
                         }
                     }
