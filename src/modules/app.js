@@ -453,7 +453,7 @@
                 //SkyworthDTMB
                 .state('app.tvAdmin.SkyworthDTMB', {
                     url: '/SkyworthDTMB?moduleId&label',
-                    templateUrl: 'pages/tv/SkyworthDTMB.html',
+                    templateUrl: 'pages/tv/live_SkyworthDTMB.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
