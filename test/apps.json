@@ -55,6 +55,13 @@
       "icon": "dist/imgs/app-icon-09.png",
       "bgColor": "rgb(251,91,51)",
       "themeColor":"rgb(251,91,51)"
+    },
+    {
+      "id": 9,
+      "name": "滚动字幕",
+      "icon": "dist/imgs/app-icon-09.png",
+      "bgColor": "rgb(251,91,51)",
+      "themeColor":"rgb(251,91,51)"
     }
   ]
 }

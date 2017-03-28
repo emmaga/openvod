@@ -753,6 +753,46 @@ input.form-control{
 .form-thumbnail-delete:hover{
     background-color: #c9302c
 }
+.font-container,
+.restart-container,
+.procon-sub {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 2em;
+}
+
+.restart-container,
+.procon-sub {
+    margin-top: 5em;
+}
+
+.font-item,
+.restart-item {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: flex;
+}
+
+ .font-upload-container,
+ .restart-time {
+     display: flex;
+     justify-content: flex-start;
+ }
+
+.font-upload {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 80px;
+    height: 80px;
+}
 
 /*private*/
 .nav-left{

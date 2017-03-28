@@ -1,0 +1,48 @@
+<div ng-controller="Yeste_Weather_Add_Controler as Add" ng-init="Add.init();" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="Add.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">添加城市</h5>
+        </div>
+        <!--/header end-->
+        <!--body-->
+        <div class="modal-body">
+            <form  id="AddForm" name="AddForm" ng-submit="AddForm.$valid && Add.save()">
+                <div class="form-group">
+                    <!--序号-->
+                    <label>序号</label>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                    type="number" ng-model="Add.Seq" min="1" required placeholder="（必填）"/>
+                    <!--/序号-->
+                </div>
+                <!--城市-->
+                <div class="form-group">
+                    <ng-repeat ng-repeat="lang in Add.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>城市{{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                            ng-model="Add.City[lang.code]" required placeholder="（必填）" />
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <label>城市 {{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                            ng-model="Add.City[lang.code]" required placeholder="（必填）" />
+                        </ng-if>
+                    </ng-repeat>
+                </div>
+                <!--/标题-->
+            </form>
+        </div>
+        <!--/body end-->
+        <!--footer-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm" ng-click="Add.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="AddForm" ng-disabled="Add.saving">保存</button>
+        </div>
+        <!--/footer end-->
+    </div>
+</div>

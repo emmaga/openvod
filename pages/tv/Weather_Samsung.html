@@ -1,0 +1,104 @@
+<div ng-controller="Samsung_Weather_Controler as Weather" ng-init="Weather.init()" class="col-md-12">
+    <!--tab for contry-->
+    <ul class="nav nav-tabs">
+        <li ng-class="{'active':(Weather.tab==1)}" class="cursor-pointer">
+            <a ng-click="Weather.tab=1">国内</a>
+        </li>
+        <li ng-class="{'active':(Weather.tab==2)}" class="cursor-pointer">
+            <a role="tab" ng-click="Weather.tab=2">国外</a>
+        </li>
+    </ul>
+
+    <!--tab-content-->
+    <div class="tab-content">
+        <!--国内-->
+        <div class="tab-pane" ng-class="{'in active':(Weather.tab==1)}">
+            <div class="tab-pane">
+                <ng-if ng-if="my_tree.get_selected_branch().data.type=='Samsung_Weather'">
+                    <a ng-click="Weather.add(Weather.tab)" class="button button-light">
+                        <i class="icon ion-ios-plus-outline"></i>添加国内城市
+                    </a>
+                </ng-if>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>城市(CN)</th>
+                    <th>城市(EN)</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="Item in Weather.info track by $index" ng-if="Item.Country == 'China'">
+                    <td>{{Item.Seq}}</td>
+                    <ng-repeat ng-repeat="lang in Weather.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <td>{{Item.City[Weather.defaultLangCode]}}</td>
+                        </ng-if>
+                        <ng-if ng-if="lang.name=='en'">
+                            <td>{{Item.City[Weather.ENlang]}}</td>
+                        </ng-if>
+                    </ng-repeat>
+                    <td>
+                        <!--编辑按钮-->
+                        <a class="" ng-click="Weather.edit(Item, Weather.tab)">编辑</a>
+                        <!--编辑按钮-->
+                        <!--删除按钮-->
+                        <a class="" ng-click="Weather.del(Item.ID, $index, Weather.tab)">删除</a>
+                        <!--删除按钮-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--城市列表end-->
+        </div>
+        <!--国外-->
+        <div class="tab-pane" ng-class="{'in active':(Weather.tab==2)}">
+            <div class="tab-pane">
+                <ng-if ng-if="my_tree.get_selected_branch().data.type=='Samsung_Weather'">
+                    <a ng-click="Weather.add(Weather.tab)" class="button button-light">
+                        <i class="icon ion-ios-plus-outline"></i>添加国外城市
+                    </a>
+                </ng-if>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>城市(CN)</th>
+                    <th>城市(EN)</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="Item in Weather.info track by $index" ng-if="Item.Country == 'Overseas'">
+
+                    <td>{{Item.Seq}}</td>
+                    <ng-repeat ng-repeat="lang in Weather.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <td>{{Item.City[Weather.defaultLangCode]}}</td>
+                        </ng-if>
+                        <ng-if ng-if="lang.name=='en'">
+                            <td>{{Item.City[Weather.ENlang]}}</td>
+                        </ng-if>
+                    </ng-repeat>
+                    <td>
+                        <!--编辑按钮-->
+                        <a class="" ng-click="Weather.edit(Item, Weather.tab)">编辑</a>
+                        <!--编辑按钮-->
+                        <!--删除按钮-->
+                        <a class="" ng-click="Weather.del(Item.ID, $index, Weather.tab)">删除</a>
+                        <!--删除按钮-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--城市列表end-->
+
+        </div>
+        <!--国外end-->
+    </div>
+
+
+</div>
