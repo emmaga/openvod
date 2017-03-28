@@ -17659,7 +17659,10 @@
                     "action": "setTermConfig",
                     "data":{
                         "Font": {
-                            "Data": self.imgs1.data[0].src,
+                            "Data":{
+                                "URL":self.imgs1.data[0].src,
+                                "Size":Number(self.imgs1.data[0].fileSize)
+                            },
                             "Enable": Number(self.projectData.Font.Enable)
                         },
                         "RestartTime": {
