@@ -10231,94 +10231,95 @@
         ])
 
     //创维DTMB
-    .controller('SkyworthDTMBController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
-            function ($scope, $state, $http, $stateParams, $location, util) {
-                var self = this;
+    // .controller('SkyworthDTMBController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+    //         function ($scope, $state, $http, $stateParams, $location, util) {
+    //             var self = this;
+    //
+    //             self.init = function() {
+    //                 self.viewId = $stateParams.moduleId;
+    //                 self.defaultLangCode = util.getDefaultLangCode();
+    //                 self.loadLiveList();
+    //             }
+    //
+    //             self.edit = function(index) {
+    //                 $scope.app.maskParams.viewId = self.viewId;
+    //                 $scope.app.maskParams.liveInfo = self.lives[index];
+    //                 $scope.app.showHideMask(true,'pages/tv/liveEdit.html');
+    //             }
+    //
+    //             self.del = function(id, index) {
+    //                 var index = index;
+    //                 if(!confirm('确认删除？')) {
+    //                     return;
+    //                 }
+    //                 var data = JSON.stringify({
+    //                     "token": util.getParams('token'),
+    //                     "action": "delChannel",
+    //                     "viewID": self.viewId,
+    //                     "data": {
+    //                         "ChannelList":[
+    //                             {"ID":id-0}
+    //                         ]
+    //                     },
+    //                     "lang": util.langStyle()
+    //                 })
+    //                 $http({
+    //                     method: 'POST',
+    //                     url: util.getApiUrl('commonview', '', 'server'),
+    //                     data: data
+    //                 }).then(function successCallback(response) {
+    //                     var data = response.data;
+    //                     if (data.rescode == '200') {
+    //                         alert('删除成功');
+    //                         self.lives.splice(index,1);
+    //                     } else if(data.rescode == '401'){
+    //                         alert('访问超时，请重新登录');
+    //                         $state.go('login');
+    //                     } else{
+    //                         alert('删除失败，' + data.errInfo);
+    //                     }
+    //                 }, function errorCallback(response) {
+    //                     alert('连接服务器出错');
+    //                 });
+    //             }
+    //
+    //             self.add = function() {
+    //                 $scope.app.maskParams.viewId = self.viewId;
+    //                 $scope.app.showHideMask(true,'pages/tv/liveAdd.html');
+    //             }
+    //
+    //             self.loadLiveList = function() {
+    //                 var data = JSON.stringify({
+    //                     "token": util.getParams('token'),
+    //                     "action": "get",
+    //                     "viewID": self.viewId-0,
+    //                     "lang": util.langStyle()
+    //                 })
+    //                 self.loading = true;
+    //                 $http({
+    //                     method: 'POST',
+    //                     url: util.getApiUrl('commonview', '', 'server'),
+    //                     data: data
+    //                 }).then(function successCallback(response) {
+    //                     var data = response.data;
+    //                     if (data.rescode == '200') {
+    //                         self.lives = data.data.ChannelList;
+    //                     } else if(data.rescode == '401'){
+    //                         alert('访问超时，请重新登录');
+    //                         $state.go('login');
+    //                     } else{
+    //                         alert('加载直播列表信息失败，' + data.errInfo);
+    //                     }
+    //                 }, function errorCallback(response) {
+    //                     alert('连接服务器出错');
+    //                 }).finally(function (value) {
+    //                     self.loading = false;
+    //                 });
+    //             }
+    //
+    //         }
+    //     ])
 
-                self.init = function() {
-                    self.viewId = $stateParams.moduleId;
-                    self.defaultLangCode = util.getDefaultLangCode();
-                    self.loadLiveList();
-                }
-
-                self.edit = function(index) {
-                    $scope.app.maskParams.viewId = self.viewId;
-                    $scope.app.maskParams.liveInfo = self.lives[index];
-                    $scope.app.showHideMask(true,'pages/tv/liveEdit.html');
-                }
-
-                self.del = function(id, index) {
-                    var index = index;
-                    if(!confirm('确认删除？')) {
-                        return;
-                    }
-                    var data = JSON.stringify({
-                        "token": util.getParams('token'),
-                        "action": "delChannel",
-                        "viewID": self.viewId,
-                        "data": {
-                            "ChannelList":[
-                                {"ID":id-0}
-                            ]
-                        },
-                        "lang": util.langStyle()
-                    })
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl('commonview', '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        var data = response.data;
-                        if (data.rescode == '200') {
-                            alert('删除成功');
-                            self.lives.splice(index,1);
-                        } else if(data.rescode == '401'){
-                            alert('访问超时，请重新登录');
-                            $state.go('login');
-                        } else{
-                            alert('删除失败，' + data.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        alert('连接服务器出错');
-                    });
-                }
-
-                self.add = function() {
-                    $scope.app.maskParams.viewId = self.viewId;
-                    $scope.app.showHideMask(true,'pages/tv/liveAdd.html');
-                }
-
-                self.loadLiveList = function() {
-                    var data = JSON.stringify({
-                        "token": util.getParams('token'),
-                        "action": "get",
-                        "viewID": self.viewId-0,
-                        "lang": util.langStyle()
-                    })
-                    self.loading = true;
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl('commonview', '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        var data = response.data;
-                        if (data.rescode == '200') {
-                            self.lives = data.data.ChannelList;
-                        } else if(data.rescode == '401'){
-                            alert('访问超时，请重新登录');
-                            $state.go('login');
-                        } else{
-                            alert('加载直播列表信息失败，' + data.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        alert('连接服务器出错');
-                    }).finally(function (value) {
-                        self.loading = false;
-                    });
-                }
-
-            }
-        ])
 
     .controller('tvSimpleSmallPicTextZFCarouselController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
@@ -17600,7 +17601,7 @@
                 // 初始化
                 self.imgs1 = new Imgs([], true);
                 self.imgs2 = new Imgs([], true);
-                // // angular.element 不支持选择器？
+                // // angular.element 不支持选择器
                 // self.restartTime = angular.element(document.querySelector("#restartTime"));
             }
             self.getProjectConfig = function() {
