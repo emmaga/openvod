@@ -17670,7 +17670,7 @@
                             "Enable": Number(self.projectData.RestartTime.Enable)
                         },
                         "Signature": {
-                            "Data":
+                            "Data":{
                                 "URL":self.imgs2.data[0].src,
                                 "Size":Number(self.imgs2.data[0].fileSize)
                         },
