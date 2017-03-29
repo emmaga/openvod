@@ -1,0 +1,51 @@
+<div ng-controller="tvflifhtPicAddSamsungController as tvFlightPicAdd" ng-init="tvFlightPicAdd.init()" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="tvFlightPicAdd.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">添加图片</h5>
+        </div>
+        <!--/header end-->
+        <!--body-->
+        <div class="modal-body">
+            <form id="tvFlightPicTextAddForm" name="tvFlightPicTextAddForm" ng-submit="tvFlightPicTextAddForm.$valid && tvFlightPicAdd.save()">
+
+                <div ng-repeat="lang in tvFlightPicAdd.editLangs track by $index" class="form-group">
+                    <!--图片-->
+                    <label>图片{{$index+1}}</label>
+                    <!--图片上传按钮-->
+                    <input id="upload{{$index}}" style="display: none;" type="file" file-model="myFile{{$index}}" data-e="hidenUpload{{$index}}"/>
+                    <a ng-click="tvFlightPicAdd.clickUpload('upload'+$index)">上传</a>
+                    <a id="hidenUpload{{$index}}" style="display: none;" ng-click="tvFlightPicAdd.uplImgs[$index].uploadFile('myFile'+$index, tvFlightPicAdd.uplImgs[$index])"></a>
+                    <!--/图片上传按钮-->
+                    <div class="row" ng-repeat="img in tvFlightPicAdd.uplImgs[$index].data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div><!--/progress-->
+                            </div><!--/form-thumbnail-->
+                        </div> <!--/col-xs-12-->
+                    </div><!--/row-->
+                    <!--/图片-->
+                </div>
+
+
+            </form>
+        </div>
+        <!--/body end-->
+        <!--footer-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm" ng-click="tvFlightPicAdd.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="tvFlightPicTextAddForm" ng-disabled="tvFlightPicAdd.saving">保存</button>
+        </div>
+        <!--/footer end-->
+    </div>
+</div>
