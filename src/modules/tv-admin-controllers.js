@@ -641,7 +641,6 @@
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
-                    
                     if (data.rescode == '200') {
                         // 酒店logo图
                         if(data.data.LogoURL) {

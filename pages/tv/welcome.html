@@ -44,11 +44,11 @@
             <ng-repeat ng-repeat="lang in tvWelcome.editLangs">
                 <div ng-if="lang.default" class="form-group">
                     <label>欢迎辞 {{lang.name}}</label>
-                    <textarea ng-model="tvWelcome.welcomeText[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
+                    <textarea ng-model="tvWelcome.welcomeText[lang.code]" ng-trim="false"  required placeholder="（必填）" class="form-control"></textarea>
                 </div>
                 <div ng-if="lang.default !== true" class="form-group">
                     <label>欢迎辞 {{lang.name}}</label>
-                    <textarea ng-model="tvWelcome.welcomeText[lang.code]" class="form-control"></textarea>
+                    <textarea ng-model="tvWelcome.welcomeText[lang.code]" ng-trim="false" class="form-control"></textarea>
                 </div>
             </ng-repeat>
             <!--酒店欢迎辞-->
