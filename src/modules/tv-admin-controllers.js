@@ -18026,8 +18026,16 @@
                             self.projectData[projectData[i]["Type"]] = projectData[i]
                         }
                         self.restartTime = new Date("2000 "+self.projectData.RestartTime.Data);
-                        self.imgs1.data[0] = {src:self.projectData.Font.Data,progress:100};
-                        self.imgs2.data[0] = {src:self.projectData.Font.Data,progress:100};
+                        self.imgs1.data[0] = {
+                            src: self.projectData.Font.Data.URL,
+                            progress: 100,
+                            fileSize: self.projectData.Font.Data.Size
+                        };
+                        self.imgs2.data[0] = {
+                            src: self.projectData.Signature.Data.URL,
+                            progress: 100,
+                            fileSize: self.projectData.Font.Data.Size
+                        };
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
                         $state.go('login');
@@ -18042,14 +18050,6 @@
             }
 
             self.saveProjectConfig = function() {
-                if (self.imgs1.data.length == 0) {
-                    alert("请上传字体");
-                    return;
-                }
-                if (self.imgs2.data.length == 0) {
-                    alert("请上传总经理签名");
-                    return;
-                }
                 var date= angular.element(document.querySelector("#restartTime")).val(),
                 re = /\d*:\d*:*\d*/;
                 var dateString = re.exec(date)[0];
