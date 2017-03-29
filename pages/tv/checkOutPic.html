@@ -1,0 +1,37 @@
+<div ng-controller="tvCheckOutPicSamsangController as tvchkoutCtrl" ng-init="tvchkoutCtrl.init()">
+    <!--添加直播频道按钮-->
+    <a class="button button-light" ng-click="tvchkoutCtrl.add()" ng-hide="tvchkoutCtrl.pics.length">
+        <i class="icon ion-ios-plus-outline"></i>
+        添加图片
+    </a>
+    <!--添加直播频道按钮-->
+    <!--直播列表-->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>图片</th>
+            
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="pic in tvchkoutCtrl.pics track by $index">
+            <td>
+                <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{pic.SourceData[tvchkoutCtrl.defaultLangCode].PicURL}})"></div>
+            </td>
+            <td>
+                <!--编辑按钮-->
+                <a class="" ng-click="tvchkoutCtrl.edit($index)">编辑</a>
+                <!--编辑按钮-->
+                <!--删除按钮-->
+                <a class="" ng-click="tvchkoutCtrl.del(pic.ID, $index)">删除</a>
+                <!--删除按钮-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+    <!--直播列表-->
+</div>
