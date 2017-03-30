@@ -215,9 +215,9 @@
                     self.changeMenuInfo();
                 }
 
-                //三星午餐 Samsung_PicText_Classification
-                if(branch.data.type == 'Samsung_PicText_Classification') {
-                    $state.go('app.tvAdmin.Samsung_PicText_Classification', {moduleId: branch.data.moduleId, label: branch.label});
+                //三星午餐 Samsung_Lunch_PicText_Classification
+                if(branch.data.type == 'Samsung_Lunch_PicText_Classification') {
+                    $state.go('app.tvAdmin.Samsung_Lunch_PicText_Classification', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
 
@@ -9910,8 +9910,8 @@
             }
         ])
 
-    //三星午餐分类图文
-    .controller('tvPicTextClassListController_Samsung', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+    //三星午餐分类图文 Samsung_Lunch_PicText_Classification
+    .controller('tvPicTextClassListController_SamsungLunch', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
             function ($scope, $state, $http, $stateParams, $location, util) {
 
                 var self = this;
@@ -9932,7 +9932,7 @@
                 self.addCategory = function() {
                     $scope.app.maskParams.viewId = self.viewId;
                     $scope.app.maskParams.loadInfo = self.loadInfo;
-                    $scope.app.showHideMask(true,'pages/tv/PicTextClassCateAdd_Samsung.html');
+                    $scope.app.showHideMask(true,'pages/tv/PicTextClassCateAdd_SamsungLunch.html');
                 }
 
                 /**
@@ -9982,7 +9982,7 @@
                     $scope.app.maskParams.viewId = self.viewId;
                     $scope.app.maskParams.info = self.info[self.cateIndex];
                     $scope.app.maskParams.loadInfo = self.loadInfo;
-                    $scope.app.showHideMask(true,'pages/tv/PicTextClassCateEdit_Samsung.html');
+                    $scope.app.showHideMask(true,'pages/tv/PicTextClassCateEdit_SamsungLunch.html');
                 }
 
                 /**
@@ -9996,7 +9996,7 @@
                     $scope.app.maskParams.cateId = self.info[self.cateIndex].ID;
                     $scope.app.maskParams.info = self.info[self.cateIndex].sub[index];
                     $scope.app.maskParams.loadInfo = self.loadInfo;
-                    $scope.app.showHideMask(true,'pages/tv/classPicTextEdit_Samsung.html');
+                    $scope.app.showHideMask(true,'pages/tv/classPicTextEdit_SamsungLunch.html');
                 }
 
                 /**
@@ -10008,7 +10008,7 @@
                     $scope.app.maskParams.viewId = self.viewId;
                     $scope.app.maskParams.cateId = self.info[self.cateIndex].ID;
                     $scope.app.maskParams.loadInfo = self.loadInfo;
-                    $scope.app.showHideMask(true,'pages/tv/classPicTextAdd_Samsung.html');
+                    $scope.app.showHideMask(true,'pages/tv/classPicTextAdd_SamsungLunch.html');
                 }
 
                 /**
@@ -10103,7 +10103,7 @@
             }
         ])
     //三星午餐分类图文 Add分类
-    .controller('tvPicTextClassCateAddController_Samsung', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+    .controller('tvPicTextClassCateAddController_SamsungLunch', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
             self.viewId = 0;
@@ -10295,7 +10295,7 @@
         }
     ])
     //三星午餐分类图文 Edit分类
-    .controller('tvPicTextClassCateEditController_Samsung', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+    .controller('tvPicTextClassCateEditController_SamsungLunch', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
             self.viewId = 0;
@@ -10492,7 +10492,7 @@
         }
     ])
     //三星午餐分类图文 Add图文
-    .controller('tvClassPicTextAddController_Samsung', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+    .controller('tvClassPicTextAddController_SamsungLunch', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
 
             var self = this;
@@ -10691,7 +10691,7 @@
         }
     ])
     //三星午餐分类图文 Edit图文
-    .controller('tvClassPicTextEditController_Samsung', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+    .controller('tvClassPicTextEditController_SamsungLunch', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
             function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
 
                 var self = this;
@@ -10894,6 +10894,11 @@
 
             }
         ])
+
+
+
+
+
 
     //Live
     .controller('tvLiveController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
