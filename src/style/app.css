@@ -814,6 +814,9 @@ input.form-control{
     left: -2px;
     width: 80px;
     height: 80px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /*private*/
@@ -826,6 +829,8 @@ input.form-control{
     left: -180px;
     width: 180px;
     min-height: 1px;
+    max-height: calc(100vh - 150px);
+    overflow: auto;
     padding-top: 19px;
     padding-right: 15px;
     padding-left: 15px;

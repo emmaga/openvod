@@ -1,0 +1,17 @@
+<div ng-controller="BillingUrlController as billCtrl" ng-init="billCtrl.init()">
+
+    <form id="BillingForm" name="BillingForm" ng-submit="BillingForm.$valid && billCtrl.save()" novalidate>
+        <div class="form-group">
+
+            <label>URL:</label>
+
+            <input type="utl" name="url" class="form-control ng-pristine ng-not-empty ng-valid ng-valid-required ng-touched" ng-maxlength="255" ng-model="billCtrl.url" >
+            <span  ng-show="BillingForm.url.$dirty && BillingForm.url.$invalid" class="warning-color">名称最大为255</span>
+        </div>
+
+    </form>
+    <button type="submit" class="btn btn-primary btn-sm" form="BillingForm" ng-disabled="BillingForm.$invalid || billCtrl.saving"  style="margin-left:45%;width:50px">保存</button>
+
+
+    <!--直播列表-->
+</div>

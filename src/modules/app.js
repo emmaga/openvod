@@ -329,6 +329,33 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.Samsung_MultPic_Flight', {
+                    url: '/Samsung_MultPic_Flight?moduleId&label',
+                    templateUrl: 'pages/tv/flight_Samsung.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.Samsung_Link_Bill', {
+                    url: '/Samsung_Link_Bill?moduleId&label',
+                    templateUrl: 'pages/tv/Billing_URL.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.Samsung_MultPic_OutOfTheHotel', {
+                    url: '/Samsung_MultPic_OutOfTheHotel?moduleId&label',
+                    templateUrl: 'pages/tv/checkOutPic.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.LiFeng_MultPic', {
                     url: '/LiFeng_MultPic?moduleId&label',
                     templateUrl: 'pages/tv/multPic_LiFeng.html',

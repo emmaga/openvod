@@ -77,6 +77,16 @@
                     手机
                     <span class="pull-right">{{hod.orderInfo.ContactorPhone}}</span>
                 </li>
+                <!--身份证-->
+                <li ng-if="hod.orderInfo.IDCardNumber" class="list-group-item">
+                    身份证
+                    <span class="pull-right">{{hod.orderInfo.IDCardNumber}}</span>
+                </li>
+                <!--游玩日期-->
+                <li ng-if="hod.orderInfo.PlayDate" class="list-group-item">
+                    游玩日期
+                    <span class="pull-right">{{hod.orderInfo.PlayDate}}</span>
+                </li>
             </ul>
             <hr>
             <!--订单详情-->
