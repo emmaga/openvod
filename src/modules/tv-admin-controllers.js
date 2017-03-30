@@ -9913,7 +9913,7 @@
     //三星午餐分类图文 Samsung_Lunch_PicText_Classification
     .controller('tvPicTextClassListController_SamsungLunch', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
             function ($scope, $state, $http, $stateParams, $location, util) {
-
+console.log("Samsung_Lunch_PicText_Classification")
                 var self = this;
                 self.info = []; // 分类＋分类下的图文信息
                 self.cateIndex; // 当前选中分类index
@@ -10895,7 +10895,7 @@
             }
         ])
 
-
+    //三星分类图文
 
 
 
