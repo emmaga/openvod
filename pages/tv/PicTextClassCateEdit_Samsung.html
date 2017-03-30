@@ -1,0 +1,94 @@
+<div ng-controller="tvPicTextClassCateEditController_Samsung as tvPicTextClassCateEdit" ng-init="tvPicTextClassCateEdit.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form novalidate name="tvPicTextClassCateEditForm" ng-submit="tvPicTextClassCateEditForm.$valid && tvPicTextClassCateEdit.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="tvPicTextClassCateEdit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加分类</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 分类序号 -->
+                <div class="form-group">
+                    <label>序号</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="tvPicTextClassCateEdit.Seq" class="form-control">
+                </div>
+                <!-- 分类序号 -->
+
+                <!-- 分类名称 -->
+                <ng-repeat ng-repeat="lang in tvPicTextClassCateEdit.editLangs track by $index">
+                    <div class="form-group" ng-if="lang.default==true">
+                        <label>分类名称({{lang.name}})</label>
+                        <input type="text" name="" required placeholder="（必填）" ng-model="tvPicTextClassCateEdit.cateName[lang.code]" class="form-control">
+                    </div>
+                    <div class="form-group" ng-if="lang.default!==true">
+                        <label>分类名称({{lang.name}})</label>
+                        <input type="text" name="" ng-model="tvPicTextClassCateEdit.cateName[lang.code]" class="form-control">
+                    </div>
+                </ng-repeat>
+                <!-- 分类名称 -->
+
+                <!--图片-->
+                <div class="form-group">
+                    <label>图片</label>
+                    <!--图片上传按钮-->
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+                    <a ng-click="tvPicTextClassCateEdit.clickUpload('upload1')">上传</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="tvPicTextClassCateEdit.imgs1.uploadFile('myFile', tvPicTextClassCateEdit.imgs1)"></a>
+                    <!--/图片上传按钮-->
+                    <div class="row" ng-repeat="img in tvPicTextClassCateEdit.imgs1.data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div><!--/progress-->
+                            </div><!--/form-thumbnail-->
+                        </div> <!--/col-xs-12-->
+                    </div><!--/row-->
+                </div>
+                <!--/图片-->
+
+                <!--详情-->
+                <ng-repeat ng-repeat="lang in tvPicTextClassCateEdit.editLangs">
+                    <ng-if ng-if="lang.default">
+                        <label>详情{{lang.name}}：</label>
+                        <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" required placeholder="（必填）"
+                                  ng-model="tvPicTextClassCateEdit.Details[lang.code]">
+                            {{tvPicTextClassCateEdit.Details[lang.code]}}
+                        </textarea>
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        <label>详情 {{lang.name}}：</label>
+                        <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                                  ng-model="tvPicTextClassCateEdit.Details[lang.code]">
+                            {{tvPicTextClassCateEdit.Details[lang.code]}}
+                        </textarea>
+                    </ng-if>
+                </ng-repeat>
+                <!--/详情-->
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="tvPicTextClassCateEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="tvPicTextClassCateEditForm.$invalid || tvPicTextClassCateEdit.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
+
+        </form>
+    </div>
+</div>

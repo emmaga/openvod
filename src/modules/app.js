@@ -477,6 +477,16 @@
                     }
                 })
 
+                //三星分类图文 Samsung_PicText_Classification
+                .state('app.tvAdmin.Samsung_PicText_Classification', {
+                    url: '/Samsung_PicText_Classification?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_Samsung.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                        }]
+                    }
+                })
+
                 //SkyworthDTMB
                 .state('app.tvAdmin.SkyworthDTMB', {
                     url: '/SkyworthDTMB?moduleId&label',
