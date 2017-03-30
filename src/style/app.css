@@ -775,8 +775,8 @@ input.form-control{
 .form-thumbnail-delete:hover{
     background-color: #c9302c
 }
-.font-container,
-.restart-container,
+.font-container,/*lengxue*/
+.restart-container,/*lengxue*/
 .procon-sub {
     display: -ms-flexbox;
     display: -webkit-box;
@@ -788,11 +788,11 @@ input.form-control{
     margin: 2em;
 }
 
-.restart-container,
+.restart-container,/*lengxue*/
 .procon-sub {
     margin-top: 5em;
 }
-
+ /*lengxue*/
 .font-item,
 .restart-item {
     -webkit-box-flex: 1;
@@ -818,7 +818,7 @@ input.form-control{
     background-size: cover;
     background-repeat: no-repeat;
 }
-
+ /*lengxue*/
 /*private*/
 .nav-left{
     position: fixed;
@@ -829,8 +829,8 @@ input.form-control{
     left: -180px;
     width: 180px;
     min-height: 1px;
-    max-height: calc(100vh - 150px);
-    overflow: auto;
+    max-height: calc(100vh - 150px);/*lengxue*/
+    overflow: auto;/*lengxue*/
     padding-top: 19px;
     padding-right: 15px;
     padding-left: 15px;
