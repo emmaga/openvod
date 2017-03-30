@@ -118,37 +118,65 @@
         <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu' 
             || my_tree.get_selected_branch().data.type=='MainMenu_LiFeng_SecondMenu'
             || my_tree.get_selected_branch().data.type=='MainMenu_SX_SecondMenu'
+            || my_tree.get_selected_branch().data.type=='MainMenu_Yeste_SecondMenu'
+            || my_tree.get_selected_branch().data.type=='MainMenu_SiMaTai_SecondMenu'
+            || my_tree.get_selected_branch().data.type=='MainMenu_Samsung_SecondMenu'
+
             || my_tree.get_selected_branch().data.type=='Live'
             || my_tree.get_selected_branch().data.type=='SimplePicText'
             || my_tree.get_selected_branch().data.type=='MultPic'
-            || my_tree.get_selected_branch().data.type=='LiFeng_MultPic'
-            || my_tree.get_selected_branch().data.type=='ZheFei_MultPic'
             || my_tree.get_selected_branch().data.type=='PicText_Classification'
             || my_tree.get_selected_branch().data.type=='SimpleSmallPicText'
-            || my_tree.get_selected_branch().data.type=='LiFeng_SimpleSmallPicText'
-            || my_tree.get_selected_branch().data.type=='LiFeng_SimpleSmallPicText_Left'
-            || my_tree.get_selected_branch().data.type=='ZheFei_SimpleSmallPicText_Small'
-            || my_tree.get_selected_branch().data.type=='ZheFei_SimpleSmallPicText_Carousel'
-            || my_tree.get_selected_branch().data.type=='MultPic_SX_Small'
-            || my_tree.get_selected_branch().data.type=='MultPic_SX_Big'
             || my_tree.get_selected_branch().data.type=='SimplePicText_Price'
-            || my_tree.get_selected_branch().data.type=='SimplePicText_SX'
-            || my_tree.get_selected_branch().data.type=='Weather_SX'
-            || my_tree.get_selected_branch().data.type=='PicText_Classification_SX'
-            || my_tree.get_selected_branch().data.type=='ZheFei_PicText_Classification'
-            || my_tree.get_selected_branch().data.type=='MusicCommon_SX'
-            || my_tree.get_selected_branch().data.type=='Live_SX'
             || my_tree.get_selected_branch().data.type=='3rdApp'
             || my_tree.get_selected_branch().data.type=='ApkEntry'
             || my_tree.get_selected_branch().data.type=='WorldClock'
-            || my_tree.get_selected_branch().data.type=='SkyworthATV'
-            || my_tree.get_selected_branch().data.type=='SkyworthHDMI'
-            || my_tree.get_selected_branch().data.type=='SkyworthDTV'
             || my_tree.get_selected_branch().data.type=='MovieCommon'
             || my_tree.get_selected_branch().data.type=='MovieCommonAdv'
             || my_tree.get_selected_branch().data.type=='MovieCommonFree'
             || my_tree.get_selected_branch().data.type=='MusicCommon'
-            || my_tree.get_selected_branch().data.type=='Shop'">
+            || my_tree.get_selected_branch().data.type=='Shop'
+
+            || my_tree.get_selected_branch().data.type=='LiFeng_MultPic'
+            || my_tree.get_selected_branch().data.type=='LiFeng_SimpleSmallPicText'
+            || my_tree.get_selected_branch().data.type=='LiFeng_SimpleSmallPicText_Left'
+
+            || my_tree.get_selected_branch().data.type=='ZheFei_MultPic'
+            || my_tree.get_selected_branch().data.type=='ZheFei_SimpleSmallPicText_Small'
+            || my_tree.get_selected_branch().data.type=='ZheFei_SimpleSmallPicText_Carousel'
+            || my_tree.get_selected_branch().data.type=='ZheFei_PicText_Classification'
+
+            || my_tree.get_selected_branch().data.type=='MultPic_SX_Small'
+            || my_tree.get_selected_branch().data.type=='MultPic_SX_Big'
+            || my_tree.get_selected_branch().data.type=='SimplePicText_SX'
+            || my_tree.get_selected_branch().data.type=='Weather_SX'
+            || my_tree.get_selected_branch().data.type=='PicText_Classification_SX'
+            || my_tree.get_selected_branch().data.type=='MusicCommon_SX'
+            || my_tree.get_selected_branch().data.type=='Live_SX'
+
+            || my_tree.get_selected_branch().data.type=='Yeste_SimpleSmallPicText_Carousel'
+            || my_tree.get_selected_branch().data.type=='Yeste_SimpleSmallPicText'
+            || my_tree.get_selected_branch().data.type=='Yeste_Weather'
+            || my_tree.get_selected_branch().data.type=='Yeste_WorldClock'
+
+            || my_tree.get_selected_branch().data.type=='SiMaTai_SimpleSmallPicText'
+            || my_tree.get_selected_branch().data.type=='SiMaTai_PicText_Classification'
+            || my_tree.get_selected_branch().data.type=='SiMaTai_PicText_Classification_ThreeLevel'
+
+            || my_tree.get_selected_branch().data.type=='Samsung_Weather'
+            || my_tree.get_selected_branch().data.type=='Samsung_PicText_Classification'
+            || my_tree.get_selected_branch().data.type=='Samsung_Link_Bill'
+            || my_tree.get_selected_branch().data.type=='Samsung_MultPic_OutOfTheHotel'
+            || my_tree.get_selected_branch().data.type=='Samsung_MultPic_Flight'
+
+            || my_tree.get_selected_branch().data.type=='WeatherCommon'
+
+            || my_tree.get_selected_branch().data.type=='SkyworthATV'
+            || my_tree.get_selected_branch().data.type=='SkyworthHDMI'
+            || my_tree.get_selected_branch().data.type=='SkyworthDTV'
+            || my_tree.get_selected_branch().data.type=='SkyworthDTMB'
+
+            || my_tree.get_selected_branch().data.type=='BaoFengHDMI'">
             <!-- 标题 -->
             <h4>{{my_tree.get_selected_branch().label}}</h4>
             <hr>
@@ -266,8 +294,13 @@
                 </div>
                 <!--添加模块-->
                 <div class="tab-pane" ng-class="{'in active':(tvAdmin.tab==1)}">
-                    <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu' || my_tree.get_selected_branch().data.type=='MainMenu_SX_SecondMenu'
-                    || my_tree.get_selected_branch().data.type=='MainMenu_LiFeng_SecondMenu'">
+                    <ng-if ng-if="my_tree.get_selected_branch().data.type=='MainMenu_THJ_SecondMenu'
+                    || my_tree.get_selected_branch().data.type=='MainMenu_SX_SecondMenu'
+                    || my_tree.get_selected_branch().data.type=='MainMenu_LiFeng_SecondMenu'
+                    || my_tree.get_selected_branch().data.type=='MainMenu_Yeste_SecondMenu'
+                    || my_tree.get_selected_branch().data.type=='MainMenu_SiMaTai_SecondMenu'
+                    || my_tree.get_selected_branch().data.type=='MainMenu_Samsung_SecondMenu'">
+
                             <a ng-click="tvAdmin.addModule(2)" class="button button-light">
                                 <i class="icon ion-ios-plus-outline"></i>添加模块
                             </a>
@@ -282,36 +315,60 @@
             || my_tree.get_selected_branch().data.type=='Live'
             || my_tree.get_selected_branch().data.type=='SimplePicText'
             || my_tree.get_selected_branch().data.type=='MultPic'
-            || my_tree.get_selected_branch().data.type=='LiFeng_MultPic'
-            || my_tree.get_selected_branch().data.type=='ZheFei_MultPic'
             || my_tree.get_selected_branch().data.type=='PicText_Classification'
             || my_tree.get_selected_branch().data.type=='SimpleSmallPicText'
-            || my_tree.get_selected_branch().data.type=='LiFeng_SimpleSmallPicText'
-            || my_tree.get_selected_branch().data.type=='LiFeng_SimpleSmallPicText_Left'
-            || my_tree.get_selected_branch().data.type=='ZheFei_SimpleSmallPicText_Small'
-            || my_tree.get_selected_branch().data.type=='ZheFei_SimpleSmallPicText_Carousel'
-            || my_tree.get_selected_branch().data.type=='MultPic_SX_Small'
-            || my_tree.get_selected_branch().data.type=='MultPic_SX_Big'
             || my_tree.get_selected_branch().data.type=='SimplePicText_Price'
-            || my_tree.get_selected_branch().data.type=='SimplePicText_SX'
-            || my_tree.get_selected_branch().data.type=='PicText_Classification_SX'
-            || my_tree.get_selected_branch().data.type=='ZheFei_PicText_Classification'
-            || my_tree.get_selected_branch().data.type=='MusicCommon_SX'
-            || my_tree.get_selected_branch().data.type=='Live_SX'
-            || my_tree.get_selected_branch().data.type=='Weather_SX'
             || my_tree.get_selected_branch().data.type=='3rdApp'
             || my_tree.get_selected_branch().data.type=='ApkEntry'
             || my_tree.get_selected_branch().data.type=='WorldClock'
-            || my_tree.get_selected_branch().data.type=='SkyworthATV'
-            || my_tree.get_selected_branch().data.type=='SkyworthHDMI'
-            || my_tree.get_selected_branch().data.type=='SkyworthDTV'
             || my_tree.get_selected_branch().data.type=='MovieCommon'
             || my_tree.get_selected_branch().data.type=='MusicCommon'
             || my_tree.get_selected_branch().data.type=='MovieCommonAdv'
             || my_tree.get_selected_branch().data.type=='MovieCommonFree'
             || my_tree.get_selected_branch().data.type=='Shop'
             || my_tree.get_selected_branch().data.type=='version'
-            || my_tree.get_selected_branch().data.type=='guangGaoWei'">
+            || my_tree.get_selected_branch().data.type=='guangGaoWei'
+            || my_tree.get_selected_branch().data.type=='projectConfig'
+
+            || my_tree.get_selected_branch().data.type=='ZheFei_MultPic'
+            || my_tree.get_selected_branch().data.type=='ZheFei_SimpleSmallPicText_Small'
+            || my_tree.get_selected_branch().data.type=='ZheFei_SimpleSmallPicText_Carousel'
+            || my_tree.get_selected_branch().data.type=='ZheFei_PicText_Classification'
+            || my_tree.get_selected_branch().data.type=='LiFeng_MultPic'
+            || my_tree.get_selected_branch().data.type=='LiFeng_SimpleSmallPicText'
+            || my_tree.get_selected_branch().data.type=='LiFeng_SimpleSmallPicText_Left'
+
+            || my_tree.get_selected_branch().data.type=='MultPic_SX_Small'
+            || my_tree.get_selected_branch().data.type=='MultPic_SX_Big'
+            || my_tree.get_selected_branch().data.type=='SimplePicText_SX'
+            || my_tree.get_selected_branch().data.type=='PicText_Classification_SX'
+            || my_tree.get_selected_branch().data.type=='MusicCommon_SX'
+            || my_tree.get_selected_branch().data.type=='Live_SX'
+            || my_tree.get_selected_branch().data.type=='Weather_SX'
+
+            || my_tree.get_selected_branch().data.type=='Yeste_SimpleSmallPicText_Carousel'
+            || my_tree.get_selected_branch().data.type=='Yeste_SimpleSmallPicText'
+            || my_tree.get_selected_branch().data.type=='Yeste_Weather'
+            || my_tree.get_selected_branch().data.type=='Yeste_WorldClock'
+
+            || my_tree.get_selected_branch().data.type=='SiMaTai_SimpleSmallPicText'
+            || my_tree.get_selected_branch().data.type=='SiMaTai_PicText_Classification'
+            || my_tree.get_selected_branch().data.type=='SiMaTai_PicText_Classification_ThreeLevel'
+
+            || my_tree.get_selected_branch().data.type=='Samsung_Weather'
+            || my_tree.get_selected_branch().data.type=='Samsung_PicText_Classification'
+            || my_tree.get_selected_branch().data.type=='Samsung_Link_Bill'
+            || my_tree.get_selected_branch().data.type=='Samsung_MultPic_OutOfTheHotel'
+            || my_tree.get_selected_branch().data.type=='Samsung_MultPic_Flight'
+
+            || my_tree.get_selected_branch().data.type=='WeatherCommon'
+
+            || my_tree.get_selected_branch().data.type=='SkyworthATV'
+            || my_tree.get_selected_branch().data.type=='SkyworthHDMI'
+            || my_tree.get_selected_branch().data.type=='SkyworthDTV'
+            || my_tree.get_selected_branch().data.type=='SkyworthDTMB'
+
+            || my_tree.get_selected_branch().data.type=='BaoFengHDMI'">
             <div class="tab-pane padding-bottom-72" ng-class="{'in active':(tvAdmin.tab==1)}">
                 <ui-view></ui-view>
             </div>

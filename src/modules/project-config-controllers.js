@@ -144,6 +144,7 @@
                     lang: util.langStyle(),
                     data: {
                         "Name": self.hotel.Name,
+                        "ViewURL": self.hotel.ViewURL ? self.hotel.ViewURL : '',
                         "CityName": self.hotel.CityName,
                         "LocationX": self.hotel.LocationX ? self.hotel.LocationX : 0,
                         "LocationY": self.hotel.LocationY ? self.hotel.LocationY : 0,

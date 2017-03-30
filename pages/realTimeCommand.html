@@ -1,0 +1,42 @@
+<div ng-controller="realTimeCommandController as rTC" ng-init="rTC.init()" class="container">
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <!--当前选中名称-->
+        <!-- 在线状态 -->
+        <h4>字幕列表</h4>
+        <hr>
+        <table  class="table table-hover">
+            <thead>
+                <th>字幕内容</th>
+                <th>开始日期</th>
+                <th>结束日期</th>
+                <th>时长（min）</th>
+                <th>是否生效</th>
+                <th>操作</th>
+            </thead>
+            <tr>
+                <td>
+                    {{rTC.realTimeCmdInfo.Content}}
+                </td>
+                <td>
+                    {{rTC.realTimeCmdInfo.startDate | date:"yyyy-MM-dd"}}
+                </td>
+                <td>
+                    {{rTC.realTimeCmdInfo.endDate | date:"yyyy-MM-dd"}}
+                </td>
+                <td>
+                    {{rTC.realTimeCmdInfo.Duration}}
+                </td>
+                <td>
+                    {{rTC.realTimeCmdInfo.switch | isValid}}
+                </td>
+                <td>
+                <button ng-click="rTC.edit(rTC.realTimeCmdInfo)" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</button>
+                </td>
+
+            </tr>
+        </table>
+        <div ng-show="rTC.loading">loading...</div>
+        <div ng-show="rTC.noData">查无数据</div>
+    </div>
+</div>

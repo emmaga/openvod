@@ -1,0 +1,78 @@
+<div ng-controller="tvLiveEditController_SkyworthDTMB as tvLiveEdit" ng-init="tvLiveEdit.init()" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <form name="tvLiveEditForm" ng-submit="tvLiveEditForm.$valid && tvLiveEdit.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="tvLiveEdit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑频道信息</h5>
+            </div>
+            <!--/header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!--频道序号-->
+                <div class="form-group">
+                    <label>频道序号</label>
+                    <input type="number" ng-model="tvLiveEdit.channelNum" min="0" required placeholder="（必填）" class="form-control" />
+                </div>
+                <!--频道序号-->
+                <!--频道图标-->
+                <div class="form-group">
+                    <label>频道图标</label>
+                    <!--频道图标上传按钮-->
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                    <a ng-click="tvLiveEdit.clickUpload('upload1')">更改频道图标</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="tvLiveEdit.imgs1.uploadFile('myFile', tvLiveEdit.imgs1)"></a>
+                    <!--频道图标上传按钮-->
+                    <!--频道名-->
+                    <div class="row" ng-repeat="img in tvLiveEdit.imgs1.data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div>
+                                <!--/progress-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--频道图标-->
+                <div class="form-group">
+                    <ng-repeat ng-repeat="lang in tvLiveEdit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>频道名 {{lang.name}}</label>
+                            <input ng-model="tvLiveEdit.channelName[lang.code]" required placeholder="（必填）"  class="form-control" />
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <label>频道名 {{lang.name}}</label>
+                            <input ng-model="tvLiveEdit.channelName[lang.code]" class="form-control" />
+                        </ng-if>
+                    </ng-repeat>
+                    <!--频道名-->
+                </div>
+                <div class="form-group">
+                    <!--频道直播地址-->
+                    <label>频道直播地址</label>
+                    <input type="text" ng-model="tvLiveEdit.src" required placeholder="（必填）" class="form-control" placeholder=" (例：http://1.1.1.1/cctv1.m3u8)" />
+                    <!--频道直播地址-->
+                </div>
+            </div>
+            <!--/body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!--取消按钮-->
+                <div ng-click="tvLiveEdit.cancel()" class="btn btn-default btn-sm">取消</div>
+                <!--取消按钮-->
+                <!--保存按钮-->
+                <button type="submit" ng-disabled="tvLiveEdit.saving" class="btn btn-primary btn-sm">保存</button>
+                <!--保存按钮-->
+            </div>
+        </form>
+    </div>
+</div>

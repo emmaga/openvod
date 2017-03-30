@@ -161,6 +161,20 @@ body, .app {
     width: 120px;
 }
 
+.project-name{
+    position: absolute;
+    /*width:150px;*/ 
+    height: 43px;
+    color: white;
+    right:53px;
+    top: 6px;
+    line-height: 46px;
+    overflow: hidden;
+    font-size: 16px;
+    z-index: 2;
+}
+
+
 .project-logo{
     display: inline-block;
     height: 100%;
@@ -333,11 +347,19 @@ body, .app {
 }
 
 
+.app.phase1 .project-title {
+    transition-duration: .53s;
+    opacity: 1;
+}
+.app.phase1 .project-name {
+    transition-duration: .53s;
+    opacity: 1;
+}
 .app.phase2 .project-title {
     transition-duration: .53s;
     opacity: 0;
 }
-.app.phase2 .project-title {
+.app.phase2 .project-name {
     transition-duration: .53s;
     opacity: 0;
 }
@@ -753,7 +775,50 @@ input.form-control{
 .form-thumbnail-delete:hover{
     background-color: #c9302c
 }
+.font-container,/*lengxue*/
+.restart-container,/*lengxue*/
+.procon-sub {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 2em;
+}
 
+.restart-container,/*lengxue*/
+.procon-sub {
+    margin-top: 5em;
+}
+ /*lengxue*/
+.font-item,
+.restart-item {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: flex;
+}
+
+ .font-upload-container,
+ .restart-time {
+     display: flex;
+     justify-content: flex-start;
+ }
+
+.font-upload {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 80px;
+    height: 80px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+ /*lengxue*/
 /*private*/
 .nav-left{
     position: fixed;
@@ -764,6 +829,8 @@ input.form-control{
     left: -180px;
     width: 180px;
     min-height: 1px;
+    max-height: calc(100vh - 150px);/*lengxue*/
+    overflow: auto;/*lengxue*/
     padding-top: 19px;
     padding-right: 15px;
     padding-left: 15px;
@@ -916,7 +983,7 @@ label + hr{
 }
 .weeklysetting>.form-group{
     display: inline-block;
-    width: 103px
+    width: 116px
 }
 
 .setting-group-delete{

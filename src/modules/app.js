@@ -51,6 +51,10 @@
                     url: '/wxUser',
                     templateUrl: 'pages/wxUser.html'
                 })
+                .state('app.realTimeCommand', {
+                    url: '/realTimeCommand',
+                    templateUrl: 'pages/realTimeCommand.html'
+                })
                 .state('app.shop.goods', {
                     url: '/goods?HotelID&ShopID',
                     templateUrl: 'pages/goods.html'
@@ -121,7 +125,6 @@
                                 if (data.rescode == '200') {
                                     var defaultLang = util.getDefaultLangCode();
                                     var preData = data.data.Content;
-
                                     var menu = [];
                                     var mainMenu = 
                                     {
@@ -248,6 +251,12 @@
                               }
                             },
                             {
+                              label: '项目设置',
+                              data: {
+                                type: "projectConfig"
+                              }
+                            },
+                            {
                               label: '提交版本',
                               data: {
                                 type: "version"
@@ -284,6 +293,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.projectConfig', {
+                    url: '/projectConfig?label',
+                    templateUrl: 'pages/tv/projectConfig.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                            
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.live', {
                     url: '/live?moduleId&label',
                     templateUrl: 'pages/tv/live.html',
@@ -305,6 +323,33 @@
                 .state('app.tvAdmin.multPic', {
                     url: '/multPic?moduleId&label',
                     templateUrl: 'pages/tv/multPic.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.Samsung_MultPic_Flight', {
+                    url: '/Samsung_MultPic_Flight?moduleId&label',
+                    templateUrl: 'pages/tv/flight_Samsung.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.Samsung_Link_Bill', {
+                    url: '/Samsung_Link_Bill?moduleId&label',
+                    templateUrl: 'pages/tv/Billing_URL.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.Samsung_MultPic_OutOfTheHotel', {
+                    url: '/Samsung_MultPic_OutOfTheHotel?moduleId&label',
+                    templateUrl: 'pages/tv/checkOutPic.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
@@ -347,6 +392,102 @@
                         }]
                     }
                 })
+                 //雅思特 小图 Yeste_SimpleSmallPicText Lengxue
+                .state('app.tvAdmin.Yeste_SimpleSmallPicText', {
+                    url: '/Yeste_SimpleSmallPicText?moduleId&label',
+                    templateUrl: 'pages/tv/Yeste_SimpleSmallPicText.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                // 司马台 小图 SiMaTai_SimpleSmallPicText
+                .state('app.tvAdmin.SiMaTai_SimpleSmallPicText', {
+                    url: '/SiMaTai_SimpleSmallPicText?moduleId&label',
+                    templateUrl: 'pages/tv/SimpleSmallPicText_SiMaTai.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                //司马台 二级分类图文 SiMaTai_SimpleSmallPicText
+                .state('app.tvAdmin.SiMaTai_PicText_Classification', {
+                    url: '/SiMaTai_PicText_Classification?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_SiMaTai.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                //司马台 三级分类图文 SiMaTai_PicText_Classification_ThreeLevel
+                .state('app.tvAdmin.SiMaTai_PicText_Classification_ThreeLevel', {
+                    url: '/SiMaTai_PicText_Classification_ThreeLevel?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_SiMaTai_ThreeLevel.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                //雅思特 天气 Yeste_Weather
+                .state('app.tvAdmin.Yeste_Weather', {
+                    url: '/Yeste_Weather?moduleId&label',
+                    templateUrl: 'pages/tv/Weather_Yeste.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                //三星 天气 Samsung_Weather
+                .state('app.tvAdmin.Samsung_Weather', {
+                    url: '/Samsung_Weather?moduleId&label',
+                    templateUrl: 'pages/tv/Weather_Samsung.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                //通用天气（土豪金） WeatherCommon
+                .state('app.tvAdmin.WeatherCommon', {
+                    url: '/WeatherCommon?moduleId&label',
+                    templateUrl: 'pages/tv/Weather_Common.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                        }]
+                    }
+                })
+
+                //三星午餐 Samsung_PicText_Classification
+                .state('app.tvAdmin.Samsung_PicText_Classification', {
+                    url: '/Samsung_PicText_Classification?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_Samsung.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                        }]
+                    }
+                })
+
+                //SkyworthDTMB
+                .state('app.tvAdmin.SkyworthDTMB', {
+                    url: '/SkyworthDTMB?moduleId&label',
+                    templateUrl: 'pages/tv/live_SkyworthDTMB.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                  // 丽枫酒店 多语言标题 介绍 图片(不需要多语言) 序号
                 .state('app.tvAdmin.SimpleSmallPicText_LiFeng', {
                     url: '/SimpleSmallPicText_LiFeng?moduleId&label',
@@ -397,6 +538,17 @@
                         }]
                     }
                 })
+                //雅思特 Yeste_SimpleSmallPicText_Carousel
+                .state('app.tvAdmin.Yeste_SimpleSmallPicText_Carousel', {
+                    url: '/Yeste_SimpleSmallPicText_Carousel?moduleId&label',
+                    templateUrl: 'pages/tv/Yeste_SimpleSmallPicText_Carousel.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                 .state('app.tvAdmin.MultPic_SX_Small', {
                     url: '/MultPic_SX_Small?moduleId&label',
                     templateUrl: 'pages/tv/MultPic_SX_Small.html',
@@ -469,6 +621,16 @@
                         }]
                     }
                 })
+                //雅思特 世界时钟 Yeste_WorldClock
+                .state('app.tvAdmin.Yeste_WorldClock', {
+                    url: '/Yeste_WorldClock?moduleId&label',
+                    templateUrl: 'pages/tv/WorldClock_Yeste.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.SkyworthATV', {
                     url: '/SkyworthATV?moduleId&label',
                     templateUrl: 'pages/tv/SkyworthATV.html',
@@ -484,6 +646,15 @@
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
                             
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.BaoFengHDMI', {
+                    url: '/BaoFengHDMI?moduleId&label',
+                    templateUrl: 'pages/tv/BaoFengHDMI.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
                         }]
                     }
                 })
@@ -575,6 +746,8 @@
                     }
                 })
 
+
+
                 .state('app.tvAdmin.blank', {
                     url: '/blank?label',
                     templateUrl: 'pages/tv/blank.html'
@@ -593,7 +766,10 @@
         }])
 
         .constant('CONFIG', {
+
             serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
+            // 张舰 自己 起了一个测试服务器
+            // serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
             // serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',
             testUrl: 'test/',

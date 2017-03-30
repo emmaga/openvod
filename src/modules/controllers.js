@@ -123,7 +123,7 @@
                     }
                 }
 
-                // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面, 6:终端管理，7:微信用户
+                // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面, 6:终端管理，7:微信用户，9：字幕
                 self.switchApp = function (n) {
                     // 收起桌面
                     self.appPhase = 2;
@@ -163,6 +163,9 @@
                             if(!$state.includes('app.projectConfig')) {
                                 $state.go('app.projectConfig', { 'appId': n });
                             }
+                            break;
+                        case 9:
+                                $state.go('app.realTimeCommand', { 'appId': n });
                             break;
                         default:
                             break;
@@ -538,6 +541,97 @@
                         }
                     });
                 }
+
+            }
+        ])
+
+        // 字幕
+        .controller('realTimeCommandController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+                console.log('realTimeCommandController');
+                var self = this;
+                self.init = function() {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.realTimeCmdInfo = {
+                        Content:"test",
+                        startDate:new Date(),
+                        endDate:new Date(),
+                        Duration:2,
+                        switch:0
+                    }
+                }
+
+                self.edit = function(info){
+                    $scope.app.maskParams = info;
+                    $scope.app.showHideMask(true, 'pages/realTimeCommandEdit.html');
+                }
+            }
+        ])
+
+        // 字幕编辑
+        .controller('realTimeCommandEditController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
+            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+                console.log('realTimeCommandEditController');
+                var self = this;
+                self.init = function() {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.realTimeCmdInfo = $scope.app.maskParams;
+                }
+                // 添加字幕
+                self.addRealTimeCmd = function() {
+                    var data = {
+                        "action": "addRealTimeCmd",
+                        "token": util.getParams("token"),
+                        
+                        "data":{
+                            CmdType: "ScrollingMarquee",
+                            // -1 为全部
+                            Terms:[-1],
+                            CmdParas:{
+                               Content:self.realTimeCmdInfo.Content,
+                               startDate:$filter('date')(self.realTimeCmdInfo.startDate,'yyyy-MM-dd'),
+                               endDate:$filter('date')(self.realTimeCmdInfo.endDate,'yyyy-MM-dd'),
+                               Duration:self.realTimeCmdInfo.Duration,
+                               switch:Number(self.realTimeCmdInfo.switch) 
+                            }
+
+                        }
+                    }
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('realtimecmd', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == '200') {
+                            alert("编辑成功");
+                            self.cancel();
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert(data.rescode + ' ' + data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function(value) {
+                        self.loading = false;
+                    })
+                }
+                self.cancel = function(){
+                    $scope.app.showHideMask(false)
+                }
+
+                self.open = function (flag) {
+                    if (flag == "start") {
+                      self.realTimeCmdInfo.startDate.opened = true;  
+                    } else {
+                      self.realTimeCmdInfo.endDate.opened = true; 
+                    }
+                };
 
             }
         ])
@@ -1792,6 +1886,7 @@
                             self.hotel.LogoImg = data.data.LogoURL;
                             self.hotel.CityName = data.data.CityName;
                             self.hotel.AdminPhoneNum = data.data.AdminPhoneNum;
+                            self.hotel.ViewURL = data.data.ViewURL;
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");
@@ -1963,6 +2058,7 @@
                             self.hotel.Imgs = data.data.Gallery;
                             self.hotel.Tags = data.data.Features;
                             self.hotel.Name = data.data.Name;
+                            self.hotel.ViewURL = data.data.ViewURL;
                             self.hotel.Address = data.data.Address;
                             self.hotel.Description = data.data.Description;
                             self.hotel.LocationX = data.data.LocationX;
@@ -2038,6 +2134,7 @@
                         data: {
                             "TermMainPage": self.hotel.TermMainPage,
                             "Name": self.hotel.Name,
+                            "ViewURL": self.hotel.ViewURL ? self.hotel.ViewURL : '',
                             "CityName": self.hotel.CityName,
                             "LocationX": self.hotel.LocationX,
                             "LocationY": self.hotel.LocationY,
@@ -2318,6 +2415,7 @@
                         IntroImgs: imgs,
                         roomDetail: {
                             HotelID: self.hotelId,
+                            ViewURL: self.room.ViewURL ? self.room.ViewURL : '',
                             Description: self.room.Description,
                             RoomTypeName: self.room.RoomTypeName,
                             // Roomsummary: self.room.Roomsummary
@@ -2563,6 +2661,7 @@
                         // console.log(data);
                         if (data.rescode == '200') {
                             self.room.RoomTypeName = data.RoomTypeName;
+                            self.room.ViewURL = data.ViewURL;
                             self.room.Roomsummary = data.Roomsummary;
                             self.room.Description = data.Description;
                             for (var i = 0; i < self.ifCheckedTags.length; i++) {
@@ -2655,6 +2754,7 @@
                         IntroImgs: imgs,
                         roomDetail: {
                             "HotelID": self.hotelId,
+                            "ViewURL": self.room.ViewURL ? self.room.ViewURL : '',
                             "Description": self.room.Description,
                             "RoomTypeName": self.room.RoomTypeName
                         }
@@ -2815,7 +2915,91 @@
                     token = util.getParams('token');
                     self.SpecialPrice = [];
                     self.roomDetail = [];
+                    self.addPrice = [];
                     self.load();
+                    self.loadAddPrice();
+                    self.multiLang = util.getParams('editLangs');
+                }
+
+                self.delAddPrice = function (n) {
+                    self.addPrice.splice(n, 1);
+                }
+
+                self.saveAddPrice = function () {
+                    self.savingAddPrice = true;
+                    var addPriceData = [];
+                    for(var i = 0; i < self.addPrice.length; i++) {
+                        addPriceData[i] = {};
+                        addPriceData[i].Name = self.addPrice[i].Name;
+                        addPriceData[i].Desc = self.addPrice[i].Desc;
+                        addPriceData[i].Price = self.addPrice[i].Price*100;
+                    }
+
+                    var data = JSON.stringify({
+                        action: "setRoomServicePrice",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId,
+                        data: addPriceData
+                    })
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var msg = response.data;
+                        if (msg.rescode == '200') {
+                            alert('保存成功');
+                            $state.reload();
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('保存失败，' + msg.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.savingAddPrice = false;
+                    });
+                }
+
+                self.addAddPrice = function () {
+                    self.addPrice.push ({Name: {}, Desc: {}, Price: ''});
+                }
+
+                self.loadAddPrice = function () {
+                    var data = JSON.stringify({
+                        action: "getRoomServicePrice",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId
+                    })
+                    self.loadingAddPrice = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.addPrice = data.data;
+                            for(var i = 0; i < self.addPrice.length; i++) {
+                                self.addPrice[i].Price /= 100;
+                            }
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path("pages/login.html");
+                        } else {
+                            alert('读取信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                            self.loadingAddPrice = false;
+                        }
+                    );
                 }
 
                 self.cancel = function () {
