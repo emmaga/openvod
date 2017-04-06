@@ -15,3 +15,5 @@ dist/style/app.min.css
 *.xml
 
 *.iml
+
+.idea/*
