@@ -17,7 +17,8 @@ module.exports = function(grunt) {
                             'src/modules/orders-controllers.js',
                             'src/modules/directives.js',
                             'src/modules/services.js',
-                            'src/modules/filters.js'
+                            'src/modules/filters.js',
+                            'src/modules/qcode-controller.js'
                         ],
                         dest: "dist/js/app.min.js"
                     }

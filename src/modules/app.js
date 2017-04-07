@@ -11,6 +11,7 @@
         'app.filters',
         'app.directives',
         'app.services',
+        'app.qcode',
         'angular-md5',
         'ngCookies',
         'ngTable',
@@ -744,6 +745,12 @@
 
                         }]
                     }
+                })
+
+                // 扫码统计
+                .state('app.qcode', {
+                    url: '/qcode?moduleId&label',
+                    templateUrl: 'pages/qcodeIndex.html'
                 })
 
 
