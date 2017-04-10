@@ -8,14 +8,26 @@
                 self.searchDate = $filter('date')((new Date().getTime()), 'yyyy-MM-dd');
             };
             self.getQcodeList = function (pages) {
-                var data = {
+                var data = JSON.stringify({
                     "token": util.getParams('token'),
                     "action": "count",
                     "StartDate": $filter('date')((new Date().getTime()), 'yyyy-MM-dd'),
                     "EndDate": "1970-09-28",
-                    "page":"1",
+                    "page":pages,
                     "count":"10"
-                }
+                });
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('qrcode_scanCode', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    console.log(response);
+                },function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+
             };
             $scope.startDateBeforeRender = startDateBeforeRender;
             $scope.startDateOnSetTime = startDateOnSetTime;
