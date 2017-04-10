@@ -18,7 +18,8 @@
         'ngAnimate',
         'ui.bootstrap',
         'ui.toggle',
-        'angularBootstrapNavTree'
+        'angularBootstrapNavTree',
+        'ui.bootstrap.datetimepicker'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';
@@ -752,6 +753,7 @@
                     url: '/qcode?moduleId&label',
                     templateUrl: 'pages/qcodeIndex.html'
                 })
+
 
 
 
