@@ -468,7 +468,17 @@
                     }
                 })
 
-                //三星午餐 Samsung_PicText_Classification
+                //三星午餐 Samsung_Lunch_PicText_Classification
+                .state('app.tvAdmin.Samsung_Lunch_PicText_Classification', {
+                    url: '/Samsung_Lunch_PicText_Classification?moduleId&label',
+                    templateUrl: 'pages/tv/PicText_Classification_SamsungLunch.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+                        }]
+                    }
+                })
+
+                //三星分类图文 Samsung_PicText_Classification
                 .state('app.tvAdmin.Samsung_PicText_Classification', {
                     url: '/Samsung_PicText_Classification?moduleId&label',
                     templateUrl: 'pages/tv/PicText_Classification_Samsung.html',

@@ -53,7 +53,11 @@
                     <a id="hidenUpload2" style="display: none;" ng-click="projectConfig.imgs2.uploadFile('myFile', projectConfig.imgs2)"></a>
                     <!-- 进度条 -->
                     <div class="font-upload" ng-repeat="img in projectConfig.imgs2.data"
+<<<<<<< HEAD
+                         style="background-image: url({{img.src}}); -webkit-background-size: cover;background-size: cover;"
+=======
                          style="background-image: url({{img.src}});"
+>>>>>>> origin/lengxue
                          ng-show="!({{img.progress}}==100)||{{projectConfig.imgs2.data}}">
                         <div class="progress form-thumbnail-progress" style="width: 75px; left: 2px;" ng-show="!({{img.progress}}==100)">
                             <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
