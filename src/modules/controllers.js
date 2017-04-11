@@ -117,7 +117,6 @@
                             self.activeAppIcon = l[i].icon;
                             self.activeAppBgColor = l[i].bgColor;
                             self.activeAppThemeColor = l[i].themeColor;
-
                             break;
                         }
                     }

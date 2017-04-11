@@ -1,0 +1,27 @@
+<div ng-controller="downloadQcodeController as downloadQcode" ng-init="downloadQcode.init()" class="modal-dialog modal-sm autoscroll">
+    <div class="modal-content">
+        <!-- loading -->
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="downloadQcode.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加成功，点击下载</h5>
+            </div>
+            <!--header end-->
+
+            <!--body-->
+            <div class="modal-body text-center">
+                <!-- 二维码LOGO图片 -->
+                <img src="{{downloadQcode.imgURL}}" alt="" style="width:260px">
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer" style="text-align: center;">
+                <!-- 下载-->
+                <a href="{{downloadQcode.imgURL}}" type="button" class="btn btn-default btn-lg" ng-click="downloadQcode.loadQcode()" style="margin: 0 auto">下载</a>
+            </div>
+
+    </div>
+</div>

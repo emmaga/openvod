@@ -1,0 +1,63 @@
+<div ng-controller="addQcodeController as addQcode" ng-init="addQcode.init()" class="modal-dialog modal-sm autoscroll">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form novalidate name="addQcodeForm" ng-submit="addQcodeForm.$valid && addQcode.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="addQcode.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加项目</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 用户名 -->
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input name="" required placeholder="（必填）" ng-model="addQcode.SceneName" class="form-control">
+                </div>
+                <!-- 二维码LOGO图片 -->
+                <div class="form-group">
+                    <!--图片-->
+                    <label>图片</label>
+                    <!--图片上传按钮-->
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+                    <a ng-click="addQcode.clickUpload('upload1')">上传</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="addQcode.imgs1.uploadFile('myFile', addQcode.imgs1)"></a>
+                    <!--/图片上传按钮-->
+                    <div class="row" ng-repeat="img in addQcode.imgs1.data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div><!--/progress-->
+                            </div><!--/form-thumbnail-->
+                        </div> <!--/col-xs-12-->
+                    </div><!--/row-->
+                    <!--/图片-->
+                </div>
+
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 保存添加 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="addQcodeForm.$invalid || addQcode.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i>添加
+                </button>
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="addQcode.cancel()">取消</button>
+
+            </div>
+            <!--footer end-->
+
+        </form>
+    </div>
+</div>

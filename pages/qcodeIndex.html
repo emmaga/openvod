@@ -1,19 +1,66 @@
-<div ng-controller="qcodeIndexController as qcode" ng-init="qcode.init()">
-    <div class="col-xs-3">
-        <div class="dropdown form-group">
-            <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown" data-target="#" href="#">
-                <div class="input-group date">
-                    <input type="text" class="form-control" ng-model="qcode.searchDate">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+<div ng-controller="qcodeIndexController as qcode" ng-init="qcode.init()" class="container">
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <!--当前选中名称-->
+        <div class="row">
+            <div class="col-xs-3">
+                <h4>扫码统计列表</h4>
+            </div>
+            <div class="col-xs-3">
+                <div class="btn-group">
+                    <button ng-click="qcode.add()" type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i> 添加项目</button>
                 </div>
-            </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <datetimepicker ng-model="qcode.searchDate"
-                                data-datetimepicker-config="{renderOn: 'start-date-changed', minView: 'day', modelType: 'YYYY-MM-DD'}"
-                                    data-on-set-time="startDateOnSetTime()"
-                                data-before-render="startDateBeforeRender($dates)"
-                                ng-change="online.search()"></datetimepicker>
-            </ul>
+            </div>
+            <div class="col-xs-3">
+                <div class="dropdown form-group">
+                    <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown" data-target="#" href="#">
+                        <div class="input-group date">
+                            <input type="text" style="position: relative;height: 29.5px;border-radius: 4px 0 0 4px;padding: 0 10px;border: 1px solid #ccc;top: 5px;" class="form-control" ng-model="qcode.searchDate">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <datetimepicker ng-model="qcode.searchDate"
+                                        data-datetimepicker-config="{renderOn: 'start-date-changed', minView: 'day', modelType: 'YYYY-MM-DD'}"
+                                        data-on-set-time="startDateOnSetTime()"
+                                        data-before-render="startDateBeforeRender($dates)"
+                                        ng-change="online.search()"></datetimepicker>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="dropdown form-group">
+                    <a class="dropdown-toggle" id="dropdownEnd" role="button" data-toggle="dropdown" data-target="#" href="#">
+                        <div class="input-group date">
+                            <input type="text" style="position: relative;height: 29.5px;border-radius: 4px 0 0 4px;padding:0 10px;border: 1px solid #ccc;top: 5px;" class="form-control" ng-model="qcode.endDate">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <datetimepicker ng-model="qcode.endDate"
+                                        data-datetimepicker-config="{renderOn: 'start-date-changed', minView: 'day', modelType: 'YYYY-MM-DD'}"
+                                        data-on-set-time="startDateOnSetTime()"
+                                        data-before-render="startDateBeforeRender($dates)"
+                                        ng-change="online.search()"></datetimepicker>
+                    </ul>
+                </div>
+            </div>
         </div>
+
+        <table id="qcodeTab" ng-table="qcode.tableParams" ng-show="!qcode.loading" class="table table-hover table-condensed">
+            <tr ng-repeat="project in $data track by $index" style="line-height: 50px;">
+                <td data-title="'姓名'" style="line-height:50px;">{{project.SceneName}}</td>
+                <td data-title="'图片'" style="line-height:50px;"><img ng-src="{{project.Qrcode}}" alt="" style="width:50px;height:50px"></td>
+                <td data-title="'当天有效次'" style="line-height:50px;">{{project.Total_today}}</td>
+                <td data-title="'累计数量'" style="line-height:50px;">{{project.Total_all}}</td>
+                <td data-title="'操作'" style="line-height:50px;">
+                    <a  ng-click="qcode.detail(project.SceneId)" >详情</a>
+                    <a  ng-click="qcode.load(project.Qrcode)" >下载</a>
+                    <a  ng-click="qcode.delete(project.SceneId)" >删除</a>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="qcode.loading">loading...</div>
+        <div ng-show="qcode.noData">查无数据</div>
     </div>
 </div>
