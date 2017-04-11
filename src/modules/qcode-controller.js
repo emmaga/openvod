@@ -343,7 +343,7 @@
                     self.loading = true;
                     self.tableParams = new NgTableParams({
                         page: 1,
-                        count: 15, //15
+                        count: 10, //10
                         url: ''
                     }, {
                         counts: [],
