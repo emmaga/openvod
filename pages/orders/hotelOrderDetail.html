@@ -11,7 +11,7 @@
             <h5 class="modal-title">订单详情</h5>
         </div>
         <!-- body -->
-        <div class="modal-body">
+        <div print-section class="modal-body">
             <!--订单详情-->
             <ul class="list-group list-group-condensed">
                 <!--订单号-->
@@ -54,7 +54,7 @@
                 <!--入住信息－入住时间-->
                 <li class="list-group-item">
                     入住时间
-                    <span class="pull-right">{{hod.orderInfo.BookSte}}</span>
+                    <span class="pull-right">{{hod.orderInfo.BookStartDate}}</span>
                 </li>
                 <!--入住信息－离店时间-->
                 <li class="list-group-item">
@@ -105,6 +105,10 @@
         <div class="modal-footer">
             <!-- 取消 -->
             <button type="button" class="btn btn-default btn-sm" ng-click="hod.close()">{{'CANCEL' | translate}}</button>
+            <!-- 订单打印 -->
+            <button type="button" class="btn btn-primary btn-sm" print-btn>
+            <i class="icon ion-printer"></i> 订单打印
+            </button>
             <!--footer end-->
         </div>
     </div>
