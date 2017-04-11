@@ -17,7 +17,8 @@
         'ngAnimate',
         'ui.bootstrap',
         'ui.toggle',
-        'angularBootstrapNavTree'
+        'angularBootstrapNavTree',
+        'AngularPrint'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';

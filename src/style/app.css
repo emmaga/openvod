@@ -578,6 +578,18 @@ textarea.form-control{
     padding: 15px 30px;
 }
 
+@media print {
+    .modal-body{
+        margin-left: 120px;
+        width: 560px !important;
+    }
+    .modal li>.pull-right{
+        position: absolute;
+        left: 120px;
+        float: initial !important;
+    }
+}
+
 .modal hr{
     margin-left: -15px;
     margin-right: -15px;
