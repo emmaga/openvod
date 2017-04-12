@@ -198,14 +198,5 @@
                 }
             }
         }])
-        .service('resource',[function () {
-            var data = {};
-            this.addResource = function (key,val) {
-                data[key] = val;
-            }
-            this.getVal = function (key) {
-                return data[key];
-            }
-        }])
 
 })();
