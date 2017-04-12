@@ -1,4 +1,4 @@
-<div ng-controller="detailQcodeController as detailQcode" ng-init="detailQcode.init()" class="modal-dialog autoscroll">
+<div ng-controller="detailQcodeController as detailQcode" ng-init="detailQcode.init()" class="modal-dialog modal-lg autoscroll">
     <div class="modal-content">
         <!-- loading -->
         <!--header-->
@@ -17,7 +17,7 @@
             <table id="detailQcodeTab" ng-table="detailQcode.tableParams" ng-show="!detailQcode.loading" class="table table-hover table-condensed">
                 <tr style="text-align: center;" ng-repeat="project in $data track by $index" style="line-height: 50px;">
                     <td data-title="'姓名'">{{project.UserName}}</td>
-                    <td data-title="'关注时间'" style="line-height:50px;">{{project.SceneTime}}</td>
+                    <td data-title="'关注时间'">{{project.SceneTime}}</td>
                 </tr>
             </table>
             <div ng-show="detailQcode.loading">loading...</div>

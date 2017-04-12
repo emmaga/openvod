@@ -1,13 +1,13 @@
 'use strict';
 (function () {
     var app = angular.module('app.qcode', [])
-        .controller('qcodeIndexController', ['$scope', '$http', '$state', 'util', '$filter', 'NgTableParams', 'resource', function ($scope, $http, $state, util, $filter, NgTableParams, resource) {
+        .controller('qcodeIndexController', ['$scope', '$http','$state', 'util', '$filter', 'NgTableParams','resource',function ($scope, $http ,$state,util, $filter,NgTableParams,resource) {
             var self = this;
             self.init = function () {
                 self.searchDate = $filter('date')((new Date().getTime() - 2678400000), 'yyyy-MM-dd');
                 self.endDate = $filter('date')((new Date().getTime()), 'yyyy-MM-dd');
-                resource.addResource("startDate", self.searchDate);
-                resource.addResource("endDate", self.endDate);
+                resource.addResource("startDate",self.searchDate);
+                resource.addResource("endDate",self.endDate);
                 self.getInfo();
             };
             // 获取二维码用户列表信息
@@ -20,7 +20,7 @@
                     url: ''
                 }, {
                     counts: [],
-                    getData: function (params) {
+                    getData: function(params) {
                         var data = {
                             "action": "count",
                             "token": util.getParams("token"),
@@ -48,12 +48,12 @@
                                 alert('访问超时，请重新登录');
                                 $location.path("index.html");
                             } else {
-                                alert('读取信息出错，' + data.errInfo);
+                                alert('读取信息出错，'+data.errInfo);
                             }
 
                         }, function errorCallback(data, status, headers, config) {
                             alert('连接服务器出错');
-                        }).finally(function (value) {
+                        }).finally(function(value) {
                             self.loading = false;
                         })
                     }
@@ -92,18 +92,17 @@
                     })
                 }
             }
-
             //添加二维码
             self.add = function () {
-                $scope.app.showHideMask(true, 'pages/addQcode.html');
+                $scope.app.showHideMask(true,'pages/addQcode.html');
             };
             //下载
-            self.load = function (url) {
-                resource.addResource("qcodeImgURL", url);
-                $scope.app.showHideMask(true, "pages/downloadQcode.html");
+            self.load=function(url){
+                resource.addResource("qcodeImgURL",url);
+                $scope.app.showHideMask(true,"pages/downloadQcode.html");
             };
             //删除
-            self.delete = function (id) {
+            self.delete=function(id){
                 var data = {
                     "action": "delete",
                     "token": util.getParams("token"),
@@ -119,7 +118,7 @@
                     if (data.rescode == '200') {
                         alert('删除成功');
                         $state.reload();
-                    } else {
+                    }else {
                         alert('删除失败，' + data.errInfo);
                     }
                 }, function errorCallback(response) {
@@ -129,13 +128,13 @@
             };
             //详情
             self.detail = function (id) {
-                resource.addResource("SceneId", id);
-                $scope.app.showHideMask(true, "pages/qcodeDetail.html");
+                resource.addResource("SceneId",id);
+                $scope.app.showHideMask(true,"pages/qcodeDetail.html");
             }
         }
         ])
-        .controller('addQcodeController', ['$scope', '$location', '$http', 'util', '$state', 'CONFIG', 'resource',
-            function ($scope, $location, $http, util, $state, CONFIG, resource) {
+        .controller('addQcodeController', ['$scope', '$location', '$http', 'util', '$state','CONFIG','resource',
+            function ($scope, $location, $http, util, $state,CONFIG,resource) {
                 var self = this;
 
                 self.init = function () {
@@ -147,20 +146,12 @@
                 }
                 //保存添加
                 self.save = function () {
-                    /*console.log(self.imgs1.data.length);
-                    var url = self.imgs1.data[0].src;
-                    console.log(url);
-                    //检查图片未上传
-                    if (self.imgs1.data.length == 0) {
-                        alert('请上传LOGO图片');
-                        return;
-                    }
-                    //LOGO图片已上传*/
+                    // var url = self.imgs1.data[0].src;   console.log(url);
                     var data = {
                         "action": "create",
                         "token": util.getParams("token"),
                         "QrcodeLogoPic": self.imgs1.data[0].src,
-                        "SceneName": self.SceneName
+                        "SceneName":self .SceneName
                     }
                     data = JSON.stringify(data);
                     self.saving = true;
@@ -173,11 +164,12 @@
                         if (data.rescode == '200') {
                             // alert('添加成功');
                             $state.reload();
-                            resource.addResource('qcodeImgURL', data.QrcodeWithLogo);
-                            $scope.app.showHideMask(true, 'pages/downloadQcode.html');
+                            resource.addResource('qcodeImgURL',data.QrcodeWithLogo);
+                            $scope.app.showHideMask(true,'pages/downloadQcode.html');
                         } else if (data.rescode == '303') {
                             alert('SceneName 已存在');
-                        } else if (data.rescode == '201') {
+                            $state.go('login');
+                        }else if (data.rescode == '201') {
                             alert('logo图片不存在/图片格式出错');
                         } else {
                             alert('添加失败，' + data.errInfo);
@@ -188,7 +180,6 @@
                         self.saving = false;
                     });
                 }
-
                 // 图片上传相关
                 self.clickUpload = function (e) {
                     setTimeout(function () {
@@ -296,8 +287,8 @@
                                     // 如果这个对象只允许上传一张图片
                                     if (o.single) {
                                         // 如果长度大于1张图片，删除前几张图片
-                                        if (o.data.length > 1) {
-                                            for (var i = 0; i < o.data.length - 1; i++) {
+                                        if(o.data.length > 1) {
+                                            for(var i=0; i<o.data.length-1;i++) {
                                                 o.deleteById(o.data[i].id);
                                             }
                                         }
@@ -316,8 +307,8 @@
                 }
             }
         ])
-        .controller('downloadQcodeController', ['$scope', '$location', '$http', 'util', '$state', 'CONFIG', 'resource',
-            function ($scope, $location, $http, util, $state, CONFIG, resource) {
+        .controller('downloadQcodeController', ['$scope', '$location', '$http', 'util', '$state','CONFIG','resource',
+            function ($scope, $location, $http, util, $state,CONFIG,resource) {
                 var self = this;
 
                 self.init = function () {
@@ -331,8 +322,8 @@
 
             }
         ])
-        .controller('detailQcodeController', ['$scope', '$location', '$http', 'util', 'CONFIG', 'resource', 'NgTableParams', '$filter',
-            function ($scope, $location, $http, util, CONFIG, resource, NgTableParams, $filter) {
+        .controller('detailQcodeController', ['$scope', '$location', '$http', 'util','CONFIG','resource','NgTableParams','$filter',
+            function ($scope, $location, $http, util,CONFIG,resource,NgTableParams,$filter) {
                 var self = this;
 
                 self.init = function () {
@@ -356,15 +347,15 @@
                         url: ''
                     }, {
                         counts: [],
-                        getData: function (params) {
+                        getData: function(params) {
                             var data = {
                                 "action": "detail",
                                 "token": util.getParams("token"),
                                 "StartDate": self.startDate,
                                 "EndDate": self.endDate,
-                                "SceneId": self.SceneId,
-                                "page": "1",
-                                "count": "10"
+                                "SceneId":self.SceneId,
+                                "page":"1",
+                                "count":"10"
                             };
                             var paramsUrl = params.url();
                             data.count = paramsUrl.count - 0;
@@ -387,12 +378,12 @@
                                     alert('访问超时，请重新登录');
                                     $location.path("index.html");
                                 } else {
-                                    alert('读取信息出错，' + data.errInfo);
+                                    alert('读取信息出错，'+data.errInfo);
                                 }
 
                             }, function errorCallback(data, status, headers, config) {
                                 alert('连接服务器出错');
-                            }).finally(function (value) {
+                            }).finally(function(value) {
                                 self.loading = false;
                             })
                         }
