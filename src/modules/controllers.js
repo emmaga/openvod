@@ -3059,6 +3059,7 @@
                         data: data
                     }).then(function successCallback(response) {
                         var msg = response.data;
+                        console.dir(msg);
                         if (msg.rescode == '200') {
                             self.roomDetail.PriceMonday = msg.PriceMonday / 100;
                             self.roomDetail.PriceTuesday = msg.PriceTuesday / 100;
