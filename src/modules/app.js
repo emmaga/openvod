@@ -8,6 +8,7 @@
         'app.tv-admin-controllers',
         'app.project-config-controllers',
         'app.orders-controllers',
+        'app.member-card-controllers',
         'app.filters',
         'app.directives',
         'app.services',
@@ -747,11 +748,24 @@
                     }
                 })
 
-
-
                 .state('app.tvAdmin.blank', {
                     url: '/blank?label',
                     templateUrl: 'pages/tv/blank.html'
+                })
+
+                .state('app.memberCard', {
+                    url: '/memberCard',
+                    templateUrl: 'pages/memberCard/memberCard.html'
+                })
+
+                .state('app.memberCard.memberCardList', {
+                    url: '/memberCardList',
+                    templateUrl: 'pages/memberCard/memberCardList.html'
+                })
+
+                .state('app.memberCard.memberList', {
+                    url: '/memberList',
+                    templateUrl: 'pages/memberCard/memberList.html'
                 })
         }])
 
