@@ -47,8 +47,8 @@
             </div>
         </div>
 
-        <table id="qcodeTab" ng-table="qcode.tableParams" ng-show="!qcode.loading" class="table table-hover table-condensed text-center">
-            <tr ng-repeat="project in $data track by $index" style="line-height: 50px;" class="text-center">
+        <table id="qcodeTab" ng-table="qcode.tableParams" ng-show="!qcode.loading" class="table table-hover table-condensed">
+            <tr ng-repeat="project in $data track by $index" style="line-height: 50px;">
                 <td data-title="'姓名'" style="line-height:50px;">{{project.SceneName}}</td>
                 <td data-title="'图片'" style="line-height:50px;"><img ng-src="{{project.Qrcode}}" alt="" style="width:50px;height:50px"></td>
                 <td data-title="'当天有效次'" style="line-height:50px;">{{project.Total_today}}</td>
