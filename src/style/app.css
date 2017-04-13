@@ -1214,9 +1214,3 @@ label + hr{
         filter: blur(12px)
     }
 }
-    #detailQcodeTab th{
-        text-align: center;
-    }
-    #qcodeTab th{
-        text-align: center;
-    }
