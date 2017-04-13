@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h5 class="modal-title">添加成功，点击下载</h5>
+                <h5 class="modal-title">点击下载</h5>
             </div>
             <!--header end-->
 
@@ -20,8 +20,7 @@
             <!--footer-->
             <div class="modal-footer" style="text-align: center;">
                 <!-- 下载-->
-                <a href="{{downloadQcode.imgURL}}" type="button" class="btn btn-default btn-lg" ng-click="downloadQcode.loadQcode()" style="margin: 0 auto">下载</a>
+                <a href="{{downloadQcode.imgURL}}" download="{{downloadQcode.sceneName}}" type="button" class="btn btn-default btn-lg" style="margin: 0 auto">下载</a>
             </div>
-
     </div>
 </div>

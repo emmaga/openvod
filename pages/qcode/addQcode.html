@@ -2,14 +2,14 @@
     <div class="modal-content">
         <!-- loading -->
         <!-- form -->
-        <form novalidate name="addQcodeForm" ng-submit="addQcodeForm.$valid && addQcode.save()">
+        <form name="addQcodeForm" ng-submit="addQcodeForm.$valid && addQcode.save()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="addQcode.cancel()">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h5 class="modal-title">添加项目</h5>
+                <h5 class="modal-title">添加公众号二维码</h5>
             </div>
             <!--header end-->
             <!--body-->
@@ -49,7 +49,7 @@
             <!--footer-->
             <div class="modal-footer">
                 <!-- 保存添加 -->
-                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="addQcodeForm.$invalid || addQcode.saving">
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="addQcode.saving">
                     <i class="icon ion-ios-checkmark-outline"></i>添加
                 </button>
                 <!-- 取消 -->

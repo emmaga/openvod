@@ -11,18 +11,18 @@
                     <!-- 日期选择器 -->
                     <div class="form-group">
                         <!--开始日期-->
-                        <!--<small>开始日期</small>-->
+                        <small>开始日期</small>
                         <input type="text" class="form-control start" uib-datepicker-popup ng-model="qcode.searchDate"
                                is-open="qcode.startOpened" datepicker-options="dateOptions"
-                               close-text="Close" placeholder="开始日期:{{qcode.searchDate}}" ng-click="qcode.open($event)"
+                               close-text="Close" ng-click="qcode.open($event)"
                                style="text-align: center;padding-right:1px"/>
                     </div>
                     <div class="form-group">
                         <!--结束日期-->
-                        <!--<small>结束日期</small>-->
+                        <small>结束日期</small>
                         <input type="text" class="form-control end" uib-datepicker-popup ng-model="qcode.endDate"
                                is-open="qcode.endOpened" datepicker-options="dateOptions"
-                               close-text="Close" placeholder="结束日期:{{qcode.endDate}}" ng-click="qcode.open($event)"
+                               close-text="Close" ng-click="qcode.open($event)"
                                style="text-align: center;padding-right:1px"/>
                     </div>
                     <a ng-click="qcode.getInfo()" class="button button-light">
@@ -32,9 +32,9 @@
                 </div>
             </div>
         </div>
-        <!-- 按钮: 添加项目 -->
+        <!-- 按钮: 添加公众号二维码 -->
         <a ng-click="qcode.add()" class="button button-light">
-            <i class="icon ion-ios-plus-outline"></i>添加项目
+            <i class="icon ion-ios-plus-outline"></i> 添加公众号二维码
         </a>
         <hr>
         <table id="qcodeTab" ng-table="qcode.tableParams" ng-show="!qcode.loading"
@@ -47,7 +47,7 @@
                 <td data-title="'累计数量'" style="line-height:50px;">{{project.Total_all}}</td>
                 <td data-title="'操作'" style="line-height:50px;">
                     <a ng-click="qcode.detail(project.SceneId)">详情</a>
-                    <a ng-click="qcode.load(project.Qrcode)">下载</a>
+                    <a ng-click="qcode.load(project.Qrcode,project.SceneName)">下载</a>
                     <a ng-click="qcode.delete(project.SceneId)">删除</a>
                 </td>
             </tr>

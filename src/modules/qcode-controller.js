@@ -1,13 +1,11 @@
 'use strict';
 (function () {
     var app = angular.module('app.qcode', [])
-        .controller('qcodeIndexController', ['$scope', '$http','$state', 'util', '$filter', 'NgTableParams','resource',function ($scope, $http ,$state,util, $filter,NgTableParams,resource) {
+        .controller('qcodeIndexController', ['$scope', '$http','$state', 'util', '$filter', 'NgTableParams',function ($scope, $http ,$state,util, $filter,NgTableParams) {
             var self = this;
             self.init = function () {
-                self.searchDate = $filter('date')((new Date().getTime() - 2678400000), 'yyyy-MM-dd');
-                self.endDate = $filter('date')((new Date().getTime()), 'yyyy-MM-dd');
-                resource.addResource("startDate",self.searchDate);
-                resource.addResource("endDate",self.endDate);
+                self.searchDate = new Date().getTime()- 2678400000;
+                self.endDate = new Date();
                 self.getInfo();
             };
             /**
@@ -35,8 +33,6 @@
                 }, {
                     counts: [],
                     getData: function(params) {
-                        console.log(self.searchDate+"------"+self.endDate);
-                        // console.log(resource.getVal('startDate')+"------"+resource.getVal('endDate'));
                         var data = {
                             "action": "count",
                             "token": util.getParams("token"),
@@ -111,12 +107,13 @@
 
             //添加二维码
             self.add = function () {
-                $scope.app.showHideMask(true,'pages/addQcode.html');
+                $scope.app.showHideMask(true,'pages/qcode/addQcode.html');
             };
             //下载
-            self.load=function(url){
-                resource.addResource("qcodeImgURL",url);
-                $scope.app.showHideMask(true,"pages/downloadQcode.html");
+            self.load=function(url,sceneName){
+                $scope.app.maskParams = {"qcodeImgURL":url,'sceneName':sceneName};
+                console.log($scope.app.maskParams);
+                $scope.app.showHideMask(true,"pages/qcode/downloadQcode.html");
             };
             //删除
             self.delete=function(id){
@@ -145,31 +142,37 @@
             };
             //详情
             self.detail = function (id) {
-                resource.addResource("SceneId",id);
-                $scope.app.showHideMask(true,"pages/qcodeDetail.html");
+                $scope.app.maskParams = {"startDate":self.searchDate,"endDate":self.endDate,"SceneId":id};
+                $scope.app.showHideMask(true,"pages/qcode/qcodeDetail.html");
             }
         }
         ])
-        .controller('addQcodeController', ['$scope', '$location', '$http', 'util', '$state','CONFIG','resource',
-            function ($scope, $location, $http, util, $state,CONFIG,resource) {
+        .controller('addQcodeController', ['$scope', '$location', '$http', 'util', '$state','CONFIG',
+            function ($scope, $location, $http, util, $state,CONFIG) {
                 var self = this;
-
                 self.init = function () {
                     self.imgs1 = new Imgs([], true);
                 }
                 //取消
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
+                    $scope.app.maskParams={};
+                    console.log($scope.app.maskParams);
                 }
                 //保存添加
                 self.save = function () {
-                    // var url = self.imgs1.data[0].src;   console.log(url);
+                    // var url = self.imgs1.data[0].src;   console.log(self.imgs1.data[0].src);
+                    if( !self.imgs1.data[0] || !self.imgs1.data[0].src){
+                        alert('请上传公众号LOGO！');
+                        return;
+                    }
                     var data = {
                         "action": "create",
                         "token": util.getParams("token"),
                         "QrcodeLogoPic": self.imgs1.data[0].src,
                         "SceneName":self .SceneName
                     }
+
                     data = JSON.stringify(data);
                     self.saving = true;
                     $http({
@@ -179,13 +182,15 @@
                     }).then(function successCallback(response) {
                         var data = response.data;
                         if (data.rescode == '200') {
-                            // alert('添加成功');
+                            $scope.app.maskParams = {'qcodeImgURL':data.QrcodeWithLogo};
+                            console.log($scope.app.maskParams);
+                            $scope.app.showHideMask(true,'pages/qcode/downloadQcode.html');
                             $state.reload();
-                            resource.addResource('qcodeImgURL',data.QrcodeWithLogo);
-                            $scope.app.showHideMask(true,'pages/downloadQcode.html');
+                            setTimeout(function () {
+
+                            }, 10);
                         } else if (data.rescode == '303') {
                             alert('SceneName 已存在');
-                            $state.go('login');
                         }else if (data.rescode == '201') {
                             alert('logo图片不存在/图片格式出错');
                         } else {
@@ -271,7 +276,6 @@
                     },
 
                     uploadFile: function (e, o) {
-
                         // 如果这个对象只允许上传一张图片
                         if (this.single) {
                             // 删除第二张以后的图片
@@ -324,34 +328,40 @@
                 }
             }
         ])
-        .controller('downloadQcodeController', ['$scope', '$location', '$http', 'util', '$state','CONFIG','resource',
-            function ($scope, $location, $http, util, $state,CONFIG,resource) {
+        .controller('downloadQcodeController', ['$scope', '$location', '$http', 'util', '$state','CONFIG',
+            function ($scope, $location, $http, util, $state,CONFIG) {
                 var self = this;
 
                 self.init = function () {
-                    self.imgURL = resource.getVal('qcodeImgURL');
+                    self.sceneName = $scope.app.maskParams.sceneName;
+                    self.imgURL = $scope.app.maskParams.qcodeImgURL;
+                    console.log($scope.app.maskParams);
                 }
 
                 //取消
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
+                    $scope.app.maskParams={};
+                    console.log($scope.app.maskParams);
                 }
 
             }
         ])
-        .controller('detailQcodeController', ['$scope', '$location', '$http', 'util','CONFIG','resource','NgTableParams','$filter',
-            function ($scope, $location, $http, util,CONFIG,resource,NgTableParams,$filter) {
+        .controller('detailQcodeController', ['$scope', '$location', '$http', 'util','CONFIG','NgTableParams','$filter',
+            function ($scope, $location, $http, util,CONFIG,NgTableParams,$filter) {
                 var self = this;
-
                 self.init = function () {
-                    self.startDate = resource.getVal("startDate");
-                    self.endDate = resource.getVal("endDate");
-                    self.SceneId = resource.getVal("SceneId");
+                    self.startDate = $scope.app.maskParams.startDate;
+                    self.endDate = $scope.app.maskParams.endDate;
+                    self.SceneId = $scope.app.maskParams.SceneId;
+                    console.log($scope.app.maskParams);
                     self.getInfo();
                 };
                 //取消
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
+                    $scope.app.maskParams={};
+                    console.log($scope.app.maskParams);
                 };
 
                 // 获取二维码用户列表信息
@@ -406,7 +416,6 @@
                         }
                     });
                 }
-
             }
         ])
 })();

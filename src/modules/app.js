@@ -750,7 +750,7 @@
                 // 扫码统计
                 .state('app.qcode', {
                     url: '/qcode?moduleId&label',
-                    templateUrl: 'pages/qcodeIndex.html'
+                    templateUrl: 'pages/qcode/qcodeIndex.html'
                 })
 
 
