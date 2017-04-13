@@ -160,11 +160,16 @@
                             $state.go('app.wxUser', { 'appId': n });
                             break;
                         case 8:
+                            if(!$state.includes('app.qcode')) {
+                                $state.go('app.qcode', { 'appId': n });
+                            }
+                            break;
+                        case 9:
                             if(!$state.includes('app.projectConfig')) {
                                 $state.go('app.projectConfig', { 'appId': n });
                             }
                             break;
-                        case 9:
+                        case 10:
                                 $state.go('app.realTimeCommand', { 'appId': n });
                             break;
                         default:
@@ -3055,6 +3060,7 @@
                         data: data
                     }).then(function successCallback(response) {
                         var msg = response.data;
+                        console.dir(msg);
                         if (msg.rescode == '200') {
                             self.roomDetail.PriceMonday = msg.PriceMonday / 100;
                             self.roomDetail.PriceTuesday = msg.PriceTuesday / 100;

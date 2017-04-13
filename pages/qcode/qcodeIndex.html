@@ -1,0 +1,51 @@
+<div ng-controller="qcodeIndexController as qcode" ng-init="qcode.init()" class="container">
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <!--当前选中名称-->
+        <h4>扫码统计列表</h4>
+        <hr>
+        <div class="row">
+            <!--搜索 筛选条件－开始日期&&结束日期-->
+            <div class="col-xs-6">
+                <div class="search-bar">
+                    <!-- 日期选择器 -->
+                    <div class="form-group">
+                        <!--开始日期-->
+                        <small>开始日期</small>
+                        <input type="text" class="form-control start" uib-datepicker-popup ng-model="qcode.searchDate" is-open="qcode.startOpened" datepicker-options="dateOptions" close-text="Close" ng-click="qcode.open($event)" />
+                    </div>
+                    <div class="form-group">
+                        <!--结束日期-->
+                        <small>结束日期</small>
+                        <input type="text" class="form-control end" uib-datepicker-popup ng-model="qcode.endDate" is-open="qcode.endOpened" datepicker-options="dateOptions" close-text="Close" ng-click="qcode.open($event)" />
+                    </div>
+                    <a ng-click="qcode.getInfo()" class="button button-light" style="top: 10px;">
+                        <i class="icon ion-ios-search-strong"></i> 查询
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-top: 0;">
+        <!-- 按钮: 添加公众号二维码 -->
+        <a ng-click="qcode.add()" class="button button-light">
+            <i class="icon ion-ios-plus-outline"></i> 添加公众号活码
+        </a>
+        <table id="qcodeTab" ng-table="qcode.tableParams" ng-show="!qcode.loading" class="table table-hover table-condensed">
+            <tr ng-repeat="project in $data track by $index" style="line-height: 80px;">
+                <td data-title="'名称'" style="line-height:80px;">{{project.SceneName}}</td>
+                <td data-title="'二维码'" style="line-height:80px;">
+                <div class="form-thumbnail" style="cursor: pointer; background-image: url({{project.Qrcode}})" ng-click="qcode.load(project.Qrcode,project.SceneName)" ></div>
+                </td>
+                <td data-title="'当天有效次数'" style="line-height:80px;">{{project.Total_today}}</td>
+                <td data-title="'累计有效次数'" style="line-height:80px;">{{project.Total_all}}</td>
+                <td data-title="'操作'" style="line-height:80px;">
+                    <a ng-click="qcode.detail(project.SceneId)">扫码详情</a>
+                    <a ng-click="qcode.load(project.Qrcode,project.SceneName)">下载</a>
+                    <a ng-click="qcode.delete(project.SceneId)">删除</a>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="qcode.loading">loading...</div>
+        <div ng-show="qcode.noData">查无数据</div>
+    </div>
+</div>

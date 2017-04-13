@@ -51,13 +51,20 @@
     },
     {
       "id": 8,
+      "name": "扫码统计",
+      "icon": "dist/imgs/app-icon-11.png",
+      "bgColor": "rgb(1,161,171)",
+      "themeColor":"rgb(1,141,151)"
+    },
+    {
+      "id": 9,
       "name": "项目配置",
       "icon": "dist/imgs/app-icon-09.png",
       "bgColor": "rgb(251,91,51)",
       "themeColor":"rgb(251,91,51)"
     },
     {
-      "id": 9,
+      "id": 10,
       "name": "滚动字幕",
       "icon": "dist/imgs/app-icon-10.png",
       "bgColor": "rgb(51,91,51)",

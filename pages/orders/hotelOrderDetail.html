@@ -42,13 +42,23 @@
                 <hr>
                 <!--客房信息－酒店名-->
                 <li class="list-group-item">
-                    酒店名
+                    酒店
                     <span class="pull-right">{{hod.orderInfo.Name[hod.defaultLangCode]}}</span>
                 </li>
                 <!--客房信息－客房名-->
                 <li class="list-group-item">
-                    客房名
+                    客房
                     <span class="pull-right">{{hod.orderInfo.RoomTypeName[hod.defaultLangCode]}}</span>
+                </li>
+                <!--变价信息－变价名-->
+                <li class="list-group-item" ng-if="hod.orderInfo.RoomServiceName[hod.defaultLangCode]">
+                    变价名
+                    <span class="pull-right">{{hod.orderInfo.RoomServiceName[hod.defaultLangCode]}}</span>
+                </li>
+                <!--变价信息－变价描述-->
+                <li class="list-group-item" ng-if="hod.orderInfo.RoomServiceDescription[hod.defaultLangCode]">
+                    变价描述
+                    <span class="pull-right">{{hod.orderInfo.RoomServiceDescription[hod.defaultLangCode]}}</span>
                 </li>
                 <hr>
                 <!--入住信息－入住时间-->

@@ -1,0 +1,32 @@
+<div ng-controller="detailQcodeController as detailQcode" ng-init="detailQcode.init()" class="modal-dialog modal-lg autoscroll">
+    <div class="modal-content">
+        <!-- loading -->
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="detailQcode.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">扫码详情列表</h5>
+        </div>
+        <!--header end-->
+
+        <!--body-->
+        <div class="modal-body text-center">
+            <!-- 二维码详情列表 -->
+            <table id="detailQcodeTab" ng-table="detailQcode.tableParams" ng-show="!detailQcode.loading" class="table table-hover table-condensed">
+                <tr style="text-align: center;" ng-repeat="project in $data track by $index" style="line-height: 50px;">
+                    <td data-title="'名称'">{{project.UserName}}</td>
+                    <td data-title="'关注时间'">{{project.SceneTime}}</td>
+                </tr>
+            </table>
+            <div ng-show="detailQcode.loading">loading...</div>
+            <div ng-show="detailQcode.noData">查无数据</div>
+        </div>
+        <!--body end-->
+        <!--footer-->
+        <div class="modal-footer" style="text-align: center;">
+        </div>
+
+    </div>
+</div>

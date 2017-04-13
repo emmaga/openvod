@@ -11,6 +11,7 @@
         'app.filters',
         'app.directives',
         'app.services',
+        'app.qcode',
         'angular-md5',
         'ngCookies',
         'ngTable',
@@ -747,6 +748,13 @@
                     }
                 })
 
+                // 扫码统计
+                .state('app.qcode', {
+                    url: '/qcode?moduleId&label',
+                    templateUrl: 'pages/qcode/qcodeIndex.html'
+                })
+
+
 
 
                 .state('app.tvAdmin.blank', {
@@ -767,7 +775,6 @@
         }])
 
         .constant('CONFIG', {
-
             serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
             // 张舰 自己 起了一个测试服务器
             // serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
