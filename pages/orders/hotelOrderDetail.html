@@ -51,13 +51,13 @@
                     <span class="pull-right">{{hod.orderInfo.RoomTypeName[hod.defaultLangCode]}}</span>
                 </li>
                 <!--变价信息－变价名-->
-                <li class="list-group-item">
-                    商品名
+                <li class="list-group-item" ng-if="hod.orderInfo.RoomServiceName[hod.defaultLangCode]">
+                    变价名
                     <span class="pull-right">{{hod.orderInfo.RoomServiceName[hod.defaultLangCode]}}</span>
                 </li>
                 <!--变价信息－变价描述-->
-                <li class="list-group-item">
-                    商品描述
+                <li class="list-group-item" ng-if="hod.orderInfo.RoomServiceDescription[hod.defaultLangCode]">
+                    变价描述
                     <span class="pull-right">{{hod.orderInfo.RoomServiceDescription[hod.defaultLangCode]}}</span>
                 </li>
                 <hr>
