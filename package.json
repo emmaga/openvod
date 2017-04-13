@@ -11,7 +11,6 @@
   "dependencies": {
     "angular": "^1.5.8",
     "angular-animate": "^1.5.9",
-    "angular-bootstrap-datetimepicker": "^1.1.4",
     "angular-bootstrap-nav-tree": "^0.2.1",
     "angular-bootstrap-toggle": "^0.1.2",
     "angular-cookies": "^1.5.8",

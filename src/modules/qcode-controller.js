@@ -10,8 +10,22 @@
                 resource.addResource("endDate",self.endDate);
                 self.getInfo();
             };
+            /**
+             * datepiker
+             */
+            self.open = function ($event) {
+                if($event.target.className.indexOf('start')!=-1){
+                    self.startOpened = true;
+                    self.endOpened = false;
+                }else{
+                    self.startOpened = false;
+                    self.endOpened = true;
+                }
+            };
             // 获取二维码用户列表信息
             self.getInfo = function () {
+                // self.searchDate = $filter('date')(self.searchDate, 'yyyy-MM-dd');
+                // self.endDate = $filter('date')(self.endDate, 'yyyy-MM-dd');
                 self.noData = false;
                 self.loading = true;
                 self.tableParams = new NgTableParams({
@@ -21,6 +35,8 @@
                 }, {
                     counts: [],
                     getData: function(params) {
+                        console.log(self.searchDate+"------"+self.endDate);
+                        // console.log(resource.getVal('startDate')+"------"+resource.getVal('endDate'));
                         var data = {
                             "action": "count",
                             "token": util.getParams("token"),
@@ -59,39 +75,40 @@
                     }
                 });
             }
-            $scope.startDateBeforeRender = startDateBeforeRender;
-            $scope.startDateOnSetTime = startDateOnSetTime;
-            $scope.endDateOnSetTime = endDateOnSetTime;
-            function startDateOnSetTime() {
-                // https://github.com/dalelotts/angular-bootstrap-datetimepicker/issues/111
-                // 在controller里操作dom会影响性能，但这样能解决问题
-                // angular.element(document.querySelector('#dropdownStart')).click();
-                $('#dropdownStart').click();
-                $('#dropdownEnd').click();
-                // console.log(123);
-                $scope.$broadcast('start-date-changed');
-                // self.getQcodeList(1);
-            }
+            // $scope.startDateBeforeRender = startDateBeforeRender;
+            // $scope.startDateOnSetTime = startDateOnSetTime;
+            // $scope.endDateOnSetTime = endDateOnSetTime;
+            // function startDateOnSetTime() {
+            //     // https://github.com/dalelotts/angular-bootstrap-datetimepicker/issues/111
+            //     // 在controller里操作dom会影响性能，但这样能解决问题
+            //     // angular.element(document.querySelector('#dropdownStart')).click();
+            //     $('#dropdownStart').click();
+            //     $('#dropdownEnd').click();
+            //     // console.log(123);
+            //     $scope.$broadcast('start-date-changed');
+            //     // self.getQcodeList(1);
+            // }
+            //
+            // function endDateOnSetTime() {
+            //     // https://github.com/dalelotts/angular-bootstrap-datetimepicker/issues/111
+            //     // 在controller里操作dom会影响性能，但这样能解决问题
+            //     angular.element(document.querySelector('#dropdownEnd')).click();
+            //     $scope.$broadcast('end-date-changed');
+            //     self.search();
+            // }
+            //
+            // function startDateBeforeRender($dates) {
+            //     if ($scope.dateRangeStart) {
+            //         var activeDate = moment($scope.dateRangeStart);
+            //
+            //         $dates.filter(function (date) {
+            //             return date.localDateValue() >= activeDate.valueOf()
+            //         }).forEach(function (date) {
+            //             date.selectable = false;
+            //         })
+            //     }
+            // }
 
-            function endDateOnSetTime() {
-                // https://github.com/dalelotts/angular-bootstrap-datetimepicker/issues/111
-                // 在controller里操作dom会影响性能，但这样能解决问题
-                angular.element(document.querySelector('#dropdownEnd')).click();
-                $scope.$broadcast('end-date-changed');
-                self.search();
-            }
-
-            function startDateBeforeRender($dates) {
-                if ($scope.dateRangeStart) {
-                    var activeDate = moment($scope.dateRangeStart);
-
-                    $dates.filter(function (date) {
-                        return date.localDateValue() >= activeDate.valueOf()
-                    }).forEach(function (date) {
-                        date.selectable = false;
-                    })
-                }
-            }
             //添加二维码
             self.add = function () {
                 $scope.app.showHideMask(true,'pages/addQcode.html');

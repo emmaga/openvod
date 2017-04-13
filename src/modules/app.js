@@ -18,8 +18,7 @@
         'ngAnimate',
         'ui.bootstrap',
         'ui.toggle',
-        'angularBootstrapNavTree',
-        'ui.bootstrap.datetimepicker'
+        'angularBootstrapNavTree'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';
