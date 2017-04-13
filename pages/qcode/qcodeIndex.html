@@ -28,7 +28,7 @@
         <hr style="margin-top: 0;">
         <!-- 按钮: 添加公众号二维码 -->
         <a ng-click="qcode.add()" class="button button-light">
-            <i class="icon ion-ios-plus-outline"></i> 添加公众号活码
+            <i class="icon ion-ios-plus-outline"></i> 添加公众号二维码
         </a>
         <table id="qcodeTab" ng-table="qcode.tableParams" ng-show="!qcode.loading" class="table table-hover table-condensed">
             <tr ng-repeat="project in $data track by $index" style="line-height: 80px;">
