@@ -352,8 +352,6 @@
         function ($scope, $filter, $q, $state, $http, $stateParams, $location, NgTableParams, util, CONFIG) {
             var self = this;
             
-            var self = this;
-                        
             self.init = function() {
                 self.defaultLangCode = util.getDefaultLangCode();
                 self.searchStr = {};

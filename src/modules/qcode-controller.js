@@ -117,6 +117,11 @@
             };
             //删除
             self.delete=function(id){
+                var conf = confirm('确认删除？');
+                if(!conf) {
+                    return;
+                }
+                
                 var data = {
                     "action": "delete",
                     "token": util.getParams("token"),
