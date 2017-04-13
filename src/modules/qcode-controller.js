@@ -344,7 +344,6 @@
                     $scope.app.maskParams={};
                     console.log($scope.app.maskParams);
                 }
-
             }
         ])
         .controller('detailQcodeController', ['$scope', '$location', '$http', 'util','CONFIG','NgTableParams','$filter',
@@ -418,5 +417,4 @@
                 }
             }
         ])
-
 })();

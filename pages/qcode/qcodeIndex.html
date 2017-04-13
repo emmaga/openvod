@@ -38,13 +38,13 @@
         </a>
         <hr>
         <table id="qcodeTab" ng-table="qcode.tableParams" ng-show="!qcode.loading"
-               class="table table-hover table-condensed text-center">
-            <tr ng-repeat="project in $data track by $index" style="line-height: 50px;" class="text-center">
+               class="table table-hover table-condensed">
+            <tr ng-repeat="project in $data track by $index" style="line-height: 50px;">
                 <td data-title="'姓名'" style="line-height:50px;">{{project.SceneName}}</td>
-                <td data-title="'图片'" style="line-height:50px;"><img ng-src="{{project.Qrcode}}" alt=""
+                <td data-title="'二维码'" style="line-height:50px;"><img ng-src="{{project.Qrcode}}" alt=""
                                                                      style="width:50px;height:50px"></td>
-                <td data-title="'当天有效次'" style="line-height:50px;">{{project.Total_today}}</td>
-                <td data-title="'累计数量'" style="line-height:50px;">{{project.Total_all}}</td>
+                <td data-title="'当天有效次数'" style="line-height:50px;">{{project.Total_today}}</td>
+                <td data-title="'累计有效次数'" style="line-height:50px;">{{project.Total_all}}</td>
                 <td data-title="'操作'" style="line-height:50px;">
                     <a ng-click="qcode.detail(project.SceneId)">详情</a>
                     <a ng-click="qcode.load(project.Qrcode,project.SceneName)">下载</a>
