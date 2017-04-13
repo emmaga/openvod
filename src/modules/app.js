@@ -774,7 +774,6 @@
         }])
 
         .constant('CONFIG', {
-
             serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
             // 张舰 自己 起了一个测试服务器
             // serverUrl: 'http://192.168.17.132/backend_mgt/v1/',

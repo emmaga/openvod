@@ -293,6 +293,7 @@
             }
 
             self.gotoDetail = function(orderInfo) {
+                console.dir(orderInfo);
                 $scope.app.maskParams = {'orderInfo': orderInfo};
                 $scope.app.showHideMask(true,'pages/orders/hotelOrderDetail.html');
             }
