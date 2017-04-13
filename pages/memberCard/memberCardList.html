@@ -4,6 +4,9 @@
     <!-- 在线状态 -->
     <h4>会员卡</h4>
     <hr>
+    <div>会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
+    <a ng-click="memberCardList.addLevel()">新建等级</a>
+    <a ng-click="memberCardList.configMemberCard()">配置</a>
     <table ng-table="memberCardList.tableParams" class="table table-hover">
         <tr>
             <td title="'会员'">
@@ -24,8 +27,8 @@
             <td title="'身份证'">
                 3
             </td>
-            <td title="'关注时间'">
-                3
+            <td title="'操作'">
+                <a ng-click="memberCardList.editMemberCard()">设置</a>
             </td>
         </tr>
     </table>

@@ -1,0 +1,39 @@
+<div ng-controller="editLevelsController as editLevels" ng-init="editLevels.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <div ng-show="editLevels.loading">loading...</div>
+        <form name="levelsEditForm" ng-submit="levelsEditForm.$valid && editLevels.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="editLevels.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">调级</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <!--调分-->
+                <ul class="list-group list-group-condensed">
+                    <!--当前积分-->
+                    <li class="list-group-item">
+                        当前等级
+                        <select>
+                            <option>银卡</option>
+                            <option>金卡</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="editLevels.close()">{{'CANCEL' | translate}}</button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary btn-sm">
+                <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div ng-controller="editScoresController as editScores" ng-init="editScores.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <div ng-show="editScores.loading">loading...</div>
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="editScores.close()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">详情</h5>
+        </div>
+        <!-- body -->
+        <div class="modal-body">
+            <!--调分-->
+            <ul class="list-group list-group-condensed">
+                <!--当前积分-->
+                <li class="list-group-item">
+                    xx
+                    <span class="pull-right">xx</span>
+                </li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <!-- 确定 -->
+            <button type="button" class="btn btn-default btn-sm" ng-click="editScores.close()">确定</button>
+            <!--footer end-->
+        </div>
+    </div>
+</div>

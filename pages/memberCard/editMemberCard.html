@@ -1,0 +1,58 @@
+<div ng-controller="editMemberCardController as editMemberCard" ng-init="editMemberCard.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <div ng-show="editMemberCard.loading">loading...</div>
+        <form name="levelsEditForm" ng-submit="levelsEditForm.$valid && editMemberCard.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="editMemberCard.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">调级</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <!--等级级别-->
+                <div class="form-group">
+                    <label>等级级别</label>
+                    <input required placeholder="（必填，数字越大等级越高）" type="number" min="0" class="form-control" step="0" />
+                </div>
+                <!--名称-->
+                <div class="form-group">
+                    <label>名称</label>
+                    <input required placeholder="（必填）" type="text" class="form-control" />
+                </div>
+                <!--客房预订折扣-->
+                <div class="form-group">
+                    <label>客房预订折扣</label>
+                    <input required placeholder="（必填）" type="number" class="form-control" min="0" step="0.01" />
+                </div>
+                <!--客房预订赚分倍率-->
+                <div class="form-group">
+                    <label>客房预订赚积分倍率</label>
+                    <input required placeholder="（必填）" type="number" class="form-control" min="0" step="0" />
+                </div>
+                <!--其他权益-->
+                <div class="form-group">
+                    <label>其他权益</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <!--积分升级条件-->
+                <div class="form-group">
+                    <label>积分升级条件</label>
+                    <input required placeholder="（必填）" type="number" class="form-control" min="1" step="0" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="editMemberCard.close()">{{'CANCEL' | translate}}</button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary btn-sm">
+                <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>

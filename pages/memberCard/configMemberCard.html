@@ -1,0 +1,37 @@
+<div ng-controller="configMemberCardController as configMemberCard" ng-init="configMemberCard.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <div ng-show="configMemberCard.loading">loading...</div>
+        <form name="levelsAddForm" ng-submit="levelsAddForm.$valid && configMemberCard.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="configMemberCard.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">配置</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <!--升级策略-->
+                <div class="form-group">
+                    <label>升级策略：积分升级</label>
+                </div>
+                <!--wx等级跳转地址-->
+                <div class="form-group">
+                    <label>微信-会员卡-等级-地址配置</label>
+                    <input required placeholder="（必填）" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="configMemberCard.close()">{{'CANCEL' | translate}}</button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary btn-sm">
+                <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>
