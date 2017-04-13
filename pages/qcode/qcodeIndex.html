@@ -20,16 +20,16 @@
                         <input type="text" class="form-control end" uib-datepicker-popup ng-model="qcode.endDate" is-open="qcode.endOpened" datepicker-options="dateOptions" close-text="Close" ng-click="qcode.open($event)" />
                     </div>
                     <a ng-click="qcode.getInfo()" class="button button-light" style="top: 10px;">
-                        <i class="icon ion-ios-search-strong"></i> 搜索
+                        <i class="icon ion-ios-search-strong"></i> 查询
                     </a>
                 </div>
             </div>
         </div>
+        <hr style="margin-top: 0;">
         <!-- 按钮: 添加公众号二维码 -->
         <a ng-click="qcode.add()" class="button button-light">
             <i class="icon ion-ios-plus-outline"></i> 添加公众号活码
         </a>
-        <hr>
         <table id="qcodeTab" ng-table="qcode.tableParams" ng-show="!qcode.loading" class="table table-hover table-condensed">
             <tr ng-repeat="project in $data track by $index" style="line-height: 80px;">
                 <td data-title="'名称'" style="line-height:80px;">{{project.SceneName}}</td>
