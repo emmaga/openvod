@@ -1,4 +1,4 @@
-<div class="content-right" ng-controller="memberCardListController as memberCardList" ng-init="memberCardList.init()" class="container">
+<div class="content-right" ng-controller="memberCardListController as memberCardList" ng-init="memberCardList.init()">
 
     <!--当前选中名称-->
     <!-- 在线状态 -->
@@ -8,24 +8,24 @@
     <a ng-click="memberCardList.addLevel()">新建等级</a>
     <a ng-click="memberCardList.configMemberCard()">配置</a>
     <table ng-table="memberCardList.tableParams" class="table table-hover">
-        <tr>
-            <td title="'会员'">
-                2
+        <tr ng-repeat="row in $data">
+            <td title="'等级'">
+                {{row.MemberLevelCode}}
             </td>
-            <td title="'手机号'">
-                3
+            <td title="'等级名'">
+                {{row.MemberLevel}}
             </td>
-            <td title="'昵称'">
-                3
+            <td title="'折扣率'">
+                {{row.MemberDiscount}}
             </td>
-            <td title="'真实姓名'">
-                2
+            <td title="'赚分倍率'">
+                {{row.MemberEarning}}
             </td>
-            <td title="'会员积分'">
-                3
+            <td title="'其他权益'">
+                {{row.MemberOtherInterests}}
             </td>
-            <td title="'身份证'">
-                3
+            <td title="'升级策略'">
+                {{row.MemberUpgradeStrategy}}
             </td>
             <td title="'操作'">
                 <a ng-click="memberCardList.editMemberCard()">设置</a>

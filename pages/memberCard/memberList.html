@@ -1,4 +1,4 @@
-<div class="content-right" ng-controller="memberListController as memberList" ng-init="memberList.init()" class="container">
+<div class="content-right" ng-controller="memberListController as memberList" ng-init="memberList.init()">
 
     <!--当前选中名称-->
     <!-- 在线状态 -->
@@ -7,10 +7,10 @@
     <table ng-table="memberList.tableParams" ng-show="!wxUser.loading" class="table table-hover">
         <tr ng-repeat="row in $data">
             <td title="'会员名'">
-                {{row.MemberLevelName}}
+                {{row.MemberName}}
             </td>
             <td title="'等级'">
-                {{row.MemberMobile}}
+                {{row.MemberLevel}}
             </td>
             <td title="'手机号'">
                 {{row.MemberMobile}}
@@ -19,10 +19,10 @@
                 {{row.MemberScore}}
             </td>
             <td title="'状态'">
-                {{row.MemberScore}}
+                {{row.MemberStatus}}
             </td>
             <td title="'其他激活选填字段'">
-                {{row.MemberScore}}
+                {{row.MemberOtherOptions}}
             </td>
             <td title="'操作'">
                 <a ng-click="memberList.editScores()">调分</a>

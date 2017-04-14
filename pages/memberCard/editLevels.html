@@ -18,9 +18,11 @@
                     <!--当前积分-->
                     <li class="list-group-item">
                         当前等级
-                        <select>
-                            <option>银卡</option>
-                            <option>金卡</option>
+                        <select ng-model="editLevels.form.Online">
+                            <option value="1">铁卡</option>
+                            <option value="2">铜卡</option>
+                            <option value="3">银卡</option>
+                            <option value="4">金卡</option>
                         </select>
                     </li>
                 </ul>

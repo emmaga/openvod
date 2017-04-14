@@ -12,7 +12,7 @@
                     self.multiLang = util.getParams('editLangs');
                     self.getMemberInfo();
                 }
-                // 获取会员用户信息列表
+                // 获取会员用户信息列表--借用微信借口
                 self.getMemberInfo = function() {
                     self.noData = false;
                     self.loading = true;
@@ -116,7 +116,6 @@
 
             }
         ])
-
         //调分
         .controller('editScoresController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'util',
             function ($scope, $filter, $q, $state, $http, $stateParams, util) {
