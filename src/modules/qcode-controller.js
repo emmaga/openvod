@@ -7,6 +7,7 @@
                 self.searchDate = new Date().getTime()- 2678400000;
                 self.endDate = new Date();
                 self.getInfo();
+                console &&console.log(self.searchDate,self.endDate);
             };
             /**
              * datepiker
@@ -49,11 +50,12 @@
                             data: data
                         }).then(function successCallback(data, status, headers, config) {
                             if (data.data.rescode == '200') {
-                                if (data.data.length == 0) {
+                                console && console.dir(data.data);
+                                if (data.data.data.length == 0) {
                                     self.noData = true;
                                 }
                                 params.total(data.data.count);
-                                console.log(data.data.count);
+                                console && console.log(data.data.count);
                                 self.tableData = data.data.data;
                                 return data.data.data;
                             } else if (data.data.rescode == '401') {
@@ -71,39 +73,6 @@
                     }
                 });
             }
-            // $scope.startDateBeforeRender = startDateBeforeRender;
-            // $scope.startDateOnSetTime = startDateOnSetTime;
-            // $scope.endDateOnSetTime = endDateOnSetTime;
-            // function startDateOnSetTime() {
-            //     // https://github.com/dalelotts/angular-bootstrap-datetimepicker/issues/111
-            //     // 在controller里操作dom会影响性能，但这样能解决问题
-            //     // angular.element(document.querySelector('#dropdownStart')).click();
-            //     $('#dropdownStart').click();
-            //     $('#dropdownEnd').click();
-            //     // console.log(123);
-            //     $scope.$broadcast('start-date-changed');
-            //     // self.getQcodeList(1);
-            // }
-            //
-            // function endDateOnSetTime() {
-            //     // https://github.com/dalelotts/angular-bootstrap-datetimepicker/issues/111
-            //     // 在controller里操作dom会影响性能，但这样能解决问题
-            //     angular.element(document.querySelector('#dropdownEnd')).click();
-            //     $scope.$broadcast('end-date-changed');
-            //     self.search();
-            // }
-            //
-            // function startDateBeforeRender($dates) {
-            //     if ($scope.dateRangeStart) {
-            //         var activeDate = moment($scope.dateRangeStart);
-            //
-            //         $dates.filter(function (date) {
-            //             return date.localDateValue() >= activeDate.valueOf()
-            //         }).forEach(function (date) {
-            //             date.selectable = false;
-            //         })
-            //     }
-            // }
 
             //添加二维码
             self.add = function () {
@@ -112,7 +81,7 @@
             //下载
             self.load=function(url,sceneName){
                 $scope.app.maskParams = {"qcodeImgURL":url,'sceneName':sceneName};
-                console.log($scope.app.maskParams);
+                // console && console.log($scope.app.maskParams);
                 $scope.app.showHideMask(true,"pages/qcode/downloadQcode.html");
             };
             //删除
@@ -162,11 +131,11 @@
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
                     $scope.app.maskParams={};
-                    console.log($scope.app.maskParams);
+                    //console && console.log($scope.app.maskParams);
                 }
                 //保存添加
                 self.save = function () {
-                    // var url = self.imgs1.data[0].src;   console.log(self.imgs1.data[0].src);
+                    // var url = self.imgs1.data[0].src;   console && console.log(self.imgs1.data[0].src);
                     if( !self.imgs1.data[0] || !self.imgs1.data[0].src){
                         alert('请上传公众号LOGO！');
                         return;
@@ -188,7 +157,7 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             $scope.app.maskParams = {'qcodeImgURL':data.QrcodeWithLogo};
-                            console.log($scope.app.maskParams);
+                            // console && console.log($scope.app.maskParams);
                             $scope.app.showHideMask(true,'pages/qcode/downloadQcode.html');
                             $state.reload();
                             setTimeout(function () {
@@ -301,13 +270,13 @@
                                     if (evt.lengthComputable) {
                                         var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                         o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                        console && console.log(percentComplete);
+                                        // console && console.log(percentComplete);
                                     }
                                 });
                             },
                             function (xhr) {
                                 var ret = JSON.parse(xhr.responseText);
-                                console && console.log(ret);
+                                // console && console.log(ret);
                                 $scope.$apply(function () {
                                     o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
                                     // 如果这个对象只允许上传一张图片
@@ -325,7 +294,7 @@
                                 $scope.$apply(function () {
                                     o.update(fileId, -1, '', '');
                                 });
-                                console && console.log('failure');
+                                // console && console.log('failure');
                                 xhr.abort();
                             }
                         );
@@ -340,14 +309,14 @@
                 self.init = function () {
                     self.sceneName = $scope.app.maskParams.sceneName;
                     self.imgURL = $scope.app.maskParams.qcodeImgURL;
-                    console.log($scope.app.maskParams);
+                    // console && console.log($scope.app.maskParams);
                 }
 
                 //取消
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
                     $scope.app.maskParams={};
-                    console.log($scope.app.maskParams);
+                    // console && console.log($scope.app.maskParams);
                 }
             }
         ])
@@ -358,14 +327,14 @@
                     self.startDate = $scope.app.maskParams.startDate;
                     self.endDate = $scope.app.maskParams.endDate;
                     self.SceneId = $scope.app.maskParams.SceneId;
-                    console.log($scope.app.maskParams);
+                    // console && console.log($scope.app.maskParams);
                     self.getInfo();
                 };
                 //取消
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
                     $scope.app.maskParams={};
-                    console.log($scope.app.maskParams);
+                    // console && console.log($scope.app.maskParams);
                 };
 
                 // 获取二维码用户列表信息
@@ -382,8 +351,8 @@
                             var data = {
                                 "action": "detail",
                                 "token": util.getParams("token"),
-                                "StartDate": self.startDate,
-                                "EndDate": self.endDate,
+                                "StartDate": util.format_yyyyMMdd(new Date(self.startDate)),
+                                "EndDate": util.format_yyyyMMdd(new Date(self.endDate)),
                                 "SceneId":self.SceneId,
                                 "page":"1",
                                 "count":"10"
@@ -402,7 +371,7 @@
                                         self.noData = true;
                                     }
                                     params.total(data.data.count);
-                                    console.log(data.data.data);
+                                    console && console.log(data.data.data);
                                     self.tableData = data.data.data;
                                     return data.data.data;
                                 } else if (data.data.rescode == '401') {
