@@ -36,8 +36,8 @@
                         var data = {
                             "action": "count",
                             "token": util.getParams("token"),
-                            "StartDate": self.searchDate,
-                            "EndDate": self.endDate
+                            "StartDate": util.format_yyyyMMdd(new Date(self.searchDate)),
+                            "EndDate": util.format_yyyyMMdd(new Date(self.endDate))
                         }
                         var paramsUrl = params.url();
                         data.count = paramsUrl.count - 0;
