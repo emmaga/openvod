@@ -18,7 +18,8 @@
                     <!--当前积分-->
                     <li class="list-group-item">
                         当前等级
-                        <select ng-model="editLevels.form.Online">
+                        <select ng-model="editLevels.form.selectedIndex" id="selectionLevel" name="selectionLevel">
+                            <option value="">微信游客</option>
                             <option value="1">铁卡</option>
                             <option value="2">铜卡</option>
                             <option value="3">银卡</option>

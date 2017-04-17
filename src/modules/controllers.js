@@ -2924,48 +2924,8 @@
                     self.load();
                     self.loadAddPrice();
                     self.multiLang = util.getParams('editLangs');
-                    self.points=true;
                 }
 
-                self.RAChanged = function () {
-                    if (roomObj.PriceMonday == null || roomObj.PriceTuesday == null || roomObj.PriceWednesday == null
-                        || roomObj.PriceThursday == null || roomObj.PriceFriday == null || roomObj.PriceSaturday == null
-                        || roomObj.PriceSunday == null || roomObj.AvailableNum == null) {
-                        roomObj.RoomAvailable = 0;
-                        alert("未设置房间价格或数量，请设好后重试");
-                        return false;
-                    } else {
-                        var roomId = roomObj.ID,
-                            roomAvailable = roomObj.RoomAvailable
-                        var data = JSON.stringify({
-                            action: "setRoomAvailable",
-                            token: util.getParams('token'),
-                            lang: lang,
-                            roomID: roomId,
-                            RoomAvailable: roomAvailable == true ? 1 : 0
-                        })
-                        self.loading = true;
-
-                        $http({
-                            method: 'POST',
-                            url: util.getApiUrl('room', '', 'server'),
-                            data: data
-                        }).then(function successCallback(response) {
-                            var msg = response.data;
-                            if (msg.rescode == '200') {
-                            } else if (msg.rescode == '401') {
-                                alert('访问超时，请重新登录');
-                                $location.path("pages/login.html");
-                            } else {
-                                alert('操作失败，' + msg.errInfo);
-                            }
-                        }, function errorCallback(response) {
-                            alert(response.status + ' 服务器出错');
-                        }).finally(function () {
-                            self.loading = false;
-                        });
-                    }
-                }
                 self.delAddPrice = function (n) {
                     self.addPrice.splice(n, 1);
                 }
@@ -3258,8 +3218,8 @@
                  * 删除临时设置
                  */
                 self.deleteTemporary = function ($index, AvailableDate) {
-                    // self.SpecialNum.splice($index, 1);
-                    // self.delAvailableDate.push(AvailableDate);
+                    self.SpecialNum.splice($index, 1);
+                    self.delAvailableDate.push(AvailableDate);
                 }
 
                 /**

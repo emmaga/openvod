@@ -4,28 +4,30 @@
     <!-- 在线状态 -->
     <h4>会员卡</h4>
     <hr>
-    <div>会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
-    <a ng-click="memberCardList.addLevel()">新建等级</a>
-    <a ng-click="memberCardList.configMemberCard()">配置</a>
-    <table ng-table="memberCardList.tableParams" class="table table-hover">
+    <div ng-show="memberCardList.noCreated">会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
+    <div ng-show="!memberCardList.noCreated">
+        <a ng-click="memberCardList.addLevel()">新建等级</a>
+        <a ng-click="memberCardList.configMemberCard()">升级策略</a>
+    </div>
+    <table ng-table="memberCardList.tableParams" ng-show="!memberCardList.loading && !memberCardList.noCreated" class="table table-hover">
         <tr ng-repeat="row in $data">
             <td title="'等级'">
-                {{row.MemberLevelCode}}
+                {{row.Level}}
             </td>
             <td title="'等级名'">
-                {{row.MemberLevel}}
+                {{row.Name}}
             </td>
             <td title="'折扣率'">
-                {{row.MemberDiscount}}
+                {{row.discount[0]}}
             </td>
             <td title="'赚分倍率'">
-                {{row.MemberEarning}}
+                {{row.Bouns[0]}}
             </td>
             <td title="'其他权益'">
-                {{row.MemberOtherInterests}}
+                {{row.RightsInfo}}
             </td>
             <td title="'升级策略'">
-                {{row.MemberUpgradeStrategy}}
+                {{row.UpgradeStrategy[0].info}}
             </td>
             <td title="'操作'">
                 <a ng-click="memberCardList.editMemberCard()">设置</a>
@@ -34,6 +36,4 @@
     </table>
     <div ng-show="memberCardList.loading">loading...</div>
     <div ng-show="memberCardList.noData">查无数据</div>
-    
-    
 </div>

@@ -16,32 +16,32 @@
                 <!--等级级别-->
                 <div class="form-group">
                     <label>等级级别</label>
-                    <input required placeholder="（必填，数字越大等级越高）" type="number" min="0" class="form-control" step="0" />
+                    <input required placeholder="（必填，数字越大等级越高）" type="number" class="form-control" min="0" step="0" ng-model="addLevel.t"/>
                 </div>
                 <!--名称-->
                 <div class="form-group">
                     <label>名称</label>
-                    <input required placeholder="（必填）" type="text" class="form-control" />
+                    <input required placeholder="（必填）" type="text" class="form-control" ng-model="addLevel.t"/>
                 </div>
                 <!--客房预订折扣-->
                 <div class="form-group">
                     <label>客房预订折扣</label>
-                    <input required placeholder="（必填）" type="number" class="form-control" min="0" step="0.01" />
+                    <input required placeholder="（必填）" type="number" class="form-control" min="0" step="1" ng-model="addLevel.t"/>
                 </div>
                 <!--客房预订赚分倍率-->
                 <div class="form-group">
                     <label>客房预订赚积分倍率</label>
-                    <input required placeholder="（必填）" type="number" class="form-control" min="0" step="0" />
+                    <input required placeholder="（必填）" type="number" class="form-control" min="0" step=".1" ng-model="addLevel.t"/>
                 </div>
                 <!--其他权益-->
                 <div class="form-group">
                     <label>其他权益</label>
-                    <input type="text" class="form-control" />
+                    <textarea class="form-control" ng-model="addLevel.t"></textarea>
                 </div>
                 <!--积分升级条件-->
                 <div class="form-group">
                     <label>积分升级条件</label>
-                    <input required placeholder="（必填）" type="number" class="form-control" min="1" step="0" />
+                    <input required placeholder="（必填）" type="number" class="form-control" min="1" step="0" ng-model="addLevel.t"/>
                 </div>
             </div>
             <div class="modal-footer">
