@@ -52,15 +52,24 @@
                     </div>
                 </div>
                 <!--/商品图-->
-                <!-- 单价 -->
+                <!-- 单价or积分 -->
                 <div class="form-group">
-                    <label>单价</label>
-                    <input ng-model="goodsAdd.price" required placeholder="（必填）" type="number" min="0" class="form-control" step="0.01" />
+                    <label>商品类型</label><br>
+                    <input type="radio" ng-model="goodsAdd.paytype" name="paytype" value="price" /> 单价 
+                    <input type="radio" ng-model="goodsAdd.paytype" name="paytype" value="score" /> 积分
+                    <input ng-if="goodsAdd.paytype == 'price'" ng-model="goodsAdd.price" placeholder="请输入价格" type="number" min="0" class="form-control" step="0.01" />
+                    <input ng-if="goodsAdd.paytype == 'score'" ng-model="goodsAdd.score" placeholder="请输入积分" type="number" min="0" class="form-control" step="0" />
                 </div>
                 <!-- 库存 -->
                 <div class="form-group">
                     <label>库存</label>
                     <input ng-model="goodsAdd.invetory" required placeholder="（必填）" type="number" min="0" class="form-control" />
+                </div>
+                <!-- 配送方式 -->
+                <div class="form-group">
+                    <label>配送方式</label><br>
+                    <input ng-model="goodsEdit.byDelivery" type="checkbox" /> 支持快递
+                    <input ng-model="goodsEdit.bySelf" type="checkbox" /> 支持到店自取
                 </div>
                 <!-- 简介 -->
                 <ng-repeat ng-repeat="lang in goodsAdd.editLangs">

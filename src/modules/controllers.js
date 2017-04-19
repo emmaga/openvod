@@ -934,6 +934,7 @@
                     self.editLangs = util.getParams('editLangs');
                     self.name = {};
                     self.intro = {};
+                    self.paytype = 'price';
                 }
 
                 self.cancel = function () {

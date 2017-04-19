@@ -112,6 +112,9 @@
          case 'CHANGE_EXPRESS':
             flag = '更新了快递信息';
             break;
+         case 'DELIVERING':
+            flag = '发货了';
+            break;
       }
       return flag;
     }

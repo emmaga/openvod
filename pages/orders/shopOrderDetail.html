@@ -110,6 +110,8 @@
                 {{info.OperateTime}}
                 <!--状态改变者-->
                 &nbsp{{info.OperateUserName}}
+                <!--微信用户操作-->
+                {{info.OperateDetail == 'GUEST_COMPLETED' ? '微信用户操作' : ''}}
                 <br>
             </small>
             <!--操作记录-->
