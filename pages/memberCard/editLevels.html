@@ -1,8 +1,7 @@
 <div ng-controller="editLevelsController as editLevels" ng-init="editLevels.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
         <!--loading-->
-        <div ng-show="editLevels.loading">loading...</div>
-        <form name="levelsEditForm" ng-submit="levelsEditForm.$valid && editLevels.submit()">
+        <form name="levelsEditForm" ng-submit="!addLevel.noChange && editLevels.submit()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="editLevels.close()">
@@ -13,17 +12,16 @@
             </div>
             <!-- body -->
             <div class="modal-body">
-                <!--调分-->
+                <!--调级-->
                 <ul class="list-group list-group-condensed">
-                    <!--当前积分-->
+                    <!--当前等级-->
                     <li class="list-group-item">
                         当前等级
-                        <select ng-model="editLevels.form.selectedIndex" id="selectionLevel" name="selectionLevel">
-                            <option value="">微信游客</option>
-                            <option value="1">铁卡</option>
-                            <option value="2">铜卡</option>
-                            <option value="3">银卡</option>
-                            <option value="4">金卡</option>
+                        <select id="selectionLevel" name="selectionLevel" ng-model="editLevels.levelCode" ng-change="editLevels.levelChange()">
+                            <!--<option value='' selected ng-repeat="level in editLevels.data"-->
+                                    <!--ng-show="'{{level.ID}}'=='{{editLevels.row.LevelId}}'">{{level.Name}}</option>-->
+                            <option required ng-repeat="level in editLevels.data" value="" ng-value="'{{level.ID}}'=='{{editLevels.row.LevelId}}' || {{level.ID}}"
+                                    ng-selected="'{{level.ID}}'=='{{editLevels.row.LevelId}}'">{{level.Name}}</option>
                         </select>
                     </li>
                 </ul>
@@ -32,7 +30,7 @@
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="editLevels.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-                <button type="submit" class="btn btn-primary btn-sm">
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="editLevels.noChange || editLevels.saving">
                 <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->

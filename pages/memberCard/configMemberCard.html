@@ -1,33 +1,37 @@
-<div ng-controller="configMemberCardController as configMemberCard" ng-init="configMemberCard.init()" class="modal-dialog modal-sm">
+<div ng-controller="configMemberCardController as configMemberCard" ng-init="configMemberCard.init()"
+     class="modal-dialog modal-sm" xmlns="http://www.w3.org/1999/html">
     <div class="modal-content">
         <!--loading-->
-        <div ng-show="configMemberCard.loading">loading...</div>
-        <form name="levelsAddForm" ng-submit="levelsAddForm.$valid && configMemberCard.submit()">
+        <form name="configMemberCardForm" ng-submit="configMemberCardForm.$valid && configMemberCard.submit()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="configMemberCard.close()">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h5 class="modal-title">升级策略配置</h5>
+                <h5 class="modal-title">配置</h5>
             </div>
             <!-- body -->
             <div class="modal-body">
                 <!--升级策略-->
-                <div class="form-group">
-                    <label>升级策略：积分升级</label>
+                <div class="form-group" ng-repeat="row in configMemberCard.upgradeStrategy_list">
+                    <label>升级策略：<span>{{row.StrategyDesc}}</span></label>
+                    <!--<input type="radio" name="radiobutton" value="radiobutton" checked> 升级策略：积分升级-->
+                    <!--<br>-->
+                    <!--<input type="radio" name="radiobutton" value="radiobutton"> 升级策略：付费升级-->
                 </div>
                 <!--wx等级跳转地址-->
                 <div class="form-group">
                     <label>微信-会员卡-等级-地址配置</label>
-                    <input required placeholder="（必填）" type="text" class="form-control" ng-model=""/>
+                    <!--<textarea name="" ng-model="addLevel.form.RightsInfo" class="form-control"></textarea>-->
+                    <textarea required placeholder="（必填）" type="text" class="form-control" ng-model="configMemberCard.configurationLink"/></textarea>
                 </div>
             </div>
             <div class="modal-footer">
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="configMemberCard.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-                <button type="submit" class="btn btn-primary btn-sm">
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="configMemberCardForm.$invalid || configMemberCard.saving">
                 <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->

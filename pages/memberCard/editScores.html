@@ -1,7 +1,7 @@
 <div ng-controller="editScoresController as editScores" ng-init="editScores.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
         <!--loading-->
-        <div ng-show="editScores.loading">loading...</div>
+        <!--<div ng-show="editScores.loading">loading...</div>-->
         <form name="scoresEditForm" ng-submit="scoresEditForm.$valid && editScores.submit()">
             <!--header-->
             <div class="modal-header">
@@ -17,14 +17,11 @@
                 <ul class="list-group list-group-condensed">
                     <!--当前积分-->
                     <li class="list-group-item">
-                        当前
-                        <span>1000</span>分
+                        当前 <span>{{editScores.Bouns}}</span> 分
                     </li>
                     <!--增加-->
                     <li class="list-group-item">
-                        增加
-                        <input type="number" step="1" ng-model="editScores.added"/>
-                        分
+                        增加 <input required type="number" step="1" ng-model="editScores.added"/> 分
                     </li>
                       ⚠️ 如需减少积分，请输入负数
                 </ul>
@@ -33,7 +30,7 @@
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="editScores.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-                <button type="submit" class="btn btn-primary btn-sm">
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="scoresEditForm.$invalid || editScores.saving">
                 <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->

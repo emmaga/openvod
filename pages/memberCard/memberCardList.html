@@ -7,7 +7,7 @@
     <div ng-show="memberCardList.noCreated">会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
     <div ng-show="!memberCardList.noCreated">
         <a ng-click="memberCardList.addLevel()">新建等级</a>
-        <a ng-click="memberCardList.configMemberCard()">升级策略</a>
+        <a ng-click="memberCardList.configMemberCard()">配置</a>
     </div>
     <table ng-table="memberCardList.tableParams" ng-show="!memberCardList.loading && !memberCardList.noCreated" class="table table-hover">
         <tr ng-repeat="row in $data">
@@ -18,19 +18,29 @@
                 {{row.Name}}
             </td>
             <td title="'折扣率'">
-                {{row.discount[0]}}
+                <span ng-show="'{{row.discount.length}}'==0">未设置</span>
+                <span ng-repeat="discount in row.discount">
+                    <span ng-show="'{{discount.type}}'=='Room'">{{'预定'+discount.Discount}}</span>
+                    <span ng-show="'{{discount.type}}'=='Goods'">{{'商城'+discount.Discount}}</span>
+                </span>
             </td>
             <td title="'赚分倍率'">
-                {{row.Bouns[0]}}
+                <span ng-show="'{{row.Bouns.length}}'==0">未设置</span>
+                <span ng-repeat="bouns in row.Bouns">
+                    <!--{{bouns.type+':'+bouns.BounsRate}}-->
+                     <span ng-show="'{{bouns.type}}'=='Room'">{{'预定'+bouns.BounsRate}}</span>
+                     <span ng-show="'{{bouns.type}}'=='Goods'">{{'商城'+bouns.BounsRate}}</span>
+                </span>
             </td>
             <td title="'其他权益'">
+                <span ng-show="'{{row.RightsInfo}}'==''">未设置</span>
                 {{row.RightsInfo}}
             </td>
-            <td title="'升级策略'">
-                {{row.UpgradeStrategy[0].info}}
+            <td ng-repeat="upgradeStrategy in row.UpgradeStrategy" title="'积分升级'">
+                <span ng-show="'{{upgradeStrategy.require}}'!='未设置'">满</span>{{upgradeStrategy.require}}<span ng-show="('{{upgradeStrategy.require}}'!='未设置')">分</span>
             </td>
             <td title="'操作'">
-                <a ng-click="memberCardList.editMemberCard()">设置</a>
+                <a ng-click="memberCardList.editMemberCard(row)">设置</a>
             </td>
         </tr>
     </table>
