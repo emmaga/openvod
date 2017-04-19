@@ -705,6 +705,17 @@
                         }]
                     }
                 })
+
+                .state('app.tvAdmin.MovieTopic', {
+                    url: '/MovieTopic?moduleId&label',
+                    templateUrl: 'pages/tv/MovieTopic.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                 // 音乐库
                 .state('app.tvAdmin.MusicCommon', {
                     url: '/musicCommon?moduleId&label',
