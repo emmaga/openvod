@@ -58,8 +58,8 @@
                     <label>商品类型</label><br>
                     <input type="radio" ng-model="goodsAdd.paytype" name="paytype" value="price" /> 单价 
                     <input type="radio" ng-model="goodsAdd.paytype" name="paytype" value="score" /> 积分
-                    <input ng-if="goodsAdd.paytype == 'price'" ng-model="goodsAdd.price" placeholder="请输入价格" type="number" min="0" class="form-control" step="0.01" />
-                    <input ng-if="goodsAdd.paytype == 'score'" ng-model="goodsAdd.score" placeholder="请输入积分" type="number" min="0" class="form-control" step="0" />
+                    <input ng-show="goodsAdd.paytype == 'price'" ng-model="goodsAdd.price" placeholder="请输入价格" type="number" min="0" class="form-control" step="0.01" />
+                    <input ng-show="goodsAdd.paytype == 'score'" ng-model="goodsAdd.score" placeholder="请输入积分" type="number" min="0" class="form-control" step="0" />
                 </div>
                 <!-- 库存 -->
                 <div class="form-group">

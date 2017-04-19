@@ -31,10 +31,17 @@
                 </div>
                 <ul class="list-group">
                     <!-- 内容：价格 -->
-                    <li class="list-group-item">
+                    <li ng-if="product.price.money.Enable" class="list-group-item">
                         价格
                         <span class="pull-right">
-                            ￥{{product.price/100}}
+                            ￥{{product.price.money.price/100}}
+                        </span>
+                    </li>
+                    <!-- 内容：积分 -->
+                    <li ng-if="product.price.point.Enable" class="list-group-item">
+                        积分
+                        <span class="pull-right">
+                            积分logo {{product.price.point.point}}
                         </span>
                     </li>
                     <!-- 内容：库存 -->

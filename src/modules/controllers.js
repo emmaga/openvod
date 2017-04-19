@@ -943,6 +943,25 @@
                 }
 
                 self.addGoods = function () {
+                    // 价格设置检查
+                    if (self.paytype == 'price') {
+                        if (self.price === undefined || self.price === null) {
+                            alert('请输入价格');
+                            return;
+                        }
+                    } else if (self.paytype == 'score') {
+                        if (self.score === undefined || self.price === null) {
+                            alert('请输入积分');
+                            return;
+                        }
+                    }
+
+                    // 配送方式检查
+                    if (!self.byDelivery && !self.bySelf) {
+                        alert('请选择配送方式');
+                        return;
+                    }
+
                     // 图片不能为空
                     if (self.imgs.data.length == 0) {
                         alert('请上传图片');
@@ -963,6 +982,27 @@
                         imgSrc[i].Seq = i;
                         imgSrc[i].ImageSize = Number(l[i].fileSize);
                     }
+                    var _price = {
+                        money : {
+                            Enable : false,
+                            price : 0
+                        },
+                        point : {
+                            Enable : false,
+                            point : 0
+                        }
+                    }
+                    var _deliveryType = [];
+                    self.byDelivery && _deliveryType.push('express');
+                    self.bySelf && _deliveryType.push('bySelf');
+
+                    if (self.paytype == 'price') {
+                        _price.money.Enable = true;
+                        _price.money.price = self.price * 100;
+                    } else if (self.paytype == 'score') {
+                        _price.money.Enable = true;
+                        _price.money.point = self.score;
+                    }
                     var data = JSON.stringify({
                         "action": "addMgtProductDetail",
                         "token": util.getParams('token'),
@@ -972,7 +1012,8 @@
                             "categoryId": self.shopGoodsCategoryId,
                             "name": self.name,
                             "invetory": self.invetory,
-                            "price": self.price*100,
+                            "price": _price,
+                            "deliveryType": _deliveryType,
                             "intro": self.intro,
                             "imgSrc": imgSrc
                         }
@@ -1140,10 +1181,24 @@
                             var data = data.data.data;
                             self.name = data.product.name;
                             self.invetory = data.product.invetory - 0;
-                            self.price = (data.product.price - 0) / 100;
                             self.intro = data.product.intro;
                             self.imgs = new Imgs(data.product.imgSrc);
                             self.imgs.initImgs();
+                            var _price = data.product.price;
+                            if (_price.money.Enable) {
+                                self.paytype = 'price';
+                                self.price = (_price.money.price - 0)/100;
+                            } else if (_price.point.Enable) {
+                                self.paytype = 'score';
+                                self.score = _price.point.point - 0;
+                            }
+                            var _deliveryType = data.product.deliveryType;
+                            if(_deliveryType.indexOf('express') !== -1) {
+                                self.byDelivery = true;
+                            }
+                            if(_deliveryType.indexOf('bySelf') !== -1) {
+                                self.bySelf = true;
+                            }
                         } else {
                             alert('读取商品失败' + data.data.rescode + '，' + data.data.errInfo);
                         }
@@ -1160,6 +1215,25 @@
                 }
 
                 self.editGoods = function () {
+                    // 价格设置检查
+                    if (self.paytype == 'price') {
+                        if (self.price === undefined || self.price === null) {
+                            alert('请输入价格');
+                            return;
+                        }
+                    } else if (self.paytype == 'score') {
+                        if (self.score === undefined || self.price === null) {
+                            alert('请输入积分');
+                            return;
+                        }
+                    }
+
+                    // 配送方式检查
+                    if (!self.byDelivery && !self.bySelf) {
+                        alert('请选择配送方式');
+                        return;
+                    }
+
                     // 图片不能为空
                     if (self.imgs.data.length == 0) {
                         alert('请上传图片');
@@ -1180,6 +1254,27 @@
                         imgSrc[i].Seq = i;
                         imgSrc[i].ImageSize = Number(l[i].fileSize);
                     }
+                    var _price = {
+                        money : {
+                            Enable : false,
+                            price : 0
+                        },
+                        point : {
+                            Enable : false,
+                            point : 0
+                        }
+                    }
+                    var _deliveryType = [];
+                    self.byDelivery && _deliveryType.push('express');
+                    self.bySelf && _deliveryType.push('bySelf');
+
+                    if (self.paytype == 'price') {
+                        _price.money.Enable = true;
+                        _price.money.price = self.price * 100;
+                    } else if (self.paytype == 'score') {
+                        _price.money.Enable = true;
+                        _price.money.point = self.score;
+                    }
                     var data = JSON.stringify({
                         "action": "editMgtProductDetail",
                         "token": util.getParams('token'),
@@ -1188,7 +1283,8 @@
                             "productID": self.productId,
                             "name": self.name,
                             "invetory": self.invetory,
-                            "price": self.price*100,
+                            "price": _price,
+                            "deliveryType": _deliveryType,
                             "intro": self.intro,
                             "imgSrc": imgSrc
                         }
