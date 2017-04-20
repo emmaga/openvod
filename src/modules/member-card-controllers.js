@@ -3,8 +3,8 @@
 (function () {
     var app = angular.module('app.member-card-controllers', [])
     //会员信息管理列表
-        .controller('memberListController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'NgTableParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, NgTableParams, util) {
+        .controller('memberListController', ['$scope', '$filter', '$state', '$http', '$stateParams', 'NgTableParams', 'util',
+            function ($scope, $filter, $state, $http, $stateParams, NgTableParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -166,8 +166,8 @@
             }
         ])
         //会员卡
-        .controller('memberCardListController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'NgTableParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, NgTableParams, util) {
+        .controller('memberCardListController', ['$scope', '$filter', '$state', '$http', '$stateParams', 'NgTableParams', 'util',
+            function ($scope, $filter, $state, $http, $stateParams, NgTableParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -177,9 +177,9 @@
                 }
                 // 获取会员卡信息列表
                 self.getMemberCardInfo = function () {
-                    self.noData = false;
-                    self.noCreated = false;
-                    self.loading = true;
+                    self.noData = false;//默认有数据
+                    self.noCard = true; //默认用户未创建会员卡
+                    self.loading = true;//默认显示加载按钮
                     self.tableParams = new NgTableParams({
                         page: 1,
                         count: 15000,//会员等级信息页面后台未分页
@@ -204,20 +204,19 @@
                             }).then(function successCallback(data, status, headers, config) {
                                 console && console.dir(data);
                                 if (data.data.rescode == '200') {
-                                    console && console.dir(self.noData);
+                                    self.noCard = false;
+                                    console && console.log(data.data.data.total);
                                     if (data.data.data.total == 0) {
                                         self.noData = true;
-                                        self.noCreated = true;
                                     }
                                     $scope.app.maskParams = {"data": data.data.data.level_list};
                                     params.total(data.data.data.total);
                                     return data.data.data.level_list;
-                                } else if (data.data.rescode == '300') {
-                                    self.noCreated = true;
+                                } else if (data.data.rescode == '310') {
+
                                 } else {
                                     alert(data.data.rescode + ' ' + data.data.errInfo);
                                 }
-
                             }, function errorCallback(data, status, headers, config) {
                                 alert(response.status + ' 服务器出错');
                             }).finally(function (value) {
@@ -270,8 +269,8 @@
             }
         ])
         //会员管理
-        .controller('memberCardController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'NgTableParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, NgTableParams, util) {
+        .controller('memberCardController', ['$scope', '$filter',  '$state', '$http', '$stateParams', 'NgTableParams', 'util',
+            function ($scope, $filter, $state, $http, $stateParams, NgTableParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -282,8 +281,8 @@
         ])
 
         //调分
-        .controller('editScoresController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, util) {
+        .controller('editScoresController', ['$scope', '$filter',  '$state', '$http', '$stateParams', 'util',
+            function ($scope, $filter, $state, $http, $stateParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -328,8 +327,8 @@
             }
         ])
         //调级
-        .controller('editLevelsController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, util) {
+        .controller('editLevelsController', ['$scope', '$filter',  '$state', '$http', '$stateParams', 'util',
+            function ($scope, $filter,  $state, $http, $stateParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -383,8 +382,8 @@
             }
         ])
         // 详情
-        .controller('memberDetailController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, util) {
+        .controller('memberDetailController', ['$scope', '$filter',  '$state', '$http', '$stateParams', 'util',
+            function ($scope, $filter,  $state, $http, $stateParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -404,8 +403,8 @@
             }
         ])
         // 新建会员卡等级
-        .controller('addLevelController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, util) {
+        .controller('addLevelController', ['$scope', '$filter',  '$state', '$http', '$stateParams', 'util',
+            function ($scope, $filter,  $state, $http, $stateParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -447,8 +446,8 @@
             }
         ])
         //会员卡配置详情
-        .controller('editMemberCardController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, util) {
+        .controller('editMemberCardController', ['$scope', '$filter', '$state', '$http', '$stateParams', 'util',
+            function ($scope, $filter, $state, $http, $stateParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -574,8 +573,8 @@
             }
         ])
         // 会员卡新增/移除升级策略/微信-会员卡-等级-地址配置
-        .controller('configMemberCardController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'util',
-            function ($scope, $filter, $q, $state, $http, $stateParams, util) {
+        .controller('configMemberCardController', ['$scope', '$filter', '$state', '$http', '$stateParams', 'util',
+            function ($scope, $filter, $state, $http, $stateParams, util) {
                 var self = this;
 
                 self.init = function () {
@@ -604,6 +603,7 @@
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert("策略修改成功！");
+
                             //该同步请求依赖AJAX的请求数据，故需放在AJAX请求成功的回调函数中
                             $scope.app.showHideMask(true, 'pages/memberCard/configMemberCard.html');
                         } else {
@@ -657,6 +657,7 @@
 
                 self.close = function () {
                     $scope.app.showHideMask(false);
+                    $state.reload();
                 }
 
             }

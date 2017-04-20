@@ -4,14 +4,15 @@
     <!-- 在线状态 -->
     <h4>会员卡</h4>
     <hr>
-    <div ng-show="!memberCardList.noCreated">会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
-    <!--loading...-->
-    <div ng-show="memberCardList.loading">loading...</div>
-    <div ng-show="memberCardList.noCreated">
+
+    <div ng-show="!memberCardList.loading && memberCardList.noCard">会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
+
+    <div ng-show="!memberCardList.loading">
+        <span ng-if="memberCardList.noData">您还未创建任何等级，请点击新建等级</span>
         <a ng-click="memberCardList.addLevel()">新建等级</a>
         <a ng-click="memberCardList.configMemberCard()">配置</a>
     </div>
-    <table ng-table="memberCardList.tableParams" ng-show="!memberCardList.loading && memberCardList.noCreated" class="table table-hover">
+    <table ng-table="memberCardList.tableParams" ng-show="!memberCardList.loading && !memberCardList.noData" class="table table-hover">
         <tr ng-repeat="row in $data">
             <td title="'等级'">
                 {{row.Level}}
@@ -38,14 +39,23 @@
                 <span ng-show="'{{row.RightsInfo}}'==''">未设置</span>
                 {{row.RightsInfo}}
             </td>
-            <td ng-repeat="upgradeStrategy in row.UpgradeStrategy" title="'积分升级'">
-                <span ng-show="'{{upgradeStrategy.require}}'!='未设置'">满</span>{{upgradeStrategy.require}}<span ng-show="('{{upgradeStrategy.require}}'!='未设置')">分</span>
+            <td title="'积分升级'">
+                <span ng-repeat="upgradeStrategy in row.UpgradeStrategy">
+                    <span ng-show="upgradeStrategy">
+                        <span ng-show="'{{upgradeStrategy.require}}'!='未设置'">满</span>{{upgradeStrategy.require}}<span ng-show="('{{upgradeStrategy.require}}'!='未设置')">分</span>
+                    </span>
+                </span>
+                <span ng-show="row.UpgradeStrategy.length==0">请先配置升级策略</span>
             </td>
+            <!--<td ng-repeat="upgradeStrategy in row.UpgradeStrategy" title="'积分升级'">-->
+                <!--<span ng-show="'{{upgradeStrategy.require}}'!='未设置'">满</span>{{upgradeStrategy.require}}<span ng-show="('{{upgradeStrategy.require}}'!='未设置')">分</span>-->
+            <!--</td>-->
             <td title="'操作'">
                 <a ng-click="memberCardList.editMemberCard(row)">设置</a>
             </td>
         </tr>
     </table>
-
+    <!--loading...-->
+    <div ng-show="memberCardList.loading">loading...</div>
     <div ng-show="memberCardList.noData">查无数据</div>
 </div>
