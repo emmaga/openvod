@@ -9,8 +9,12 @@
 
     <div ng-show="!memberCardList.loading">
         <span ng-if="memberCardList.noData">您还未创建任何等级，请点击新建等级</span>
-        <a ng-click="memberCardList.addLevel()">新建等级</a>
-        <a ng-click="memberCardList.configMemberCard()">配置</a>
+        <a ng-click="memberCardList.addLevel()" class="button button-light">
+            <i class="icon ion-ios-plus-outline"></i> 新建等级
+        </a>
+        <a ng-click="memberCardList.configMemberCard()" class="button button-light">
+            <i class="icon ion-ios-compose-outline"></i> 升级配置
+        </a>
     </div>
     <table ng-table="memberCardList.tableParams" ng-show="!memberCardList.loading && !memberCardList.noData" class="table table-hover">
         <tr ng-repeat="row in $data">
@@ -35,7 +39,7 @@
                      <span ng-show="'{{bouns.type}}'=='Goods'">{{'商城'+bouns.BounsRate}}</span>
                 </span>
             </td>
-            <td title="'其他权益'">
+            <td title="'其他权益'" style="max-width: 13em; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                 <span ng-show="'{{row.RightsInfo}}'==''">未设置</span>
                 {{row.RightsInfo}}
             </td>
