@@ -110,13 +110,8 @@
                 }
 
                 self.editLevels = function (row) {
-                    // $scope.app.maskParams = {"row": row};
-                    // console && console.dir($scope.app.maskParams.row);
                     // 获取会员卡信息列表
                     self.getMemberCardInfo = function () {
-                        // self.noData = false;
-                        // self.noCreated = false;
-                        // self.loading = true;
                         self.tableParams = new NgTableParams({
                             page: 1,
                             count: 15000,//会员等级信息页面后台未分页
@@ -157,7 +152,6 @@
                                 }, function errorCallback(data, status, headers, config) {
                                     alert(response.status + ' 服务器出错');
                                 }).finally(function (value) {
-                                    // self.loading = false;
                                 })
                             }
                         });
@@ -294,10 +288,11 @@
                 self.init = function () {
                     self.OpenId =$scope.app.maskParams.data.OpenId;
                     self.Bouns =$scope.app.maskParams.data.Bouns;
+                    self.loading=false;
                 }
-                // self.editScore=function(){}
                 self.submit = function () {
                     self.saving = true;
+                    self.loading=true;
                     // 减少/增加积分
                     var data = JSON.stringify({
                         "action": "user_modify_bouns",
@@ -311,6 +306,7 @@
                         url: util.getApiUrl('usercard', '', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
+                        self.loading=false;
                         if (data.data.rescode == "200") {
                             alert('积分调整成功');
                             $state.reload();
@@ -336,33 +332,20 @@
                 var self = this;
 
                 self.init = function () {
+                    self.loading=false;
                     self.data=$scope.app.maskParams.data;
                     self.row=$scope.app.maskParams.row;
-                    self.noChange=true;
-                    // self.currentLevel=function(){
-                    //     for(var i=0;i<self.data.length;i++){
-                    //         if(self.data[i].ID=self.row.LevelId){//当前等级
-                    //             self.flag=self.row.Level;
-                    //         }
-                    //     }
-                    //     return self.flag;
-                    // }
-                    // self.currentLevel();
 
                     self.levelCode=self.row.LevelId;
-                    console && console.dir(self.levelCode);
-                }
-
-                self.levelChange=function(){
-                    self.noChange=false;
-                    console && console.dir(self.data);
-                    console && console.dir(self.row);
-                    console && console.dir(self.levelCode);
+                    // console && console.dir(self.data);
+                    // console && console.dir(self.row);
+                    // console && console.dir(self.levelCode);
                 }
 
                 self.submit = function () {
                     // 调级
-                    self.saving = true;
+                    // self.saving = true;
+                    self.loading=true;
                     var data = JSON.stringify({
                         "action": "user_modify_level",
                         "token": util.getParams("token"),
@@ -370,11 +353,14 @@
                         "open_id": self.row.OpenId,
                         "level_id": self.levelCode
                     });
+                    // alert('等级调整中，请稍候...');
                     $http({
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('usercard', '', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
+                        // console && console.dir(data);
+                        self.loading=false;
                         if (data.data.rescode == "200") {
                             alert('等级调整成功');
                             $state.reload();
@@ -384,14 +370,14 @@
                     }, function errorCallback(data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
-                        self.saving = false;
+                        // self.saving = false;
                     });
                 }
 
                 self.close = function () {
                     $scope.app.showHideMask(false);
                     $state.reload();
-                }
+            }
 
             }
         ])
@@ -467,12 +453,12 @@
                 self.init = function () {
                     self.langStyle = util.langStyle();
                     self.levelCard = $scope.app.maskParams.row;
-                    // self.isEditDiscount=false;  //是否被修改过，默认为false
-                    // self.isEditBouns=false;     //是否被修改过，默认为false
                     self.roomDiscount = self.initDiscount(self.levelCard);
                     self.roomBounsRate = self.initBouns(self.levelCard);
                     self.accumulationUpgrade = self.initUpgrade(self.levelCard);
                     console && console.dir(self.levelCard);
+                    console && console.dir(self.levelCard.ID);
+                    console && console.dir(self.levelCard.Level);
                 }
                 //初始化预订折扣数据
                 self.initDiscount = function (levelCard) {
@@ -486,7 +472,6 @@
                 };
                 //修改预订折扣数据
                 self.editDiscount = function (levelCard) {
-                    // console && console.dir((self.roomDiscount).toFixed(2));
                     levelCard.discount = [{"name": "Room", "value": Number(self.roomDiscount)}];
                     // console && console.dir(self.isEditDiscount);
                     // if(levelCard.discount.length == 0){
@@ -556,7 +541,7 @@
                         "token": util.getParams("token"),
                         "lang": self.langStyle,
                         "LevelID": self.levelCard.ID,
-                        "Level": self.levelCard.level,
+                        "Level": self.levelCard.Level,
                         "Name": self.levelCard.Name,
                         "RightsInfo": self.levelCard.RightsInfo,
                         "Discount": self.levelCard.discount,
@@ -587,16 +572,48 @@
 
             }
         ])
-        //微信-会员卡-等级-地址配置
+        // 会员卡新增/移除升级策略/微信-会员卡-等级-地址配置
         .controller('configMemberCardController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'util',
             function ($scope, $filter, $q, $state, $http, $stateParams, util) {
                 var self = this;
 
                 self.init = function () {
+                    self.loading=false;
                     self.langStyle = util.langStyle();
                     self.upgradeStrategy_list=$scope.app.maskParams.data;
                     // console && console.dir(self.upgradeStrategy_list);
+                    self.isSelected=true;
+                    // console && console.log(self.isSelected);
                 }
+
+                //当升级策略被修改时发起请求
+                self.upgradeStrategyChange=function(row){
+                    console && console.dir(row);
+                    var data = JSON.stringify({
+                        "action": "card_upgradeStrategy_modify",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "UpgradeStrategyID": parseInt(row.ID),
+                        "is_selected": self.isSelected
+                    });
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('membercard', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert("策略修改成功！");
+                            //该同步请求依赖AJAX的请求数据，故需放在AJAX请求成功的回调函数中
+                            $scope.app.showHideMask(true, 'pages/memberCard/configMemberCard.html');
+                        } else {
+                            alert( data.data.rescode + '，' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                    });
+                }
+
 
                 self.submit = function () {
                     var list={
@@ -608,20 +625,22 @@
                         'mileage': 'FIELD_NAME_TYPE_MILEAGE'        //'里程'
                     }
                     self.saving = true;
-                    // 会员卡新增/移除升级策略
+                    self.loading= true;
                     var data = JSON.stringify({
                         "action": "binding_custom_menu",
                         "token": util.getParams("token"),
                         "lang": self.langStyle,
                         "ID": 1,
                         "Name": list.grade,
-                        "Vaule": self.configurationLink
+                        "Value": self.configurationLink
                     });
+                    // alert('配置中，请稍候...');
                     $http({
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('membercard', '', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
+                        self.loading=false;
                         if (data.data.rescode == "200") {
                             alert('配置成功');
                             $state.reload();

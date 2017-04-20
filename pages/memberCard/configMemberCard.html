@@ -15,17 +15,18 @@
             <div class="modal-body">
                 <!--升级策略-->
                 <div class="form-group" ng-repeat="row in configMemberCard.upgradeStrategy_list">
-                    <label>升级策略：<span>{{row.StrategyDesc}}</span></label>
-                    <!--<input type="radio" name="radiobutton" value="radiobutton" checked> 升级策略：积分升级-->
-                    <!--<br>-->
-                    <!--<input type="radio" name="radiobutton" value="radiobutton"> 升级策略：付费升级-->
+                    <label>升级策略{{row.ID}}：
+                        <input ng-checked="row.is_selected" type="checkbox"  ng-model="configMemberCard.isSelected"
+                                                 ng-click="configMemberCard.upgradeStrategyChange(row)"/>{{row.StrategyDesc}}</label>
                 </div>
                 <!--wx等级跳转地址-->
                 <div class="form-group">
                     <label>微信-会员卡-等级-地址配置</label>
-                    <!--<textarea name="" ng-model="addLevel.form.RightsInfo" class="form-control"></textarea>-->
-                    <textarea required placeholder="（必填）" type="text" class="form-control" ng-model="configMemberCard.configurationLink"/></textarea>
+                    <textarea required placeholder="（必填）" type="text" class="form-control"
+                              ng-model="configMemberCard.configurationLink"/></textarea>
                 </div>
+                <!--loading-->
+                <div ng-show="configMemberCard.loading">配置调整中，请稍候...</div>
             </div>
             <div class="modal-footer">
                 <!-- 取消 -->

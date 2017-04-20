@@ -1,7 +1,6 @@
 <div ng-controller="editScoresController as editScores" ng-init="editScores.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
-        <!--loading-->
-        <!--<div ng-show="editScores.loading">loading...</div>-->
+
         <form name="scoresEditForm" ng-submit="scoresEditForm.$valid && editScores.submit()">
             <!--header-->
             <div class="modal-header">
@@ -25,6 +24,8 @@
                     </li>
                       ⚠️ 如需减少积分，请输入负数
                 </ul>
+                <!--loading-->
+                <div ng-show="editScores.loading">积分调整中，请稍候...</div>
             </div>
             <div class="modal-footer">
                 <!-- 取消 -->

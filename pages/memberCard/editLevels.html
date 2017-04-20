@@ -1,7 +1,7 @@
 <div ng-controller="editLevelsController as editLevels" ng-init="editLevels.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
         <!--loading-->
-        <form name="levelsEditForm" ng-submit="!addLevel.noChange && editLevels.submit()">
+        <form name="levelsEditForm" ng-submit="editLevels.submit()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="editLevels.close()">
@@ -17,20 +17,19 @@
                     <!--当前等级-->
                     <li class="list-group-item">
                         当前等级
-                        <select id="selectionLevel" name="selectionLevel" ng-model="editLevels.levelCode" ng-change="editLevels.levelChange()">
-                            <!--<option value='' selected ng-repeat="level in editLevels.data"-->
-                                    <!--ng-show="'{{level.ID}}'=='{{editLevels.row.LevelId}}'">{{level.Name}}</option>-->
-                            <option required ng-repeat="level in editLevels.data" value="" ng-value="'{{level.ID}}'=='{{editLevels.row.LevelId}}' || {{level.ID}}"
-                                    ng-selected="'{{level.ID}}'=='{{editLevels.row.LevelId}}'">{{level.Name}}</option>
+                        <select ng-model="editLevels.levelCode">
+                            <option ng-repeat="level in editLevels.data" ng-value="level.ID">{{level.Name}}</option>
                         </select>
                     </li>
                 </ul>
+                <!--loading-->
+                <div ng-show="editLevels.loading">等级调整中，请稍候...</div>
             </div>
             <div class="modal-footer">
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="editLevels.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="editLevels.noChange || editLevels.saving">
+                <button type="submit" class="btn btn-primary btn-sm">
                 <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->
