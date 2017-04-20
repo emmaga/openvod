@@ -204,14 +204,15 @@
                             }).then(function successCallback(data, status, headers, config) {
                                 console && console.dir(data);
                                 if (data.data.rescode == '200') {
-                                    self.noCreated = false;
+                                    console && console.dir(self.noData);
                                     if (data.data.data.total == 0) {
                                         self.noData = true;
+                                        self.noCreated = true;
                                     }
                                     $scope.app.maskParams = {"data": data.data.data.level_list};
                                     params.total(data.data.data.total);
                                     return data.data.data.level_list;
-                                } else if (data.data.rescode == '301') {
+                                } else if (data.data.rescode == '300') {
                                     self.noCreated = true;
                                 } else {
                                     alert(data.data.rescode + ' ' + data.data.errInfo);

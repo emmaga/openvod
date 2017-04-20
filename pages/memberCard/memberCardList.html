@@ -4,12 +4,14 @@
     <!-- 在线状态 -->
     <h4>会员卡</h4>
     <hr>
-    <div ng-show="memberCardList.noCreated">会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
-    <div ng-show="!memberCardList.noCreated">
+    <div ng-show="!memberCardList.noCreated">会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
+    <!--loading...-->
+    <div ng-show="memberCardList.loading">loading...</div>
+    <div ng-show="memberCardList.noCreated">
         <a ng-click="memberCardList.addLevel()">新建等级</a>
         <a ng-click="memberCardList.configMemberCard()">配置</a>
     </div>
-    <table ng-table="memberCardList.tableParams" ng-show="!memberCardList.loading && !memberCardList.noCreated" class="table table-hover">
+    <table ng-table="memberCardList.tableParams" ng-show="!memberCardList.loading && memberCardList.noCreated" class="table table-hover">
         <tr ng-repeat="row in $data">
             <td title="'等级'">
                 {{row.Level}}
@@ -44,6 +46,6 @@
             </td>
         </tr>
     </table>
-    <div ng-show="memberCardList.loading">loading...</div>
+
     <div ng-show="memberCardList.noData">查无数据</div>
 </div>
