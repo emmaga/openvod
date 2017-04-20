@@ -23,7 +23,8 @@
                 <div class="form-group">
                     <label>微信-会员卡-等级-地址配置</label>
                     <textarea required placeholder="（必填）" type="text" class="form-control"
-                              ng-model="configMemberCard.configurationLink"/></textarea>
+                              ng-model="configMemberCard.configurationLink" maxlength="512" ng-value="configMemberCard.value"/>
+                    </textarea>
                 </div>
                 <!--loading-->
                 <div ng-show="configMemberCard.loading">配置调整中，请稍候...</div>

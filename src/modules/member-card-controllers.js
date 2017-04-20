@@ -255,9 +255,38 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
-                            $scope.app.maskParams = {"data":data.data.data};
-                            //该同步请求依赖AJAX的请求数据，故需放在AJAX请求成功的回调函数中
-                            $scope.app.showHideMask(true, 'pages/memberCard/configMemberCard.html');
+                            // 获取会员卡自定义菜单
+                            self.get_custom_menu=function(custom){
+                                $scope.app.maskParams = {"data":custom};
+                                for(var i=0;i<custom.length;i++){
+                                    if(custom[i].StrategyName=='JIFEN'){
+                                        var data = JSON.stringify({
+                                            "action": "get_custom_menu",
+                                            "token": util.getParams("token"),
+                                            "lang": self.langStyle,
+                                            "ID": custom[i].ID
+                                        });
+                                        $http({
+                                            method: 'POST',
+                                            url: util.getApiUrl('membercard', '', 'server'),
+                                            data: data
+                                        }).then(function successCallback(data, status, headers, config) {
+                                            if (data.data.rescode == "200") {
+                                                console && console.dir(data.data.data);
+                                                $scope.app.maskParams = {"data":custom,"value":data.data.data.Value};
+                                                //该同步请求依赖AJAX的请求数据，故需放在AJAX请求成功的回调函数中
+                                                $scope.app.showHideMask(true, 'pages/memberCard/configMemberCard.html');
+                                            } else {
+                                                // alert( data.data.rescode + '，' + data.data.errInfo);
+                                            }
+                                        }, function errorCallback(data, status, headers, config) {
+                                            alert('连接服务器出错');
+                                        }).finally(function (value) {
+                                        });
+                                    }
+                                }
+                            }
+                            self.get_custom_menu(data.data.data);
                         } else {
                             alert( data.data.rescode + '，' + data.data.errInfo);
                         }
@@ -568,8 +597,8 @@
 
                 self.close = function () {
                     $scope.app.showHideMask(false);
+                    $state.reload();
                 }
-
             }
         ])
         // 会员卡新增/移除升级策略/微信-会员卡-等级-地址配置
@@ -581,9 +610,9 @@
                     self.loading=false;
                     self.langStyle = util.langStyle();
                     self.upgradeStrategy_list=$scope.app.maskParams.data;
-                    // console && console.dir(self.upgradeStrategy_list);
                     self.isSelected=true;
-                    // console && console.log(self.isSelected);
+                    self.value=$scope.app.maskParams.value;
+                    console && console.log($scope.app.maskParams.value);
                 }
 
                 //当升级策略被修改时发起请求
