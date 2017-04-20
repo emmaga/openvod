@@ -945,12 +945,12 @@
                 self.addGoods = function () {
                     // 价格设置检查
                     if (self.paytype == 'price') {
-                        if (self.price === undefined || self.price === null) {
+                        if (self.price == null) {
                             alert('请输入价格');
                             return;
                         }
                     } else if (self.paytype == 'score') {
-                        if (self.score === undefined || self.price === null) {
+                        if (self.score == null) {
                             alert('请输入积分');
                             return;
                         }
@@ -1018,6 +1018,7 @@
                             "imgSrc": imgSrc
                         }
                     });
+                    console.dir(data);
 
                     self.saving = true;
                     $http({
