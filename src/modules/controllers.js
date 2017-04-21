@@ -1000,8 +1000,8 @@
                         _price.money.Enable = true;
                         _price.money.price = self.price * 100;
                     } else if (self.paytype == 'score') {
-                        _price.money.Enable = true;
-                        _price.money.point = self.score;
+                        _price.point.Enable = true;
+                        _price.point.point = self.score;
                     }
                     var data = JSON.stringify({
                         "action": "addMgtProductDetail",
@@ -1273,8 +1273,8 @@
                         _price.money.Enable = true;
                         _price.money.price = self.price * 100;
                     } else if (self.paytype == 'score') {
-                        _price.money.Enable = true;
-                        _price.money.point = self.score;
+                        _price.point.Enable = true;
+                        _price.point.point = self.score;
                     }
                     var data = JSON.stringify({
                         "action": "editMgtProductDetail",
@@ -1773,36 +1773,36 @@
                 self.getProductList = function (ShopGoodsCategoryID) {
 
               
-                            var data = {
-                                "action": "getMgtShopProductList",
-                                "token": util.getParams("token"),
-                                "lang": self.langStyle,
-                                "ShopID": self.stateParams.ShopID - 0,
-                                "count": 1000,
-                                "page":1
-                            }
+                    var data = {
+                        "action": "getMgtShopProductList",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "ShopID": self.stateParams.ShopID - 0,
+                        "count": 100000,
+                        "page":1
+                    }
 
-                            if (!(ShopGoodsCategoryID == "all")) {
-                                data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
-                                data.action = "getMgtProductList";
-                            }
-                            
-                            data = JSON.stringify(data);
+                    if (!(ShopGoodsCategoryID == "all")) {
+                        data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
+                        data.action = "getMgtProductList";
+                    }
+                    
+                    data = JSON.stringify(data);
 
 
-                            $http({
-                                method: $filter('ajaxMethod')(),
-                                url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                                data: data
-                            }).then(function successCallback(data, status, headers, config) {
-                                // params.total(data.data.data.productTotal);
-                                var data = data.data.data.productList;
-                                self.goodsList  = data;
-                                // return data;
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        // params.total(data.data.data.productTotal);
+                        var data = data.data.data.productList;
+                        self.goodsList  = data;
+                        // return data;
 
-                            }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback(data, status, headers, config) {
 
-                            })
+                    })
 
          
 

@@ -68,7 +68,8 @@
                 <!--/订单状态-->
                 <!--订单总价-->
                 <td title="'订单总价'">
-                    {{row.TotalGoodsPrice | fenToYuan}}
+                    <ng-if ng-if="row.PayBy.indexOf('money') !== -1">{{row.TotalGoodsPrice | fenToYuan}}元 </ng-if>
+                    <ng-if ng-if="row.PayBy.indexOf('point') !== -1">{{row.TotalGoodsPoint}}积分</ng-if>
                 </td>
                 <!--/订单总价-->
                 <!--商品总数-->
