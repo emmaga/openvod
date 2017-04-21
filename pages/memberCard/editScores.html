@@ -16,13 +16,17 @@
                 <ul class="list-group list-group-condensed">
                     <!--当前积分-->
                     <li class="list-group-item">
-                        当前 <span>{{editScores.Bouns}}</span> 分
+                        <span>当前积分</span>
+                            <h3 style=" margin: 0">{{editScores.Bouns}}分</h3>
                     </li>
                     <!--增加-->
                     <li class="list-group-item">
-                        增加 <input required type="number" step="1" ng-model="editScores.added"/> 分
+                        <div class="form-group">
+                            <label>调整积分</label>
+                            <small class="theme-color">如需减少积分，请输入负数</small>
+                            <input required type="number" step="1" class="form-control" ng-model="editScores.added" placeholder="请输入增加的积分" />
+                        </div>
                     </li>
-                      ⚠️ 如需减少积分，请输入负数
                 </ul>
                 <!--loading-->
                 <div ng-show="editScores.loading">积分调整中，请稍候...</div>
