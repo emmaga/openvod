@@ -38,7 +38,7 @@
                                 url: util.getApiUrl('usercard', '', 'server'),
                                 data: data
                             }).then(function successCallback(data, status, headers, config) {
-                                console && console.dir(data);
+                                // console && console.dir(data);
                                 if (data.data.rescode == '200') {
                                     if (data.data.total == 0) {
                                         self.noData = true;
@@ -48,41 +48,50 @@
                                     for (var i = 0; i < data.data.data.length; i++) {
                                         // console && console.log(i,data.data.data[i].ExtendInfo);
                                         if (data.data.data[i].ExtendInfo) {
-                                            var extendInfo = JSON.parse(data.data.data[i].ExtendInfo);
-                                            // console && console.dir(extendInfo);
-                                            for (var j = 0, msg = ''; j < extendInfo.length; j++) {
-                                                // console && console.dir(extendInfo[i]);
-                                                var list = {
-                                                    'USER_FORM_INFO_FLAG_MOBILE': '手机号',
-                                                    'USER_FORM_INFO_FLAG_NAME': '姓名',
-                                                    'USER_FORM_INFO_FLAG_BIRTHDAY': '生日',
-                                                    'USER_FORM_INFO_FLAG_IDCARD': '身份证',
-                                                    'USER_FORM_INFO_FLAG_EMAIL': '邮箱',
-                                                    'USER_FORM_INFO_FLAG_DETAIL_LOCATION': '详细地址',
-                                                    'USER_FORM_INFO_FLAG_EDUCATION_BACKGROUND': '教育背景',
-                                                    'USER_FORM_INFO_FLAG_CAREER': '职业',
-                                                    'USER_FORM_INFO_FLAG_INDUSTRY': '行业',
-                                                    'USER_FORM_INFO_FLAG_INCOME': '收入',
-                                                    'USER_FORM_INFO_FLAG_HABIT': '兴趣爱好'
-                                                };
-                                                // console && console.dir(list[extendInfo[i].name]);
-                                                msg += list[extendInfo[j].name];
-                                                msg += ':';
-                                                if (extendInfo[j].value_list.length == 0) {
-                                                    msg += extendInfo[j].value;
-                                                } else {
-                                                    for (var k = 0; k < extendInfo[j].value_list.length; k++) {
-                                                        msg += extendInfo[j].value_list[k];
-                                                        if (k < len - 1) {
-                                                            msg += '、';
-                                                        }
-                                                    }
-                                                }
-                                                msg += ';';
-                                                data.data.data[i].extend = msg;
-                                            }
+                                            data.data.data[i].extend = JSON.parse(data.data.data[i].ExtendInfo);
+                                            // console && console.dir(data.data.data[i].extend);
                                         }
                                     }
+                                    $scope.app.maskParams = {"data":data.data.data};
+
+                                    // for (var i = 0; i < data.data.data.length; i++) {
+                                    //     // console && console.log(i,data.data.data[i].ExtendInfo);
+                                    //     if (data.data.data[i].ExtendInfo) {
+                                    //         var extendInfo = JSON.parse(data.data.data[i].ExtendInfo);
+                                    //         // console && console.dir(extendInfo);
+                                    //         for (var j = 0, msg = ''; j < extendInfo.length; j++) {
+                                    //             // console && console.dir(extendInfo[i]);
+                                    //             var list = {
+                                    //                 'USER_FORM_INFO_FLAG_MOBILE': '手机号',
+                                    //                 'USER_FORM_INFO_FLAG_NAME': '姓名',
+                                    //                 'USER_FORM_INFO_FLAG_BIRTHDAY': '生日',
+                                    //                 'USER_FORM_INFO_FLAG_IDCARD': '身份证',
+                                    //                 'USER_FORM_INFO_FLAG_EMAIL': '邮箱',
+                                    //                 'USER_FORM_INFO_FLAG_DETAIL_LOCATION': '详细地址',
+                                    //                 'USER_FORM_INFO_FLAG_EDUCATION_BACKGROUND': '教育背景',
+                                    //                 'USER_FORM_INFO_FLAG_CAREER': '职业',
+                                    //                 'USER_FORM_INFO_FLAG_INDUSTRY': '行业',
+                                    //                 'USER_FORM_INFO_FLAG_INCOME': '收入',
+                                    //                 'USER_FORM_INFO_FLAG_HABIT': '兴趣爱好'
+                                    //             };
+                                    //             // console && console.dir(list[extendInfo[i].name]);
+                                    //             msg += list[extendInfo[j].name];
+                                    //             msg += ':';
+                                    //             if (extendInfo[j].value_list.length == 0) {
+                                    //                 msg += extendInfo[j].value;
+                                    //             } else {
+                                    //                 for (var k = 0; k < extendInfo[j].value_list.length; k++) {
+                                    //                     msg += extendInfo[j].value_list[k];
+                                    //                     if (k < len - 1) {
+                                    //                         msg += '、';
+                                    //                     }
+                                    //                 }
+                                    //             }
+                                    //             msg += ';';
+                                    //             data.data.data[i].extend = msg;
+                                    //         }
+                                    //     }
+                                    // }
                                     // $scope.app.maskParams = {"data":data.data.data};
                                     return data.data.data;
                                 }
@@ -418,7 +427,8 @@
                 self.init = function () {
                     console && console.log($scope.app.maskParams.data);
                     self.data=$scope.app.maskParams.data;
-
+                    self.extend=JSON.parse(self.data.ExtendInfo);
+                    console && console.log(self.extend);
                 }
 
                 self.submit = function () {
