@@ -428,6 +428,12 @@
                     console && console.log($scope.app.maskParams.data);
                     self.data=$scope.app.maskParams.data;
                     self.extend=JSON.parse(self.data.ExtendInfo);
+                    //测试...
+                    // self.extend=[
+                    //     { name:"USER_FORM_INFO_FLAG_MOBILE",value:"18516272529",value_list:[]},
+                    //     { name:"USER_FORM_INFO_FLAG_HABIT",value:"",value_list:["篮球","音乐","登山"]}
+                    //     ];
+                    //...数据
                     console && console.log(self.extend);
                 }
 

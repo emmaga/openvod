@@ -35,12 +35,15 @@
                     <span>状态</span>
                     <span class="pull-right">{{val}}</span>
                 </li>
-                <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='extend' && '{{val}}'">
+                <li class="list-group-item" ng-show="memberDetail.extend.length!=0">
                     <span>其他激活选填字段</span>
                     <span ng-repeat="extend in memberDetail.extend">
-                        <span>{{extend.name | user_info}}</span>
-                        <span ng-show="extend.value_list.length==0">{{extend.value}}</span>
-                        <span ng-show="extend.value_list.length!=0">{{extend.value_list}}</span>
+                        <!--<span>{{extend.name | user_info}}</span>-->
+                        <!--<span ng-show="extend.value_list.length==0">{{extend.value}}</span>-->
+                        <!--<span ng-show="extend.value_list.length!=0" ng-repeat="item in extend.value_list">{{item}}</span>-->
+                        <span ng-show="extend.name | user_info">{{extend.name | user_info}}</span>
+                        <span ng-show="extend.value_list.length==0 && (extend.name | user_info)">{{extend.value}}</span>
+                        <span ng-show="extend.value_list.length!=0 && (extend.name | user_info)" ng-repeat="item in extend.value_list">{{item}}</span>
                     </span>
                 </li>
             </ul>
