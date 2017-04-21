@@ -40,8 +40,8 @@
                 <ng-repeat class="list-group-condensed"  ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='extend' && '{{val}}'">
                     <li class="list-group-item" ng-repeat="extend in memberDetail.extend">
                         <span>{{extend.name | user_info}}</span>
-                        <span  class="pull-right" ng-show="extend.value_list.length==0">{{extend.value}}</span>
-                        <span  class="pull-right" ng-show="extend.value_list.length!=0">{{extend.value_list}}</span>
+                        <span  class="pull-right"  ng-show="extend.value_list.length==0 && (extend.name | user_info)">{{extend.value}}</span>
+                        <span  class="pull-right"  ng-show="extend.value_list.length!=0 && (extend.name | user_info)" ng-repeat="item in extend.value_list">{{item}}</span>
                     </li>
                 </ng-repeat>
             </ul>
