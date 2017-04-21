@@ -397,9 +397,15 @@
                     self.changeMenuInfo();
                 }
 
-                // movieCommon 专题大片
+                // movieTopic 专题大片
                 if(branch.data.type == 'MovieTopic') {
                     $state.go('app.tvAdmin.MovieTopic', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // movieLocal 项目本地电影
+                if(branch.data.type == 'MovieLocal') {
+                    $state.go('app.tvAdmin.MovieLocal', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
 
@@ -18193,7 +18199,7 @@
 
         }
     ])
-
+    // 专题大片
     .controller('tvMovieTopicController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
             var self = this;
@@ -18273,7 +18279,87 @@
         }
     ])
 
-        .controller('tvMenuAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+    // 项目本地电影
+    .controller('tvMovieLocalController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+        function ($scope, $state, $http, $stateParams, $location, util) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                self.getInfo();
+            }
+
+            self.getInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getAPIInfo",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                });
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.MovieContentAPIParam = data.data.MovieContentAPIParam;
+                        self.MovieContentAPIURL = data.data.MovieContentAPIURL;
+                        self.PackageFee = data.data.PackageFee;
+                        self.FeeDiscount = data.data.FeeDiscount;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载电影信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "updateAPIInfo",
+                    "viewID": self.viewId-0,
+                    "data": {
+                        "MovieContentAPIParam": self.MovieContentAPIParam,
+                        "MovieContentAPIURL": self.MovieContentAPIURL,
+                        "PackageFee": self.PackageFee,
+                        "FeeDiscount": self.FeeDiscount
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+            }
+
+        }
+    ])
+
+    .controller('tvMenuAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
             var self = this;
 
