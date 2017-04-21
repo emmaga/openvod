@@ -317,7 +317,6 @@
 
             }
         ])
-
         //调分
         .controller('editScoresController', ['$scope', '$filter',  '$state', '$http', '$stateParams', 'util',
             function ($scope, $filter, $state, $http, $stateParams, util) {
@@ -425,7 +424,7 @@
                 var self = this;
 
                 self.init = function () {
-                    console && console.log($scope.app.maskParams.data);
+                    // console && console.log($scope.app.maskParams.data);
                     self.data=$scope.app.maskParams.data;
                     self.extend=JSON.parse(self.data.ExtendInfo);
                     //测试...
@@ -434,7 +433,7 @@
                     //     { name:"USER_FORM_INFO_FLAG_HABIT",value:"",value_list:["篮球","音乐","登山"]}
                     //     ];
                     //...数据
-                    console && console.log(self.extend);
+                    // console && console.log(self.extend);
                 }
 
                 self.submit = function () {
