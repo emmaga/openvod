@@ -24,7 +24,7 @@
 
             <td title="'其他选填信息'" style="max-width:20em; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                 <span ng-repeat="extend in row.extend" >
-                    <span>{{extend.name | user_info}}:</span>
+                    <span ng-show="extend.name | user_info" >{{extend.name | user_info}}:</span>
                     <span ng-show="extend.value_list.length==0 && (extend.name | user_info)">{{extend.value}}</span>
                     <span ng-show="extend.value_list.length!=0 && (extend.name | user_info)" ng-repeat="item in extend.value_list">{{item}}</span>
                 </span>
