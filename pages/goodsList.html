@@ -15,7 +15,7 @@
     <!-- 列表: 商品列表 -->
     <div ng-init="room.search()" class="wf-container">
         <!-- 容器: 瀑布流容器 -->
-        <div class="wf-box box" ng-repeat="product in gl.goodsList"> 
+        <div class="wf-box box" ng-repeat="product in gl.goodsList">
             <div class="panel panel-default">
                 <!-- 内容: 商品图 -->
                 <div class="box-top-img" ng-style="{'background-image': 'url({{product.imgSrc}})'}"></div>
@@ -24,6 +24,8 @@
                 <div class="panel-body">
                     <!-- 内容: 商品名 -->
                     <h4>{{product.name[gl.langStyle]}}</h4>
+                    <!-- 添加判断：ng-show="product.status != 2" 商品是否已删除-->
+                    <!--<span ng-show="product.status == 2">已删除</span>-->
                     <!-- 内容: 商品分类 -->
                     <span ng-repeat="category in gl.categoryList">{{category.name[gl.langStyle]}}
                         <input type="checkbox"  ng-checked="gl.checkGoodsCategory(category.id,product.categoryList)"  ng-model="this.value" ng-click="gl.changeGoodsCategory(product.productId,category.id,this.value,product.categoryList)">

@@ -1157,6 +1157,7 @@
                 self.init = function () {
                     self.productId = $scope.app.maskParams.productId;
                     self.editLangs = util.getParams('editLangs');
+                    self.langStyle = util.langStyle();
                     self.name = {};
                     self.intro = {};
 
@@ -1169,7 +1170,7 @@
                     var data = JSON.stringify({
                         "action": "getMgtProductDetail",
                         "token": util.getParams('token'),
-                        "lang": util.langStyle(),
+                        "lang": self.langStyle,
                         "productId": self.productId
                     })
 
@@ -1213,6 +1214,44 @@
                 self.cancel = function () {
                     console.log('cancel')
                     $scope.app.showHideMask(false);
+                }
+                self.deleteGoods = function () {
+                    var flag = confirm('确认删除？');
+                    if (!flag) {
+                        return;
+                    }
+                    // self.saving = true;
+                    var data = {
+                        "action": "editMgtProductStatus",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "product": {
+                            "productID": self.productId - 0,
+                            "Status": 2    //0是下架，1是上架,2已删除
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    console && console.dir(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('删除成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('删除失败， ' + data.data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错')
+                    }).finally(function (value) {
+                        // self.saving = false;
+                    });
                 }
 
                 self.editGoods = function () {
@@ -1279,7 +1318,7 @@
                     var data = JSON.stringify({
                         "action": "editMgtProductDetail",
                         "token": util.getParams('token'),
-                        "lang": util.langStyle(),
+                        "lang": self.langStyle,
                         "product": {
                             "productID": self.productId,
                             "name": self.name,
@@ -1481,7 +1520,6 @@
                 //     });
                 // }
 
-
                 self.saveForm = function () {
                     self.saving = true;
                     
@@ -1519,7 +1557,7 @@
                 };
 
                 self.deleteShop = function () {
-                    var flag = confirm('确认删除？')
+                    var flag = confirm('确认删除？');
                     if (!flag) {
                         return;
                     }
@@ -1550,7 +1588,7 @@
                             alert('访问超时，请重新登录');
                             $state.go('login')
                         } else {
-                            alert('删除失败， ' + data.data.errInfo);
+                            alert('删除失败，' + data.data.errInfo);
                         }
 
                     }, function errorCallback(data, status, headers, config) {
@@ -1702,7 +1740,6 @@
                     $scope.app.showHideMask(true,'pages/categoryEdit.html');
                 }
 
-
                 self.categoryDelete = function () {
                     var flag = confirm('确认删除？')
                     if (!flag) {
@@ -1772,7 +1809,6 @@
                 // 商品列表
                 self.getProductList = function (ShopGoodsCategoryID) {
 
-              
                     var data = {
                         "action": "getMgtShopProductList",
                         "token": util.getParams("token"),
@@ -1789,17 +1825,15 @@
                     
                     data = JSON.stringify(data);
 
-
                     $http({
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         // params.total(data.data.data.productTotal);
-                        var data = data.data.data.productList;
-                        self.goodsList  = data;
-                        // return data;
-
+                        self.goodsList = data.data.data.productList;
+                        // return data.data.data.productList;
+                        console && console.dir(self.goodsList);
                     }, function errorCallback(data, status, headers, config) {
 
                     })
@@ -1858,16 +1892,23 @@
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
                         alert('修改分类成功');
-                        $state.reload('app.shop.goods.goodsList')
                     }, function errorCallback(data, status, headers, config) {
-
+                        alert("修改失败"+data.errInfo);
+                        $state.reload('app.shop.goods.goodsList')
                     });
                 }
 
                 // 商品 上下架
                 self.changeGoodsStatus = function (productId, status, value) {
-                    console.log('productId:' + productId + ' status:' + status + ' value:' + value)
+                    console && console.log('productId:' + productId + ' status:' + status + ' value:' + value)
+
                     if (status == true) {
+                        // todo:添加 status == 2 时的状态（后台）
+                        // if(status == 2){
+                        //     status == 2
+                        // }else{
+                        //     status = 1;
+                        // }
                         status = 1;
                     } else {
                         status =0;
@@ -1883,7 +1924,6 @@
                         }
                     };
 
-
                     data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
@@ -1891,9 +1931,9 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         alert('修改成功')
-                        $state.reload('app.shop.goods.goodsList')
                     }, function errorCallback(data, status, headers, config) {
-
+                        alert("修改失败"+data.errInfo);
+                        $state.reload('app.shop.goods.goodsList')
                     });
                 }
             }
