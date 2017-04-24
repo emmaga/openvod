@@ -97,6 +97,12 @@
                     游玩日期
                     <span class="pull-right">{{hod.orderInfo.PlayDate}}</span>
                 </li>
+                <hr ng-if="hod.orderInfo.Comment">
+                <!--备注-->
+                <li class="list-group-item" ng-if="hod.orderInfo.Comment">
+                    备注
+                    <span class="pull-right">{{hod.orderInfo.Comment}}</span>
+                </li>
             </ul>
             <hr>
             <!--订单详情-->
