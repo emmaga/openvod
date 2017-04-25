@@ -381,7 +381,7 @@
 
                 self.submit = function () {
                     // 调级
-                    // self.saving = true;
+                    self.saving = true;
                     self.loading=true;
                     var data = JSON.stringify({
                         "action": "user_modify_level",
@@ -407,7 +407,7 @@
                     }, function errorCallback(data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
-                        // self.saving = false;
+                        self.saving = false;
                     });
                 }
 
@@ -459,6 +459,7 @@
                 self.submit = function () {
                     self.saving = true;
                     // 新建等级
+                    if(!self.form.RightsInfo){self.form.RightsInfo='';}
                     var data = JSON.stringify({
                         "action": "card_add_level",
                         "token": util.getParams("token"),
@@ -580,7 +581,11 @@
                 }
 
                 self.submit = function () {
+<<<<<<< HEAD
                     self.levelCard.discount = [{"name": "Room", "value": 1}];
+=======
+                    self.saving = true;
+>>>>>>> feature-member
                     var data = JSON.stringify({
                         "action": "level_detail_modify",
                         "token": util.getParams("token"),

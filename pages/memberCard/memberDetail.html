@@ -31,6 +31,10 @@
                     <span>积分</span>
                     <span class="pull-right">{{val}}</span>
                 </li>
+                <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='BounsTotal' && '{{val}}'">
+                    <span>历史累计积分</span>
+                    <span class="pull-right">{{val}}</span>
+                </li>
                 <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='Status' && '{{val}}'">
                     <span>状态</span>
                     <span class="pull-right">{{val}}</span>
