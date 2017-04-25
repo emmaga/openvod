@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h5 class="modal-title">等级详情</h5>
+                <h5 class="modal-title">等级设置</h5>
             </div>
             <!-- body -->
             <div class="modal-body">
@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <label>等级级别</label>
                     <input name='Level' required placeholder="（必填，数字越大等级越高）" type="number" class="form-control"
-                           string-to-number  min="0" step="1" ng-model="editMemberCard.levelCard.Level"/>
+                       min="0" step="1" ng-model="editMemberCard.levelCard.Level"/>
             </div>
                 <!--名称-->
                 <div class="form-group">
@@ -26,7 +26,7 @@
                 <!--客房预订折扣-->
                 <div class="form-group">
                     <label>客房预订折扣</label>
-                    <input name='Discount' required placeholder="（必填）" type="number" class="form-control" string-to-number
+                    <input name='Discount' required placeholder="（必填）" type="number" class="form-control"
                            min="0.01" step="0.01" ng-model="editMemberCard.roomDiscount" ng-change="editMemberCard.editDiscount(editMemberCard.levelCard)"/>
                     <!--<input name='Discount' required placeholder="（必填）" type="number" class="form-control" min="0" step="0.01"-->
                            <!--ng-show="'{{editMemberCard.levelCard.discount.length}}'==0" string-to-number-->
@@ -39,7 +39,7 @@
                 <!--客房预订赚分倍率-->
                 <div class="form-group">
                     <label>客房预订赚积分倍率</label>
-                    <input name='BounsRate' required placeholder="（必填）" type="number" class="form-control" string-to-number
+                    <input name='BounsRate' required placeholder="（必填）" type="number" class="form-control"
                            min="0" step="0.1" ng-model="editMemberCard.roomBounsRate" ng-change="editMemberCard.editBouns(editMemberCard.levelCard)"/>
                     <!--<input name='BounsRate1' required placeholder="（必填）" type="number" class="form-control" min="0" step="0.01"-->
                            <!--ng-show="'{{editMemberCard.levelCard.Bouns.length}}'==0" string-to-number-->
@@ -57,7 +57,7 @@
                 <!--积分升级条件-->
                 <div class="form-group">
                     <label>积分升级条件</label>
-                    <input name='Upgrade' required placeholder="（必填）" type="number" class="form-control" string-to-number
+                    <input name='Upgrade' required placeholder="（必填）" type="number" class="form-control"
                            min="0" step="1" ng-model="editMemberCard.accumulationUpgrade" ng-change="editMemberCard.editUpgrade(editMemberCard.levelCard)"/>
                     <!--<input name='require1' required placeholder="（必填）" type="number" class="form-control" min="0" step="1"-->
                            <!--ng-show="'{{editMemberCard.levelCard.UpgradeStrategy.length}}'==0" string-to-number-->
@@ -72,7 +72,7 @@
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="editMemberCard.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-                <button type="submit" class="btn btn-primary btn-sm">
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="editMemberCardForm.$invalid || editMemberCard.saving">
                     <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->

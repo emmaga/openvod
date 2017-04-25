@@ -2,7 +2,7 @@
      class="modal-dialog modal-sm" xmlns="http://www.w3.org/1999/html">
     <div class="modal-content">
         <!--loading-->
-        <form name="configMemberCardForm" ng-submit="configMemberCardForm.$valid && configMemberCard.submit()">
+        <form name="configMemberCardForm" ng-submit="configMemberCard.submit()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="configMemberCard.close()">
@@ -33,7 +33,7 @@
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="configMemberCard.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="configMemberCardForm.$invalid || configMemberCard.saving">
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="configMemberCard.saving">
                 <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->
