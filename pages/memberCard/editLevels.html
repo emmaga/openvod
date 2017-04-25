@@ -1,7 +1,7 @@
 <div ng-controller="editLevelsController as editLevels" ng-init="editLevels.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
         <!--loading-->
-        <form name="levelsEditForm" ng-submit="editLevels.submit()">
+        <form name="levelsEditForm" ng-submit="!levelsEditForm.$invalid && editLevels.submit()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="editLevels.close()">
@@ -29,7 +29,7 @@
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="editLevels.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="editLevels.saving">
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="levelsEditForm.$invalid || editLevels.saving">
                 <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->

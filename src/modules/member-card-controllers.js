@@ -631,8 +631,8 @@
                     self.loading=false;
                     self.langStyle = util.langStyle();
                     self.upgradeStrategy_list=$scope.app.maskParams.data;
-                    self.isSelected=true;
-                    self.value=$scope.app.maskParams.value;
+                    self.isSelected=true;//目前只有1种升级策略，默认被勾选
+                    self.configurationLink=$scope.app.maskParams.value;
                     console && console.log($scope.app.maskParams.value);
                 }
 

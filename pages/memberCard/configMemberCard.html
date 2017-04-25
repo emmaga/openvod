@@ -2,7 +2,7 @@
      class="modal-dialog modal-sm" xmlns="http://www.w3.org/1999/html">
     <div class="modal-content">
         <!--loading-->
-        <form name="configMemberCardForm" ng-submit="configMemberCard.submit()">
+        <form name="configMemberCardForm" ng-submit="configMemberCard.configurationLink && configMemberCard.submit()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="configMemberCard.close()">
@@ -16,14 +16,14 @@
                 <!--升级策略-->
                 <div class="form-group" ng-repeat="row in configMemberCard.upgradeStrategy_list">
                     <label>升级策略{{row.ID}}：
-                        <input ng-checked="row.is_selected" type="checkbox"  ng-model="configMemberCard.isSelected"
+                        <input ng-checked="row.is_selected" type="checkbox"  ng-model="configMemberCard.isSelected" disabled
                                                  ng-click="configMemberCard.upgradeStrategyChange(row)"/>{{row.StrategyDesc}}</label>
                 </div>
                 <!--wx等级跳转地址-->
                 <div class="form-group">
                     <label>微信-会员卡-等级-地址配置</label>
                     <textarea required placeholder="（必填）" type="text" class="form-control"
-                              ng-model="configMemberCard.configurationLink" maxlength="512" ng-value="configMemberCard.value">
+                              ng-model="configMemberCard.configurationLink" maxlength="512">
                     </textarea>
                 </div>
                 <!--loading-->
