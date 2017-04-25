@@ -581,11 +581,8 @@
                 }
 
                 self.submit = function () {
-<<<<<<< HEAD
+                    // 隐藏页面设置订房折扣功能
                     self.levelCard.discount = [{"name": "Room", "value": 1}];
-=======
-                    self.saving = true;
->>>>>>> feature-member
                     var data = JSON.stringify({
                         "action": "level_detail_modify",
                         "token": util.getParams("token"),

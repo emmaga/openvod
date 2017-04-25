@@ -1,7 +1,7 @@
 <div ng-controller="editMemberCardController as editMemberCard" ng-init="editMemberCard.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
         <!--loading  editMemberCardForm.$valid && -->
-        <form name="editMemberCardForm" ng-submit="editMemberCard.submit()">
+        <form name="editMemberCardForm" ng-submit="!editMemberCardForm.$invalid && editMemberCard.submit()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="editMemberCard.close()">
@@ -26,13 +26,8 @@
                 <!--客房预订折扣-->
                 <!-- <div class="form-group">
                     <label>客房预订折扣</label>
-<<<<<<< HEAD
                     <input name='Discount' required placeholder="（必填）" type="number" class="form-control" string-to-number
                            min="0.01" step="0.01" ng-model="editMemberCard.roomDiscount" ng-change="editMemberCard.editDiscount(editMemberCard.levelCard)"/> -->
-=======
-                    <input name='Discount' required placeholder="（必填）" type="number" class="form-control"
-                           min="0.01" step="0.01" ng-model="editMemberCard.roomDiscount" ng-change="editMemberCard.editDiscount(editMemberCard.levelCard)"/>
->>>>>>> feature-member
                     <!--<input name='Discount' required placeholder="（必填）" type="number" class="form-control" min="0" step="0.01"-->
                            <!--ng-show="'{{editMemberCard.levelCard.discount.length}}'==0" string-to-number-->
                            <!--ng-model="editMemberCard.discount" ng-change="editMemberCard.editDiscount(editMemberCard.levelCard)"/>-->
@@ -77,11 +72,7 @@
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="editMemberCard.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-<<<<<<< HEAD
-                <button ng-disabled="editMemberCard.saving" type="submit" class="btn btn-primary btn-sm">
-=======
-                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="editMemberCardForm.$invalid || editMemberCard.saving">
->>>>>>> feature-member
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="editMemberCard.saving">
                     <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->
