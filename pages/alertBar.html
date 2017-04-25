@@ -1,0 +1,30 @@
+<ul class="list-unstyled" ng-controller="alertBarController as alertBar" ng-init="alertBar.init(); ">
+    <li class="alert alert-{{type || 'info'}}" ng-show="message" style="padding:5px">
+        <img src="dist/imgs/app-icon-03.png" alt="" style="width:36px;height:36px;border-radius: 5px">
+        <a href="" ng-click="" style="padding-left:5px;padding-right:5px">
+            您有{{message}}条新订单，点击查看详情！
+        </a>
+        <video width="0" height="0" autoplay>
+            <source src="./dist/mp3/order.mp3">
+            Your browser does not support the video tag.
+        </video>
+        <button type="button" class="close" data-dismiss="modal" ng-click="hideAlert()">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </li>
+    <li class="alert alert-{{type || 'info'}}" ng-show="message" style="padding:5px">
+        <img src="dist/imgs/app-icon-04.png" alt="" style=" width:36px;height:36px;border-radius: 5px">
+        <a href="" ng-click="" style="padding-left:5px;padding-right:5px">
+            您有{{message}}条新订单，点击查看详情！
+        </a>
+        <video width="0" height="0" autoplay>
+            <source src="./dist/mp3/order.mp3">
+            Your browser does not support the video tag.
+        </video>
+        <button type="button" class="close" data-dismiss="modal" ng-click="hideAlert()">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </li>
+</ul>

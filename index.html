@@ -20,6 +20,9 @@
 <body ng-app="openvod">
 
   <div class="bg" style="background-image: url('dist/imgs/bg-01.png'); "></div>
+  <!--全局提示框-->
+  <alert-bar class="alert_bar" message="tipService.message" type="tipService.type"
+             style="margin-right:20px;position:absolute;right:0;bottom:0;z-index:10000"></alert-bar>
   <ui-view></ui-view>
 
   <div ng-include="index.maskUrl" class="autoscroll"></div>
@@ -48,5 +51,6 @@
   <!--<script src="src/modules/filters.js"></script>-->
   <!--<script src="src/modules/services.js"></script>-->
   <!--<script src="src/modules/qcode-controller.js"></script>-->
+
 </body>
 </html>

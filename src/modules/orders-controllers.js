@@ -2,7 +2,21 @@
 
 (function () {
     var app = angular.module('app.orders-controllers', [])
-
+        // 新订单提醒弹框
+        .controller('alertBarController', ['$scope','$rootScope','TipService',
+            function ($scope,$rootScope,TipService) {
+                var self = this;
+                self.init = function () {
+                    this.maskUrl = '';
+                    //提示信息服务
+                    $rootScope.tipService = TipService;
+                    console && console.dir(TipService);
+                    TipService.setMessage('1', 'success');
+                }
+                // 轮询待审核订单数量
+                // 轮询最新订单
+            }
+        ])
     // 酒店订单列表页
     .controller('hotelOrderListController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', 'NgTableParams', 'util',
         function ($scope, $filter, $q, $state, $http, $stateParams, NgTableParams, util) {
@@ -347,7 +361,7 @@
             }
         }
     ])
-
+    // 商城订单列表页
     .controller('shopOrderListController', ['$scope', '$filter', '$q', '$state', '$http', '$stateParams', '$location', 'NgTableParams', 'util', 'CONFIG',
         function ($scope, $filter, $q, $state, $http, $stateParams, $location, NgTableParams, util, CONFIG) {
             var self = this;

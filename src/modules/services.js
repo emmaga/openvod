@@ -5,8 +5,6 @@
 
         .factory('util', ['$cookies', '$translate', 'CONFIG', function ($cookies, $translate, CONFIG) {
 
-
-
             return {
                 /** 
                  * 调用接口，本地和服务器的接口切换，方便调试
@@ -198,4 +196,21 @@
                 }
             }
         }])
+
+        .factory('TipService', ['$timeout', function($timeout) {
+            return {
+                message : null,
+                type : null,
+                setMessage : function(msg,type){
+
+                    this.message = msg;
+                    this.type = type;
+                }/*,
+                //提示框消失
+                clear : function(){
+                    this.message = null;
+                    this.type = null;
+                }*/
+            };
+        }]);
 })();

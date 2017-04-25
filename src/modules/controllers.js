@@ -9,6 +9,7 @@
                 self.init = function () {
                     this.maskUrl = '';
                 }
+
             }
         ])
 
@@ -65,6 +66,7 @@
         .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util',
             function ($http, $scope, $state, $stateParams, util) {
                 var self = this;
+
                 self.init = function () {
                     if(util.getParams("projectDes")){
                         this.projectDes = util.getParams("projectDes")
@@ -212,7 +214,7 @@
                 }
             }
         ])
-        
+
         .controller('feedbackController', ['$scope', function($scope) {
             var self = this;
             self.init = function() {
@@ -486,8 +488,6 @@
             }
         ])
 
-
-        
         // 微信用户管理
         .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
             function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
@@ -1674,7 +1674,6 @@
                 // 商品列表
                 self.getProductList = function (ShopGoodsCategoryID) {
 
-              
                             var data = {
                                 "action": "getMgtShopProductList",
                                 "token": util.getParams("token"),
@@ -1705,9 +1704,6 @@
                             }, function errorCallback(data, status, headers, config) {
 
                             })
-
-         
-
                 }
 
                 // 商品分类，属于某分类则返回true
@@ -3387,6 +3383,5 @@
                 }
             }
         ])
-
 
 })();
