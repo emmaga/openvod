@@ -3,17 +3,82 @@
 (function () {
     var app = angular.module('app.orders-controllers', [])
         // 新订单提醒弹框
-        .controller('alertBarController', ['$scope','$rootScope','TipService',
-            function ($scope,$rootScope,TipService) {
-                var self = this;
+        .controller('alertBarController', ['$scope','$rootScope','TipService','$interval','NgTableParams', 'util', '$http',
+            function ($scope,$rootScope,TipService,$interval,NgTableParams, util, $http) {
+                var self = this;var i=0;
                 self.init = function () {
                     this.maskUrl = '';
+                    self.search();
+                    //6秒一次轮询待审核订单数量
+                    self.timer=$interval(function () {
+                        self.search();
+
+                        console && console.log(i++);
+                    }, 3000);
                     //提示信息服务
                     $rootScope.tipService = TipService;
                     console && console.dir(TipService);
                     TipService.setMessage('1', 'success');
                 }
+
+                //清除轮询
+                self.cancel = function(){
+                    $interval.cancel(self.timer);
+                }
                 // 轮询待审核订单数量
+                self.search = function() {
+                    self.tableParams = new NgTableParams(
+                        {
+                            page: 1,
+                            count: 1,
+                            url: ''
+                        },
+                        {
+                            counts: false,
+                            getData: function(params) {
+                                var paramsUrl = params.url();
+
+                                var data = JSON.stringify({
+                                    "token": util.getParams('token'),
+                                    "action": "getRoomOrderByStatus",
+                                    "lang": util.langStyle(),
+                                    "HotelID": 0,
+                                    "Status": "WAITAPPROVAL",
+                                    "ContactorPhone": '',
+                                    "ContactorName": '',
+                                    "OrderNum": '',
+                                    "page": paramsUrl.page - 0,
+                                    "per_page": paramsUrl.count - 0
+                                });
+                                self.noData = false;
+
+                                return $http({
+                                    method: 'POST',
+                                    url: util.getApiUrl('order', '', 'server'),
+                                    data: data
+                                }).then(function successCallback(response) {
+                                    var data = response.data;
+                                    console && console.dir(data);
+                                    if (data.rescode == '200') {
+                                        if(data.total == 0) {
+                                            self.noData = true;
+                                        }
+                                        params.total(data.total);
+                                        return data.resault;
+                                    } else if(data.rescode == '401'){
+                                        alert('访问超时，请重新登录');
+                                        $state.go('login');
+                                    } else{
+                                        alert('获取客房预订订单列表失败，' + data.errInfo);
+                                    }
+                                }, function errorCallback(response) {
+                                    alert('连接服务器出错');
+                                }).finally(function (value) {
+                                });
+                            }
+                        }
+                    );
+                }
                 // 轮询最新订单
             }
         ])
