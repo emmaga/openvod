@@ -24,10 +24,10 @@
                     <input name='LevelName' required placeholder="（必填）" type="text" class="form-control" ng-model="editMemberCard.levelCard.Name" maxlength="4"/>
                 </div>
                 <!--客房预订折扣-->
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label>客房预订折扣</label>
                     <input name='Discount' required placeholder="（必填）" type="number" class="form-control" string-to-number
-                           min="0.01" step="0.01" ng-model="editMemberCard.roomDiscount" ng-change="editMemberCard.editDiscount(editMemberCard.levelCard)"/>
+                           min="0.01" step="0.01" ng-model="editMemberCard.roomDiscount" ng-change="editMemberCard.editDiscount(editMemberCard.levelCard)"/> -->
                     <!--<input name='Discount' required placeholder="（必填）" type="number" class="form-control" min="0" step="0.01"-->
                            <!--ng-show="'{{editMemberCard.levelCard.discount.length}}'==0" string-to-number-->
                            <!--ng-model="editMemberCard.discount" ng-change="editMemberCard.editDiscount(editMemberCard.levelCard)"/>-->
@@ -35,7 +35,7 @@
                         <!--<input name='Discount' required placeholder="（必填）" type="number" class="form-control" min="0" step="0.01"-->
                                <!--string-to-number  ng-show="'{{discount.type}}'=='Room'" ng-model="discount.Discount"/>-->
                     <!--</span>-->
-                </div>
+                <!-- </div> -->
                 <!--客房预订赚分倍率-->
                 <div class="form-group">
                     <label>客房预订赚积分倍率</label>
@@ -72,7 +72,7 @@
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="editMemberCard.close()">{{'CANCEL' | translate}}</button>
                 <!-- 提交 -->
-                <button type="submit" class="btn btn-primary btn-sm">
+                <button ng-disabled="editMemberCard.saving" type="submit" class="btn btn-primary btn-sm">
                     <i class="icon ion-ios-checkmark-outline"></i> 提交
                 </button>
                 <!--footer end-->

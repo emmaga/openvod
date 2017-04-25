@@ -580,6 +580,7 @@
                 }
 
                 self.submit = function () {
+                    self.levelCard.discount = [{"name": "Room", "value": 1}];
                     var data = JSON.stringify({
                         "action": "level_detail_modify",
                         "token": util.getParams("token"),
@@ -592,6 +593,8 @@
                         "Bouns": self.levelCard.Bouns,
                         "UpgradeStrategy": self.levelCard.UpgradeStrategy
                     });
+
+                    self.saving = true;
 
                     $http({
                         method: 'POST',
@@ -607,6 +610,7 @@
                     }, function errorCallback(data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
+                        self.saving = false;
                     });
                 }
 
