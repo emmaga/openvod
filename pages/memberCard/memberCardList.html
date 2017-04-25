@@ -1,0 +1,65 @@
+<div class="content-right" ng-controller="memberCardListController as memberCardList" ng-init="memberCardList.init()">
+
+    <!--当前选中名称-->
+    <!-- 在线状态 -->
+    <h4>会员卡</h4>
+    <hr>
+
+    <div ng-show="!memberCardList.loading && memberCardList.noCard">会员卡未创建，请先创建会员卡 <a href="https://mp.weixin.qq.com/">去创建</a></div>
+
+    <div ng-show="!memberCardList.loading">
+        <span ng-if="memberCardList.noData">您还未创建任何等级，请点击新建等级</span>
+        <a ng-click="memberCardList.addLevel()" class="button button-light">
+            <i class="icon ion-ios-plus-outline"></i> 新建等级
+        </a>
+        <a ng-click="memberCardList.configMemberCard()" class="button button-light">
+            <i class="icon ion-ios-compose-outline"></i> 升级配置
+        </a>
+    </div>
+    <table ng-table="memberCardList.tableParams" ng-show="!memberCardList.loading && !memberCardList.noData" class="table table-hover">
+        <tr ng-repeat="row in $data">
+            <td title="'等级'">
+                {{row.Level}}
+            </td>
+            <td title="'等级名'">
+                {{row.Name}}
+            </td>
+            <td title="'折扣率'">
+                <span ng-show="'{{row.discount.length}}'==0">未设置</span>
+                <span ng-repeat="discount in row.discount">
+                    <span ng-show="'{{discount.type}}'=='Room'">{{'预定'+discount.Discount}}</span>
+                    <span ng-show="'{{discount.type}}'=='Goods'">{{'商城'+discount.Discount}}</span>
+                </span>
+            </td>
+            <td title="'赚分倍率'">
+                <span ng-show="'{{row.Bouns.length}}'==0">未设置</span>
+                <span ng-repeat="bouns in row.Bouns">
+                    <!--{{bouns.type+':'+bouns.BounsRate}}-->
+                     <span ng-show="'{{bouns.type}}'=='Room'">{{'预定'+bouns.BounsRate}}</span>
+                     <span ng-show="'{{bouns.type}}'=='Goods'">{{'商城'+bouns.BounsRate}}</span>
+                </span>
+            </td>
+            <td title="'其他权益'" style="max-width: 13em; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                <span ng-show="'{{row.RightsInfo}}'==''">未设置</span>
+                {{row.RightsInfo}}
+            </td>
+            <td title="'积分升级'">
+                <span ng-repeat="upgradeStrategy in row.UpgradeStrategy">
+                    <span ng-show="upgradeStrategy">
+                        <span ng-show="'{{upgradeStrategy.require}}'!='未设置'">满</span>{{upgradeStrategy.require}}<span ng-show="('{{upgradeStrategy.require}}'!='未设置')">分</span>
+                    </span>
+                </span>
+                <span ng-show="row.UpgradeStrategy.length==0">请先配置升级策略</span>
+            </td>
+            <!--<td ng-repeat="upgradeStrategy in row.UpgradeStrategy" title="'积分升级'">-->
+                <!--<span ng-show="'{{upgradeStrategy.require}}'!='未设置'">满</span>{{upgradeStrategy.require}}<span ng-show="('{{upgradeStrategy.require}}'!='未设置')">分</span>-->
+            <!--</td>-->
+            <td title="'操作'">
+                <a ng-click="memberCardList.editMemberCard(row)">设置</a>
+            </td>
+        </tr>
+    </table>
+    <!--loading...-->
+    <div ng-show="memberCardList.loading">loading...</div>
+    <div ng-show="memberCardList.noData">查无数据</div>
+</div>

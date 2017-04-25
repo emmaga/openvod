@@ -8,6 +8,7 @@
         'app.tv-admin-controllers',
         'app.project-config-controllers',
         'app.orders-controllers',
+        'app.member-card-controllers',
         'app.filters',
         'app.directives',
         'app.services',
@@ -748,18 +749,30 @@
                     }
                 })
 
+                .state('app.tvAdmin.blank', {
+                    url: '/blank?label',
+                    templateUrl: 'pages/tv/blank.html'
+                })
+
                 // 扫码统计
                 .state('app.qcode', {
                     url: '/qcode?moduleId&label',
                     templateUrl: 'pages/qcode/qcodeIndex.html'
                 })
 
+                .state('app.memberCard', {
+                    url: '/memberCard',
+                    templateUrl: 'pages/memberCard/memberCard.html'
+                })
 
+                .state('app.memberCard.memberCardList', {
+                    url: '/memberCardList',
+                    templateUrl: 'pages/memberCard/memberCardList.html'
+                })
 
-
-                .state('app.tvAdmin.blank', {
-                    url: '/blank?label',
-                    templateUrl: 'pages/tv/blank.html'
+                .state('app.memberCard.memberList', {
+                    url: '/memberList',
+                    templateUrl: 'pages/memberCard/memberList.html'
                 })
         }])
 
@@ -776,7 +789,6 @@
 
         .constant('CONFIG', {
             serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
-            // 张舰 自己 起了一个测试服务器
             // serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
             // serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',

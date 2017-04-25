@@ -1,0 +1,58 @@
+<div ng-controller="addLevelController as addLevel" ng-init="addLevel.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <form name="addLevelForm" ng-submit="addLevelForm.$valid && addLevel.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="addLevel.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">新建等级</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <!--等级级别-->
+                <div class="form-group">
+                    <label>等级级别</label>
+                    <input name="" required placeholder="（必填，数字越大等级越高）" type="number" class="form-control"
+                           min="0" step="1" ng-model="addLevel.form.level"/>
+                </div>
+                <!--名称-->
+                <div class="form-group">
+                    <label>等级名称</label>
+                    <input name="" required placeholder="（必填）" type="text" class="form-control" ng-model="addLevel.form.level_name "/>
+                </div>
+                <!--&lt;!&ndash;客房预订折扣&ndash;&gt;-->
+                <!--<div class="form-group">-->
+                    <!--<label>客房预订折扣</label>-->
+                    <!--<input required placeholder="（必填）" type="number" class="form-control" min="0" step="1" ng-model="addLevel.t"/>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;客房预订赚分倍率&ndash;&gt;-->
+                <!--<div class="form-group">-->
+                    <!--<label>客房预订赚积分倍率</label>-->
+                    <!--<input required placeholder="（必填）" type="number" class="form-control" min="0" step=".1" ng-model="addLevel.t"/>-->
+                <!--</div>-->
+                <!--其他权益-->
+                <div class="form-group">
+                    <label>其他权益</label>
+                    <textarea name="" ng-model="addLevel.form.RightsInfo" class="form-control" maxlength="200"></textarea>
+                </div>
+                <!--积分升级条件-->
+                <!--<div class="form-group">-->
+                    <!--<label>积分升级条件</label>-->
+                    <!--<input required placeholder="（必填）" type="number" class="form-control" min="1" step="0" ng-model="addLevel.t"/>-->
+                <!--</div>-->
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="addLevel.close()">{{'CANCEL' | translate}}</button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="addLevelForm.$invalid || addLevel.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>

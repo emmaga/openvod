@@ -1,0 +1,55 @@
+<div ng-controller="memberDetailController as memberDetail" ng-init="memberDetail.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <div ng-show="memberDetail.loading">loading...</div>
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="memberDetail.close()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">详情</h5>
+        </div>
+        <!-- body -->
+        <div class="modal-body">
+            <!--详情-->
+            <ul class="list-group list-group-condensed">
+                <!--详情字段-->
+                <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='UserName' && '{{val}}'">
+                     <span>会员昵称</span>
+                    <span class="pull-right">{{val}}</span>
+                </li>
+                <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='Level' && '{{val}}'">
+                     <span>等级</span>
+                    <span class="pull-right">{{val}}</span>
+                </li>
+                <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='Mobile' && '{{val}}'">
+                     <span>手机</span>
+                    <span class="pull-right">{{val}}</span>
+                </li>
+                <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='Bouns' && '{{val}}'">
+                    <span>积分</span>
+                    <span class="pull-right">{{val}}</span>
+                </li>
+                <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='Status' && '{{val}}'">
+                    <span>状态</span>
+                    <span class="pull-right">{{val}}</span>
+                </li>
+                <hr>
+                <ng-repeat class="list-group-condensed"  ng-repeat="(key,val) in memberDetail.data" ng-show="key=='extend' && val.length>0">
+                    <span>其他选填信息</span>
+                    <li class="list-group-item" ng-repeat="extend in memberDetail.extend" ng-show="extend.name | user_info">
+                        <span ng-show="extend.name | user_info">{{extend.name | user_info}}</span>
+                        <span class="pull-right"  ng-show="extend.value_list.length==0 && (extend.name | user_info)">{{extend.value}}</span>
+                        <span class="pull-right"  ng-show="extend.value_list.length!=0 && (extend.name | user_info)" ng-repeat="item in extend.value_list">{{item}}</span>
+                    </li>
+                </ng-repeat>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <!-- 确定 -->
+            <button type="button" class="btn btn-primary btn-sm" ng-click="memberDetail.close()">确定</button>
+            <!--footer end-->
+        </div>
+    </div>
+</div>

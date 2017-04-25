@@ -172,6 +172,11 @@
                         case 10:
                                 $state.go('app.realTimeCommand', { 'appId': n });
                             break;
+                        case 11:
+                            if(!$state.includes('app.memberCard')) {
+                                $state.go('app.memberCard.memberList', { 'appId': n });
+                            }
+                            break;
                         default:
                             break;
 

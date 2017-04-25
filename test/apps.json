@@ -69,6 +69,13 @@
       "icon": "dist/imgs/app-icon-10.png",
       "bgColor": "rgb(51,91,51)",
       "themeColor":"rgb(51,91,51)"
+    },
+    {
+      "id": 11,
+      "name": "会员",
+      "icon": "dist/imgs/app-icon-12.png",
+      "bgColor": "#4b3d3c",
+      "themeColor":"#c18458"
     }
   ]
 }

@@ -1,0 +1,45 @@
+<div ng-controller="editScoresController as editScores" ng-init="editScores.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+        <form name="scoresEditForm" ng-submit="scoresEditForm.$valid && editScores.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="editScores.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">调分</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <!--调分-->
+                <ul class="list-group list-group-condensed">
+                    <!--当前积分-->
+                    <li class="list-group-item">
+                        <span>当前积分</span>
+                            <h3 style=" margin: 0">{{editScores.Bouns}}分</h3>
+                    </li>
+                    <!--增加-->
+                    <li class="list-group-item">
+                        <div class="form-group">
+                            <label>调整积分</label>
+                            <small class="theme-color">如需减少积分，请输入负数</small>
+                            <input required type="number" step="1" class="form-control" ng-model="editScores.added" placeholder="请输入增加的积分" />
+                        </div>
+                    </li>
+                </ul>
+                <!--loading-->
+                <div ng-show="editScores.loading">积分调整中，请稍候...</div>
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="editScores.close()">{{'CANCEL' | translate}}</button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="scoresEditForm.$invalid || editScores.saving">
+                <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>

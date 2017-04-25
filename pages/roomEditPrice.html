@@ -92,7 +92,7 @@
             <!--footer end-->
         </form>
         
-        <!-- form -->
+        <!-- form-添加变价 -->
         <form id="roomEditAddPriceForm" name="roomEditAddPriceForm" ng-submit="roomEditAddPriceForm.$valid && roomEditPrice.saveAddPrice()" role="form">
             <!--body-->
             <div class="modal-body">
@@ -152,5 +152,59 @@
             </div>
             <!--footer end-->
         </form>
+        <!-- form-todo 积分 -->
+        <!--<form id="roomEditPointsForm" name="roomEditPointsForm" ng-submit="roomEditPointsForm.$valid && roomEditPrice.saveAddPrice()" role="form">-->
+            <!--&lt;!&ndash;body&ndash;&gt;-->
+            <!--<div class="modal-body">-->
+                <!--&lt;!&ndash; 积分 &ndash;&gt;&lt;!&ndash; todo 操作: 启用开关 &ndash;&gt;-->
+                <!--<label>积分<toggle ng-model="item.RoomAvailable"-->
+                                 <!--ng-change="roomEditPrice.points" class="pull-right"></toggle></label>-->
+
+                <!--<ul class="setting-group" style="position: relative; top: -21px; padding-top: 0;" ng-show="roomEditPrice.points">-->
+                    <!--&lt;!&ndash; 块 &ndash;&gt;-->
+                    <!--<li class="setting-group-item " ng-repeat="addPrice in roomEditPrice.addPrice track by $index"  style="margin-top: 40px;">-->
+                        <!--<div class="row">-->
+                            <!--&lt;!&ndash; 变价名称 &ndash;&gt;-->
+                            <!--<div class="col-xs-3  col-condensed">-->
+                                <!--<div class="row">-->
+                                    <!--<div ng-repeat="lan in roomEditPrice.multiLang" class="col-xs-12">-->
+                                        <!--<small>名称（{{lan.code}}）</small>-->
+                                        <!--<input type="text" class="form-control" ng-model="addPrice.Name[lan.code]" required placeholder="请输入名称" />-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; 变价描述 &ndash;&gt;-->
+                            <!--<div class="col-xs-8  col-condensed">-->
+                                <!--<div class="row">-->
+                                    <!--<div ng-repeat="lan in roomEditPrice.multiLang" class="col-xs-12">-->
+                                        <!--<small>描述（{{lan.code}}）</small>-->
+                                        <!--<input type="text" class="form-control" ng-model="addPrice.Desc[lan.code]" required placeholder="请输入描述" />-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; 变价价格  数字输入框 &ndash;&gt;-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-xs-3 col-condensed">-->
+                                <!--<small>价格</small>-->
+                                <!--<input type="number" class="form-control" ng-model="addPrice.Price" required placeholder="请输入积分" step='1' min="0" />-->
+                            <!--</div>-->
+                            <!--<div class="col-xs-9 col-condensed"></div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--&lt;!&ndash;块 end&ndash;&gt;-->
+                <!--</ul>-->
+                <!--&lt;!&ndash; 变价 end &ndash;&gt;-->
+                <!--&lt;!&ndash; row end &ndash;&gt;-->
+            <!--</div>-->
+            <!--&lt;!&ndash;body end&ndash;&gt;-->
+
+            <!--&lt;!&ndash;footer&ndash;&gt;-->
+            <!--<div class="modal-footer">-->
+                <!--<button class="btn btn-default" ng-click="roomEditPrice.cancel()">{{'CANCEL' | translate}}</button>-->
+                <!--<button class="btn btn-primary" type="submit" ng-disabled="roomEditPrice.savingAddPrice" form="roomEditAddPriceForm">{{'SAVE' | translate}}</button>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;footer end&ndash;&gt;-->
+        <!--</form>-->
     </div>
 </div>
