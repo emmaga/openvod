@@ -87,7 +87,7 @@
         </ng-include>
     </div>
     <!--全局提示框-->
-        <ul class="list-unstyled alert_bar" ng-if="app.path != '/login' && (app.roomData.newData || app.shopData.newData)" style="margin-right:20px;position:absolute;right:20px;bottom:50px;z-index:10000">
+        <ul class="list-unstyled alert_bar" ng-show="(app.path != '/login')" style="margin-right:20px;position:absolute;right:20px;bottom:50px;z-index:10000">
             <li class="alert alert-{{type || 'info'}}" ng-show="app.roomData.total && app.roomData.TIMER" style="padding:5px" ng-click="app.viewPendingList($event,'app.hotelOrderList',2,app.roomData,app.roomTotal)">
                 <img src="dist/imgs/app-icon-04.png" alt="" style="width:36px;height:36px;border-radius: 5px">
                 <a href=""  style="padding-left:5px;padding-right:5px">
@@ -109,7 +109,7 @@
                     <span class="sr-only">Close</span>
                 </button>
             </li>
-            <video controls  width="200" height="20" autoplay ng-if="app.roomData.newData || app.shopData.newData">
+            <video width="0" height="0" autoplay ng-if="(app.roomData.total && app.roomData.TIMER) || (app.shopData.total && app.shopData.TIMER)">
                 <source src="./dist/mp3/order.wav">
                 Your browser does not support the video tag.
             </video>

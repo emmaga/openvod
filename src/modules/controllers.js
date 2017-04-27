@@ -106,10 +106,10 @@
                         self.loading = false;
                     });
                     // console.log(util.getParams('editLangs'))
+                    // 新订单提醒弹框:
                     self.path=$location.path();
                     self.roomData={
                         "noData":false,
-                        "newOrderId":0,
                         "TIMER":null,
                         "total":0,
                         "action":"getRoomOrderByStatus",
@@ -119,68 +119,22 @@
 
                     self.shopData={
                         "noData":false,
-                        "newOrderId":0,
                         "TIMER":null,
                         "total":0,
                         "action":"getOrderByStatus",
                         "ID":"ShopID",
                         "url":"shoporder"
                     }
-                    console && console.dir(self.roomData);
-                    console && console.dir(self.shopData);
 
-                    self.searchInit(self.roomData);
-                    self.searchInit(self.shopData);
                     self.roomTotal=self.roomData.total;
                     self.shopTotal=self.shopData.total;
-                    self.polling(self.roomData,self.roomTotal);
-                    self.polling(self.shopData,self.shopTotal);
-                    console && console.dir(self.roomData);
-                    console && console.dir(self.shopData);
+                    console && console.log(self.path);
+                    if(self.path != '/login'){
+                        self.polling(self.roomData,self.roomTotal);
+                        self.polling(self.shopData,self.shopTotal);
+                    }
                 }
                 // 新订单提醒弹框:
-                // 初始化待审核订单
-                self.searchInit = function (DATA) {
-                    var data = JSON.stringify({
-                        "token": util.getParams('token'),
-                        "action": DATA.action,
-                        "lang": util.langStyle(),
-                        ID: 0,
-                        "Status": "WAITAPPROVAL",
-                        "ContactorPhone": '',
-                        "ContactorName": '',
-                        "OrderNum": '',
-                        "page": 1,
-                        "per_page": 1
-                    });
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl(DATA.url, '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        // console && console.dir(response);
-                        var data = response.data;
-
-                        console && console.dir(data.resault[0].OrderNum);
-                        if (data.rescode == '200') {
-                            if (data.total == 0) {
-                                DATA.noData = true;
-                            }
-                            DATA.newOrderId=data.resault[0].OrderNum;
-                            DATA.total=data.total;
-
-                        } else if (data.rescode == '401') {
-                            alert('访问超时，请重新登录');
-                            $location.path('/login');
-                        } else {
-                            alert('获取客房预订订单列表失败，' + data.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        alert('连接服务器出错');
-                    }).finally(function (value) {
-                    });
-                }
-
                 //10秒一次轮询待审核订单
                 self.polling=function(DATA,TOTAL){
                     DATA.TIMER = $interval(function () {
@@ -237,11 +191,7 @@
                                 DATA.noData = true;
                             }
                             DATA.total=data.total;
-                            if(data.resault[0].OrderNum != DATA.newOrderId){
-                                DATA.newData=true;
-                                DATA.newOrderId = data.resault[0].OrderNum;
-                                console && console.dir(DATA.newOrderId);
-                            }
+                            console.log(DATA.total);
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path('/login');
@@ -343,6 +293,8 @@
                 }
 
                 self.logout = function (event) {
+                    self.cancel(self.roomData);//清除轮询
+                    self.cancel(self.shopData);//清除轮询
                     util.setParams('token', '');
                     $state.go('login');
                 }
