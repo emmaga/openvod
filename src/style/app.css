@@ -172,6 +172,7 @@ body, .app {
     overflow: hidden;
     font-size: 16px;
     z-index: 2;
+    pointer-events: none;
 }
 
 
