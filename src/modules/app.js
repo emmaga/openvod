@@ -37,10 +37,12 @@
                     url: '/login',
                     templateUrl: 'pages/login.html'
                 })
+
                 .state('app', {
                     url: '/app?appId',
                     templateUrl: 'pages/app.html'
                 })
+
                 .state('app.shop', {
                     url: '/shop',
                     templateUrl: 'pages/shop.html'
@@ -775,9 +777,6 @@
                     url: '/qcode?moduleId&label',
                     templateUrl: 'pages/qcode/qcodeIndex.html'
                 })
-
-
-
 
                 .state('app.tvAdmin.blank', {
                     url: '/blank?label',
