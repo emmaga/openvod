@@ -9,8 +9,10 @@
                 self.init = function () {
                     this.maskUrl = '';
                 }
+
             }
         ])
+
 
         .controller('loginController', ['$scope', '$http', '$filter', '$state', 'md5', 'util',
             function ($scope, $http, $filter, $state, md5, util) {
@@ -36,7 +38,7 @@
                             util.setParams('userName', self.userName);
                             util.setParams('projectName', self.projectName);
                             util.setParams('token', msg.token);
-                            util.setParams('projectDes',msg.ProjectNameCN)
+                            util.setParams('projectDes',msg.ProjectNameCN);
                             self.getEditLangs();
                         } else {
                             alert(msg.rescode + ' ' + msg.errInfo);
@@ -62,14 +64,15 @@
             }
         ])
 
-        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util',
-            function ($http, $scope, $state, $stateParams, util) {
+        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util','$rootScope','$interval', '$timeout','$location',
+            function ($http, $scope, $state, $stateParams, util,$rootScope,$interval, $timeout,$location) {
                 var self = this;
+
                 self.init = function () {
                     if(util.getParams("projectDes")){
                         this.projectDes = util.getParams("projectDes")
                     }else {
-                        alert("访问超时，请重新登录")
+                        alert("访问超时，请重新登录");
                         $state.go('login')
                     }
                     // app 页面展开desktop
@@ -103,6 +106,102 @@
                         self.loading = false;
                     });
                     // console.log(util.getParams('editLangs'))
+                    // 新订单提醒弹框:
+                    self.path=$location.path();
+                    self.roomData={
+                        "noData":false,
+                        "TIMER":null,
+                        "total":0,
+                        "action":"getRoomOrderByStatus",
+                        "ID":"HotelID",
+                        "url":"order"
+                    }
+
+                    self.shopData={
+                        "noData":false,
+                        "TIMER":null,
+                        "total":0,
+                        "action":"getOrderByStatus",
+                        "ID":"ShopID",
+                        "url":"shoporder"
+                    }
+
+                    self.roomTotal=self.roomData.total;
+                    self.shopTotal=self.shopData.total;
+                    console && console.log(self.path);
+                    if(self.path != '/login'){
+                        self.polling(self.roomData,self.roomTotal);
+                        self.polling(self.shopData,self.shopTotal);
+                    }
+                }
+                // 新订单提醒弹框:
+                //10秒一次轮询待审核订单
+                self.polling=function(DATA,TOTAL){
+                    DATA.TIMER = $interval(function () {
+                        self.search(DATA,TOTAL);
+                    },10000)
+                }
+                //清除轮询
+                self.cancel = function (DATA) {
+                    $interval.cancel(DATA.TIMER);
+                    DATA.TIMER=null;
+                    console && console.log(DATA.TIMER);
+                }
+                //查看待审核列表
+                self.viewPendingList = function ($event,path,n,DATA,TOTAL) {
+                    var target=$event.target;
+                    console && console.log(target.tagName);
+                    if(target.tagName == 'LI' || target.tagName == 'A' || target.tagName == 'IMG'){
+                        console && console.log($location.path());
+                        // $location.path(path)
+                        $state.go(path, {'appId': n});//硬性刷新未解决
+                        // todo 增加查询待审核列表
+                    }else{
+                        $event.preventDefault();
+                    }
+                    self.cancel(DATA);//清除轮询
+                    $timeout(function(){//每次点击后暂停60S,继续下次轮询待审核订单
+                        self.polling(DATA,TOTAL);
+                    },10000);
+                }
+                // 查询待审核订单数量
+                self.search = function (DATA,TOATL) {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": DATA.action,
+                        "lang": util.langStyle(),
+                        ID: 0,
+                        "Status": "WAITAPPROVAL",
+                        "ContactorPhone": '',
+                        "ContactorName": '',
+                        "OrderNum": '',
+                        "page": 1,
+                        "per_page": 1
+                    });
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl(DATA.url, '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        // console && console.dir(response);
+                        var data = response.data;
+                        // console && console.dir(data);
+                        if (data.rescode == '200') {
+                            if (data.total == 0) {
+                                DATA.noData = true;
+                            }
+                            DATA.total=data.total;
+                            console.log(DATA.total);
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path('/login');
+                        } else {
+                            alert('获取客房预订订单列表失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                    });
                 }
 
                 self.feedback = function() {
@@ -199,6 +298,8 @@
                 }
 
                 self.logout = function (event) {
+                    self.cancel(self.roomData);//清除轮询
+                    self.cancel(self.shopData);//清除轮询
                     util.setParams('token', '');
                     $state.go('login');
                 }
@@ -215,9 +316,11 @@
                     }
                     
                 }
+
+
             }
         ])
-        
+
         .controller('feedbackController', ['$scope', function($scope) {
             var self = this;
             self.init = function() {
@@ -491,8 +594,6 @@
             }
         ])
 
-
-        
         // 微信用户管理
         .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
             function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
@@ -1842,9 +1943,6 @@
                     }, function errorCallback(data, status, headers, config) {
 
                     })
-
-         
-
                 }
 
                 // 商品分类，属于某分类则返回true
@@ -3530,6 +3628,5 @@
                 }
             }
         ])
-
 
 })();

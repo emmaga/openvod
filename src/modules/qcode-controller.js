@@ -1,7 +1,8 @@
 'use strict';
 (function () {
     var app = angular.module('app.qcode', [])
-        .controller('qcodeIndexController', ['$scope', '$http','$state', 'util', '$filter', 'NgTableParams',function ($scope, $http ,$state,util, $filter,NgTableParams) {
+        .controller('qcodeIndexController', ['$scope', '$http','$state', 'util', '$filter', 'NgTableParams','$location',
+            function ($scope, $http ,$state,util, $filter,NgTableParams,$location) {
             var self = this;
             self.init = function () {
                 self.searchDate = new Date().getTime()- 2678400000;

@@ -38,10 +38,12 @@
                     url: '/login',
                     templateUrl: 'pages/login.html'
                 })
+
                 .state('app', {
                     url: '/app?appId',
                     templateUrl: 'pages/app.html'
                 })
+
                 .state('app.shop', {
                     url: '/shop',
                     templateUrl: 'pages/shop.html'
@@ -706,6 +708,28 @@
                         }]
                     }
                 })
+                // 专题大片
+                .state('app.tvAdmin.MovieTopic', {
+                    url: '/MovieTopic?moduleId&label',
+                    templateUrl: 'pages/tv/MovieTopic.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 专题大片
+                .state('app.tvAdmin.MovieLocal', {
+                    url: '/MovieLocal?moduleId&label',
+                    templateUrl: 'pages/tv/MovieLocal.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                 // 音乐库
                 .state('app.tvAdmin.MusicCommon', {
                     url: '/musicCommon?moduleId&label',
