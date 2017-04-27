@@ -66,6 +66,11 @@
                     {{row.Status | shopOrderStatus}}
                 </td>
                 <!--/订单状态-->
+                <!--配送方式-->
+                <td title="'配送方式'">
+                    {{row.DeliveryType | deliverWay}}
+                </td>
+                <!--/配送方式-->
                 <!--订单总价-->
                 <td title="'订单总价'">
                     <ng-if ng-if="row.PayBy.indexOf('money') !== -1">{{row.TotalGoodsPrice | fenToYuan}}元 </ng-if>
@@ -96,7 +101,7 @@
                     <a ng-click="sol.editDeliverInfo(row)" ng-show="row.Status=='DELIVERING'">编辑快递信息</a>
                     <!--/编辑快递信息-->
                     <!--发货-->
-                    <a ng-click="sol.deliver(row.ID)" ng-show="row.Status=='ACCEPT'">发货</a>
+                    <a ng-click="sol.deliver(row.ID)" ng-show="row.Status=='ACCEPT' && row.DeliveryType!=='bySelf' && row.PayCash !== 'CASH'">发货</a>
                     <!--/发货-->
                     <!--接受-->
                     <a ng-click="sol.accept(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
@@ -105,7 +110,7 @@
                     <a ng-click="sol.reject(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
                     <!--/拒绝-->
                     <!--已完成-->
-                    <a ng-click="sol.finish(row.ID)" ng-show="row.Status=='DELIVERING'">已完成</a>
+                    <a ng-click="sol.finish(row.ID)" ng-show="row.Status=='DELIVERING' || (row.Status=='ACCEPT' && row.DeliveryType==='bySelf') || (row.Status=='ACCEPT' && row.PayCash === 'CASH')">已完成</a>
                     <!--/已完成-->
                     <!--取消订单-->
                     <a ng-click="sol.cancel(row.ID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>
