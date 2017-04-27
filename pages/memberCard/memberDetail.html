@@ -35,10 +35,10 @@
                     <span>历史累计积分</span>
                     <span class="pull-right">{{val}}</span>
                 </li>
-                <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='Status' && '{{val}}'">
+                <!-- <li class="list-group-item" ng-repeat="(key,val) in memberDetail.data" ng-show="'{{key}}'=='Status' && '{{val}}'">
                     <span>状态</span>
                     <span class="pull-right">{{val}}</span>
-                </li>
+                </li> -->
                 <hr>
                 <ng-repeat class="list-group-condensed"  ng-repeat="(key,val) in memberDetail.data" ng-show="key=='extend' && val.length>0">
                     <span>其他选填信息</span>
