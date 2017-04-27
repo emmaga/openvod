@@ -27,7 +27,10 @@
                         <!--商品名-->
                         <td> {{product.GoodsName}}</td>
                         <!--商品单价-->
-                        <td> {{product.price | fenToYuan}}</td>
+                        <td>
+                            <ng-if ng-if="product.PayBy.indexOf('money') !== -1">{{product.price | fenToYuan}}元 </ng-if>
+                            <ng-if ng-if="product.PayBy.indexOf('point') !== -1">{{product.point}}积分</ng-if>
+                        </td>
                         <!--商品数量-->
                         <td>{{product.GoodsNum}}</td>
                     </tr>
@@ -59,7 +62,10 @@
                 <!--订单总价-->
                 <li class="list-group-item">
                     订单总价
-                    <span class="pull-right">{{sod.info.detail.totalPri | fenToYuan}}</span>
+                    <span class="pull-right">
+                        <ng-if ng-if="sod.info.detail.PayBy.indexOf('money') !== -1">{{sod.info.detail.totalPri | fenToYuan}}元 </ng-if>
+                        <ng-if ng-if="sod.info.detail.PayBy.indexOf('point') !== -1">{{sod.info.detail.totalPoint}}积分</ng-if>
+                    </span>
                 </li>
                 <!--商品总数-->
                 <li class="list-group-item">
@@ -68,17 +74,6 @@
                 </li>
                 <hr>
                 <!--订单基本信息-->
-                <!--快递单号-->
-                <li class="list-group-item">
-                    快递单号
-                    <span class="pull-right">{{sod.deliverInfo.ExpressNum}}</span>
-                </li>
-                <!--快递公司-->
-                <li class="list-group-item">
-                    快递公司
-                    <span class="pull-right">{{sod.deliverInfo.ExpressCompany}}</span>
-                </li>
-                <hr>
                 <!--联系人信息-->
                 <!--昵称-->
                 <li class="list-group-item">
@@ -100,6 +95,16 @@
                     收货地址
                     <span class="pull-right">{{sod.info.detail.address}}</span>
                 </li>
+                <!--快递单号-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
+                    快递单号
+                    <span class="pull-right">{{sod.deliverInfo.ExpressNum}}</span>
+                </li>
+                <!--快递公司-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
+                    快递公司
+                    <span class="pull-right">{{sod.deliverInfo.ExpressCompany}}</span>
+                </li>
             </ul>
             <hr>
             <!--操作记录-->
@@ -110,6 +115,8 @@
                 {{info.OperateTime}}
                 <!--状态改变者-->
                 &nbsp{{info.OperateUserName}}
+                <!--微信用户操作-->
+                {{info.OperateDetail == 'GUEST_COMPLETED' ? '微信用户操作' : ''}}
                 <br>
             </small>
             <!--操作记录-->

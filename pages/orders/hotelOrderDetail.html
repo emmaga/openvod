@@ -82,6 +82,11 @@
                     姓名
                     <span class="pull-right">{{hod.orderInfo.ContactorName}}</span>
                 </li>
+                <!--会员等级-->
+                <li class="list-group-item">
+                    会员等级
+                    <span class="pull-right">{{hod.orderInfo.MemberCardLevelName ? hod.orderInfo.MemberCardLevelName : '微信粉丝'}}</span>
+                </li>
                 <!--联系人－手机-->
                 <li class="list-group-item">
                     手机
@@ -96,6 +101,12 @@
                 <li ng-if="hod.orderInfo.PlayDate" class="list-group-item">
                     游玩日期
                     <span class="pull-right">{{hod.orderInfo.PlayDate}}</span>
+                </li>
+                <hr ng-if="hod.orderInfo.Comment">
+                <!--备注-->
+                <li class="list-group-item" ng-if="hod.orderInfo.Comment">
+                    备注
+                    <span class="pull-right">{{hod.orderInfo.Comment}}</span>
                 </li>
             </ul>
             <hr>

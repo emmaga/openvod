@@ -53,15 +53,26 @@
                     </div>
                 </div>
                 <!--/商品图-->
-                <!-- 单价 -->
+                <!-- 单价or积分 -->
                 <div class="form-group">
-                    <label>单价</label>
-                    <input ng-model="goodsEdit.price" required placeholder="（必填）" type="number" min="0" class="form-control" step='0.01' >
+                    <label>支付方式</label>
+                    <div style="margin-bottom: 8px;">    
+                        <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="price" /> 现金
+                        <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="score" /> 积分
+                    </div>
+                    <input ng-show="goodsEdit.paytype == 'price'" ng-model="goodsEdit.price" placeholder="请输入价格（元）" type="number" min="0" class="form-control" step="0.01" />
+                    <input ng-show="goodsEdit.paytype == 'score'" ng-model="goodsEdit.score" placeholder="请输入积分" type="number" min="0" class="form-control" />
                 </div>
                 <!-- 库存 -->
                 <div class="form-group">
                     <label>库存</label>
                     <input ng-model="goodsEdit.invetory" required placeholder="（必填）" type="number" min="0" class="form-control" />
+                </div>
+                <!-- 配送方式 -->
+                <div class="form-group">
+                    <label>配送方式</label><br>
+                    <input ng-model="goodsEdit.byDelivery" type="checkbox" /> 支持快递
+                    <input ng-model="goodsEdit.bySelf" type="checkbox" /> 支持到店自取
                 </div>
                 <!-- 简介 -->
                 <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
@@ -80,6 +91,8 @@
             <div class="modal-footer">
                 <!-- 取消 -->
                 <button type="button" class="btn btn-default btn-sm" ng-click="goodsEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 删除 -->
+                <button type="button" class="btn btn-danger btn-sm" ng-click="goodsEdit.deleteGoods()"><i class="glyphicon glyphicon-trash"></i> {{'DELETE' | translate}}</button>
                 <!-- 保存 -->
                 <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="goodsEdit.saving"><i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}</button>
             </div>

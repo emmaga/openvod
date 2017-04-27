@@ -2978,12 +2978,12 @@
 /**
  * Resets
  * --------------------------------------------------
- * Adapted from normalize.css and some reset.css. We don't care even one
+ * Adapted from normalize.style and some reset.style. We don't care even one
  * bit about old IE, so we don't need any hacks for that in here.
  *
  * There are probably other things we could remove here, as well.
  *
- * normalize.css v2.1.2 | MIT License | git.io/normalize
+ * normalize.style v2.1.2 | MIT License | git.io/normalize
 
  * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
  * http://cssreset.com

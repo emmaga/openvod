@@ -114,6 +114,12 @@
                     {{row.ContactorName}}
                 </td>
                 <!--联系人－姓名-->
+                
+                <!--会员等级-->
+                <td title="'会员等级'">
+                    {{row.MemberCardLevelName ? row.MemberCardLevelName : '微信粉丝'}}
+                </td>
+                <!--会员等级-->
 
                 <!--联系人－手机-->
                 <td title="'手机'">
@@ -153,10 +159,7 @@
         <div ng-show="hol.noData">无数据</div>
         <!--订单列表 end-->
 
-    
     </div>
     <!-- 右侧部分 end-->
-    
-
 
 </div>

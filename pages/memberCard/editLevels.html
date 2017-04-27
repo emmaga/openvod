@@ -1,0 +1,39 @@
+<div ng-controller="editLevelsController as editLevels" ng-init="editLevels.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <form name="levelsEditForm" ng-submit="!levelsEditForm.$invalid && editLevels.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="editLevels.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">调级</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <!--调级-->
+                <ul class="list-group list-group-condensed">
+                    <!--当前等级-->
+                    <li class="list-group-item">
+                    <label>调整会员等级</label>
+                        <select ng-model="editLevels.levelCode" class="form-control">
+                            <option ng-repeat="level in editLevels.data" ng-value="level.ID">{{level.Name}}</option>
+                        </select>
+                    </li>
+                </ul>
+                <!--loading-->
+                <div ng-show="editLevels.loading">等级调整中，请稍候...</div>
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="editLevels.close()">{{'CANCEL' | translate}}</button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="levelsEditForm.$invalid || editLevels.saving">
+                <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>

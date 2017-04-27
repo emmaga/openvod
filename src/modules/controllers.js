@@ -9,8 +9,10 @@
                 self.init = function () {
                     this.maskUrl = '';
                 }
+
             }
         ])
+
 
         .controller('loginController', ['$scope', '$http', '$filter', '$state', 'md5', 'util',
             function ($scope, $http, $filter, $state, md5, util) {
@@ -36,7 +38,7 @@
                             util.setParams('userName', self.userName);
                             util.setParams('projectName', self.projectName);
                             util.setParams('token', msg.token);
-                            util.setParams('projectDes',msg.ProjectNameCN)
+                            util.setParams('projectDes',msg.ProjectNameCN);
                             self.getEditLangs();
                         } else {
                             alert(msg.rescode + ' ' + msg.errInfo);
@@ -62,14 +64,15 @@
             }
         ])
 
-        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util',
-            function ($http, $scope, $state, $stateParams, util) {
+        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util','$rootScope','$interval', '$timeout','$location',
+            function ($http, $scope, $state, $stateParams, util,$rootScope,$interval, $timeout,$location) {
                 var self = this;
+
                 self.init = function () {
                     if(util.getParams("projectDes")){
                         this.projectDes = util.getParams("projectDes")
                     }else {
-                        alert("访问超时，请重新登录")
+                        alert("访问超时，请重新登录");
                         $state.go('login')
                     }
                     // app 页面展开desktop
@@ -103,6 +106,102 @@
                         self.loading = false;
                     });
                     // console.log(util.getParams('editLangs'))
+                    // 新订单提醒弹框:
+                    self.path=$location.path();
+                    self.roomData={
+                        "noData":false,
+                        "TIMER":null,
+                        "total":0,
+                        "action":"getRoomOrderByStatus",
+                        "ID":"HotelID",
+                        "url":"order"
+                    }
+
+                    self.shopData={
+                        "noData":false,
+                        "TIMER":null,
+                        "total":0,
+                        "action":"getOrderByStatus",
+                        "ID":"ShopID",
+                        "url":"shoporder"
+                    }
+
+                    self.roomTotal=self.roomData.total;
+                    self.shopTotal=self.shopData.total;
+                    console && console.log(self.path);
+                    if(self.path != '/login'){
+                        self.polling(self.roomData,self.roomTotal);
+                        self.polling(self.shopData,self.shopTotal);
+                    }
+                }
+                // 新订单提醒弹框:
+                //10秒一次轮询待审核订单
+                self.polling=function(DATA,TOTAL){
+                    DATA.TIMER = $interval(function () {
+                        self.search(DATA,TOTAL);
+                    },10000)
+                }
+                //清除轮询
+                self.cancel = function (DATA) {
+                    $interval.cancel(DATA.TIMER);
+                    DATA.TIMER=null;
+                    console && console.log(DATA.TIMER);
+                }
+                //查看待审核列表
+                self.viewPendingList = function ($event,path,n,DATA,TOTAL) {
+                    var target=$event.target;
+                    console && console.log(target.tagName);
+                    if(target.tagName == 'LI' || target.tagName == 'A' || target.tagName == 'IMG'){
+                        console && console.log($location.path());
+                        // $location.path(path)
+                        $state.go(path, {'appId': n});//硬性刷新未解决
+                        // todo 增加查询待审核列表
+                    }else{
+                        $event.preventDefault();
+                    }
+                    self.cancel(DATA);//清除轮询
+                    $timeout(function(){//每次点击后暂停60S,继续下次轮询待审核订单
+                        self.polling(DATA,TOTAL);
+                    },10000);
+                }
+                // 查询待审核订单数量
+                self.search = function (DATA,TOATL) {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": DATA.action,
+                        "lang": util.langStyle(),
+                        ID: 0,
+                        "Status": "WAITAPPROVAL",
+                        "ContactorPhone": '',
+                        "ContactorName": '',
+                        "OrderNum": '',
+                        "page": 1,
+                        "per_page": 1
+                    });
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl(DATA.url, '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        // console && console.dir(response);
+                        var data = response.data;
+                        // console && console.dir(data);
+                        if (data.rescode == '200') {
+                            if (data.total == 0) {
+                                DATA.noData = true;
+                            }
+                            DATA.total=data.total;
+                            console.log(DATA.total);
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $location.path('/login');
+                        } else {
+                            alert('获取客房预订订单列表失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                    });
                 }
 
                 self.feedback = function() {
@@ -172,6 +271,11 @@
                         case 10:
                                 $state.go('app.realTimeCommand', { 'appId': n });
                             break;
+                        case 11:
+                            if(!$state.includes('app.memberCard')) {
+                                $state.go('app.memberCard.memberList', { 'appId': n });
+                            }
+                            break;
                         default:
                             break;
 
@@ -194,6 +298,8 @@
                 }
 
                 self.logout = function (event) {
+                    self.cancel(self.roomData);//清除轮询
+                    self.cancel(self.shopData);//清除轮询
                     util.setParams('token', '');
                     $state.go('login');
                 }
@@ -210,9 +316,11 @@
                     }
                     
                 }
+
+
             }
         ])
-        
+
         .controller('feedbackController', ['$scope', function($scope) {
             var self = this;
             self.init = function() {
@@ -486,8 +594,6 @@
             }
         ])
 
-
-        
         // 微信用户管理
         .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
             function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
@@ -934,6 +1040,7 @@
                     self.editLangs = util.getParams('editLangs');
                     self.name = {};
                     self.intro = {};
+                    self.paytype = 'price';
                 }
 
                 self.cancel = function () {
@@ -942,6 +1049,25 @@
                 }
 
                 self.addGoods = function () {
+                    // 价格设置检查
+                    if (self.paytype == 'price') {
+                        if (self.price == null) {
+                            alert('请输入价格');
+                            return;
+                        }
+                    } else if (self.paytype == 'score') {
+                        if (self.score == null) {
+                            alert('请输入积分');
+                            return;
+                        }
+                    }
+
+                    // 配送方式检查
+                    if (!self.byDelivery && !self.bySelf) {
+                        alert('请选择配送方式');
+                        return;
+                    }
+
                     // 图片不能为空
                     if (self.imgs.data.length == 0) {
                         alert('请上传图片');
@@ -962,6 +1088,27 @@
                         imgSrc[i].Seq = i;
                         imgSrc[i].ImageSize = Number(l[i].fileSize);
                     }
+                    var _price = {
+                        money : {
+                            Enable : false,
+                            price : 0
+                        },
+                        point : {
+                            Enable : false,
+                            point : 0
+                        }
+                    }
+                    var _deliveryType = [];
+                    self.byDelivery && _deliveryType.push('express');
+                    self.bySelf && _deliveryType.push('bySelf');
+
+                    if (self.paytype == 'price') {
+                        _price.money.Enable = true;
+                        _price.money.price = self.price * 100;
+                    } else if (self.paytype == 'score') {
+                        _price.point.Enable = true;
+                        _price.point.point = self.score;
+                    }
                     var data = JSON.stringify({
                         "action": "addMgtProductDetail",
                         "token": util.getParams('token'),
@@ -971,11 +1118,13 @@
                             "categoryId": self.shopGoodsCategoryId,
                             "name": self.name,
                             "invetory": self.invetory,
-                            "price": self.price*100,
+                            "price": _price,
+                            "deliveryType": _deliveryType,
                             "intro": self.intro,
                             "imgSrc": imgSrc
                         }
                     });
+                    console.dir(data);
 
                     self.saving = true;
                     $http({
@@ -1114,6 +1263,7 @@
                 self.init = function () {
                     self.productId = $scope.app.maskParams.productId;
                     self.editLangs = util.getParams('editLangs');
+                    self.langStyle = util.langStyle();
                     self.name = {};
                     self.intro = {};
 
@@ -1126,7 +1276,7 @@
                     var data = JSON.stringify({
                         "action": "getMgtProductDetail",
                         "token": util.getParams('token'),
-                        "lang": util.langStyle(),
+                        "lang": self.langStyle,
                         "productId": self.productId
                     })
 
@@ -1139,10 +1289,24 @@
                             var data = data.data.data;
                             self.name = data.product.name;
                             self.invetory = data.product.invetory - 0;
-                            self.price = (data.product.price - 0) / 100;
                             self.intro = data.product.intro;
                             self.imgs = new Imgs(data.product.imgSrc);
                             self.imgs.initImgs();
+                            var _price = data.product.price;
+                            if (_price.money.Enable) {
+                                self.paytype = 'price';
+                                self.price = (_price.money.price - 0)/100;
+                            } else if (_price.point.Enable) {
+                                self.paytype = 'score';
+                                self.score = _price.point.point - 0;
+                            }
+                            var _deliveryType = data.product.deliveryType;
+                            if(_deliveryType.indexOf('express') !== -1) {
+                                self.byDelivery = true;
+                            }
+                            if(_deliveryType.indexOf('bySelf') !== -1) {
+                                self.bySelf = true;
+                            }
                         } else {
                             alert('读取商品失败' + data.data.rescode + '，' + data.data.errInfo);
                         }
@@ -1157,8 +1321,65 @@
                     console.log('cancel')
                     $scope.app.showHideMask(false);
                 }
+                self.deleteGoods = function () {
+                    var flag = confirm('确认删除？');
+                    if (!flag) {
+                        return;
+                    }
+                    // self.saving = true;
+                    var data = {
+                        "action": "editMgtProductStatus",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "product": {
+                            "productID": self.productId - 0,
+                            "Status": 2    //0是下架，1是上架,2已删除
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    console && console.dir(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('删除成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('删除失败， ' + data.data.errInfo);
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错')
+                    }).finally(function (value) {
+                        // self.saving = false;
+                    });
+                }
 
                 self.editGoods = function () {
+                    // 价格设置检查
+                    if (self.paytype == 'price') {
+                        if (self.price === undefined || self.price === null) {
+                            alert('请输入价格');
+                            return;
+                        }
+                    } else if (self.paytype == 'score') {
+                        if (self.score === undefined || self.price === null) {
+                            alert('请输入积分');
+                            return;
+                        }
+                    }
+
+                    // 配送方式检查
+                    if (!self.byDelivery && !self.bySelf) {
+                        alert('请选择配送方式');
+                        return;
+                    }
+
                     // 图片不能为空
                     if (self.imgs.data.length == 0) {
                         alert('请上传图片');
@@ -1179,15 +1400,37 @@
                         imgSrc[i].Seq = i;
                         imgSrc[i].ImageSize = Number(l[i].fileSize);
                     }
+                    var _price = {
+                        money : {
+                            Enable : false,
+                            price : 0
+                        },
+                        point : {
+                            Enable : false,
+                            point : 0
+                        }
+                    }
+                    var _deliveryType = [];
+                    self.byDelivery && _deliveryType.push('express');
+                    self.bySelf && _deliveryType.push('bySelf');
+
+                    if (self.paytype == 'price') {
+                        _price.money.Enable = true;
+                        _price.money.price = self.price * 100;
+                    } else if (self.paytype == 'score') {
+                        _price.point.Enable = true;
+                        _price.point.point = self.score;
+                    }
                     var data = JSON.stringify({
                         "action": "editMgtProductDetail",
                         "token": util.getParams('token'),
-                        "lang": util.langStyle(),
+                        "lang": self.langStyle,
                         "product": {
                             "productID": self.productId,
                             "name": self.name,
                             "invetory": self.invetory,
-                            "price": self.price*100,
+                            "price": _price,
+                            "deliveryType": _deliveryType,
                             "intro": self.intro,
                             "imgSrc": imgSrc
                         }
@@ -1383,7 +1626,6 @@
                 //     });
                 // }
 
-
                 self.saveForm = function () {
                     self.saving = true;
                     
@@ -1421,7 +1663,7 @@
                 };
 
                 self.deleteShop = function () {
-                    var flag = confirm('确认删除？')
+                    var flag = confirm('确认删除？');
                     if (!flag) {
                         return;
                     }
@@ -1452,7 +1694,7 @@
                             alert('访问超时，请重新登录');
                             $state.go('login')
                         } else {
-                            alert('删除失败， ' + data.data.errInfo);
+                            alert('删除失败，' + data.data.errInfo);
                         }
 
                     }, function errorCallback(data, status, headers, config) {
@@ -1604,7 +1846,6 @@
                     $scope.app.showHideMask(true,'pages/categoryEdit.html');
                 }
 
-
                 self.categoryDelete = function () {
                     var flag = confirm('确认删除？')
                     if (!flag) {
@@ -1674,40 +1915,34 @@
                 // 商品列表
                 self.getProductList = function (ShopGoodsCategoryID) {
 
-              
-                            var data = {
-                                "action": "getMgtShopProductList",
-                                "token": util.getParams("token"),
-                                "lang": self.langStyle,
-                                "ShopID": self.stateParams.ShopID - 0,
-                                "count": 1000,
-                                "page":1
-                            }
+                    var data = {
+                        "action": "getMgtShopProductList",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "ShopID": self.stateParams.ShopID - 0,
+                        "count": 100000,
+                        "page":1
+                    }
 
-                            if (!(ShopGoodsCategoryID == "all")) {
-                                data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
-                                data.action = "getMgtProductList";
-                            }
-                            
-                            data = JSON.stringify(data);
+                    if (!(ShopGoodsCategoryID == "all")) {
+                        data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
+                        data.action = "getMgtProductList";
+                    }
+                    
+                    data = JSON.stringify(data);
 
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        // params.total(data.data.data.productTotal);
+                        self.goodsList = data.data.data.productList;
+                        // return data.data.data.productList;
+                        console && console.dir(self.goodsList);
+                    }, function errorCallback(data, status, headers, config) {
 
-                            $http({
-                                method: $filter('ajaxMethod')(),
-                                url: util.getApiUrl('shopinfo', 'shopList', 'server'),
-                                data: data
-                            }).then(function successCallback(data, status, headers, config) {
-                                // params.total(data.data.data.productTotal);
-                                var data = data.data.data.productList;
-                                self.goodsList  = data;
-                                // return data;
-
-                            }, function errorCallback(data, status, headers, config) {
-
-                            })
-
-         
-
+                    })
                 }
 
                 // 商品分类，属于某分类则返回true
@@ -1760,16 +1995,23 @@
                     }).then(function successCallback(data, status, headers, config) {
                         console.log(data)
                         alert('修改分类成功');
-                        $state.reload('app.shop.goods.goodsList')
                     }, function errorCallback(data, status, headers, config) {
-
+                        alert("修改失败"+data.errInfo);
+                        $state.reload('app.shop.goods.goodsList')
                     });
                 }
 
                 // 商品 上下架
                 self.changeGoodsStatus = function (productId, status, value) {
-                    console.log('productId:' + productId + ' status:' + status + ' value:' + value)
+                    console && console.log('productId:' + productId + ' status:' + status + ' value:' + value)
+
                     if (status == true) {
+                        // todo:添加 status == 2 时的状态（后台）
+                        // if(status == 2){
+                        //     status == 2
+                        // }else{
+                        //     status = 1;
+                        // }
                         status = 1;
                     } else {
                         status =0;
@@ -1785,7 +2027,6 @@
                         }
                     };
 
-
                     data = JSON.stringify(data);
                     $http({
                         method: $filter('ajaxMethod')(),
@@ -1793,9 +2034,9 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         alert('修改成功')
-                        $state.reload('app.shop.goods.goodsList')
                     }, function errorCallback(data, status, headers, config) {
-
+                        alert("修改失败"+data.errInfo);
+                        $state.reload('app.shop.goods.goodsList')
                     });
                 }
             }
@@ -3387,6 +3628,5 @@
                 }
             }
         ])
-
 
 })();

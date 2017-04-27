@@ -1,0 +1,43 @@
+<div ng-controller="configMemberCardController as configMemberCard" ng-init="configMemberCard.init()"
+     class="modal-dialog modal-sm" xmlns="http://www.w3.org/1999/html">
+    <div class="modal-content">
+        <!--loading-->
+        <form name="configMemberCardForm" ng-submit="configMemberCard.configurationLink && configMemberCard.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="configMemberCard.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">配置</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <!--升级策略-->
+                <div class="form-group" ng-repeat="row in configMemberCard.upgradeStrategy_list">
+                    <label>升级策略{{row.ID}}：
+                        <input ng-checked="row.is_selected" type="checkbox"  ng-model="configMemberCard.isSelected" disabled
+                                                 ng-click="configMemberCard.upgradeStrategyChange(row)"/>{{row.StrategyDesc}}</label>
+                </div>
+                <!--wx等级跳转地址-->
+                <div class="form-group">
+                    <label>微信-会员卡-等级-地址配置</label>
+                    <textarea required placeholder="（必填）" type="text" class="form-control"
+                              ng-model="configMemberCard.configurationLink" maxlength="512">
+                    </textarea>
+                </div>
+                <!--loading-->
+                <div ng-show="configMemberCard.loading">配置调整中，请稍候...</div>
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="configMemberCard.close()">{{'CANCEL' | translate}}</button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary btn-sm" ng-disabled="configMemberCard.saving">
+                <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>

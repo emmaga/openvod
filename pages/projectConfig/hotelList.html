@@ -13,15 +13,15 @@
     <!--hotel list-->
     <div class="row">
         <div class="col-xs-6">
-    <ul class="list-group">
-        <li ng-repeat="hotel in pcHotelList.list" class="list-group-item">
-            {{hotel.Name[pcHotelList.defaultLangCode]}}
-            <a ng-click="pcHotelList.delete(hotel.ID)"  class="btn pull-right">删除</a>
-            <a ng-click="pcHotelList.edit(hotel.ID)" class="btn pull-right">编辑</a>
-            <br>
-        </li>
-    </ul>
-    </div>
+            <ul class="list-group">
+                <li ng-repeat="hotel in pcHotelList.list" class="list-group-item">
+                    {{hotel.Name[pcHotelList.defaultLangCode]}}
+                    <a ng-click="pcHotelList.delete(hotel.ID)" class="btn pull-right">删除</a>
+                    <a ng-click="pcHotelList.edit(hotel.ID)" class="btn pull-right">编辑</a>
+                    <br>
+                </li>
+            </ul>
+        </div>
     </div>
     <!--hotel list-->
 </div>

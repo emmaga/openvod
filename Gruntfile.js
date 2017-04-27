@@ -14,6 +14,7 @@ module.exports = function(grunt) {
                             'src/modules/controllers.js',
                             'src/modules/tv-admin-controllers.js',
                             'src/modules/project-config-controllers.js',
+                            'src/modules/member-card-controllers.js',
                             'src/modules/orders-controllers.js',
                             'src/modules/directives.js',
                             'src/modules/services.js',
