@@ -17,14 +17,22 @@
                     <!--当前积分-->
                     <li class="list-group-item">
                         <span>当前积分</span>
-                            <h3 style=" margin: 0">{{editScores.Bouns}}分</h3>
+                        <h3 style=" margin: 0">
+                            {{editScores.Bouns}}分
+                            <ng-if ng-if="editScores.added!=null && editScores.added>0">
+                                +{{editScores.added}}分
+                            </ng-if>
+                            <ng-if ng-if="editScores.added!=null && editScores.added<0">
+                                {{editScores.added}}分
+                            </ng-if>
+                        </h3>
                     </li>
                     <!--增加-->
                     <li class="list-group-item">
                         <div class="form-group">
-                            <label>调整积分</label>
-                            <small class="theme-color">如需减少积分，请输入负数</small>
+                            <label>增加积分</label>
                             <input required type="number" step="1" class="form-control" ng-model="editScores.added" placeholder="请输入增加的积分" />
+                            <small class="theme-color">如需减少积分，请输入负数</small>
                         </div>
                     </li>
                 </ul>
