@@ -55,9 +55,11 @@
                 <!--/商品图-->
                 <!-- 单价or积分 -->
                 <div class="form-group">
-                    <label>商品类型</label><br>
-                    <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="price" /> 单价 
-                    <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="score" /> 积分
+                    <label>支付方式</label>
+                    <div style="margin-bottom: 8px;">    
+                        <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="price" /> 现金
+                        <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="score" /> 积分
+                    </div>
                     <input ng-show="goodsEdit.paytype == 'price'" ng-model="goodsEdit.price" placeholder="请输入价格（元）" type="number" min="0" class="form-control" step="0.01" />
                     <input ng-show="goodsEdit.paytype == 'score'" ng-model="goodsEdit.score" placeholder="请输入积分" type="number" min="0" class="form-control" />
                 </div>
