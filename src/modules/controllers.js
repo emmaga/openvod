@@ -126,13 +126,14 @@
                         "url":"shoporder"
                     }
 
+                    /* 禁用消息提醒功能
                     self.roomTotal=self.roomData.total;
                     self.shopTotal=self.shopData.total;
                     console && console.log(self.path);
                     if(self.path != '/login'){
                         self.polling(self.roomData,self.roomTotal);
                         self.polling(self.shopData,self.shopTotal);
-                    }
+                    }*/
                 }
                 // 新订单提醒弹框:
                 //10秒一次轮询待审核订单
@@ -193,13 +194,14 @@
                             DATA.total=data.total;
                             console.log(DATA.total);
                         } else if (data.rescode == '401') {
-                            alert('访问超时，请重新登录');
-                            $location.path('/login');
+                            // alert('访问超时，请重新登录');
+                            // $location.path('/login');
                         } else {
                             alert('获取客房预订订单列表失败，' + data.errInfo);
                         }
                     }, function errorCallback(response) {
-                        alert('连接服务器出错');
+                        // alert('连接服务器出错');
+                        console.log('轮训出错 500');
                     }).finally(function (value) {
                     });
                 }

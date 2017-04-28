@@ -631,20 +631,28 @@
                     self.loading=false;
                     self.langStyle = util.langStyle();
                     self.upgradeStrategy_list=$scope.app.maskParams.data;
-                    self.isSelected=true;//目前只有1种升级策略，默认被勾选
                     self.configurationLink=$scope.app.maskParams.value;
-                    console && console.log($scope.app.maskParams.value);
+                    enableJIFEN(self.upgradeStrategy_list);
+                }
+
+                // 默认勾选积分策略，后期加策略后再做逻辑调整
+                function enableJIFEN(list) {
+                    for(var i =0; i < list.length; i++) {
+                        if (list[i].StrategyName === 'JIFEN' && !list[i].is_selected) {
+                            list[i].is_selected = true;
+                            self.upgradeStrategyChange(list[i]);
+                        }
+                    }
                 }
 
                 //当升级策略被修改时发起请求
                 self.upgradeStrategyChange=function(row){
-                    console && console.dir(row);
                     var data = JSON.stringify({
                         "action": "card_upgradeStrategy_modify",
                         "token": util.getParams("token"),
                         "lang": self.langStyle,
                         "UpgradeStrategyID": parseInt(row.ID),
-                        "is_selected": self.isSelected
+                        "is_selected": true
                     });
                     $http({
                         method: 'POST',
@@ -652,10 +660,7 @@
                         data: data
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
-                            alert("策略修改成功！");
-
-                            //该同步请求依赖AJAX的请求数据，故需放在AJAX请求成功的回调函数中
-                            $scope.app.showHideMask(true, 'pages/memberCard/configMemberCard.html');
+                            // alert("策略修改成功！");
                         } else {
                             alert( data.data.rescode + '，' + data.data.errInfo);
                         }
