@@ -229,6 +229,9 @@
                                 DATA.noData = true;
                             }
                             DATA.total=data.total;
+                            if(self.roomData.total > 0 || self.shopData.total > 0) {
+                                document.getElementById('speaker') && document.getElementById('speaker').play();
+                            }
                         } else if (data.rescode == '401') {
                             // alert('访问超时，请重新登录');
                             // $location.path('/login');

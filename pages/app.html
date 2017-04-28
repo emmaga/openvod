@@ -109,7 +109,7 @@
                     <span class="sr-only">Close</span>
                 </button> -->
             </li>
-            <video width="0" height="0" autoplay ng-if="(app.roomData.total && app.roomData.TIMER) || (app.shopData.total && app.shopData.TIMER)">
+            <video id="speaker" width="0" height="0" autoplay ng-if="(app.roomData.total && app.roomData.TIMER) || (app.shopData.total && app.shopData.TIMER)">
                 <source src="./dist/mp3/order.wav">
                 Your browser does not support the video tag.
             </video>
