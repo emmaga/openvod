@@ -105,9 +105,10 @@
                     }).finally(function (value) {
                         self.loading = false;
                     });
-                    // console.log(util.getParams('editLangs'))
-                    // 新订单提醒弹框:
+
+                    // 待审核提醒
                     self.path=$location.path();
+                      
                     self.roomData={
                         "noData":false,
                         "TIMER":null,
@@ -126,10 +127,38 @@
                         "url":"shoporder"
                     }
 
-                    /* 禁用消息提醒功能
                     self.roomTotal=self.roomData.total;
                     self.shopTotal=self.shopData.total;
-                    console && console.log(self.path);
+
+                    if(self.path != '/login') {
+                        self.polling(self.roomData,self.roomTotal);
+                        self.polling(self.shopData,self.shopTotal);
+                    }
+                    
+                    // console.log(util.getParams('editLangs'))
+                    // 新订单提醒弹框:
+                    /*self.path=$location.path();
+                    self.roomData={
+                        "noData":false,
+                        "TIMER":null,
+                        "total":0,
+                        "action":"getRoomOrderByStatus",
+                        "ID":"HotelID",
+                        "url":"order"
+                    }
+
+                    self.shopData={
+                        "noData":false,
+                        "TIMER":null,
+                        "total":0,
+                        "action":"getOrderByStatus",
+                        "ID":"ShopID",
+                        "url":"shoporder"
+                    }
+
+                    self.roomTotal=self.roomData.total;
+                    self.shopTotal=self.shopData.total;
+                    
                     if(self.path != '/login'){
                         self.polling(self.roomData,self.roomTotal);
                         self.polling(self.shopData,self.shopTotal);
@@ -138,16 +167,24 @@
                 // 新订单提醒弹框:
                 //10秒一次轮询待审核订单
                 self.polling=function(DATA,TOTAL){
-                    DATA.TIMER = $interval(function () {
-                        self.search(DATA,TOTAL);
+                    console.log('polling');
+                    
+                    DATA.TIMER = $timeout(function () {
+                        console.log($location.path());
+                        if (util.getParams(DATA.action) == DATA.TIMER.$$timeoutId && $location.path() !== '/login') {
+                            self.search(DATA,TOTAL);
+                            self.polling(DATA,TOTAL);
+                        }
                     },10000)
+
+                    util.setParams(DATA.action, DATA.TIMER.$$timeoutId);
+                    
                 }
                 //清除轮询
-                self.cancel = function (DATA) {
-                    $interval.cancel(DATA.TIMER);
-                    DATA.TIMER=null;
-                    console && console.log(DATA.TIMER);
-                }
+                // self.cancel = function (DATA) {
+                //     $timeout.cancel(DATA.TIMER);
+                //     DATA.TIMER=null;
+                // }
                 //查看待审核列表
                 self.viewPendingList = function ($event,path,n,DATA,TOTAL) {
                     var target=$event.target;
@@ -160,10 +197,10 @@
                     }else{
                         $event.preventDefault();
                     }
-                    self.cancel(DATA);//清除轮询
+                    /*self.cancel(DATA);//清除轮询
                     $timeout(function(){//每次点击后暂停60S,继续下次轮询待审核订单
                         self.polling(DATA,TOTAL);
-                    },10000);
+                    },10000);*/
                 }
                 // 查询待审核订单数量
                 self.search = function (DATA,TOATL) {
@@ -192,16 +229,15 @@
                                 DATA.noData = true;
                             }
                             DATA.total=data.total;
-                            console.log(DATA.total);
                         } else if (data.rescode == '401') {
                             // alert('访问超时，请重新登录');
                             // $location.path('/login');
                         } else {
-                            alert('获取客房预订订单列表失败，' + data.errInfo);
+                            // alert('获取客房预订订单列表失败，' + data.errInfo);
                         }
                     }, function errorCallback(response) {
                         // alert('连接服务器出错');
-                        console.log('轮训出错 500');
+                        console.log('轮循出错 500');
                     }).finally(function (value) {
                     });
                 }
@@ -300,8 +336,6 @@
                 }
 
                 self.logout = function (event) {
-                    self.cancel(self.roomData);//清除轮询
-                    self.cancel(self.shopData);//清除轮询
                     util.setParams('token', '');
                     $state.go('login');
                 }

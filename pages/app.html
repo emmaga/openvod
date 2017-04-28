@@ -88,26 +88,26 @@
     </div>
     <!--全局提示框-->
         <ul class="list-unstyled alert_bar" ng-show="(app.path != '/login')" style="margin-right:20px;position:absolute;right:20px;bottom:50px;z-index:10000">
-            <li class="alert alert-{{type || 'info'}}" ng-show="app.roomData.total && app.roomData.TIMER" style="padding:5px" ng-click="app.viewPendingList($event,'app.hotelOrderList',2,app.roomData,app.roomTotal)">
+            <li class="alert alert-{{type || 'info'}}" ng-show="app.roomData.total" style="padding:5px" ng-click="app.viewPendingList($event,'app.hotelOrderList',2,app.roomData,app.roomTotal)">
                 <img src="dist/imgs/app-icon-04.png" alt="" style="width:36px;height:36px;border-radius: 5px">
                 <a href=""  style="padding-left:5px;padding-right:5px">
                     您有{{app.roomData.total}}条订单待审核，点击查看详情！
                 </a>
                 <!-- && (!app.roomData.noData || !app.shopData.noData)  -->
-                <button type="button" class="close" data-dismiss="modal" ng-click="hideAlert()">
+                <!-- <button type="button" class="close" data-dismiss="modal" ng-click="hideAlert()">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
-                </button>
+                </button> -->
             </li>
-            <li class="alert alert-{{type || 'info'}}" ng-show="app.shopData.total && app.shopData.TIMER" style="padding:5px;margin-bottom:0" ng-click="app.viewPendingList($event,'app.shopOrderList',4,app.shopData,app.shopTotal)">
+            <li class="alert alert-{{type || 'info'}}" ng-show="app.shopData.total" style="padding:5px;margin-bottom:0" ng-click="app.viewPendingList($event,'app.shopOrderList',4,app.shopData,app.shopTotal)">
                 <img src="dist/imgs/app-icon-03.png" alt="" style=" width:36px;height:36px;border-radius: 5px">
                 <a href="" style="padding-left:5px;padding-right:5px">
                     您有{{app.shopData.total}}条订单待审核，点击查看详情！
                 </a>
-                <button type="button" class="close" data-dismiss="modal" ng-click="hideAlert()">
+                <!-- <button type="button" class="close" data-dismiss="modal" ng-click="hideAlert()">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
-                </button>
+                </button> -->
             </li>
             <video width="0" height="0" autoplay ng-if="(app.roomData.total && app.roomData.TIMER) || (app.shopData.total && app.shopData.TIMER)">
                 <source src="./dist/mp3/order.wav">
