@@ -43,7 +43,7 @@
         <!--tab 筛选条件－订单状态-->
         <ul class="nav nav-tabs">
             <li  ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
-                <a ng-click="hol.searchByStatus(s.code)" >{{s.name[hol.defaultLangCode]}}</a>
+                <a ng-click="hol.searchByStatus(s.code)" id="{{s.code}}Room">{{s.name[hol.defaultLangCode]}}</a>
             </li>
         </ul>
 
