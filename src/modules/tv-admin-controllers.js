@@ -2892,7 +2892,7 @@
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
+                        $state.go('login');
                     } else {
                         alert('读取信息失败，' + data.errInfo);
                         deferred.reject();
@@ -5041,7 +5041,7 @@
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
+                        $state.go('login');
                     } else {
                         alert('读取信息失败，' + data.errInfo);
                         deferred.reject();
@@ -7350,7 +7350,7 @@
                             deferred.resolve();
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                             deferred.reject();
@@ -8739,7 +8739,7 @@
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
+                        $state.go('login');
                     } else {
                         alert('读取信息失败，' + data.errInfo);
                         deferred.reject();
@@ -19662,7 +19662,7 @@
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
+                        $state.go('login');
                     } else {
                         alert('读取信息失败，' + data.errInfo);
                         deferred.reject();
@@ -19882,7 +19882,7 @@
                             deferred.resolve();
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                             deferred.reject();
