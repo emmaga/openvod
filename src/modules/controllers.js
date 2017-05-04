@@ -134,12 +134,12 @@
                     }
 
                     if (self.path != '/login') {//未登录时不轮询，和退出登录时结束轮询
-                        if (!util.getParams('newRoomOrder') || !util.getParams('roomCreateTime')) {
-                            self.searchInit(self.roomData);
-                        }
-                        if (!util.getParams('newShopOrder') || !util.getParams('shopCreateTime')) {
-                            self.searchInit(self.shopData);
-                        }
+                        // if (!util.getParams('newRoomOrder') || !util.getParams('roomCreateTime')) {
+                        //     self.searchInit(self.roomData);
+                        // }
+                        // if (!util.getParams('newShopOrder') || !util.getParams('shopCreateTime')) {
+                        //     self.searchInit(self.shopData);
+                        // }
                         //解决重载时，需要等待polling轮询一次,才能得到数据
                         self.search(self.roomData);
                         self.search(self.shopData);
@@ -151,7 +151,7 @@
                 // 新订单提醒弹框:
                 //10秒一次轮询待审核订单
                 self.polling = function (DATA) {
-                    console.log('polling');
+                    // console.log('polling');
                     DATA.TIMER = $timeout(function () {
                         // console && console.log(util.getParams(DATA.action));
                         if (util.getParams(DATA.action) == DATA.TIMER.$$timeoutId && $location.path() !== '/login') {
@@ -173,48 +173,89 @@
                     DATA.newData = false;//更新新订单说明，隐藏弹框
                 }
                 //查看待审核列表
-                self.PendingList = function ($event, path, n, DATA) {
+                self.PendingList = function ($event,n) {
+                    // console && console.log('PendingList');
                     var target = $event.target;
-                    console && console.log(target.tagName);
-                    if (target.tagName == 'B') {
-                        console && console.log($location.path());
-                        if ($location.path() == ('/app/' + path.slice(4, path.length))) {
-                            $state.reload();//解决点击当前页面，不能重新加载的问题
-                        } else {
-                            $state.go(path, {'appId': n});
-                        }
-                        // todo 增加查询待审核列表
-                        if(DATA.ID == "HotelID"){//客房订单
-                            $timeout(function(){
-                                document.getElementById("WAITAPPROVALRoom").click();
-                            },0);
-                        } else {//商城订单
-                            $timeout(function(){
-                                document.getElementById("WAITAPPROVALShop").click();
-                            },0);
-                        }
+                    // console && console.log(target.tagName);
+                    switch (n) {
+                        case 2://客房订单
+                            if (target.tagName == 'B') {
+                                if ($state.includes('app.hotelOrderList')) {
+                                    // $state.reload();//解决点击当前页面，不能重新加载的问题
+                                } else {
+                                    $state.go('app.hotelOrderList', {'appId': n});
+                                }
+                                // todo 增加 TypeError: Cannot read property 'click' of nul 错误处理
+                                $timeout(function () {
+                                    document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click('WAITAPPROVAL');
+                                }, 0);
+                                break;
+                            }else{
+                                $event.preventDefault();
+                                break;
+                            }
+                        case 4://商城订单
+                            if (target.tagName == 'B') {
+                                if ($state.includes('app.shopOrderList')) {
+                                    // $state.reload();//解决点击当前页面，不能重新加载的问题
+                                } else {
+                                    $state.go('app.shopOrderList', {'appId': n});
+                                }
+                                // todo 增加 TypeError: Cannot read property 'click' of nul 错误处理
+                                $timeout(function () {
+                                    document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click('WAITAPPROVAL');
+                                }, 0);
+                                break;
+                            }else{
+                                $event.preventDefault();
+                                break;
+                            }
+                        default:
+                            break;
                     }
+                    // if (target.tagName == 'B') {
+                    //     if ($state.current.name == path) {
+                    //         $state.reload();//解决点击当前页面，不能重新加载的问题
+                    //     } else {
+                    //         // todo 增加 Error:transition superseded 错误处理
+                    //         $state.go(path, {'appId': n});
+                    //     }
+                    //     // todo 增加查询待审核列表
+                    //     if (DATA.ID == "HotelID") {//客房订单
+                    //         window.onload=(function(){
+                    //             $timeout(function () {
+                    //                 document.getElementById("WAITAPPROVALRoom").click('WAITAPPROVAL');
+                    //             }, 1000);
+                    //         })();
+                    //     } else {//商城订单
+                    //         window.onload=(function(){
+                    //             $timeout(function () {
+                    //                 document.getElementById("WAITAPPROVALShop").click('WAITAPPROVAL');
+                    //             }, 1000);
+                    //         })();
+                    //     }
+                    // }
                 }
                 //查看待审核列表
                 self.viewPendingList = function ($event, path, n, DATA) {
                     var target = $event.target;
-                    console && console.log(target.tagName);
+                    // console && console.log(target.tagName);
                     if (target.tagName == 'LI' || target.tagName == 'A' || target.tagName == 'IMG' || target.tagName == 'B') {
                         // console && console.log(('/app/'+path.slice(4,path.length)));
-                        if ($location.path() == ('/app/' + path.slice(4, path.length))) {
-                            $state.reload();//解决点击当前页面，不能重新加载的问题
+                        if ($state.current.name == path) {
+                            // $state.reload();//解决点击当前页面，不能重新加载的问题
                         } else {
                             $state.go(path, {'appId': n});
                         }
                         // todo 增加查询待审核列表
-                        if(DATA.ID == "HotelID"){//客房订单
-                            $timeout(function(){
-                                document.getElementById("WAITAPPROVALRoom").click();
-                            },0);
+                        if (DATA.ID == "HotelID") {//客房订单
+                            $timeout(function () {
+                                document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click();
+                            }, 0);
                         } else {//商城订单
-                            $timeout(function(){
-                                document.getElementById("WAITAPPROVALShop").click();
-                            },0);
+                            $timeout(function () {
+                                document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click();
+                            }, 0);
                         }
                         self.hideAlert(DATA);
                     } else {
@@ -222,56 +263,56 @@
                     }
                 }
                 // 初始化待审核订单数量，新订单号及下单时间
-                self.searchInit = function (DATA) {
-                    console.log('searchInit');
-                    var data = JSON.stringify({
-                        "token": util.getParams('token'),
-                        "action": DATA.action,
-                        "lang": util.langStyle(),
-                        ID: 0,
-                        "Status": "WAITAPPROVAL",
-                        "ContactorPhone": '',
-                        "ContactorName": '',
-                        "OrderNum": '',
-                        "page": 1,
-                        "per_page": 1
-                    });
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl(DATA.url, '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        // console && console.dir(response);
-                        var data = response.data;
-                        if (data.rescode == '200') {
-                            if (data.total == 0) {//如果没有待审核订单
-                                DATA.noData = true;
-                            } else {//否则，有待审核订单
-                                DATA.noData = false;
-                                if (DATA.ID == "HotelID") {//客房订单
-                                    util.setParams('newRoomOrder', data.resault[0].OrderNum);//初始化订单号
-                                    util.setParams('roomCreateTime', data.resault[0].CreateTime);//更新下单时间
-                                } else {//商城订单
-                                    util.setParams('newShopOrder', data.resault[0].OrderNum);//初始化订单号
-                                    util.setParams('shopCreateTime', data.resault[0].CreateTime);//更新下单时间
-                                }
-                            }
-                            DATA.total = data.total;//不管有没有待审核订单，都要更新待审核订单总数
-                        } else if (data.rescode == '401') {
-                            alert('访问超时，请重新登录');
-                            $location.path('/login');
-                        } else {
-                            alert('获取订单列表失败，' + data.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        // alert('连接服务器出错');
-                        console.log('轮循出错 500');
-                    }).finally(function (value) {
-                    });
-                }
+                // self.searchInit = function (DATA) {
+                //     console.log('searchInit');
+                //     var data = JSON.stringify({
+                //         "token": util.getParams('token'),
+                //         "action": DATA.action,
+                //         "lang": util.langStyle(),
+                //         ID: 0,
+                //         "Status": "WAITAPPROVAL",
+                //         "ContactorPhone": '',
+                //         "ContactorName": '',
+                //         "OrderNum": '',
+                //         "page": 1,
+                //         "per_page": 1
+                //     });
+                //     $http({
+                //         method: 'POST',
+                //         url: util.getApiUrl(DATA.url, '', 'server'),
+                //         data: data
+                //     }).then(function successCallback(response) {
+                //         // console && console.dir(response);
+                //         var data = response.data;
+                //         if (data.rescode == '200') {
+                //             if (data.total == 0) {//如果没有待审核订单
+                //                 DATA.noData = true;
+                //             } else {//否则，有待审核订单
+                //                 DATA.noData = false;
+                //                 if (DATA.ID == "HotelID") {//客房订单
+                //                     util.setParams('newRoomOrder', data.resault[0].OrderNum);//初始化订单号
+                //                     util.setParams('roomCreateTime', data.resault[0].CreateTime);//更新下单时间
+                //                 } else {//商城订单
+                //                     util.setParams('newShopOrder', data.resault[0].OrderNum);//初始化订单号
+                //                     util.setParams('shopCreateTime', data.resault[0].CreateTime);//更新下单时间
+                //                 }
+                //             }
+                //             DATA.total = data.total;//不管有没有待审核订单，都要更新待审核订单总数
+                //         } else if (data.rescode == '401') {
+                //             alert('访问超时，请重新登录');
+                //             $location.path('/login');
+                //         } else {
+                //             alert('获取订单列表失败，' + data.errInfo);
+                //         }
+                //     }, function errorCallback(response) {
+                //         // alert('连接服务器出错');
+                //         console.log('轮循出错 500');
+                //     }).finally(function (value) {
+                //     });
+                // }
                 // 查询待审核订单数量，新订单号及下单时间
                 self.search = function (DATA) {
-                    console.log('search');
+                    // console.log('search');
                     var data = JSON.stringify({
                         "token": util.getParams('token'),
                         "action": DATA.action,
@@ -291,7 +332,7 @@
                     }).then(function successCallback(response) {
                         // console && console.dir(response);
                         var data = response.data;
-                        console && console.dir(data);
+                        // console && console.dir(data);
                         if (data.rescode == '200') {
                             if (data.total == 0) {//如果没有待审核订单
                                 DATA.noData = true;
@@ -299,30 +340,38 @@
                             } else {//否则，有待审核订单
                                 DATA.noData = false;
                                 if (DATA.ID == "HotelID") {//客房订单
-                                    if (util.getParams('newRoomOrder') != data.resault[0].OrderNum) {//如果新订单号改变
+                                    if (!data.resault[0].OrderNum) {//如果，没有待审核订单
+                                        DATA.newData = false;//没有新订单
+                                    } else if (!util.getParams('newRoomOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
+                                        // DATA.newData = true;//说明有新订单
+                                        util.setParams('newRoomOrder', data.resault[0].OrderNum);//初始化订单号
+                                        util.setParams('roomCreateTime', data.resault[0].CreateTime);//更新下单时间
+                                    } else if (util.getParams('newRoomOrder') != data.resault[0].OrderNum) {//否则，如果新订单号改变
                                         if (data.resault[0].CreateTime >= util.getParams('roomCreateTime')) {//且该订单号下单时间不早于之前订单
                                             DATA.newData = true;//说明有新订单
                                             DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
                                             DATA.createTime = data.resault[0].CreateTime;//暂存新订单下单时间
                                             document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
-                                        } else {
-                                            DATA.newData = false;
-                                        }//没有新订单
-                                    } else {//否则，有待审核订单
-                                        DATA.newData = false;//但没有新订单
+                                        } else {//否则，下单时间不是最新
+                                            DATA.newData = false;//没有新订单
+                                        }
                                     }
                                 } else {//商城订单
-                                    if (util.getParams('newShopOrder') != data.resault[0].OrderNum) {//如果新订单号改变
+                                    if (!data.resault[0].OrderNum) {//如果，没有待审核订单
+                                        DATA.newData = false;//没有新订单
+                                    } else if (!util.getParams('newShopOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
+                                        // DATA.newData = true;//说明有新订单
+                                        util.setParams('newShopOrder', data.resault[0].OrderNum);//初始化订单号
+                                        util.setParams('shopCreateTime', data.resault[0].CreateTime);//更新下单时间
+                                    } else if (util.getParams('newShopOrder') != data.resault[0].OrderNum) {//如果新订单号改变
                                         if (data.resault[0].CreateTime >= util.getParams('shopCreateTime')) {//且该订单号下单时间不早于之前订单
                                             DATA.newData = true;//说明有新订单
                                             DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
                                             DATA.createTime = data.resault[0].CreateTime;//暂存新订单下单时间
                                             document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
                                         } else {
-                                            DATA.newData = false;
-                                        }//没有新订单
-                                    } else {//否则，有待审核订单
-                                        DATA.newData = false;//但没有新订单
+                                            DATA.newData = false;//没有新订单
+                                        }
                                     }
                                 }
                             }
@@ -373,7 +422,11 @@
                             }
                             break;
                         case 2:
-                            $state.go('app.hotelOrderList', {'appId': n});
+                            if ($state.current.name == 'app.hotelOrderList') {
+                                $state.reload();//解决在当前页面的待审核状态下，点击图标无交互效果，返回全部状态下
+                            }else{
+                                $state.go('app.hotelOrderList', {'appId': n});
+                            }
                             break;
                         case 3:
                             if ($state.current.name !== 'app.shop.goods.goodsList') {
@@ -381,7 +434,11 @@
                             }
                             break;
                         case 4:
-                            $state.go('app.shopOrderList', {'appId': n});
+                            if ($state.current.name == 'app.shopOrderList') {
+                                $state.reload();//解决在当前页面的待审核状态下，点击图标无交互效果，返回全部状态下
+                            }else {
+                                $state.go('app.shopOrderList', {'appId': n});
+                            }
                             break;
                         case 5:
                             if (!$state.includes("app.tvAdmin")) {

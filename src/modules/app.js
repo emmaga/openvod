@@ -30,6 +30,10 @@
                 suffix: '.json'
             });
         }])
+        // todo 增加 Possibly unhandled rejection: {} 错误处理
+        .config(['$qProvider', function ($qProvider) {
+            $qProvider.errorOnUnhandledRejections(false);
+        }])
 
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
             $urlRouterProvider.otherwise('/login');

@@ -444,6 +444,18 @@ body, .app {
     height: 112px;
 }
 
+/*增加订单提醒数字图标样式*/
+ .app.phase1>.desktop .app-icon>b{
+     font-style:normal;font-weight:normal;display:block;width:18%;height:18%;border-radius:50%;position: relative;top:0;right:-84%;background-color: red;color:white
+ }
+ .app-frame.phase1 .app-launcher .app-icon>b{
+     font-size:8%;font-style:normal;font-weight:normal;vertical-align: center;
+     width:32%;height:32%;border-radius:50%;position: absolute;top:0;right:0;background-color: red;color:white
+ }
+ .app-frame.phase2 .app-launcher .app-icon>b{
+     font-size:88%;font-style:normal;font-weight:normal;
+     width:30%;height:30%;border-radius:50%;position: absolute;top:0;right:0;background-color: red;color:white
+ }
 /*modify*/
 /*bs extend*/
 a{

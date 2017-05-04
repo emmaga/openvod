@@ -23,7 +23,14 @@
         <!-- grid -->
         <div class="app-grid-wrapper">
             <div ng-repeat='appIcon in appList' class="app-grid">
-                <i ng-click="app.switchApp(appIcon.id)" class="app-icon" style="background-image: url({{appIcon.icon}})"></i>
+                <i ng-click="app.switchApp(appIcon.id)" class="app-icon" style="background-image: url({{appIcon.icon}})">
+                    <b class="text-center"  ng-click="app.PendingList($event,2)" ng-if="appIcon.id == 2 && app.roomData.total">
+                        {{app.roomData.total}}
+                    </b>
+                    <b class="text-center"  ng-click="app.PendingList($event,4)" ng-if="appIcon.id == 4 && app.shopData.total">
+                        {{app.shopData.total}}
+                    </b>
+                </i>
                 <h4 class="app-name">{{appIcon.name}}</h4>
                 <!-- {{appIcon.bgColor}} -->
             </div>
@@ -57,13 +64,13 @@
                     <i ng-click="app.showDesktop()" class="app-icon app-back" style="background-image: url('dist/imgs/app-icon-05.png'); box-shadow: inset 0px 0px 1px 1px rgba(255,255,255,.6);"></i>
                     <h5 class="app-name">{{'HOME' | translate}}</h5>
                 </div>
-                <!-- launcher-grid -->
+                <!-- launcher-grid  ui-sref="hotelOrderList" ui-sref="shopOrderList"-->
                 <div ng-repeat='appIcon in appList' class="app-launcher-grid">
                     <i ng-click="app.switchApp(appIcon.id)" class="app-icon" style="background-image: url({{appIcon.icon}})">
-                        <b ng-click="app.PendingList($event,'app.hotelOrderList',2,app.roomData)" ng-if="appIcon.id == 2 && app.roomData.total" style="display:inline-block;width:30%;height:30%;border-radius:50%;position: absolute;top:0;right:0;background-color: black;color:red">
-                            <b style="display:inline-block;position: absolute;top:0;right:0;width:100%;height:100%;font-size:50%;">{{app.roomData.total}}</b></b>
-                        <b ng-click="app.PendingList($event,'app.shopOrderList',4,app.shopData)" ng-if="appIcon.id == 4 && app.shopData.total" style="display:inline-block;width:30%;height:30%;border-radius:50%;position: absolute;top:0;right:0;background-color: black;color:red">
-                            <b style="display:inline-block;position: absolute;top:0;right:0;width:100%;height:100%;font-size:50%;">{{app.shopData.total}}</b></b>
+                        <b class="text-center"  ng-click="app.PendingList($event,2)" ng-if="appIcon.id == 2 && app.roomData.total">{{app.roomData.total}}
+                        </b>
+                        <b class="text-center"  ng-click="app.PendingList($event,4)" ng-if="appIcon.id == 4 && app.shopData.total">{{app.shopData.total}}
+                        </b>
                     </i>
                     <h5 class="app-name">{{appIcon.name}}</h5>
                     <!-- {{appIcon.bgColor}} -->
@@ -98,7 +105,6 @@
                 <a href=""  style="padding-left:5px;padding-right:5px">
                     您有新的订单，请及时处理！{{app.roomData.total}}
                 </a>
-                <!--&lt;!&ndash; && (!app.roomData.noData || !app.shopData.noData)  ng-click="app.hideAlert(app.roomData)" ng-click="app.hideAlert(app.shopData)"-->
                 <button type="button" class="close" data-dismiss="modal" >
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
