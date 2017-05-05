@@ -178,7 +178,7 @@
                                 } else {
                                     $state.go('app.hotelOrderList', {'appId': n});
                                 }
-                                // todo 增加 TypeError: Cannot read property 'click' of nul 错误处理
+                                // 增加 TypeError: Cannot read property 'click' of nul 错误处理
                                 $timeout(function () {
                                     document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click('WAITAPPROVAL');
                                 }, 0);
@@ -194,7 +194,7 @@
                                 } else {
                                     $state.go('app.shopOrderList', {'appId': n});
                                 }
-                                // todo 增加 TypeError: Cannot read property 'click' of nul 错误处理
+                                // 增加 TypeError: Cannot read property 'click' of nul 错误处理
                                 $timeout(function () {
                                     document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click('WAITAPPROVAL');
                                 }, 0);
@@ -214,18 +214,16 @@
                     if (target.tagName == 'LI' || target.tagName == 'A' || target.tagName == 'IMG' || target.tagName == 'B') {
                         // console && console.log(('/app/'+path.slice(4,path.length)));
                         if ($state.current.name == path) {
-                            // $state.reload();//解决点击当前页面，不能重新加载的问题
+                            $state.reload();//解决点击当前页面，不能重新加载的问题
                         } else {
                             $state.go(path, {'appId': n});
                         }
-                        // todo 增加查询待审核列表
+                        // 增加查询待审核列表
                         if (DATA.ID == "HotelID") {//客房订单
-                            $state.reload();
                             $timeout(function () {
                                 document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click();
                             }, 0);
                         } else {//商城订单
-                            $state.reload();
                             $timeout(function () {
                                 document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click();
                             }, 0);
