@@ -39,7 +39,7 @@
             var date = new Date();
             date.setDate(date.getDate() + 1);
             var expires = date;
-            console.log(expires);
+            // console.log(expires);
             $cookiesProvider.expires = expires;
         }])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {

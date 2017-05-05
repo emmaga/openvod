@@ -220,10 +220,12 @@
                         }
                         // todo 增加查询待审核列表
                         if (DATA.ID == "HotelID") {//客房订单
+                            $state.reload();
                             $timeout(function () {
                                 document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click();
                             }, 0);
                         } else {//商城订单
+                            $state.reload();
                             $timeout(function () {
                                 document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click();
                             }, 0);
