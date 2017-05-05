@@ -142,7 +142,7 @@
                                     var defaultLang = util.getDefaultLangCode();
                                     var preData = data.data.Content;
                                     var menu = [];
-                                    var mainMenu = 
+                                    var mainMenu =
                                     {
                                       label: '首页',
                                       data: {
@@ -198,9 +198,6 @@
                                     }
                                     // type: MainMenu_THJ_SecondMenu, Live, MovieCommon, ...
                                     return{value: mainMenu};
-                                    
-                                    
-                                    
                                 } else if(data.rescode == '401'){
                                     alert('访问超时，请重新登录');
                                     $state.go('login');
@@ -210,7 +207,7 @@
                             }, function errorCallback(response) {
                                 alert('连接服务器出错');
                             }).finally(function (value) {
-                                
+
                             });
                         }],
                         resWelcome: ['$http', '$state', 'util', function($http, $state, util) {
@@ -230,7 +227,7 @@
                                 if (data.rescode == '200') {
                                     var defaultLang = util.getDefaultLangCode();
 
-                                    var welMenu = 
+                                    var welMenu =
                                     {
                                       label: '欢迎页面',
                                       data: {
@@ -240,9 +237,6 @@
                                       }
                                     };
                                     return{value: welMenu};
-                                    
-                                    
-                                    
                                 } else if(data.rescode == '401'){
                                     alert('访问超时，请重新登录');
                                     $state.go('login');
@@ -252,13 +246,13 @@
                             }, function errorCallback(response) {
                                 alert('连接服务器出错');
                             }).finally(function (value) {
-                                
+
                             });
                         }]
                     },
                     controller:['$scope', 'resA', 'resWelcome' ,function($scope, resA, resWelcome){
                         var treedata = [
-                            resWelcome.value, 
+                            resWelcome.value,
                             resA.value,
                             {
                               label: '广告位设置',
@@ -287,7 +281,7 @@
                     templateUrl: 'pages/tv/welcome.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -296,7 +290,7 @@
                     templateUrl: 'pages/tv/version.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -305,7 +299,7 @@
                     templateUrl: 'pages/tv/guangGaoWei.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -314,7 +308,7 @@
                     templateUrl: 'pages/tv/projectConfig.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -323,7 +317,7 @@
                     templateUrl: 'pages/tv/live.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -332,7 +326,7 @@
                     templateUrl: 'pages/tv/simplePicText.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -524,7 +518,7 @@
                         }]
                     }
                 })
-                 // 喆啡酒店 
+                 // 喆啡酒店
                 .state('app.tvAdmin.ZheFei_PicText_Classification', {
                     url: '/ZheFei_PicText_Classification?moduleId&label',
                     templateUrl: 'pages/tv/ZheFei_PicText_Classification.html',
@@ -534,7 +528,7 @@
                         }]
                     }
                 })
-                 // 喆啡酒店 
+                 // 喆啡酒店
                 .state('app.tvAdmin.ZheFei_SimpleSmallPicText_Small', {
                     url: '/ZheFei_SimpleSmallPicText_Small?moduleId&label',
                     templateUrl: 'pages/tv/ZheFei_SimpleSmallPicText_Small.html',
@@ -544,7 +538,7 @@
                         }]
                     }
                 })
-                 // 喆啡酒店 
+                 // 喆啡酒店
                 .state('app.tvAdmin.ZheFei_SimpleSmallPicText_Carousel', {
                     url: '/ZheFei_SimpleSmallPicText_Carousel?moduleId&label',
                     templateUrl: 'pages/tv/ZheFei_SimpleSmallPicText_Carousel.html',
@@ -615,7 +609,7 @@
                     templateUrl: 'pages/tv/3rdApp.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -624,7 +618,7 @@
                     templateUrl: 'pages/tv/apkEntry.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -633,7 +627,7 @@
                     templateUrl: 'pages/tv/worldClock.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -652,7 +646,7 @@
                     templateUrl: 'pages/tv/SkyworthATV.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -661,7 +655,7 @@
                     templateUrl: 'pages/tv/SkyworthHDMI.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -679,7 +673,7 @@
                     templateUrl: 'pages/tv/SkyworthDTV.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -688,7 +682,7 @@
                     templateUrl: 'pages/tv/shop.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -697,7 +691,7 @@
                     templateUrl: 'pages/tv/movieCommon.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -706,7 +700,7 @@
                     templateUrl: 'pages/tv/movieCommonFree.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -715,7 +709,7 @@
                     templateUrl: 'pages/tv/movieCommonAdv.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -747,7 +741,7 @@
                     templateUrl: 'pages/tv/MusicCommon.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
-                            
+
                         }]
                     }
                 })
@@ -823,7 +817,7 @@
         }])
 
         .constant('CONFIG', {
-            serverUrl: 'http://openvoddev.cleartv.cn/backend_mgt/v1/',
+            serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
             // serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
             // serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',
