@@ -174,7 +174,7 @@
                         case 2://客房订单
                             if (target.tagName == 'B') {
                                 if ($state.includes('app.hotelOrderList')) {
-                                    // $state.reload();//解决点击当前页面，不能重新加载的问题
+                                    $state.reload();//解决点击当前页面，不能重新加载的问题
                                 } else {
                                     $state.go('app.hotelOrderList', {'appId': n});
                                 }
@@ -190,7 +190,7 @@
                         case 4://商城订单
                             if (target.tagName == 'B') {
                                 if ($state.includes('app.shopOrderList')) {
-                                    // $state.reload();//解决点击当前页面，不能重新加载的问题
+                                    $state.reload();//解决点击当前页面，不能重新加载的问题
                                 } else {
                                     $state.go('app.shopOrderList', {'appId': n});
                                 }
@@ -304,14 +304,14 @@
                             }
                             DATA.total = data.total;//不管有没有待审核订单，都要更新待审核订单总数
                         } else if (data.rescode == '401') {
-                            alert('访问超时，请重新登录');
-                            $location.path('/login');
+                            console && console.log('访问超时，请重新登录');
+                            $state.go('login');
                         } else {
-                            alert('获取订单列表失败，' + data.errInfo);
+                            console && ('获取订单列表失败，' + data.errInfo);
                         }
                     }, function errorCallback(response) {
                         // alert('连接服务器出错');
-                        console.log('轮循出错 500');
+                        console && console.log('轮循出错 500');
                     }).finally(function (value) {
                     });
                 }
@@ -328,7 +328,6 @@
                             self.activeAppIcon = l[i].icon;
                             self.activeAppBgColor = l[i].bgColor;
                             self.activeAppThemeColor = l[i].themeColor;
-
                             break;
                         }
                     }
