@@ -24,10 +24,10 @@
         <div class="app-grid-wrapper">
             <div ng-repeat='appIcon in appList' class="app-grid">
                 <i ng-click="app.switchApp(appIcon.id)" class="app-icon" style="background-image: url({{appIcon.icon}})">
-                    <b class="text-center"  ng-click="app.PendingList($event,2)" ng-if="appIcon.id == 2 && app.roomData.total">
+                    <b class="corner"  ng-click="app.PendingList($event,2)" ng-if="appIcon.id == 2 && app.roomData.total">
                         {{app.roomData.total}}
                     </b>
-                    <b class="text-center"  ng-click="app.PendingList($event,4)" ng-if="appIcon.id == 4 && app.shopData.total">
+                    <b class="corner"  ng-click="app.PendingList($event,4)" ng-if="appIcon.id == 4 && app.shopData.total">
                         {{app.shopData.total}}
                     </b>
                 </i>
@@ -67,9 +67,9 @@
                 <!-- launcher-grid  ui-sref="hotelOrderList" ui-sref="shopOrderList"-->
                 <div ng-repeat='appIcon in appList' class="app-launcher-grid">
                     <i ng-click="app.switchApp(appIcon.id)" class="app-icon" style="background-image: url({{appIcon.icon}})">
-                        <b class="text-center"  ng-click="app.PendingList($event,2)" ng-if="appIcon.id == 2 && app.roomData.total">{{app.roomData.total}}
+                        <b class="corner"  ng-click="app.PendingList($event,2)" ng-if="appIcon.id == 2 && app.roomData.total">{{app.roomData.total}}
                         </b>
-                        <b class="text-center"  ng-click="app.PendingList($event,4)" ng-if="appIcon.id == 4 && app.shopData.total">{{app.shopData.total}}
+                        <b class="corner"  ng-click="app.PendingList($event,4)" ng-if="appIcon.id == 4 && app.shopData.total">{{app.shopData.total}}
                         </b>
                     </i>
                     <h5 class="app-name">{{appIcon.name}}</h5>

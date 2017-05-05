@@ -93,6 +93,7 @@ body, .app {
 }
 
 .app-icon {
+    position: relative;
     cursor: pointer;
     border-radius: 18%;
     /*background: rgba(255,255,255,.8);*/
@@ -445,16 +446,40 @@ body, .app {
 }
 
 /*增加订单提醒数字图标样式*/
- .app.phase1>.desktop .app-icon>b{
-     font-style:normal;font-weight:normal;display:block;width:18%;height:18%;border-radius:50%;position: relative;top:0;right:-84%;background-color: red;color:white
+.app-icon>.corner{
+    position: absolute;
+    top:-3%;
+    right:-3%;
+    text-align: center;
+    display:inline-block;
+    font-style:normal;
+    font-weight:bold;
+    border-radius:100px;
+    background-color: red;
+    color:rgba(255,255,255,1);
+    overflow: hidden;
+}
+.desktop .app-icon>.corner{
+    height:22%;
+    min-width: 22%;
+    padding: 0 10px;
+    line-height: 32px;
  }
- .app-frame.phase1 .app-launcher .app-icon>b{
-     font-size:8%;font-style:normal;font-weight:normal;vertical-align: center;
-     width:32%;height:32%;border-radius:50%;position: absolute;top:0;right:0;background-color: red;color:white
+ .app-launcher .app-icon>.corner{
+    transition-duration: .15s
  }
- .app-frame.phase2 .app-launcher .app-icon>b{
-     font-size:88%;font-style:normal;font-weight:normal;
-     width:30%;height:30%;border-radius:50%;position: absolute;top:0;right:0;background-color: red;color:white
+ .app-frame.phase1 .app-launcher .app-icon>.corner{
+    color: transparent;
+    width: 8px;
+    height: 8px;
+    color:rgba(255,255,255,0);
+ }
+ .app-frame.phase2 .app-launcher .app-icon>.corner{
+    padding: 0 6px;
+    height: 24px;
+    min-width: 24px;
+    line-height: 24px;
+    font-size: 12px;
  }
 /*modify*/
 /*bs extend*/
