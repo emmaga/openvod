@@ -34,7 +34,14 @@
         .config(['$qProvider', function ($qProvider) {
             $qProvider.errorOnUnhandledRejections(false);
         }])
-
+        /*设置$cookies过期时间*/
+        .config(['$cookiesProvider', function ($cookiesProvider) {
+            var date = new Date();
+            date.setDate(date.getDate() + 1);
+            var expires = date;
+            console.log(expires);
+            $cookiesProvider.expires = expires;
+        }])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
             $urlRouterProvider.otherwise('/login');
             $stateProvider
