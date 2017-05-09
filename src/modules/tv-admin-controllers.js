@@ -217,6 +217,7 @@
 
                 //三星午餐 Samsung_Lunch_PicText_Classification
                 if(branch.data.type == 'Samsung_Lunch_PicText_Classification') {
+                    console.log('三星午餐')
                     $state.go('app.tvAdmin.Samsung_Lunch_PicText_Classification', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
