@@ -1,4 +1,4 @@
-<div ng-controller="tvPicTextClassCateAddController_Samsung as tvPicTextClassCateAdd" ng-init="tvPicTextClassCateAdd.init()" class="modal-dialog modal-sm">
+<div ng-controller="tvPicTextClassCateAddController_SamsungLunch as tvPicTextClassCateAdd" ng-init="tvPicTextClassCateAdd.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
         <!-- loading -->
         <!-- form -->
@@ -57,24 +57,6 @@
                     </div><!--/row-->
                 </div>
                 <!--/图片-->
-
-                <!--详情-->
-                <ng-repeat ng-repeat="lang in tvPicTextClassCateAdd.editLangs">
-                    <ng-if ng-if="lang.default">
-                        <label>详情{{lang.name}}：</label>
-                        <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" required placeholder="（必填）"
-                                  ng-model="tvPicTextClassCateAdd.Details[lang.code]">
-                            {{tvPicTextClassCateAdd.Details[lang.code]}}
-                        </textarea>
-                    </ng-if>
-                    <ng-if ng-if="lang.default !== true">
-                        <label>详情 {{lang.name}}：</label>
-                        <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="tvPicTextClassCateAdd.Details[lang.code]">
-                            {{tvPicTextClassCateAdd.Details[lang.code]}}
-                        </textarea>
-                    </ng-if>
-                </ng-repeat>
-                <!--/详情-->
             </div>
             <!--body end-->
             <!--footer-->
