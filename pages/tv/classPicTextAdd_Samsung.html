@@ -1,22 +1,22 @@
-<div ng-controller="tvClassPicTextAddController_Samsung as Samsung" ng-init="Samsung.init()" class="autoscroll modal-dialog modal-sm">
+<div ng-controller="tvClassPicTextAddController_Samsung as tvClassPicTextAdd" ng-init="tvClassPicTextAdd.init()" class="autoscroll modal-dialog modal-sm">
     <div class="modal-content">
         <!--header-->
         <div class="modal-header">
-            <button type="button" class="close" ng-click="Samsung.cancel()">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Close</span>
-            </button>
-            <h5 class="modal-title">添加图片</h5>
-        </div>
+                <button type="button" class="close" ng-click="tvClassPicTextAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加图片</h5>
+            </div>
         <!--/header end-->
         <!--body-->
         <div class="modal-body">
-            <form id="SamsungForm" name="SamsungForm" ng-submit="SamsungForm.$valid && Samsung.save()">
+            <form id="tvClassPicTextAddForm" name="tvClassPicTextAddForm" ng-submit="tvClassPicTextAddForm.$valid && tvClassPicTextAdd.save()">
                 <div class="form-group">
                     <!--序号-->
                     <label>序号</label>
                     <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                    type="number" ng-model="Samsung.Seq" min="1" required placeholder="（必填）"/>
+                            type="number" ng-model="tvClassPicTextAdd.Seq" min="1" required placeholder="（必填）"/>
                     <!--/序号-->
                 </div>
                 <div class="form-group">
@@ -24,10 +24,10 @@
                     <label>图片</label>
                     <!--图片上传按钮-->
                     <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
-                    <a ng-click="Samsung.clickUpload('upload1')">上传</a>
-                    <a id="hidenUpload1" style="display: none;" ng-click="Samsung.imgs1.uploadFile('myFile', Samsung.imgs1)"></a>
+                    <a ng-click="tvClassPicTextAdd.clickUpload('upload1')">上传</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="tvClassPicTextAdd.imgs1.uploadFile('myFile', tvClassPicTextAdd.imgs1)"></a>
                     <!--/图片上传按钮-->
-                    <div class="row" ng-repeat="img in Samsung.imgs1.data">
+                    <div class="row" ng-repeat="img in tvClassPicTextAdd.imgs1.data">
                         <div class="col-xs-12">
                             <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
                                 <!--进度条-->
@@ -44,50 +44,42 @@
                 </div>
                 <!--标题-->
                 <div class="form-group">
-                    <ng-repeat ng-repeat="lang in Samsung.editLangs">
+                    <ng-repeat ng-repeat="lang in tvClassPicTextAdd.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>标题{{lang.name}}：</label>
                             <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                            ng-model="Samsung.Title[lang.code]" required placeholder="（必填）" />
+                                   ng-model="tvClassPicTextAdd.Title[lang.code]" required placeholder="（必填）" />
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <label>标题 {{lang.name}}：</label>
                             <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
-                            ng-model="Samsung.Title[lang.code]" />
+                                   ng-model="tvClassPicTextAdd.Title[lang.code]" />
                         </ng-if>
                     </ng-repeat>
                 </div>
-
-                <!--价格-->
-                <div class="form-group">
-                    <label>价格：</label>
-                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
-                    ng-model="Samsung.Price" required placeholder="（必填）" />
-                </div>
-                <!--/详情-->
+                <!--/标题-->
                 <div class="form-group">
                     <!--详情-->
-                    <ng-repeat ng-repeat="lang in Samsung.editLangs">
+                    <ng-repeat ng-repeat="lang in tvClassPicTextAdd.editLangs">
                         <ng-if ng-if="lang.default">
                             <label>详情{{lang.name}}：</label>
-                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" required placeholder="（必填）" ng-model="Samsung.Text[lang.code]">{{Samsung.Text[lang.code]}}</textarea>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）" ng-model="tvClassPicTextAdd.Text[lang.code]">{{tvClassPicTextAdd.Text[lang.code]}}</textarea>
                         </ng-if>
                         <ng-if ng-if="lang.default !== true">
                             <label>详情 {{lang.name}}：</label>
-                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="Samsung.Text[lang.code]">{{Samsung.Text[lang.code]}}</textarea>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="tvClassPicTextAdd.Text[lang.code]">{{tvClassPicTextAdd.Text[lang.code]}}</textarea>
                         </ng-if>
                     </ng-repeat>
                     <!--/详情-->
-                </div>
-                <!--form-group-->
+                </div><!--form-group-->
 
             </form>
         </div>
         <!--/body end-->
         <!--footer-->
         <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-sm" ng-click="Samsung.cancel()">取消</button>
-            <button type="submit" class="btn btn-primary btn-sm" form="SamsungForm" ng-disabled="Samsung.saving">保存</button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="tvClassPicTextAdd.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="tvClassPicTextAddForm" ng-disabled="tvClassPicTextAdd.saving">保存</button>
         </div>
         <!--/footer end-->
     </div>
