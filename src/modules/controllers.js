@@ -38,7 +38,7 @@
                             util.setParams('userName', self.userName);
                             util.setParams('projectName', self.projectName);
                             util.setParams('token', msg.token);
-                            util.setParams('projectDes',msg.ProjectNameCN);
+                            util.setParams('projectDes', msg.ProjectNameCN);
                             self.getEditLangs();
                         } else {
                             alert(msg.rescode + ' ' + msg.errInfo);
@@ -64,14 +64,14 @@
             }
         ])
 
-        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util','$rootScope','$interval', '$timeout','$location',
-            function ($http, $scope, $state, $stateParams, util,$rootScope,$interval, $timeout,$location) {
+        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util', '$rootScope', '$interval', '$timeout', '$location','$cookies',
+            function ($http, $scope, $state, $stateParams, util, $rootScope, $interval, $timeout, $location,$cookies) {
                 var self = this;
 
                 self.init = function () {
-                    if(util.getParams("projectDes")){
+                    if (util.getParams("projectDes")) {
                         this.projectDes = util.getParams("projectDes")
-                    }else {
+                    } else {
                         alert("访问超时，请重新登录");
                         $state.go('login')
                     }
@@ -105,105 +105,137 @@
                     }).finally(function (value) {
                         self.loading = false;
                     });
-
-                    // 待审核提醒
-                    self.path=$location.path();
-                      
-                    self.roomData={
-                        "noData":false,
-                        "TIMER":null,
-                        "total":0,
-                        "action":"getRoomOrderByStatus",
-                        "ID":"HotelID",
-                        "url":"order"
-                    }
-
-                    self.shopData={
-                        "noData":false,
-                        "TIMER":null,
-                        "total":0,
-                        "action":"getOrderByStatus",
-                        "ID":"ShopID",
-                        "url":"shoporder"
-                    }
-
-                    self.roomTotal=self.roomData.total;
-                    self.shopTotal=self.shopData.total;
-
-                    if(self.path != '/login') {
-                        self.polling(self.roomData,self.roomTotal);
-                        self.polling(self.shopData,self.shopTotal);
-                    }
-                    
                     // console.log(util.getParams('editLangs'))
                     // 新订单提醒弹框:
-                    /*self.path=$location.path();
-                    self.roomData={
-                        "noData":false,
-                        "TIMER":null,
-                        "total":0,
-                        "action":"getRoomOrderByStatus",
-                        "ID":"HotelID",
-                        "url":"order"
+                    self.path = $location.path();
+                    self.roomData = {
+                        "noData": false,
+                        "newData": false,
+                        "TIMER": null,
+                        "orderNum": 0,
+                        "createTime": 0,
+                        "total": 0,
+                        "action": "getRoomOrderByStatus",
+                        "ID": "HotelID",
+                        "url": "order"
                     }
 
-                    self.shopData={
-                        "noData":false,
-                        "TIMER":null,
-                        "total":0,
-                        "action":"getOrderByStatus",
-                        "ID":"ShopID",
-                        "url":"shoporder"
+                    self.shopData = {
+                        "noData": false,
+                        "newData": false,
+                        "TIMER": null,
+                        "orderNum": 0,
+                        "createTime": 0,
+                        "total": 0,
+                        "action": "getOrderByStatus",
+                        "ID": "ShopID",
+                        "url": "shoporder"
                     }
 
-                    self.roomTotal=self.roomData.total;
-                    self.shopTotal=self.shopData.total;
-                    
-                    if(self.path != '/login'){
-                        self.polling(self.roomData,self.roomTotal);
-                        self.polling(self.shopData,self.shopTotal);
-                    }*/
+                    if (self.path != '/login') {//未登录时不轮询，和退出登录时结束轮询
+                        //解决重载时，需要等待polling轮询一次,才能得到数据
+                        self.search(self.roomData);
+                        self.search(self.shopData);
+
+                        self.polling(self.roomData);
+                        self.polling(self.shopData);
+                    }
                 }
                 // 新订单提醒弹框:
                 //10秒一次轮询待审核订单
-                self.polling=function(DATA,TOTAL){
-                    console.log('polling');
-                    
+                self.polling = function (DATA) {
+                    // console.log('polling');
                     DATA.TIMER = $timeout(function () {
-                        console.log($location.path());
+                        // console && console.log(util.getParams(DATA.action));
                         if (util.getParams(DATA.action) == DATA.TIMER.$$timeoutId && $location.path() !== '/login') {
-                            self.search(DATA,TOTAL);
-                            self.polling(DATA,TOTAL);
+                            self.search(DATA);
+                            self.polling(DATA);
                         }
-                    },10000)
-
+                    }, 10000)
                     util.setParams(DATA.action, DATA.TIMER.$$timeoutId);
-                    
                 }
-                //清除轮询
-                // self.cancel = function (DATA) {
-                //     $timeout.cancel(DATA.TIMER);
-                //     DATA.TIMER=null;
-                // }
-                //查看待审核列表
-                self.viewPendingList = function ($event,path,n,DATA,TOTAL) {
-                    var target=$event.target;
-                    console && console.log(target.tagName);
-                    if(target.tagName == 'LI' || target.tagName == 'A' || target.tagName == 'IMG'){
-                        console && console.log($location.path());
-                        // $location.path(path)
-                        $state.go(path, {'appId': n});//硬性刷新未解决
-                        // todo 增加查询待审核列表
-                    }else{
-                        $event.preventDefault();
+                //关闭当前订单提示
+                self.hideAlert = function (DATA) {
+                    if (DATA.ID == "HotelID") {//客房订单
+                        util.setParams('newRoomOrder', DATA.orderNum);//更新订单号
+                        util.setParams('roomCreateTime', DATA.createTime);//更新下单时间
+                    } else {//商城订单
+                        util.setParams('newShopOrder', DATA.orderNum);//更新订单号
+                        util.setParams('shopCreateTime', DATA.createTime);//更新下单时间
                     }
-                    /*self.cancel(DATA);//清除轮询
-                    $timeout(function(){//每次点击后暂停60S,继续下次轮询待审核订单
-                        self.polling(DATA,TOTAL);
-                    },10000);*/
+                    DATA.newData = false;//更新新订单说明，隐藏弹框
                 }
-                // 查询待审核订单数量
-                self.search = function (DATA,TOATL) {
+                //查看待审核列表
+                self.PendingList = function ($event,n) {
+                    // console && console.log('PendingList');
+                    var target = $event.target;
+                    // console && console.log(target.tagName);
+                    switch (n) {
+                        case 2://客房订单
+                            if (target.tagName == 'B') {
+                                if ($state.includes('app.hotelOrderList')) {
+                                    $state.reload();//解决点击当前页面，不能重新加载的问题
+                                } else {
+                                    $state.go('app.hotelOrderList', {'appId': n});
+                                }
+                                // 增加 TypeError: Cannot read property 'click' of nul 错误处理
+                                $timeout(function () {
+                                    document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click('WAITAPPROVAL');
+                                }, 0);
+                                break;
+                            }else{
+                                $event.preventDefault();
+                                break;
+                            }
+                        case 4://商城订单
+                            if (target.tagName == 'B') {
+                                if ($state.includes('app.shopOrderList')) {
+                                    $state.reload();//解决点击当前页面，不能重新加载的问题
+                                } else {
+                                    $state.go('app.shopOrderList', {'appId': n});
+                                }
+                                // 增加 TypeError: Cannot read property 'click' of nul 错误处理
+                                $timeout(function () {
+                                    document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click('WAITAPPROVAL');
+                                }, 0);
+                                break;
+                            }else{
+                                $event.preventDefault();
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                }
+                //查看待审核列表
+                self.viewPendingList = function ($event, path, n, DATA) {
+                    var target = $event.target;
+                    // console && console.log(target.tagName);
+                    if (target.tagName == 'LI' || target.tagName == 'A' || target.tagName == 'IMG' || target.tagName == 'B') {
+                        // console && console.log(('/app/'+path.slice(4,path.length)));
+                        if ($state.current.name == path) {
+                            $state.reload();//解决点击当前页面，不能重新加载的问题
+                        } else {
+                            $state.go(path, {'appId': n});
+                        }
+                        // 增加查询待审核列表
+                        if (DATA.ID == "HotelID") {//客房订单
+                            $timeout(function () {
+                                document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click();
+                            }, 0);
+                        } else {//商城订单
+                            $timeout(function () {
+                                document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click();
+                            }, 0);
+                        }
+                        self.hideAlert(DATA);
+                    } else {
+                        self.hideAlert(DATA);
+                    }
+                }
+                // 查询待审核订单数量，新订单号及下单时间
+                self.search = function (DATA) {
+                    // console.log('search');
                     var data = JSON.stringify({
                         "token": util.getParams('token'),
                         "action": DATA.action,
@@ -225,28 +257,65 @@
                         var data = response.data;
                         // console && console.dir(data);
                         if (data.rescode == '200') {
-                            if (data.total == 0) {
+                            if (data.total == 0) {//如果没有待审核订单
                                 DATA.noData = true;
+                                DATA.newData = false;//没有新订单
+                            } else {//否则，有待审核订单
+                                DATA.noData = false;
+                                if (DATA.ID == "HotelID") {//客房订单
+                                    if (!util.getParams('newRoomOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
+                                        DATA.newData = true;//说明有新订单
+                                        DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
+                                        DATA.createTime = data.resault[0].CreateTime;//暂存新订单下单时间
+                                        document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
+                                    } else if (util.getParams('newRoomOrder') != data.resault[0].OrderNum) {//否则，如果新订单号改变
+                                        if (data.resault[0].CreateTime > util.getParams('roomCreateTime')) {//且该订单号下单时间不早于之前订单
+                                            DATA.newData = true;//说明有新订单
+                                            DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
+                                            DATA.createTime = data.resault[0].CreateTime;//暂存新订单下单时间
+                                            document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
+                                        } else {//否则，下单时间不是最新
+                                            DATA.newData = false;//没有新订单
+                                        }
+                                    }else {
+                                        DATA.newData = false;//没有新订单
+                                    }
+                                } else {//商城订单
+                                    if (!util.getParams('newShopOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
+                                        DATA.newData = true;//说明有新订单
+                                        DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
+                                        DATA.createTime = data.resault[0].CreateTime;//暂存新订单下单时间
+                                        document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
+                                    } else if (util.getParams('newShopOrder') != data.resault[0].OrderNum) {//如果新订单号改变
+                                        if (data.resault[0].CreateTime > util.getParams('shopCreateTime')) {//且该订单号下单时间不早于之前订单
+                                            DATA.newData = true;//说明有新订单
+                                            DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
+                                            DATA.createTime = data.resault[0].CreateTime;//暂存新订单下单时间
+                                            document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
+                                        } else {
+                                            DATA.newData = false;//没有新订单
+                                        }
+                                    }else {
+                                        DATA.newData = false;//没有新订单
+                                    }
+                                }
                             }
-                            DATA.total=data.total;
-                            if(self.roomData.total > 0 || self.shopData.total > 0) {
-                                document.getElementById('speaker') && document.getElementById('speaker').play();
-                            }
+                            DATA.total = data.total;//不管有没有待审核订单，都要更新待审核订单总数
                         } else if (data.rescode == '401') {
-                            // alert('访问超时，请重新登录');
-                            // $location.path('/login');
+                            console && console.log('访问超时，请重新登录');
+                            $state.go('login');
                         } else {
-                            // alert('获取客房预订订单列表失败，' + data.errInfo);
+                            console && ('获取订单列表失败，' + data.errInfo);
                         }
                     }, function errorCallback(response) {
                         // alert('连接服务器出错');
-                        console.log('轮循出错 500');
+                        console && console.log('轮循出错 500');
                     }).finally(function (value) {
                     });
                 }
 
-                self.feedback = function() {
-                    $scope.app.showHideMask(true,'pages/feedback.html');
+                self.feedback = function () {
+                    $scope.app.showHideMask(true, 'pages/feedback.html');
                 }
 
                 self.setFocusApp = function (id) {
@@ -257,7 +326,6 @@
                             self.activeAppIcon = l[i].icon;
                             self.activeAppBgColor = l[i].bgColor;
                             self.activeAppThemeColor = l[i].themeColor;
-
                             break;
                         }
                     }
@@ -273,7 +341,7 @@
                     self.setFocusApp(n);
                     switch (n) {
                         case 1:
-                            if($state.current.name !== 'app.hotelRoom.room') {
+                            if ($state.current.name !== 'app.hotelRoom.room') {
                                 $state.go('app.hotelRoom', {'appId': n});
                             }
                             break;
@@ -281,40 +349,40 @@
                             $state.go('app.hotelOrderList', {'appId': n});
                             break;
                         case 3:
-                            if($state.current.name !== 'app.shop.goods.goodsList') {
+                            if ($state.current.name !== 'app.shop.goods.goodsList') {
                                 $state.go('app.shop', {'appId': n});
                             }
                             break;
                         case 4:
-                            $state.go('app.shopOrderList', { 'appId': n });
+                            $state.go('app.shopOrderList', {'appId': n});
                             break;
                         case 5:
                             if (!$state.includes("app.tvAdmin")) {
-                                $state.go('app.tvAdmin', { 'appId': n });
+                                $state.go('app.tvAdmin', {'appId': n});
                             }
                             break;
                         case 6:
-                            $state.go('app.terminal', { 'appId': n });
+                            $state.go('app.terminal', {'appId': n});
                             break;
                         case 7:
-                            $state.go('app.wxUser', { 'appId': n });
+                            $state.go('app.wxUser', {'appId': n});
                             break;
                         case 8:
-                            if(!$state.includes('app.qcode')) {
-                                $state.go('app.qcode', { 'appId': n });
+                            if (!$state.includes('app.qcode')) {
+                                $state.go('app.qcode', {'appId': n});
                             }
                             break;
                         case 9:
-                            if(!$state.includes('app.projectConfig')) {
-                                $state.go('app.projectConfig', { 'appId': n });
+                            if (!$state.includes('app.projectConfig')) {
+                                $state.go('app.projectConfig', {'appId': n});
                             }
                             break;
                         case 10:
-                                $state.go('app.realTimeCommand', { 'appId': n });
+                            $state.go('app.realTimeCommand', {'appId': n});
                             break;
                         case 11:
-                            if(!$state.includes('app.memberCard')) {
-                                $state.go('app.memberCard.memberList', { 'appId': n });
+                            if (!$state.includes('app.memberCard')) {
+                                $state.go('app.memberCard.memberList', {'appId': n});
                             }
                             break;
                         default:
@@ -344,7 +412,7 @@
                 }
 
                 // 添加 删除 弹窗，增加一个样式的class
-                self.showHideMask = function(bool,url){
+                self.showHideMask = function (bool, url) {
                     // bool 为true时，弹窗出现
                     if (bool) {
                         $scope.app.maskUrl = url;
@@ -353,37 +421,35 @@
                         $scope.app.maskUrl = '';
                         $scope.app.showMaskClass = false;
                     }
-                    
+
                 }
-
-
             }
         ])
 
-        .controller('feedbackController', ['$scope', function($scope) {
+        .controller('feedbackController', ['$scope', function ($scope) {
             var self = this;
-            self.init = function() {
+            self.init = function () {
 
             }
-            self.exit = function() {
+            self.exit = function () {
                 $scope.app.showHideMask(false);
             }
         }])
 
         // 终端管理
         .controller('terminalController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
-            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+            function ($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
                 console.log('terminalController');
                 var self = this;
-                self.init = function() {
-                        self.form = {};
-                        self.defaultLangCode = util.getDefaultLangCode();
-                        self.langStyle = util.langStyle();
-                        self.multiLang = util.getParams('editLangs');
-                        self.searchHotelList();
-                    }
-                    //获取门店
-                self.searchHotelList = function() {
+                self.init = function () {
+                    self.form = {};
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.searchHotelList();
+                }
+                //获取门店
+                self.searchHotelList = function () {
                     var data = {
                         "action": "getHotelList",
                         "token": util.getParams("token"),
@@ -407,14 +473,14 @@
 
                     }, function errorCallback(data, status, headers, config) {
                         alert('获取失败， ' + data.data.errInfo);
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                         self.loading = false;
                     });
 
                 }
 
                 // 获取终端列表 带搜索和分页
-                self.getDevList = function() {
+                self.getDevList = function () {
                     self.noData = false;
                     self.loading = true;
                     self.tableParams = new NgTableParams({
@@ -423,7 +489,7 @@
                         url: ''
                     }, {
                         counts: [],
-                        getData: function(params) {
+                        getData: function (params) {
                             var data = {
                                 "action": "getDevList",
                                 "token": util.getParams("token"),
@@ -456,7 +522,7 @@
 
                             }, function errorCallback(data, status, headers, config) {
                                 alert(response.status + ' 服务器出错');
-                            }).finally(function(value) {
+                            }).finally(function (value) {
                                 self.loading = false;
                             })
                         }
@@ -464,7 +530,7 @@
                 }
 
                 // 获取终端状态 总数目
-                self.getDevNum = function(ID, index) {
+                self.getDevNum = function (ID, index) {
                     self.form.HotelName = self.hotelList[index].Name[self.defaultLangCode];
                     self.form.HotelID = ID;
                     self.hotelListIndex = index;
@@ -493,16 +559,16 @@
                         }
                     }, function errorCallback(data, status, headers, config) {
                         alert(response.status + ' 服务器出错');
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                         self.loading = false;
                     })
 
 
                 }
 
-                self.delTerm = function(id) {
+                self.delTerm = function (id) {
                     var conf = confirm('确认删除？');
-                    if(!conf) {
+                    if (!conf) {
                         return;
                     }
                     var data = {
@@ -534,18 +600,18 @@
 
                 // 授权操作
                 // todo 未做批量操作
-                self.validDev = function(ID,Registered){
+                self.validDev = function (ID, Registered) {
                     // return;
                     var data = {
                         "action": "validDev",
                         "token": util.getParams("token"),
                         "lang": self.langStyle,
-                        "ID":[ID]
+                        "ID": [ID]
                     };
-                    if(Registered) {
-                        data.status =0;
+                    if (Registered) {
+                        data.status = 0;
                     } else {
-                        data.status =1;
+                        data.status = 1;
                     }
                     data = JSON.stringify(data);
                     $http({
@@ -555,7 +621,7 @@
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('操作成功');
-                            $state.reload($state.current.name,$stateParams,true)
+                            $state.reload($state.current.name, $stateParams, true)
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -565,35 +631,35 @@
 
                     }, function errorCallback(data, status, headers, config) {
                         alert('操作失败， ' + data.data.errInfo);
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                     });
                 }
 
-                self.addDev = function() {
-                    $scope.app.maskParams = { 'HotelID': self.form.HotelID };
+                self.addDev = function () {
+                    $scope.app.maskParams = {'HotelID': self.form.HotelID};
                     $scope.app.showHideMask(true, 'pages/addDev.html');
                 }
             }
         ])
         // 添加终端
         .controller('addDevController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
-            function($scope, $state, $http, $stateParams, $translate, $filter, util) {
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
                 console.log('addDevController');
                 var self = this;
-                self.init = function() {
+                self.init = function () {
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.maskParams = $scope.app.maskParams;
                     // 表单提交 商城信息
                     self.form = {};
-                   
+
                 }
 
-                self.cancel = function() {
+                self.cancel = function () {
                     $scope.app.showHideMask(false);
                 }
 
-                self.addDev = function() {
+                self.addDev = function () {
                     self.saving = true;
                     var data = {
                         "action": "addDev",
@@ -614,7 +680,7 @@
                         if (data.data.rescode == "200") {
                             alert("终端添加成功");
                             self.cancel();
-                            $state.go($state.current, $stateParams, { reload: true });
+                            $state.go($state.current, $stateParams, {reload: true});
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -624,7 +690,7 @@
 
                     }, function errorCallback(data, status, headers, config) {
                         alert('获取失败， ' + data.data.errInfo);
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                         self.saving = false;
                     });
 
@@ -635,10 +701,10 @@
 
         // 微信用户管理
         .controller('wxUserController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
-            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+            function ($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
                 console.log('wxUserController');
                 var self = this;
-                self.init = function() {
+                self.init = function () {
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.getWxUserInfo();
@@ -646,7 +712,7 @@
 
 
                 // 获取微信用户信息
-                self.getWxUserInfo = function() {
+                self.getWxUserInfo = function () {
                     self.noData = false;
                     self.loading = true;
                     self.tableParams = new NgTableParams({
@@ -655,7 +721,7 @@
                         url: ''
                     }, {
                         counts: [],
-                        getData: function(params) {
+                        getData: function (params) {
                             var data = {
                                 "action": "getWxUserInfo",
                                 "token": util.getParams("token"),
@@ -685,7 +751,7 @@
 
                             }, function errorCallback(data, status, headers, config) {
                                 alert(response.status + ' 服务器出错');
-                            }).finally(function(value) {
+                            }).finally(function (value) {
                                 self.loading = false;
                             })
                         }
@@ -697,22 +763,22 @@
 
         // 字幕
         .controller('realTimeCommandController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
-            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+            function ($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
                 console.log('realTimeCommandController');
                 var self = this;
-                self.init = function() {
+                self.init = function () {
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.realTimeCmdInfo = {
-                        Content:"test",
-                        startDate:new Date(),
-                        endDate:new Date(),
-                        Duration:2,
-                        switch:0
+                        Content: "test",
+                        startDate: new Date(),
+                        endDate: new Date(),
+                        Duration: 2,
+                        switch: 0
                     }
                 }
 
-                self.edit = function(info){
+                self.edit = function (info) {
                     $scope.app.maskParams = info;
                     $scope.app.showHideMask(true, 'pages/realTimeCommandEdit.html');
                 }
@@ -721,30 +787,30 @@
 
         // 字幕编辑
         .controller('realTimeCommandEditController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'NgTableParams', 'util',
-            function($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
+            function ($scope, $state, $translate, $http, $stateParams, $filter, NgTableParams, util) {
                 console.log('realTimeCommandEditController');
                 var self = this;
-                self.init = function() {
+                self.init = function () {
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.realTimeCmdInfo = $scope.app.maskParams;
                 }
                 // 添加字幕
-                self.addRealTimeCmd = function() {
+                self.addRealTimeCmd = function () {
                     var data = {
                         "action": "addRealTimeCmd",
                         "token": util.getParams("token"),
-                        
-                        "data":{
+
+                        "data": {
                             CmdType: "ScrollingMarquee",
                             // -1 为全部
-                            Terms:[-1],
-                            CmdParas:{
-                               Content:self.realTimeCmdInfo.Content,
-                               startDate:$filter('date')(self.realTimeCmdInfo.startDate,'yyyy-MM-dd'),
-                               endDate:$filter('date')(self.realTimeCmdInfo.endDate,'yyyy-MM-dd'),
-                               Duration:self.realTimeCmdInfo.Duration,
-                               switch:Number(self.realTimeCmdInfo.switch) 
+                            Terms: [-1],
+                            CmdParas: {
+                                Content: self.realTimeCmdInfo.Content,
+                                startDate: $filter('date')(self.realTimeCmdInfo.startDate, 'yyyy-MM-dd'),
+                                endDate: $filter('date')(self.realTimeCmdInfo.endDate, 'yyyy-MM-dd'),
+                                Duration: self.realTimeCmdInfo.Duration,
+                                switch: Number(self.realTimeCmdInfo.switch)
                             }
 
                         }
@@ -767,19 +833,19 @@
 
                     }, function errorCallback(data, status, headers, config) {
                         alert(response.status + ' 服务器出错');
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                         self.loading = false;
                     })
                 }
-                self.cancel = function(){
+                self.cancel = function () {
                     $scope.app.showHideMask(false)
                 }
 
                 self.open = function (flag) {
                     if (flag == "start") {
-                      self.realTimeCmdInfo.startDate.opened = true;  
+                        self.realTimeCmdInfo.startDate.opened = true;
                     } else {
-                      self.realTimeCmdInfo.endDate.opened = true; 
+                        self.realTimeCmdInfo.endDate.opened = true;
                     }
                 };
 
@@ -787,10 +853,10 @@
         ])
 
         .controller('shopController', ['$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util',
-            function($scope,$state,$translate,$http,$stateParams,$filter,util) {
+            function ($scope, $state, $translate, $http, $stateParams, $filter, util) {
                 console.log('shopController');
                 var self = this;
-                self.init = function() {
+                self.init = function () {
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.loading = false;
@@ -798,16 +864,16 @@
                     self.searchShopList();
                     // for page active
                     $scope.ShopID = $stateParams.ShopID;
-                        
+
                 }
 
 
-                self.searchShopList = function() {
+                self.searchShopList = function () {
                     self.loading = true;
                     var data = {
-                          "action": "getMgtHotelShopInfo",
-                          "token": util.getParams("token"),
-                          "lang": self.langStyle
+                        "action": "getMgtHotelShopInfo",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle
                     };
                     data = JSON.stringify(data);
                     $http({
@@ -823,8 +889,8 @@
                             self.shopList = data.data.data.shopList;
                             // 默认加载 指定 商城 or 第一个 商城
                             self.shopFirst = self.shopList[0];
-                            if($stateParams.ShopID) {
-                                for(var i = 0; i < self.shopList.length; i++) {
+                            if ($stateParams.ShopID) {
+                                for (var i = 0; i < self.shopList.length; i++) {
                                     if ($stateParams.ShopID == self.shopList[i].ShopID) {
                                         self.shopFirst = self.shopList[i];
                                         break;
@@ -840,20 +906,18 @@
                         }
                     }, function errorCallback(data, status, headers, config) {
                         alert('连接服务器出错');
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                         self.loading = false;
                     });
 
                 }
-                
-                self.shopAdd = function(){
-                    $scope.app.showHideMask(true,'pages/shopAdd.html');
+
+                self.shopAdd = function () {
+                    $scope.app.showHideMask(true, 'pages/shopAdd.html');
                 }
 
-                 
 
-
-                self.goTo = function(ShopID, HotelID, ShopName, HotelName, ShopType) {
+                self.goTo = function (ShopID, HotelID, ShopName, HotelName, ShopType) {
                     $scope.app.maskParams.ShopName = ShopName;
                     $scope.app.maskParams.HotelName = HotelName;
                     $scope.app.maskParams.ShopType = ShopType;
@@ -863,7 +927,7 @@
                         $scope.ShopID = ShopID;
 
                         $state.go('app.shop.goods', {
-                            ShopID: ShopID, 
+                            ShopID: ShopID,
                             HotelID: HotelID
                         });
                     }
@@ -874,63 +938,63 @@
         ])
 
         .controller('shopAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
-            function($scope,$state,$http,$stateParams,$translate,$filter,util) {
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
                 console.log('shopAddController');
                 var self = this;
-                self.init = function() {
-                     self.langStyle = util.langStyle();
-                     self.multiLang = util.getParams('editLangs');
-                     self.saving = false;
-                     self.searchHotelList();
-                     // 表单提交 商城信息
-                     self.form = {};
-                     // 多语言
-                     self.form.shopName = {};
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.saving = false;
+                    self.searchHotelList();
+                    // 表单提交 商城信息
+                    self.form = {};
+                    // 多语言
+                    self.form.shopName = {};
 
-                     self.saving = false;
-                     self.loading = false;
+                    self.saving = false;
+                    self.loading = false;
                 }
 
-                self.cancel = function(){
+                self.cancel = function () {
                     $scope.app.showHideMask(false);
                 }
 
-                self.searchHotelList = function() {
+                self.searchHotelList = function () {
                     self.loading = true;
                     var data = {
-                          "action": "getHotelList",
-                          "token": util.getParams("token"),
-                          "lang": self.langStyle
+                        "action": "getHotelList",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle
                     };
                     data = JSON.stringify(data);
-                        $http({
-                            method: $filter('ajaxMethod')(),
-                            url: util.getApiUrl('hotelroom', 'shopList','server'),
-                            data: data
-                        }).then(function successCallback(data, status, headers, config) {
-                            if (data.data.rescode == "200") {
-                                if (data.data.data.length == 0) {
-                                    self.noData = true;
-                                    return;
-                                }
-                                self.hotelList = data.data.data;
-                            } else if (data.data.rescode == "401") {
-                                alert('访问超时，请重新登录');
-                                $state.go('login')
-                            } else {
-                                alert('列表获取失败， ' + data.data.errInfo);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('hotelroom', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            if (data.data.data.length == 0) {
+                                self.noData = true;
+                                return;
                             }
+                            self.hotelList = data.data.data;
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('列表获取失败， ' + data.data.errInfo);
+                        }
 
-                        }, function errorCallback(data, status, headers, config) {
-                            alert('获取失败， ' + data.data.errInfo);
-                        }).finally(function(value) {
-                            self.loading = false;
-                        });
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('获取失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
 
                 }
 
-                self.saveForm = function() {
-                    if(!self.form.HotelID) {
+                self.saveForm = function () {
+                    if (!self.form.HotelID) {
                         alert('请选择门店');
                         return;
                     }
@@ -947,7 +1011,7 @@
                     };
                     data = JSON.stringify(data);
                     self.saving = true;
-                    
+
                     $http({
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
@@ -964,7 +1028,7 @@
                         }
                     }, function errorCallback(data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                         self.saving = false;
                     });
                 }
@@ -976,11 +1040,11 @@
         .controller('goodsController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
             function ($scope, $state, $http, $stateParams, $filter, util) {
                 console.log('goodsController');
-                
+
                 var self = this;
                 self.init = function () {
                     self.maskParams = $scope.app.maskParams;
-                    
+
                     self.stateParams = $stateParams;
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
@@ -992,12 +1056,12 @@
                     self.loading = false;
 
                     self.getGoodsCategory();
-                    
+
                 }
 
                 self.categoryAdd = function () {
                     $scope.app.maskParams = {'ShopID': self.stateParams.ShopID - 0};
-                    $scope.app.showHideMask(true,'pages/categoryAdd.html');
+                    $scope.app.showHideMask(true, 'pages/categoryAdd.html');
                 }
 
                 self.shopEdit = function () {
@@ -1008,7 +1072,7 @@
                         HotelID: $stateParams.HotelID,
                         ShopType: self.maskParams.ShopType
                     };
-                    $scope.app.showHideMask(true,'pages/shopEdit.html');
+                    $scope.app.showHideMask(true, 'pages/shopEdit.html');
                 }
                 // 商品分类列表
                 self.getGoodsCategory = function () {
@@ -1030,10 +1094,10 @@
                                 self.noData = true;
                             }
                             self.categoryList = data.data.data.categoryList;
-                            
+
                             self.gotoShopCate = {'id': 'all', name: {'en-US': 'All', 'zh-CN': '全部商城'}};
-                            if($stateParams.ShopGoodsCategoryID) {
-                                for(var i = 0; i < self.categoryList.length; i++) {
+                            if ($stateParams.ShopGoodsCategoryID) {
+                                for (var i = 0; i < self.categoryList.length; i++) {
                                     if ($stateParams.ShopGoodsCategoryID == self.categoryList[i].id) {
                                         self.gotoShopCate = self.categoryList[i];
                                         break;
@@ -1128,13 +1192,13 @@
                         imgSrc[i].ImageSize = Number(l[i].fileSize);
                     }
                     var _price = {
-                        money : {
-                            Enable : false,
-                            price : 0
+                        money: {
+                            Enable: false,
+                            price: 0
                         },
-                        point : {
-                            Enable : false,
-                            point : 0
+                        point: {
+                            Enable: false,
+                            point: 0
                         }
                     }
                     var _deliveryType = [];
@@ -1334,16 +1398,16 @@
                             var _price = data.product.price;
                             if (_price.money.Enable) {
                                 self.paytype = 'price';
-                                self.price = (_price.money.price - 0)/100;
+                                self.price = (_price.money.price - 0) / 100;
                             } else if (_price.point.Enable) {
                                 self.paytype = 'score';
                                 self.score = _price.point.point - 0;
                             }
                             var _deliveryType = data.product.deliveryType;
-                            if(_deliveryType.indexOf('express') !== -1) {
+                            if (_deliveryType.indexOf('express') !== -1) {
                                 self.byDelivery = true;
                             }
-                            if(_deliveryType.indexOf('bySelf') !== -1) {
+                            if (_deliveryType.indexOf('bySelf') !== -1) {
                                 self.bySelf = true;
                             }
                         } else {
@@ -1440,13 +1504,13 @@
                         imgSrc[i].ImageSize = Number(l[i].fileSize);
                     }
                     var _price = {
-                        money : {
-                            Enable : false,
-                            price : 0
+                        money: {
+                            Enable: false,
+                            price: 0
                         },
-                        point : {
-                            Enable : false,
-                            point : 0
+                        point: {
+                            Enable: false,
+                            point: 0
                         }
                     }
                     var _deliveryType = [];
@@ -1667,7 +1731,7 @@
 
                 self.saveForm = function () {
                     self.saving = true;
-                    
+
                     var data = {
                         "action": "editMgtHotelShop",
                         "token": util.getParams("token"),
@@ -1813,7 +1877,7 @@
         .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
             function ($scope, $state, $http, $stateParams, $filter, util) {
                 console.log('categoryEditController');
-    
+
                 var self = this;
                 self.init = function () {
                     self.stateParams = $stateParams;
@@ -1857,7 +1921,7 @@
                         $state.reload();
                     }, function errorCallback(data, status, headers, config) {
 
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                         self.saving = false;
                     })
 
@@ -1882,7 +1946,7 @@
                 // 分类编辑
                 self.categoryEdit = function () {
                     $scope.app.maskParams.id = self.stateParams.ShopGoodsCategoryID;
-                    $scope.app.showHideMask(true,'pages/categoryEdit.html');
+                    $scope.app.showHideMask(true, 'pages/categoryEdit.html');
                 }
 
                 self.categoryDelete = function () {
@@ -1912,7 +1976,7 @@
                         } else {
                             alert('删除失败， ' + data.data.errInfo);
                         }
-                        
+
                     }, function errorCallback(data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
                     });
@@ -1923,12 +1987,12 @@
                         'shopId': self.stateParams.ShopID,
                         'shopGoodsCategoryId': self.stateParams.ShopGoodsCategoryID
                     }; //全部分类 ShopGoodsCategoryID －1
-                    $scope.app.showHideMask(true,'pages/goodsAdd.html');
+                    $scope.app.showHideMask(true, 'pages/goodsAdd.html');
                 }
 
                 self.goodsEdit = function (goodsId) {
                     $scope.app.maskParams = {'productId': goodsId};
-                    $scope.app.showHideMask(true,'pages/goodsEdit.html');
+                    $scope.app.showHideMask(true, 'pages/goodsEdit.html');
                 }
 
                 // 商品分类列表
@@ -1960,14 +2024,14 @@
                         "lang": self.langStyle,
                         "ShopID": self.stateParams.ShopID - 0,
                         "count": 100000,
-                        "page":1
+                        "page": 1
                     }
 
                     if (!(ShopGoodsCategoryID == "all")) {
                         data.ShopGoodsCategoryID = self.stateParams.ShopGoodsCategoryID - 0;
                         data.action = "getMgtProductList";
                     }
-                    
+
                     data = JSON.stringify(data);
 
                     $http({
@@ -1998,7 +2062,7 @@
                     // 商品 的分类，保存在此对象
                     self.categoryObj = {};
                     self.categoryObj[productId] = [];
-                    console.log('categoryList '+categoryList)
+                    console.log('categoryList ' + categoryList)
                     for (var i = 0; i < categoryList.length; i++) {
                         self.categoryObj[productId].push(categoryList[i]['ShopGoodsCategoryID']);
                     }
@@ -2035,7 +2099,7 @@
                         console.log(data)
                         alert('修改分类成功');
                     }, function errorCallback(data, status, headers, config) {
-                        alert("修改失败"+data.errInfo);
+                        alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')
                     });
                 }
@@ -2053,7 +2117,7 @@
                         // }
                         status = 1;
                     } else {
-                        status =0;
+                        status = 0;
                     }
 
                     var data = {
@@ -2074,7 +2138,7 @@
                     }).then(function successCallback(data, status, headers, config) {
                         alert('修改成功')
                     }, function errorCallback(data, status, headers, config) {
-                        alert("修改失败"+data.errInfo);
+                        alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')
                     });
                 }
@@ -2104,17 +2168,17 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.hotels = data.data;
-                            if(self.hotels.length == 0) {
-                              self.noData = true;
+                            if (self.hotels.length == 0) {
+                                self.noData = true;
                             }
                             else {
-                              if($stateParams.hotelId) {
-                                $state.go('app.hotelRoom.room', {hotelId: $stateParams.hotelId}) 
-                              }  
-                              else {
-                                $state.go('app.hotelRoom.room', {hotelId: self.hotels[0].ID}) 
-                              }
-                               
+                                if ($stateParams.hotelId) {
+                                    $state.go('app.hotelRoom.room', {hotelId: $stateParams.hotelId})
+                                }
+                                else {
+                                    $state.go('app.hotelRoom.room', {hotelId: self.hotels[0].ID})
+                                }
+
                             }
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
@@ -2272,27 +2336,27 @@
 
                 self.hotelEdit = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'hotelInfo': self.hotel};
-                    $scope.app.showHideMask(true,'pages/hotelEdit.html');
+                    $scope.app.showHideMask(true, 'pages/hotelEdit.html');
                 }
 
                 self.roomAdd = function () {
                     $scope.app.maskParams = {'hotelId': self.hotelId};
-                    $scope.app.showHideMask(true,'pages/roomAdd.html');
+                    $scope.app.showHideMask(true, 'pages/roomAdd.html');
                 }
 
                 self.roomEdit = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.showHideMask(true,'pages/roomEdit.html');
+                    $scope.app.showHideMask(true, 'pages/roomEdit.html');
                 }
 
                 self.roomEditPrice = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.showHideMask(true,'pages/roomEditPrice.html');
+                    $scope.app.showHideMask(true, 'pages/roomEditPrice.html');
                 }
 
                 self.roomEditNum = function (roomId) {
                     $scope.app.maskParams = {'hotelId': self.hotelId, 'roomId': roomId};
-                    $scope.app.showHideMask(true,'pages/roomEditNum.html');
+                    $scope.app.showHideMask(true, 'pages/roomEditNum.html');
                 }
             }
         ])
@@ -2304,17 +2368,17 @@
                 self.init = function () {
                     self.defaultLangCode = util.getDefaultLangCode();
                     self.hotelId = $scope.app.maskParams.hotelId;
-                    if(!$scope.app.maskParams.hotelInfo) {
-                        self.getHotelInfo().then(function() {
+                    if (!$scope.app.maskParams.hotelInfo) {
+                        self.getHotelInfo().then(function () {
                             self.init2();
                         })
-                    } else{
+                    } else {
                         self.hotel = $scope.app.maskParams.hotelInfo;
                         self.init2();
                     }
-                    
+
                 }
-                self.init2 = function() {
+                self.init2 = function () {
                     self.ifCheckedHotelTags = [];
                     self.editLangs = util.getParams('editLangs');
 
@@ -2874,7 +2938,7 @@
                  * @param reload {Boolean} 是否重载
                  * @param type {String} alert类型
                  */
-                self.addAlert = function(msg, reload, type) {
+                self.addAlert = function (msg, reload, type) {
                     self.alerts.push({type: type, msg: msg, reload: reload});
                 };
                 /**
@@ -2882,7 +2946,7 @@
                  * @param index 位置
                  * @param reload {Boolean} 是否重载
                  */
-                self.closeAlert = function(index, reload) {
+                self.closeAlert = function (index, reload) {
                     self.alerts.splice(index, 1);
                     if (reload) {
                         $state.reload();
@@ -2969,7 +3033,7 @@
                         self.loading = false;
                     });
                 }
-                
+
                 self.deleteRoom = function () {
                     if (confirm("确定要此客房吗？")) {
                         var data = JSON.stringify({
@@ -3213,11 +3277,11 @@
                 self.saveAddPrice = function () {
                     self.savingAddPrice = true;
                     var addPriceData = [];
-                    for(var i = 0; i < self.addPrice.length; i++) {
+                    for (var i = 0; i < self.addPrice.length; i++) {
                         addPriceData[i] = {};
                         addPriceData[i].Name = self.addPrice[i].Name;
                         addPriceData[i].Desc = self.addPrice[i].Desc;
-                        addPriceData[i].Price = self.addPrice[i].Price*100;
+                        addPriceData[i].Price = self.addPrice[i].Price * 100;
                     }
 
                     var data = JSON.stringify({
@@ -3251,7 +3315,7 @@
                 }
 
                 self.addAddPrice = function () {
-                    self.addPrice.push ({Name: {}, Desc: {}, Price: ''});
+                    self.addPrice.push({Name: {}, Desc: {}, Price: ''});
                 }
 
                 self.loadAddPrice = function () {
@@ -3270,7 +3334,7 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.addPrice = data.data;
-                            for(var i = 0; i < self.addPrice.length; i++) {
+                            for (var i = 0; i < self.addPrice.length; i++) {
                                 self.addPrice[i].Price /= 100;
                             }
                         } else if (data.rescode == '401') {
@@ -3382,7 +3446,7 @@
                             PriceType: "basic"
                         })
                     }
-                    if(!countJson(specialPrice, 'PriceDate')) {
+                    if (!countJson(specialPrice, 'PriceDate')) {
                         alert('同一天不能重复设置');
                         self.saving = false;
                         return false;
@@ -3557,7 +3621,7 @@
                             AvailableNumSet: Number(self.SpecialNum[i].AvailableNumCurrent)
                         })
                     }
-                    if(!countJson(availableInfo, 'AvailableDate')) {
+                    if (!countJson(availableInfo, 'AvailableDate')) {
                         alert('同一天不能重复设置');
                         self.saving = false;
                         return false;
@@ -3579,8 +3643,8 @@
                     }).then(function successCallback(response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
-                              alert('保存成功');
-                              $state.reload(); 
+                            alert('保存成功');
+                            $state.reload();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");
@@ -3599,19 +3663,19 @@
                  * 删除客房数量信息
                  */
                 self.deleteDate = function () {
-                    if(self.delAvailableDate.length == 0) {
+                    if (self.delAvailableDate.length == 0) {
                         self.save();
                         return;
                     }
                     self.saving = true;
                     var dellist = [];
-                    for(var i = 0; i < self.delAvailableDate.length; i++) {
+                    for (var i = 0; i < self.delAvailableDate.length; i++) {
                         dellist[i] = {};
                         dellist[i].RoomID = self.roomId + "";
                         dellist[i].AvailableDate = self.delAvailableDate[i];
                     }
-                    
-                    
+
+
                     var data = JSON.stringify({
                         action: "delRoomNum",
                         lang: lang,
@@ -3626,7 +3690,7 @@
                     }).then(function successCallback(response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
-                              self.save();
+                            self.save();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $location.path("pages/login.html");

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    var app = angular.module('app.services', [])
+    var app = angular.module('app.services', ['ngCookies'])
 
         .factory('util', ['$cookies', '$translate', 'CONFIG', function ($cookies, $translate, CONFIG) {
 
@@ -60,7 +60,10 @@
                  * @param value {String}
                  */
                 'setParams': function (paramsName, value) {
-                    $cookies.put(paramsName, JSON.stringify(value))
+                    var date = new Date();
+                    date.setDate(date.getDate() + 1);
+                    var expires = date;
+                    $cookies.put(paramsName, JSON.stringify(value),{'expires': expires})
                 },
                 /**
                  * 获取变量

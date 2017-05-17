@@ -44,7 +44,7 @@
         <!--筛选条件－订单状态-->
         <ul class="nav nav-tabs">
             <li ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
-                <a ng-click="sol.searchByStatus(s.code)">{{s.name[sol.defaultLangCode]}}</a>
+                <a ng-click="sol.searchByStatus(s.code)" id="{{s.code}}Shop">{{s.name[sol.defaultLangCode]}}</a>
             </li>
         </ul>
         <!--筛选条件－订单状态-->
