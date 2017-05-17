@@ -93,6 +93,7 @@ body, .app {
 }
 
 .app-icon {
+    position: relative;
     cursor: pointer;
     border-radius: 18%;
     /*background: rgba(255,255,255,.8);*/
@@ -444,6 +445,42 @@ body, .app {
     height: 112px;
 }
 
+/*增加订单提醒数字图标样式*/
+.app-icon>.corner{
+    position: absolute;
+    top:-3%;
+    right:-3%;
+    text-align: center;
+    display:inline-block;
+    font-style:normal;
+    font-weight:bold;
+    border-radius:100px;
+    background-color: red;
+    color:rgba(255,255,255,1);
+    overflow: hidden;
+}
+.desktop .app-icon>.corner{
+    height:22%;
+    min-width: 22%;
+    padding: 0 10px;
+    line-height: 32px;
+ }
+ .app-launcher .app-icon>.corner{
+    transition-duration: .15s
+ }
+ .app-frame.phase1 .app-launcher .app-icon>.corner{
+    color: transparent;
+    width: 8px;
+    height: 8px;
+    color:rgba(255,255,255,0);
+ }
+ .app-frame.phase2 .app-launcher .app-icon>.corner{
+    padding: 0 6px;
+    height: 24px;
+    min-width: 24px;
+    line-height: 24px;
+    font-size: 12px;
+ }
 /*modify*/
 /*bs extend*/
 a{
