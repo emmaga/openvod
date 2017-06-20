@@ -1,0 +1,42 @@
+<div ng-controller="tvLiveQHtlController as tvLiveQHtl" ng-init="tvLiveQHtl.init()">
+    <!--添加直播频道按钮-->
+        <a class="button button-light" ng-click="tvLiveQHtl.add()">
+            <i class="icon ion-ios-plus-outline"></i>
+            添加频道
+        </a>
+    <!--添加直播频道按钮-->
+    <!--直播列表-->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>图标</th>
+                <th>频道名</th>
+                <th>直播地址</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="live in tvLiveQHtl.lives track by $index">
+                <td>{{live.ChannelNum}}</td>
+                <td>
+                    <div class="form-thumbnail form-thumbnail-sm" style="background-image: url({{live.ChannelPicURL}})"></div>
+                </td>
+                <td>{{live.ChannelName[tvLiveQHtl.defaultLangCode]}}</td>
+                <td>{{live.Src}}</td>
+                <td>
+                    <!--编辑按钮-->
+                    <a class="" ng-click="tvLiveQHtl.edit($index)">编辑</a>
+                    <!--编辑按钮-->
+                    <!--删除按钮-->
+                    <a class="" ng-click="tvLiveQHtl.del(live.ID, $index)">删除</a>
+                    <!--删除按钮-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+<!--直播列表-->
+</div>

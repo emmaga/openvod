@@ -1,0 +1,41 @@
+<div ng-controller="tvQHtlMovieCommonController as tvQHtlMovieCommon" ng-init="tvQHtlMovieCommon.init()" class="row">
+    <div class="col-xs-6">
+        <!--loading-->
+        <div ng-show="tvQHtlMovieCommon.loading"></div>
+        <!--loading-->
+        <form name="tvQHtlMovieCommonForm" ng-submit="tvQHtlMovieCommonForm.$valid && tvQHtlMovieCommon.save()">
+            <div class="form-group">
+                <!--API参数-->
+                <label>API参数</label>
+                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填）'" type="text" ng-model="tvQHtlMovieCommon.MovieContentAPIParam" required placeholder="（必填）"/>
+                <!--/API参数-->
+            </div>
+            <div class="form-group">
+                <!--API URL-->
+                <label>API URL</label>
+                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填）'" type="text" ng-model="tvQHtlMovieCommon.MovieContentAPIURL" required placeholder="（必填）"/>
+                <!--/API URL-->
+            </div>
+            <div class="form-group">
+                <!--折扣率-->
+                <label>折扣率（％）</label>
+                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填）'" type="number" min="0" max="100" ng-model="tvQHtlMovieCommon.FeeDiscount" required placeholder="（必填）" step="0.01" />
+                <!--/折扣率-->
+            </div>
+            <div class="form-group">
+                <!--包天价-->
+                <label>包天价（元）</label>
+                <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder='（必填）'" type="number" min="0" ng-model="tvQHtlMovieCommon.PackageFee" required placeholder="（必填）" step="0.01"/>
+                <!--/包天价-->
+            </div>
+            <div class="form-group">
+                <label> </label>
+                <!--保存按钮-->
+                <button class="button button-small button-block theme-button-outline" type="submit" ng-disabled="tvQHtlMovieCommon.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+                <!--/保存按钮-->
+            </div>
+        </form>
+    </div>
+</div>

@@ -321,9 +321,27 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.QHtl_live', {
+                    url: '/QHtl_live?moduleId&label',
+                    templateUrl: 'pages/tv/QHtl_live.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.simplePicText', {
                     url: '/simplePicText?moduleId&label',
                     templateUrl: 'pages/tv/simplePicText.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.QHtl_simplePicText', {
+                    url: '/QHtl_simplePicText?moduleId&label',
+                    templateUrl: 'pages/tv/QHtl_simplePicText.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
@@ -641,6 +659,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.QHtl_worldClock', {
+                    url: '/QHtl_worldClock?moduleId&label',
+                    templateUrl: 'pages/tv/QHtl_worldClock.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 //雅思特 世界时钟 Yeste_WorldClock
                 .state('app.tvAdmin.Yeste_WorldClock', {
                     url: '/Yeste_WorldClock?moduleId&label',
@@ -696,9 +723,27 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.QHtl_shop', {
+                    url: '/QHtl_shop?moduleId&label',
+                    templateUrl: 'pages/tv/QHtl_shop.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.movieCommon', {
                     url: '/movieCommon?moduleId&label',
                     templateUrl: 'pages/tv/movieCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.QHtlMovieCommon', {
+                    url: '/QHtlMovieCommon?moduleId&label',
+                    templateUrl: 'pages/tv/QHtl_movieCommon.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
