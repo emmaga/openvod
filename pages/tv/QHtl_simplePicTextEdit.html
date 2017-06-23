@@ -1,0 +1,88 @@
+<div ng-controller="tvQHtlSimplePicTextEditController as tvQHtlSimplePicTextEdit" ng-init="tvQHtlSimplePicTextEdit.init()" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <form name="tvQHtlSimplePicTextEditForm" ng-submit="tvQHtlSimplePicTextEditForm.$valid && tvQHtlSimplePicTextEdit.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="tvQHtlSimplePicTextEdit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑图片信息</h5>
+            </div>
+            <!--/header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!--序号-->
+                <div class="form-group">
+                    <label>序号</label>
+                    <input type="number" ng-model="tvQHtlSimplePicTextEdit.Seq" min="1" required placeholder="（必填）" class="form-control" />
+                </div>
+                <!--序号-->
+                <!--图片-->
+                <div class="form-group">
+                    <label>图片</label>
+                    <!--图片上传按钮-->
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                    <a ng-click="tvQHtlSimplePicTextEdit.clickUpload('upload1')">更改图片</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="tvQHtlSimplePicTextEdit.imgs1.uploadFile('myFile', tvQHtlSimplePicTextEdit.imgs1)"></a>
+                    <!--图片上传按钮-->
+                    <!--频道名-->
+                    <div class="row" ng-repeat="img in tvQHtlSimplePicTextEdit.imgs1.data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div>
+                                <!--/progress-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--图片-->
+                <div class="form-group">
+                    <ng-repeat ng-repeat="lang in tvQHtlSimplePicTextEdit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>标题{{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                                   ng-model="tvQHtlSimplePicTextEdit.Title[lang.code]" required placeholder="（必填）" />
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <label>标题 {{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                                   ng-model="tvQHtlSimplePicTextEdit.Title[lang.code]" />
+                        </ng-if>
+                    </ng-repeat>
+                    <!--标题-->
+                </div>
+                <div class="form-group">
+                    <!--详情-->
+                    <ng-repeat ng-repeat="lang in tvQHtlSimplePicTextEdit.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>详情{{lang.name}}：</label>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" required placeholder="（必填）" ng-model="tvQHtlSimplePicTextEdit.Text[lang.code]">{{tvQHtlSimplePicTextEdit.Text[lang.code]}}</textarea>
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <label>详情 {{lang.name}}：</label>
+                            <textarea class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" ng-model="tvQHtlSimplePicTextEdit.Text[lang.code]">{{tvQHtlSimplePicTextEdit.Text[lang.code]}}</textarea>
+                        </ng-if>
+                    </ng-repeat>
+                    <!--详情-->
+                </div>
+            </div>
+            <!--/body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!--取消按钮-->
+                <div ng-click="tvQHtlSimplePicTextEdit.cancel()" class="btn btn-default btn-sm">取消</div>
+                <!--取消按钮-->
+                <!--保存按钮-->
+                <button type="submit" ng-disabled="tvQHtlSimplePicTextEdit.saving" class="btn btn-primary btn-sm">保存</button>
+                <!--保存按钮-->
+            </div>
+        </form>
+    </div>
+</div>

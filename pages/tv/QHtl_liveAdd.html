@@ -1,0 +1,78 @@
+<div ng-controller="tvLiveQHtlAddController as tvLiveQHtlAdd" ng-init="tvLiveQHtlAdd.init()" class="autoscroll modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+                <button type="button" class="close" ng-click="tvLiveQHtlAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加频道</h5>
+            </div>
+        <!--/header end-->
+        <!--body-->
+        <div class="modal-body">
+            <form id="tvLiveQHtlAddForm" name="tvLiveQHtlAddForm" ng-submit="tvLiveQHtlAddForm.$valid && tvLiveQHtlAdd.save()">
+                <div class="form-group">
+                    <!--频道序号-->
+                    <label>频道号</label>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                            type="number" ng-model="tvLiveQHtlAdd.channelNum" min="0" required placeholder="（必填）"/>
+                    <!--/频道序号-->
+                </div>
+                <div class="form-group">
+                    <!--频道图标-->
+                    <label>频道图标</label>
+                    <!--频道图标上传按钮-->
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+                    <a ng-click="tvLiveQHtlAdd.clickUpload('upload1')">上传</a>
+                    <a id="hidenUpload1" style="display: none;" ng-click="tvLiveQHtlAdd.imgs1.uploadFile('myFile', tvLiveQHtlAdd.imgs1)"></a>
+                    <!--/频道图标上传按钮-->
+                    <div class="row" ng-repeat="img in tvLiveQHtlAdd.imgs1.data">
+                        <div class="col-xs-12">
+                            <div class="form-thumbnail ng-scope" style="background-image: url({{img.src}})" alt="{{img.fileName}}">
+                                <!--进度条-->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)" >
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%"></div>
+                                    <!-- -1代表失败 -->
+                                    <!-- 大小： {{img.fileSize}}
+                                    剩余： {{img.leftSize}} -->
+                                </div><!--/progress-->
+                            </div><!--/form-thumbnail-->
+                        </div> <!--/col-xs-12-->
+                    </div><!--/row-->
+                    <!--/频道图标-->
+                    <!--频道名-->
+                </div>
+                <div class="form-group">
+                    <ng-repeat ng-repeat="lang in tvLiveQHtlAdd.editLangs">
+                        <ng-if ng-if="lang.default">
+                            <label>频道名{{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                                   ng-model="tvLiveQHtlAdd.channelName[lang.code]" required placeholder="（必填）" />
+                        </ng-if>
+                        <ng-if ng-if="lang.default !== true">
+                            <label>频道名 {{lang.name}}：</label>
+                            <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）""
+                                   ng-model="tvLiveQHtlAdd.channelName[lang.code]" />
+                        </ng-if>
+                    </ng-repeat>
+                </div>
+                <div class="form-group">
+                    <!--/频道名-->
+                    <!--频道直播地址-->
+                    <label>频道直播地址</label>
+                    <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required placeholder="（必填）"" type="text" ng-model="tvLiveQHtlAdd.src" required placeholder="（必填）" placeholder=" (例：http://1.1.1.1/cctv1.m3u8)" />
+                    <!--/频道直播地址-->
+                </div><!--form-group-->
+
+            </form>
+        </div>
+        <!--/body end-->
+        <!--footer-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm" ng-click="tvLiveQHtlAdd.cancel()">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="tvLiveQHtlAddForm" ng-disabled="tvLiveQHtlAdd.saving">保存</button>
+        </div>
+        <!--/footer end-->
+    </div>
+</div>
