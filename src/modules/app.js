@@ -723,6 +723,15 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.ShopOnline', {
+                    url: '/ShopOnline?moduleId&label',
+                    templateUrl: 'pages/tv/ShopOnline.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.QHtl_shop', {
                     url: '/QHtl_shop?moduleId&label',
                     templateUrl: 'pages/tv/QHtl_shop.html',
