@@ -515,7 +515,7 @@
                                     return data.data.devlist;
                                 } else if (msg.rescode == '401') {
                                     alert('访问超时，请重新登录');
-                                    $location.path("pages/login.html");
+                                    $state.go('login');
                                 } else {
                                     alert(data.rescode + ' ' + data.errInfo);
                                 }
@@ -553,7 +553,7 @@
                             self.form.online = data.data.online;
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert(data.rescode + ' ' + data.errInfo);
                         }
@@ -589,7 +589,7 @@
                             self.getDevNum(self.form.HotelID, self.hotelListIndex);
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert(data.data.errInfo);
                         }
@@ -744,7 +744,7 @@
                                     return data.data.userinfo;
                                 } else if (msg.rescode == '401') {
                                     alert('访问超时，请重新登录');
-                                    $location.path("pages/login.html");
+                                    $state.go('login');
                                 } else {
                                     alert(data.rescode + ' ' + data.errInfo);
                                 }
@@ -826,7 +826,7 @@
                             self.cancel();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert(data.rescode + ' ' + data.errInfo);
                         }
@@ -897,7 +897,7 @@
                                     }
                                 }
                             }
-                            self.goTo(self.shopFirst.ShopID, self.shopFirst.HotelID, self.shopFirst.ShopName, self.shopFirst.HotelName, self.shopFirst.ShopType);
+                            self.goTo(self.shopFirst.ShopID, self.shopFirst.HotelID, self.shopFirst.ShopName, self.shopFirst.HotelName, self.shopFirst.ShopType, self.shopFirst.ServiceTelephone, self.shopFirst.PayCash, self.shopFirst.PayOnline);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -916,11 +916,13 @@
                     $scope.app.showHideMask(true, 'pages/shopAdd.html');
                 }
 
-
-                self.goTo = function (ShopID, HotelID, ShopName, HotelName, ShopType) {
+                self.goTo = function(ShopID, HotelID, ShopName, HotelName, ShopType, ServiceTelephone, PayCash, PayOnline) {
                     $scope.app.maskParams.ShopName = ShopName;
                     $scope.app.maskParams.HotelName = HotelName;
                     $scope.app.maskParams.ShopType = ShopType;
+                    $scope.app.maskParams.ServiceTelephone = ServiceTelephone;
+                    $scope.app.maskParams.PayCash = PayCash;
+                    $scope.app.maskParams.PayOnline = PayOnline;
 
                     if (ShopID != $stateParams.ShopID) {
                         // for page active
@@ -1001,7 +1003,10 @@
                     var shopList = {
                         "HotelID": self.form.HotelID - 0,
                         "ShopName": self.form.shopName,
-                        "ShopType": self.ShopType
+                        "ShopType": self.ShopType,
+                        "ServiceTelephone": self.form.ServiceTelephone ? self.form.ServiceTelephone : ' ',
+                        "PayCash": self.form.PayCash ? 1 : 0,
+                        "PayOnline": self.form.PayOnline ? 1 : 0
                     }
                     var data = {
                         "action": "addMgtHotelShop",
@@ -1070,7 +1075,10 @@
                         ShopName: self.maskParams.ShopName,
                         HotelName: self.maskParams.HotelName,
                         HotelID: $stateParams.HotelID,
-                        ShopType: self.maskParams.ShopType
+                        ShopType: self.maskParams.ShopType,
+                        ServiceTelephone: self.maskParams.ServiceTelephone,
+                        PayCash: self.maskParams.PayCash,
+                        PayOnline: self.maskParams.PayOnline
                     };
                     $scope.app.showHideMask(true, 'pages/shopEdit.html');
                 }
@@ -1689,6 +1697,9 @@
                     // self.searchHotelList();
                     self.shopInfo = self.maskParams.ShopName;
                     self.ShopType = self.maskParams.ShopType;
+                    self.ServiceTelephone = self.maskParams.ServiceTelephone;
+                    self.PayCash = self.maskParams.PayCash === 1 ? true : false;
+                    self.PayOnline = self.maskParams.PayOnline === 1 ? true : false;
                 }
 
                 self.cancel = function () {
@@ -1739,7 +1750,10 @@
                         "shop": {
                             "ShopID": self.maskParams.ShopID,
                             "ShopName": self.shopInfo,
-                            "ShopType": self.ShopType
+                            "ShopType": self.ShopType,
+                            "ServiceTelephone": self.ServiceTelephone ? self.ServiceTelephone : " ",
+                            "PayCash": self.PayCash ? 1 : 0,
+                            "PayOnline": self.PayOnline ? 1 : 0
                         }
                     };
 
@@ -2182,7 +2196,7 @@
                             }
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert(data.rescode + ' ' + data.errInfo);
                         }
@@ -2195,8 +2209,8 @@
             }
         ])
 
-        .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', '$location', 'util', 'NgTableParams',
-            function ($scope, $http, $stateParams, $translate, $location, util, NgTableParams) {
+        .controller('roomController', ['$scope', '$http', '$stateParams', '$translate', '$state', 'util', 'NgTableParams',
+            function ($scope, $http, $stateParams, $translate, $state, util, NgTableParams) {
                 var self = this;
                 var lang;
 
@@ -2238,7 +2252,7 @@
                             self.hotel.ViewURL = data.data.ViewURL;
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                         }
@@ -2282,7 +2296,7 @@
                             // return msg.roomsInfo;
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取数据出错，' + msg.errInfo);
                         }
@@ -2322,7 +2336,7 @@
                             if (msg.rescode == '200') {
                             } else if (msg.rescode == '401') {
                                 alert('访问超时，请重新登录');
-                                $location.path("pages/login.html");
+                                $state.go('login');
                             } else {
                                 alert('操作失败，' + msg.errInfo);
                             }
@@ -2419,7 +2433,7 @@
                             deferred.resolve();
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                             deferred.reject();
@@ -3303,7 +3317,7 @@
                             $state.reload();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
@@ -3339,7 +3353,7 @@
                             }
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                         }
@@ -3420,7 +3434,7 @@
                             self.SpecialPrice = msg.SpecialPrice;
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取价格信息失败，' + msg.errInfo);
                         }
@@ -3478,7 +3492,7 @@
                             $state.reload();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
@@ -3595,7 +3609,7 @@
                             self.SpecialNum = msg.SpecialNum;
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取数量信息失败，' + msg.errInfo);
                         }
@@ -3647,7 +3661,7 @@
                             $state.reload();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
@@ -3693,7 +3707,7 @@
                             self.save();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }

@@ -95,12 +95,12 @@
                                     // $scope.app.maskParams = {"data":data.data.data};
                                     return data.data.data;
                                 }
-                                // else if (msg.rescode == '401') {
-                                //     alert('访问超时，请重新登录');
-                                //     $location.path("pages/login.html");
-                                // }
+                                else if (data.data.rescode == '401') {
+                                    alert('访问超时，请重新登录');
+                                    $state.go('login');
+                                }
                                 else {
-                                    alert(data.rescode + ' ' + data.errInfo);
+                                    alert(data.data.rescode + ' ' + data.data.errInfo);
                                 }
 
                             }, function errorCallback(data, status, headers, config) {
@@ -152,8 +152,9 @@
                                         $scope.app.maskParams = {"data": data.data.data.level_list,"row": row};
                                         // params.total(data.data.data.total);
                                         $scope.app.showHideMask(true, 'pages/memberCard/editLevels.html');
-                                    } else if (data.data.rescode == '301') {
-                                        // self.noCreated = true;
+                                    } else if (data.data.rescode == '401') {
+                                        alert('访问超时，请重新登录');
+                                        $state.go('login');
                                     } else {
                                         alert(data.data.rescode + ' ' + data.data.errInfo);
                                     }
@@ -221,8 +222,9 @@
                                     $scope.app.maskParams = {"data": data.data.data.level_list};
                                     params.total(data.data.data.total);
                                     return data.data.data.level_list;
-                                } else if (data.data.rescode == '310') {
-
+                                } else if (data.data.rescode == '401') {
+                                    alert('访问超时，请重新登录');
+                                    $state.go('login');
                                 } else {
                                     alert(data.data.rescode + ' ' + data.data.errInfo);
                                 }
@@ -285,8 +287,13 @@
                                                 $scope.app.maskParams = {"data":custom,"value":data.data.data.Value};
                                                 //该同步请求依赖AJAX的请求数据，故需放在AJAX请求成功的回调函数中
                                                 $scope.app.showHideMask(true, 'pages/memberCard/configMemberCard.html');
-                                            } else {
-                                                // alert( data.data.rescode + '，' + data.data.errInfo);
+                                            }
+                                            else if (data.data.rescode == '401') {
+                                                alert('访问超时，请重新登录');
+                                                $state.go('login');
+                                            }
+                                            else {
+                                                alert( data.data.rescode + '，' + data.data.errInfo);
                                             }
                                         }, function errorCallback(data, status, headers, config) {
                                             alert('连接服务器出错');
@@ -347,7 +354,12 @@
                         if (data.data.rescode == "200") {
                             alert('积分调整成功');
                             $state.reload();
-                        } else {
+                        } 
+                        else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        }
+                        else {
                             alert('积分调整失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
                     }, function errorCallback(data, status, headers, config) {
@@ -401,7 +413,12 @@
                         if (data.data.rescode == "200") {
                             alert('等级调整成功');
                             $state.reload();
-                        } else {
+                        } 
+                        else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        }
+                        else {
                             alert('等级调整失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
                     }, function errorCallback(data, status, headers, config) {
@@ -476,7 +493,12 @@
                         if (data.data.rescode == "200") {
                             alert('添加成功');
                             $state.reload();
-                        } else {
+                        }
+                        else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } 
+                        else {
                             alert('添加失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
                     }, function errorCallback(data, status, headers, config) {
@@ -606,7 +628,12 @@
                         if (data.data.rescode == "200") {
                             alert('设置成功');
                             $state.reload();
-                        } else {
+                        } 
+                        else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        }
+                        else {
                             alert('设置失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
                     }, function errorCallback(data, status, headers, config) {
@@ -661,7 +688,12 @@
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             // alert("策略修改成功！");
-                        } else {
+                        } 
+                        else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        }
+                        else {
                             alert( data.data.rescode + '，' + data.data.errInfo);
                         }
                     }, function errorCallback(data, status, headers, config) {
@@ -700,7 +732,12 @@
                         if (data.data.rescode == "200") {
                             alert('配置成功');
                             $state.reload();
-                        } else {
+                        }
+                        else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } 
+                        else {
                             alert('配置失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
                     }, function errorCallback(data, status, headers, config) {
