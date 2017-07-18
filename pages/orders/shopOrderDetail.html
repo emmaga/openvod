@@ -1,4 +1,4 @@
-<div ng-controller="shopOrderDetailController as sod" ng-init="sod.init()" class="modal-dialog modal-sm">
+<div ng-controller="shopOrderDetailController as sod" ng-init="sod.init()" class="modal-dialog modal-md">
     <div class="modal-content">
         <!-- loading -->
         <div ng-show="sod.loading">loading...</div>
@@ -28,7 +28,7 @@
                         <td> {{product.GoodsName}}</td>
                         <!--商品单价-->
                         <td>
-                            <ng-if ng-if="product.PayBy.indexOf('money') !== -1">{{product.price | fenToYuan}}元 </ng-if>
+                            <ng-if ng-if="product.PayBy.indexOf('money') !== -1">{{product.price | fenToYuan}} - {{product.Decline | fenToYuan}} = {{product.price - product.Decline | fenToYuan}} 元 </ng-if>
                             <ng-if ng-if="product.PayBy.indexOf('point') !== -1">{{product.point}}积分</ng-if>
                         </td>
                         <!--商品数量-->
