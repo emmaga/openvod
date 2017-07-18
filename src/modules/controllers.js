@@ -1202,7 +1202,8 @@
                     var _price = {
                         money: {
                             Enable: false,
-                            price: 0
+                            price: 0,
+                            Decline: 0
                         },
                         point: {
                             Enable: false,
@@ -1216,6 +1217,7 @@
                     if (self.paytype == 'price') {
                         _price.money.Enable = true;
                         _price.money.price = self.price * 100;
+                        _price.money.Decline = self.decline * 100;
                     } else if (self.paytype == 'score') {
                         _price.point.Enable = true;
                         _price.point.point = self.score;
@@ -1407,6 +1409,7 @@
                             if (_price.money.Enable) {
                                 self.paytype = 'price';
                                 self.price = (_price.money.price - 0) / 100;
+                                self.decline = (_price.money.Decline - 0) / 100;
                             } else if (_price.point.Enable) {
                                 self.paytype = 'score';
                                 self.score = _price.point.point - 0;
@@ -1448,7 +1451,6 @@
                         }
                     };
                     data = JSON.stringify(data);
-                    console && console.dir(data);
                     $http({
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', '', 'server'),
@@ -1514,7 +1516,8 @@
                     var _price = {
                         money: {
                             Enable: false,
-                            price: 0
+                            price: 0,
+                            Decline: 0
                         },
                         point: {
                             Enable: false,
@@ -1528,6 +1531,7 @@
                     if (self.paytype == 'price') {
                         _price.money.Enable = true;
                         _price.money.price = self.price * 100;
+                        _price.money.Decline = self.decline * 100;
                     } else if (self.paytype == 'score') {
                         _price.point.Enable = true;
                         _price.point.point = self.score;
