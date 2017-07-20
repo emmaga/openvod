@@ -73,7 +73,12 @@
                     if (data.rescode == '200') {
                         alert('已删除');
                         $state.reload();
-                    } else {
+                    } 
+                    else if (data.rescode == '401') {
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } 
+                    else {
                         alert('删除失败' + data.errInfo);
                     }
                 }, function errorCallback(response) {
@@ -410,7 +415,12 @@
                     if (data.rescode == '200') {
                         alert('保存成功');
                         $state.reload();
-                    } else {
+                    }
+                    else if (data.rescode == '401') {
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } 
+                    else {
                         alert('保存失败' + data.errInfo);
                     }
                 }, function errorCallback(response) {

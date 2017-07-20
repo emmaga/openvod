@@ -61,7 +61,7 @@
                                 return data.data.data;
                             } else if (data.data.rescode == '401') {
                                 alert('访问超时，请重新登录');
-                                $location.path("index.html");
+                                $state.go('login');
                             } else {
                                 alert('读取信息出错，'+data.errInfo);
                             }
@@ -377,7 +377,7 @@
                                     return data.data.data;
                                 } else if (data.data.rescode == '401') {
                                     alert('访问超时，请重新登录');
-                                    $location.path("index.html");
+                                    $state.go('login');
                                 } else {
                                     alert('读取信息出错，'+data.errInfo);
                                 }

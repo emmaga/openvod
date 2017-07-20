@@ -34,6 +34,20 @@
                         <input type="text" name="" ng-model="shopAdd.form.shopName[lang.code]" class="form-control">
                     </div>
                 </ng-repeat>
+
+                <div class="form-group">
+                    <label>客服电话（电视商城）：</label>
+                    <input type="text" name="" ng-model="shopAdd.form.ServiceTelephone" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>支持货到付款（电视商城）：</label>
+                    <toggle ng-model="shopAdd.form.PayCash"></toggle>
+                </div>
+                <div class="form-group">
+                    <label>支持在线支付：</label>
+                    <toggle ng-model="shopAdd.form.PayOnline"></toggle>
+                </div>
+
                 <!-- 绑定门店 -->
                 <div class="form-group">
                     <label>绑定门店</label>

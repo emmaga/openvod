@@ -61,6 +61,10 @@
                         <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="score" /> 积分
                     </div>
                     <input ng-show="goodsEdit.paytype == 'price'" ng-model="goodsEdit.price" placeholder="请输入价格（元）" type="number" min="0" class="form-control" step="0.01" />
+                    <div ng-show="goodsEdit.paytype == 'price'" class="form-group">
+                        <label>下单立减</label>
+                        <input ng-model="goodsEdit.decline" placeholder="请输入立减金额（元）" type="number" min="0" max="{{goodsEdit.price}}" class="form-control" step="0.01" />
+                    </div>
                     <input ng-show="goodsEdit.paytype == 'score'" ng-model="goodsEdit.score" placeholder="请输入积分" type="number" min="0" class="form-control" />
                 </div>
                 <!-- 库存 -->

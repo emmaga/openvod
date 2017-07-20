@@ -406,6 +406,12 @@
                     self.changeMenuInfo();        
                 }
 
+                // ShopOnline
+                if(branch.data.type == 'ShopOnline') {
+                    $state.go('app.tvAdmin.ShopOnline', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();        
+                }
+
                 // QHtl_shop
                 if(branch.data.type == 'QHtl_Shop') {
                     $state.go('app.tvAdmin.QHtl_shop', {moduleId: branch.data.moduleId, label: branch.label});
@@ -2932,7 +2938,7 @@
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
+                        $state.go('login');
                     } else {
                         alert('读取信息失败，' + data.errInfo);
                         deferred.reject();
@@ -5081,7 +5087,7 @@
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
+                        $state.go('login');
                     } else {
                         alert('读取信息失败，' + data.errInfo);
                         deferred.reject();
@@ -7390,7 +7396,7 @@
                             deferred.resolve();
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
-                            $location.path("pages/login.html");
+                            $state.go('login');
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                             deferred.reject();
@@ -8779,7 +8785,7 @@
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
-                        $location.path("pages/login.html");
+                        $state.go('login');
                     } else {
                         alert('读取信息失败，' + data.errInfo);
                         deferred.reject();
@@ -18757,6 +18763,81 @@ console.log("Samsung_Lunch_PicText_Classification")
         }
     ])
 
+    .controller('tvShopOnlineController', ['$scope', '$state', '$http', '$stateParams', 'util',
+        function ($scope, $state, $http, $stateParams, util) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                self.loadInfo();
+            }
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "update",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle(),
+                    "data": {
+                        "ShopType": self.shopSign,
+                        "Url": self.Url
+                    }
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('保存成功');
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('保存失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('保存失败');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+            }
+
+            self.loadInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "get",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.shopSign = data.data.ShopType;
+                        self.Url = data.data.Url
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+        }
+    ])
+
     .controller('tvQHtlShopController', ['$scope', '$state', '$http', '$stateParams', 'util',
         function ($scope, $state, $http, $stateParams, util) {
             var self = this;
@@ -22050,7 +22131,6 @@ console.log("Samsung_Lunch_PicText_Classification")
                 
             }
 
-
             self.cancel = function() {
                 $scope.app.showHideMask(false);
             }
@@ -22174,7 +22254,7 @@ console.log("Samsung_Lunch_PicText_Classification")
                     }
                 },
 
-                uploadFile: function (e, o) {
+                uploadFile: function(e, o) {
 
                     // 如果这个对象只允许上传一张图片
                     if (this.single) {
@@ -22191,8 +22271,8 @@ console.log("Samsung_Lunch_PicText_Classification")
                     // self.search();
 
                     util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                        function (evt) {
-                            $scope.$apply(function () {
+                        function(evt) {
+                            $scope.$apply(function() {
                                 if (evt.lengthComputable) {
                                     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                     o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
