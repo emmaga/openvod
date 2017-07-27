@@ -1,0 +1,86 @@
+
+<!-- 班车预约管理 -->
+<div ng-controller="busController as bus" ng-init="bus.init()" class="container">
+
+    <!-- loading -->
+    <div ng-show="bus.loading">loading...</div>
+
+    <!-- 查无数据 -->
+    <div ng-show="bus.noData">查无数据</div>
+
+    <!-- 左侧菜单 -->
+    <div class="nav-left ">
+        <ul class="nav nav-stacked nav-left-content">
+            <li class="nav-header {{busItem.busID == busID ? 'active' : ''}}" ng-click="bus.goTo(busItem.busID,busItem.HotelID,busItem.busName,busItem.HotelName,busItem.busType,busItem.ServiceTelephone, busItem.PayCash, busItem.PayOnline)" ng-repeat="busItem in bus.busList">
+                <a class="theme-hover">
+                    {{busItem.busName[bus.langStyle]}}
+                    <br>
+                    <small>{{busItem.HotelName[bus.langStyle]}}</small>
+                </a>
+            </li>
+            <li class="nav-header">
+                <a class="theme-color theme-hover" ng-click="bus.routeAdd()">
+                    <i class="icon ion-android-add-circle"></i> 添加线路
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <!-- 标题 + 编辑酒店信息按钮-->
+        <h4 ng-click="bus.routeEdit()" class="cursor-pointer">
+            {{goods.maskParams.ShopName[goods.langStyle]}}
+            <a class="title-btn"><i class="icon ion-ios-compose-outline theme-color"></i></a>
+        </h4>
+        <hr>
+        <div class="row">
+            <!--搜索 筛选条件－开始日期&&结束日期-->
+            <div class="col-xs-6">
+                <div class="search-bar">
+                    <!-- 日期选择器 -->
+                    <div class="form-group">
+                        <!--开始日期-->
+                        <small>日期</small>
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="bus.searchDate" is-open="bus.dateIsOpened" datepicker-options="dateOptions" close-text="Close" ng-click="bus.open($event)" />
+                    </div>
+                    <a ng-click="bus.list()" class="button button-light" style="top: 10px;">
+                        <i class="icon ion-ios-search-strong"></i> 查询
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-top: 0;">
+        <!-- 按钮: 新建班次 -->
+        <a ng-click="bus.addTime()" class="button button-light">
+            <i class="icon ion-ios-plus-outline"></i> 添加班次
+        </a>
+        <table id="busTab" ng-table="bus.tableParams" ng-show="!bus.loading" class="table table-hover table-condensed">
+            <tr ng-repeat="project in $data track by $index">
+                <td data-title="'发车时间'">{{project.SceneName}}</td>
+                <td data-title="'登记人数'"></td>
+                <td data-title="'状态'">{{project.Total_today}}</td>
+                <td data-title="'操作'">
+                    <a ng-click="bus.delete(project.SceneId)">删除</a>
+                    <a ng-click="bus.orderDetail(project.SceneId)">登记详情</a>
+                    <a ng-click="bus.arrive(project.Qrcode,project.SceneName)">到达信息</a>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="bus.loading">loading...</div>
+        <div ng-show="bus.noData">查无数据</div>
+    </div>
+
+    <!-- 主题样式 -->
+    <style type="text/css">
+        
+        .nav-left-content{
+            padding-top: 12px;
+        }
+
+        .nav-left-content a{
+            line-height: 1.25
+        }
+
+    </style>
+</div>

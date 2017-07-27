@@ -1,0 +1,136 @@
+<div ng-controller="busOrderDetailController as od" ng-init="od.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <div ng-show="od.loading">loading...</div>
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="od.close()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">登记详情</h5>
+        </div>
+        <!-- body -->
+        <div print-section class="modal-body">
+            <!--订单详情-->
+            <ul class="list-group list-group-condensed">
+                <!--订单号-->
+                <li class="list-group-item">
+                    订单号
+                    <span class="pull-right">{{od.orderInfo.OrderNum}}</span>
+                </li>
+                <!--下单时间-->
+                <li class="list-group-item">
+                    下单时间
+                    <span class="pull-right">{{od.orderInfo.CreateTime}}</span>
+                </li>
+                <!--订单状态-->
+                <li class="list-group-item">
+                    订单状态
+                    <span class="pull-right">{{od.orderInfo.Status | orderStatus}}</span>
+                </li>
+                <!--优惠-->
+                <li class="list-group-item">
+                    优惠券
+                    <span class="pull-right">{{od.orderInfo.card_info_title | arrToString}}</span>
+                </li>
+                <!--订单总价-->
+                <li class="list-group-item">
+                    订单总价
+                    <span class="pull-right">{{od.orderInfo.GoodsTotalPrice | fenToYuan}}</span>
+                </li>
+                <hr>
+                <!--客房信息－酒店名-->
+                <li class="list-group-item">
+                    酒店
+                    <span class="pull-right">{{od.orderInfo.Name[od.defaultLangCode]}}</span>
+                </li>
+                <!--客房信息－客房名-->
+                <li class="list-group-item">
+                    客房
+                    <span class="pull-right">{{od.orderInfo.RoomTypeName[od.defaultLangCode]}}</span>
+                </li>
+                <!--变价信息－变价名-->
+                <li class="list-group-item" ng-if="od.orderInfo.RoomServiceName[od.defaultLangCode]">
+                    变价名
+                    <span class="pull-right">{{od.orderInfo.RoomServiceName[od.defaultLangCode]}}</span>
+                </li>
+                <!--变价信息－变价描述-->
+                <li class="list-group-item" ng-if="od.orderInfo.RoomServiceDescription[od.defaultLangCode]">
+                    变价描述
+                    <span class="pull-right">{{od.orderInfo.RoomServiceDescription[od.defaultLangCode]}}</span>
+                </li>
+                <hr>
+                <!--入住信息－入住时间-->
+                <li class="list-group-item">
+                    入住时间
+                    <span class="pull-right">{{od.orderInfo.BookStartDate}}</span>
+                </li>
+                <!--入住信息－离店时间-->
+                <li class="list-group-item">
+                    离店时间
+                    <span class="pull-right">{{od.orderInfo.BookEndDate}}</span>
+                </li>
+                <!--入住信息－房间数量-->
+                <li class="list-group-item">
+                    房间数量
+                    <span class="pull-right">{{od.orderInfo.GoodsNum}}</span>
+                </li>
+                <hr>
+                <!--联系人－姓名-->
+                <li class="list-group-item">
+                    姓名
+                    <span class="pull-right">{{od.orderInfo.ContactorName}}</span>
+                </li>
+                <!--会员等级-->
+                <li class="list-group-item">
+                    会员等级
+                    <span class="pull-right">{{od.orderInfo.MemberCardLevelName ? od.orderInfo.MemberCardLevelName : '微信粉丝'}}</span>
+                </li>
+                <!--联系人－手机-->
+                <li class="list-group-item">
+                    手机
+                    <span class="pull-right">{{od.orderInfo.ContactorPhone}}</span>
+                </li>
+                <!--身份证-->
+                <li ng-if="od.orderInfo.IDCardNumber" class="list-group-item">
+                    身份证
+                    <span class="pull-right">{{od.orderInfo.IDCardNumber}}</span>
+                </li>
+                <!--游玩日期-->
+                <li ng-if="od.orderInfo.PlayDate" class="list-group-item">
+                    游玩日期
+                    <span class="pull-right">{{od.orderInfo.PlayDate}}</span>
+                </li>
+                <hr ng-if="od.orderInfo.Comment">
+                <!--备注-->
+                <li class="list-group-item" ng-if="od.orderInfo.Comment">
+                    备注
+                    <span class="pull-right">{{od.orderInfo.Comment}}</span>
+                </li>
+            </ul>
+            <hr>
+            <!--订单详情-->
+            <!--操作记录-->
+            <small ng-repeat="info in od.list">
+                <!--状态改变描述-->
+                <label>{{info.OperateAction | operateAction}}</label>
+                <!--时间-->
+                {{info.OperateTime}}
+                <!--状态改变者-->
+                {{info.OperateUserName}}
+                <br>
+            </small>
+            <!--操作记录-->
+        </div>
+        <div class="modal-footer">
+            <!-- 取消 -->
+            <button type="button" class="btn btn-default btn-sm" ng-click="od.close()">{{'CANCEL' | translate}}</button>
+            <!-- 订单打印 -->
+            <button type="button" class="btn btn-primary btn-sm" print-btn>
+            <i class="icon ion-printer"></i> 订单打印
+            </button>
+            <!--footer end-->
+        </div>
+    </div>
+</div>
