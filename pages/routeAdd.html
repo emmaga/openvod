@@ -1,8 +1,5 @@
 <div ng-controller="routeAddController as routeAdd" ng-init="routeAdd.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
-        <!-- loading -->
-        <div ng-show="route.loading">loading...</div>
-        <div ng-show="route.noData">查无数据</div>
         <!-- form -->
         <form novalidate name="routeAddForm" ng-submit="routeAddForm.$valid && routeAdd.saveForm()">
             <!--header-->
@@ -18,22 +15,16 @@
             <div class="modal-body">
                 <!-- 商城标识 -->
                 <div class="form-group">
-                    <label>商城标识：</label>
-                    <input type="text" name="" required placeholder="（必填）" ng-model="routeAdd.routeType" class="form-control">
+                    <label>路线名称：</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="routeAdd.Name" class="form-control">
                 </div>
                 <!-- 商城标识 -->
 
                 <!-- 商城名称 -->
-                <ng-repeat ng-repeat="lang in routeAdd.multiLang track by $index">
-                    <div class="form-group" ng-if="lang.default==true">
-                        <label>商城名字：({{lang.name}})</label>
-                        <input type="text" name="" required placeholder="（必填）" ng-model="routeAdd.form.routeName[lang.code]" class="form-control">
-                    </div>
-                    <div class="form-group" ng-if="lang.default!==true">
-                        <label>商城名字：({{lang.name}})</label>
-                        <input type="text" name="" ng-model="routeAdd.form.routeName[lang.code]" class="form-control">
-                    </div>
-                </ng-repeat>
+                <div class="form-group">
+                    <label>管理员手机／400电话：</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="routeAdd.Phone" class="form-control">
+                </div>
             </div>
             <!--body end-->
             <!--footer-->
@@ -42,7 +33,9 @@
                 <button type="button" class="btn btn-default btn-sm" ng-click="routeAdd.cancel()">{{'CANCEL' | translate}}</button>
                 <!-- 保存 -->
                 <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="routeAddForm.$invalid || routeAdd.saving">
-                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                    <i class="icon ion-ios-checkmark-outline"></i> 
+                    <ng-if ng-if="!routeAdd.saving">{{'SAVE' | translate}}</ng-if>
+                    <ng-if ng-if="routeAdd.saving">保存中...</ng-if>
                 </button>
             </div>
             <!--footer end-->
