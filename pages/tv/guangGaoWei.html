@@ -11,27 +11,60 @@
     <!--已添加的广告位 list-->
     <table class="table table-hover">
         <thead>
-            <tr>
-                <th>广告位标识</th>
-                <th>广告位名称</th>
-                <th>广告位策略参数</th>
-                <th>操作</th>
-            </tr>
+        <tr>
+            <th>广告位标识</th>
+            <th>广告位名称</th>
+            <th>广告位策略参数</th>
+            <th>操作</th>
+        </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="ad in tvGuangGaoWei.adList">
-                <!--广告位标识-->
-                <td>{{ad.PositionStrID}}</td>
-                <!--广告位名称-->
-                <td>{{ad.PositionName}}</td>
-                <!--广告位策略参数-->
-                <td>{{ad.PositionParam}}</td>
-                <!--删除该广告位-->
-                <td>
-                    <a ng-click="tvGuangGaoWei.close(ad.PositionID)">删除</a>
-                </td>
-            </tr>
-        </tbody>    
+        <tr ng-repeat="ad in tvGuangGaoWei.adList">
+            <!--广告位标识-->
+            <td>{{ad.PositionStrID}}</td>
+            <!--广告位名称-->
+            <td>{{ad.PositionName}}</td>
+            <!--广告位策略参数-->
+            <td>{{ad.PositionParam}}</td>
+            <!--删除该广告位-->
+            <td>
+                <a ng-click="tvGuangGaoWei.close(ad.PositionID)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--已添加的广告位 list-->
+
+    <!--添加新的菜单广告位按钮-->
+    <a ng-click="tvGuangGaoWei.menuAdd()" class="button button-light ng-binding">
+        <i class="icon ion-ios-plus-outline"></i> 添加菜单广告位
+    </a>
+    <!--已添加的广告位 list-->
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>菜单广告位名称</th>
+            <th>菜单序号(点击可更改)</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody  ng-hide="tvGuangGaoWei.menuAdList.length==0">
+        <tr ng-repeat="ad in tvGuangGaoWei.menuAdList">
+            <!--菜单广告位名称-->
+            <td>{{ad.PositionName}}</td>
+            <!--菜单广告位序号-->
+            <td class="pointer">{{ad.Seq}}</td>
+            <!--删除该菜单广告位-->
+            <td>
+                <a style="margin-right: 10px;" ng-click="tvGuangGaoWei.changeMenuAdvSeq(ad)">更改序号</a>
+                <a ng-click="tvGuangGaoWei.menuAdvDel(ad.PositionID)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+        <tbody ng-show="tvGuangGaoWei.menuAdList.length==0">
+            <tr><td colspan="3" style="text-align: center;">暂无数据</td></tr>
+        </tbody>
     </table>
     <!--已添加的广告位 list-->
 </div>
+

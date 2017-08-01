@@ -1,0 +1,30 @@
+<div ng-controller="changeMenuAdvSeqController as changeMenuAdvSeq" ng-init="changeMenuAdvSeq.init()" class="modal-dialog">
+    <div class="modal-content">
+        <form name="tvAdvAddForm" ng-submit="changeMenuAdvSeq.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="changeMenuAdvSeq.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加菜单</h5>
+            </div>
+            <!--/header-->
+            <!--body-->
+            <div class="modal-body">
+                <div style="margin-bottom: 5px;">原菜单序号: <span>{{changeMenuAdvSeq.data.Seq}}</span></div>
+                <input type="number" ng-model="changeMenuAdvSeq.newSeq" class="form-control" placeholder="请输入新序号">
+            </div>
+            <!--/body-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!--取消按钮-->
+                <div ng-click="changeMenuAdvSeq.cancel()" class="btn btn-default btn-sm">取消</div>
+                <!--取消按钮-->
+                <!--保存按钮-->
+                <button type="submit" ng-disabled="changeMenuAdvSeq.saving" class="btn btn-primary btn-sm">修改</button>
+                <!--保存按钮-->
+            </div>
+        </form>
+    </div>
+</div>
