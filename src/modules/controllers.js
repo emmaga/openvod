@@ -333,7 +333,6 @@
 
                 // 1:酒店客房，2:酒店客房订单 3:移动商城，4:商城订单，5:tv界面, 6:终端管理，7:微信用户，9：字幕
                 self.switchApp = function (n) {
-                    console.log(n)
                     // 收起桌面
                     self.appPhase = 2;
 
@@ -917,7 +916,6 @@
                     self.dateIsOpened = false
                     self.routeList = []
                     self.listRoute().then(function() {
-                        console.log('mmm' + self.routeIndex)
                         self.routeIndex = 0
                         self.listBustime();
                     })
