@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <!--开始日期-->
                         <small>日期</small>
-                        <input type="text" class="form-control" uib-datepicker-popup ng-model="bus.searchDate" is-open="bus.dateIsOpened" datepicker-options="dateOptions" close-text="Close" ng-click="bus.open($event)" />
+                        <input readonly type="text" class="form-control" uib-datepicker-popup ng-model="bus.searchDate" is-open="bus.dateIsOpened" datepicker-options="dateOptions" close-text="Close" ng-click="bus.open($event)" />
                     </div>
                     <a ng-click="bus.listBustime()" class="button button-light" style="top: 10px;">
                         <i class="icon ion-ios-search-strong"></i> 查询

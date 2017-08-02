@@ -1025,6 +1025,11 @@
                     return deferred.promise;
                 }
                 self.listBustime = function () {
+                    if (!self.searchDate) {
+                        alert('请选择查询日期')
+                        return
+                    }
+                    
                     self.noData = false;
                     self.loading = true;
                     self.tableParams = new NgTableParams({
@@ -1081,17 +1086,50 @@
             function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 console.log('busArriveController')
                 var self = this;
+                self.oImgs = [];
+
                 self.init = function () {
                     self.ID = $scope.app.maskParams.ID
                     self.Date = $scope.app.maskParams.Date
                     self.defaultLangCode = util.getDefaultLangCode();
                     self.editLangs = util.getParams('editLangs');
-                    self.imgs1 = new Imgs([]);
-                    
+                    self.getInfo()
                 }
 
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
+                }
+
+                self.getInfo = function () {
+                    var data = JSON.stringify({
+                        action: "getArriveInfo",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        data: {
+                            "ID": self.ID,
+                            "Date": self.Date
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('businfo/line', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            console.log(data)
+                            self.oImgs = data.data.Picture;
+                            self.imgs1 = new Imgs(self.oImgs);
+                            self.imgs1.initImgs();
+                            self.Message = data.data.Message;
+                        } else {
+                            alert('读取信息出错' + data.err);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.saving = false;
+                    });
                 }
 
                 self.save = function () {
