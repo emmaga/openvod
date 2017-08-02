@@ -1,0 +1,46 @@
+<div ng-controller="busOrderDetailController as bod" ng-init="bod.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <div ng-show="bod.loading">loading...</div>
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="bod.close()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">登记详情</h5>
+        </div>
+        <!-- body -->
+        <div class="modal-body">
+            <!--商品列表-->
+            <!-- <div class="row"> -->
+            <table class="table table-condensed table-responsive">
+                <thead>
+                    <tr>
+                        <th>联系人</th>
+                        <th>人数</th>
+                        <th>手机</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in bod.list">
+                        <!--联系人-->
+                        <td>{{item.Name}}</td>
+                        <!--人数-->
+                        <td>{{item.Number}}</td>
+                        <!--手机-->
+                        <td>{{item.Phone}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- </div> -->
+            <ng-if ng-if="bod.list.length == 0">查无数据</ng-if>
+        </div>
+        <!-- body end -->
+        <div class="modal-footer">
+            <!-- 取消 -->
+            <button type="button" class="btn btn-default btn-sm" ng-click="bod.close()">{{'CANCEL' | translate}}</button>
+            <!--footer end-->
+        </div>
+    </div>
+</div>

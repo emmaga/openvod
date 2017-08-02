@@ -385,6 +385,11 @@
                                 $state.go('app.memberCard.memberList', {'appId': n});
                             }
                             break;
+                        case 12:
+                            if (!$state.includes('app.bus')) {
+                                $state.go('app.bus', {'appId': n});
+                            }
+                            break;
                         default:
                             break;
 
@@ -849,6 +854,649 @@
                     }
                 };
 
+            }
+        ])
+
+        .controller('busOrderDetailController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+
+                self.init = function () {
+                    self.ID = $scope.app.maskParams.LineID
+                    self.Date = $scope.app.maskParams.Date
+                    self.getInfo();
+                }
+
+                self.getInfo = function () {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "getOrderInfo",
+                        "lang": util.langStyle(),
+                        "data": {
+                            "ID": self.ID,
+                            "Date": self.Date
+                        }
+                    })
+
+                    self.loading = true;
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('businfo/line', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.list = data.data;
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('获取信息失败' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                self.close = function () {
+                    $scope.app.showHideMask(false);
+                }
+            }
+        ])
+
+        .controller('busController', ['$q', '$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util', 'NgTableParams',
+            function ($q, $scope, $state, $translate, $http, $stateParams, $filter, util, NgTableParams) {
+                console.log('busController');
+                var self = this;
+                self.init = function () {
+                    self.searchDate = new Date().getTime()
+                    self.dateIsOpened = false
+                    self.routeList = []
+                    self.listRoute().then(function() {
+                        self.routeIndex = 0
+                        self.listBustime();
+                    })
+                }
+                /**
+                 * datepiker
+                 */
+                self.open = function ($event) {
+                    self.dateIsOpened = true
+                }
+                self.routeAdd = function () {
+                    $scope.app.showHideMask(true, 'pages/routeAdd.html');
+                }
+                self.routeEdit = function () {
+                    $scope.app.maskParams = {'routeinfo': self.routeList[self.routeIndex]};
+                    $scope.app.showHideMask(true, 'pages/routeEdit.html');
+                }
+                self.addTime = function () {
+                    $scope.app.maskParams = {'routeid': self.routeList[self.routeIndex].ID};
+                    $scope.app.maskParams.listBustime = self.listBustime
+                    $scope.app.showHideMask(true, 'pages/bustimeAdd.html');
+                }
+                self.orderDetail = function (ID) {
+                    $scope.app.maskParams = {'LineID': ID, 'Date': util.format_yyyyMMdd(new Date(self.searchDate))};
+                    $scope.app.showHideMask(true, 'pages/busOrderDetail.html');
+                }
+                self.arrive = function (ID) {
+                    $scope.app.maskParams = {ID: ID, Date: util.format_yyyyMMdd(new Date(self.searchDate))}
+                    $scope.app.maskParams.listBustime = self.listBustime
+                    $scope.app.showHideMask(true, 'pages/busArrive.html');
+                }
+                self.checkRoute = function (index) {
+                    self.routeIndex = index
+                    self.listBustime()
+                }
+                self.delete = function (ID) {
+                    var flag = confirm('确认删除？');
+                    if (!flag) {
+                        return;
+                    }
+                    self.deleting = true;
+                    var data = {
+                        "action": "delete",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                            "ID": ID
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/line', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('删除成功')
+                            // $state.reload();
+                            self.listBustime();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('删除失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错')
+                    }).finally(function (value) {
+                        self.deleting = false;
+                    });
+                }
+                self.listRoute = function () {
+                    var deferred = $q.defer();
+                    self.loading = true;
+                    var data = {
+                        "action": "getList",
+                        "token": util.getParams("token")
+                    }
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == '200') {
+                            if (data.data.data.length == 0) {
+                                self.noData = true;
+                                deferred.reject();
+                            } else {
+                                self.routeList = data.data.data
+                                deferred.resolve();
+                            }
+                        } else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('读取信息出错，'+data.errInfo);
+                            deferred.reject();
+                        }
+
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错');
+                        deferred.reject();
+                    }).finally(function(value) {
+                        self.loading = false;
+                    })
+                    return deferred.promise;
+                }
+                self.listBustime = function () {
+                    if (!self.searchDate) {
+                        alert('请选择查询日期')
+                        return
+                    }
+                    
+                    self.noData = false;
+                    self.loading = true;
+                    self.tableParams = new NgTableParams({
+                        page: 1,
+                        count: 9999999,
+                        url: ''
+                    }, {
+                        counts: [],
+                        getData: function(params) {
+                            var data = {
+                                "action": "getLineList",
+                                "token": util.getParams("token"),
+                                "data": {
+                                    "ID": self.routeList[self.routeIndex].ID,
+                                    "Date": util.format_yyyyMMdd(new Date(self.searchDate))
+                                }
+                            }
+                            var paramsUrl = params.url();
+                            data.count = paramsUrl.count - 0;
+                            data.page = paramsUrl.page - 0;
+                            data = JSON.stringify(data);
+                            return $http({
+                                method: $filter('ajaxMethod')(),
+                                url: util.getApiUrl('businfo/route', '', 'server'),
+                                data: data
+                            }).then(function successCallback(data, status, headers, config) {
+                                if (data.data.rescode == '200') {
+                                    if (data.data.data.length == 0) {
+                                        self.noData = true;
+                                    }
+                                    params.total(data.data.count);
+                                    console && console.log(data.data.count);
+                                    self.tableData = data.data.data;
+                                    return data.data.data;
+                                } else if (data.data.rescode == '401') {
+                                    alert('访问超时，请重新登录');
+                                    $state.go('login');
+                                } else {
+                                    alert('读取信息出错，'+data.errInfo);
+                                }
+
+                            }, function errorCallback(data, status, headers, config) {
+                                alert('连接服务器出错');
+                            }).finally(function(value) {
+                                self.loading = false;
+                            })
+                        }
+                    });
+                }
+            }
+        ])
+        
+        .controller('busArriveController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
+                console.log('busArriveController')
+                var self = this;
+                self.oImgs = [];
+
+                self.init = function () {
+                    self.ID = $scope.app.maskParams.ID
+                    self.Date = $scope.app.maskParams.Date
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.editLangs = util.getParams('editLangs');
+                    self.getInfo()
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.getInfo = function () {
+                    var data = JSON.stringify({
+                        action: "getArriveInfo",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        data: {
+                            "ID": self.ID,
+                            "Date": self.Date
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('businfo/line', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            console.log(data)
+                            self.oImgs = data.data.Picture;
+                            self.imgs1 = new Imgs(self.oImgs);
+                            self.imgs1.initImgs();
+                            self.Message = data.data.Message;
+                        } else {
+                            alert('读取信息出错' + data.err);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.saving = false;
+                    });
+                }
+
+                self.save = function () {
+                    var imgs = [];
+                    for (var i = 0; i < self.imgs1.data.length; i++) {
+                        imgs[i] = {};
+                        imgs[i].Seq = i;
+                        imgs[i].ImageURL = self.imgs1.data[i].src;
+                        imgs[i].ImageSize = self.imgs1.data[i].fileSize;
+                    }
+                    //检查图片未上传
+                    // if (imgs.length == 0) {
+                    //     alert('请上传酒店图片')
+                    //     return;
+                    // }
+
+                    self.saving = true;
+                    var data = JSON.stringify({
+                        action: "setArriveInfo",
+                        token: util.getParams('token'),
+                        lang: util.langStyle(),
+                        data: {
+                            "ID": self.ID,
+                            "Date": self.Date,
+                            "Message": self.Message,
+                            "Picture": imgs
+                        }
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('businfo/line', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('更新成功');
+                            $scope.app.maskParams.listBustime()
+                            $scope.app.showHideMask(false);
+                            // $state.reload();
+                        } else {
+                            alert('更新失败' + data.err);
+                        }
+                    }, function errorCallback(response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.saving = false;
+                    });
+                }
+
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
+
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
+
+                Imgs.prototype = {
+                    initImgs: function () {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
+                        }
+                    },
+                    deleteById: function (id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
+                            }
+                        }
+                    },
+
+                    add: function (xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
+
+                    update: function (id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
+                            }
+                        }
+                    },
+
+                    setSrcSizeByXhr: function (xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
+                            }
+                        }
+                    },
+
+                    uploadFile: function (e, o) {
+
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = $scope[e];
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function (evt) {
+                                $scope.$apply(function () {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function () {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 删除第一站图片
+                                        if(o.data.length > 1) {
+                                            o.deleteById(o.data[0].id);
+                                        }
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                $scope.$apply(function () {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
+                }
+            }
+        ])
+
+        .controller('routeEditController', ['$scope', '$state', '$http', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $translate, $filter, util) {
+                console.log('routeEditController');
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.saving = false;
+                    self.loading = false;
+                    self.ID = $scope.app.maskParams.routeinfo.ID
+                    self.Name = $scope.app.maskParams.routeinfo.Name
+                    self.Phone = $scope.app.maskParams.routeinfo.Phone
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.delete = function () {
+                    var flag = confirm('确认删除？');
+                    if (!flag) {
+                        return;
+                    }
+                    self.deleting = true;
+                    var data = {
+                        "action": "delete",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                            "ID": self.ID
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('删除成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('删除失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错')
+                    }).finally(function (value) {
+                        self.deleting = false;
+                    });
+                }
+
+                self.saveForm = function () {
+                    var data = {
+                        "action": "edit",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                            "ID": self.ID,
+                            "Name": self.Name,
+                            "Phone": self.Phone
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('编辑成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('编辑失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('编辑失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+            }
+        ])
+
+        .controller('routeAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
+                console.log('routeAddController');
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.saving = false;
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.saveForm = function () {
+                    var data = {
+                        "action": "add",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                            "Name": self.Name,
+                            "Phone": self.Phone
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('添加成功')
+                            $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('添加失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+            }
+        ])
+
+        .controller('bustimeAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
+                console.log('bustimeAddController');
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.routeid = $scope.app.maskParams.routeid;
+                    self.saving = false;
+                    self.loading = false;
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.saveForm = function () {
+                    var date = new Date(self.time)
+                    var data = {
+                        "action": "add",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                          "RouteID": self.routeid,
+                          "Time": util.format_hhmm(date)
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/line', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('添加成功')
+                            $scope.app.maskParams.listBustime()
+                            $scope.app.showHideMask(false);
+                            // $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('添加失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
             }
         ])
 

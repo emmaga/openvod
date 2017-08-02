@@ -1,0 +1,53 @@
+<div ng-controller="routeEditController as routeEdit" ng-init="routeEdit.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- loading -->
+        <div ng-show="route.loading">loading...</div>
+        <div ng-show="route.noData">查无数据</div>
+        <!-- form -->
+        <form novalidate name="routeEditForm" ng-submit="routeEditForm.$valid && routeEdit.saveForm()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="routeEdit.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑路线</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 线路名称 -->
+                <div class="form-group">
+                    <label>线路名称：</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="routeEdit.Name" class="form-control">
+                </div>
+                <!-- 线路名称 -->
+
+                <!-- 管理员手机／400电话 -->
+                <div class="form-group">
+                    <label>管理员手机／400电话：</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="routeEdit.Phone" class="form-control">
+                </div>
+                <!-- 管理员手机／400电话 -->
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="routeEdit.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 删除 -->
+                <button type="button" class="btn btn-danger btn-sm" ng-click="routeEdit.delete()" ng-disabled="routeEdit.deleting">
+                    <ng-if ng-if="!routeEdit.deleting">{{'DELETE' | translate}}</ng-if>
+                    <ng-if ng-if="routeEdit.deleting">删除中...</ng-if>
+                </button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="routeEditForm.$invalid || routeEdit.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> 
+                    <ng-if ng-if="!routeEdit.saving">{{'SAVE' | translate}}</ng-if>
+                    <ng-if ng-if="routeEdit.saving">保存中...</ng-if>
+                </button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div ng-controller="busArriveController as busArrive" ng-init="busArrive.init()" class="modal-dialog">
+    <div class="modal-content">
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="busArrive.cancel()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">更新信息</h5>
+        </div>
+        <!--header end-->
+        <!--body-->
+        <div class="modal-body">
+            <!-- loading -->
+            <div ng-show="loading">loading...</div>
+            <!-- form -->
+            <form id="busArriveForm" name="busArriveForm" ng-submit="busArriveForm.$valid && busArrive.save()" rol="form">
+                <!--班车位置-->
+                <div class="form-group">
+                    <label>班车所在位置</label>
+                    <input type="text" class="form-control" ng-model="busArrive.Message" required placeholder="必填">
+                </div>
+                <!--班车位置-->
+                <!--现场照片-->
+                <div class="form-group">
+                    <label>现场照片</label>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in busArrive.imgs1.data" style="background-image: url({{img.src}})" class="form-thumbnail">
+                                <!-- 进度条 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                                <!-- 删除按钮 -->
+                                <i ng-click="busArrive.imgs1.deleteById(img.id)" class="form-thumbnail-delete icon ion-close"></i>
+                            </div>
+                            <!-- 上传按钮 -->
+                            <div ng-click="busArrive.clickUpload('upload1')" class="form-thumbnail form-thumbnail-creat">
+                                <i class="icon ion-upload"></i> 上传图片
+                                <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                                <a id="hidenUpload1" style="display: none;" ng-click="busArrive.imgs1.uploadFile('myFile', busArrive.imgs1)"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/现场照片-->
+            </form>
+        </div>
+        <!--body end-->
+        <!--footer-->
+        <div class="modal-footer">
+            <!-- 取消 -->
+            <button ng-click="busArrive.cancel()" type="button" class="btn btn-default btn-sm">{{'CANCEL' | translate}}</button>
+            <!-- 保存 -->
+            <button form="busArriveForm" type="submit" class="btn btn-primary btn-sm"><i class="icon ion-ios-checkmark-outline"></i> 
+                <ng-if ng-if="!busArrive.saving">{{'SAVE' | translate}}</ng-if>
+                <ng-if ng-if="busArrive.saving">保存中...</ng-if>
+            </button>
+        </div>
+        <!--footer end-->
+    </div>
+    <!-- 保存中 -->
+    <div ng-show="busArrive.saving">saving...</div>
+</div>

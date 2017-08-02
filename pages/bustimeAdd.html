@@ -1,0 +1,39 @@
+<div ng-controller="bustimeAddController as bustimeAdd" ng-init="bustimeAdd.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- loading -->
+        <div ng-show="route.loading">loading...</div>
+        <div ng-show="route.noData">查无数据</div>
+        <!-- form -->
+        <form novalidate name="bustimeAddForm" ng-submit="bustimeAddForm.$valid && bustimeAdd.saveForm()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="bustimeAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加班次</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 发车时间 -->
+                <div class="form-group">
+                    <label>发车时间：</label>
+                    <input type="time" name="" required ng-model="bustimeAdd.time" class="form-control">
+                </div>
+                <!-- 商城标识 -->
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="bustimeAdd.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="bustimeAddForm.$invalid || bustimeAdd.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
+</div>

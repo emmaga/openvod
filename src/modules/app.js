@@ -54,7 +54,10 @@
                     url: '/app?appId',
                     templateUrl: 'pages/app.html'
                 })
-
+                .state('app.bus', {
+                    url: '/bus',
+                    templateUrl: 'pages/bus.html'
+                })
                 .state('app.shop', {
                     url: '/shop',
                     templateUrl: 'pages/shop.html'

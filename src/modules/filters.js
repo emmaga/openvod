@@ -204,4 +204,22 @@
             }
         }])
 
+        .filter("busStatus", ['$filter', function ($filter) {
+            return function (busStatus) {
+                var flag;
+                switch (busStatus) {
+                    case 'NotArrive':
+                        flag = '未到达';
+                        break;
+                    case 'Arrive':
+                        flag = '已到达';
+                        break;
+                    case 'Overdue':
+                        flag = '已过期';
+                        break;
+                }
+                return flag;
+            }
+        }])
+
 })();

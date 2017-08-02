@@ -76,6 +76,13 @@
       "icon": "dist/imgs/app-icon-12.png",
       "bgColor": "#4b3d3c",
       "themeColor":"#c18458"
+    },
+    {
+      "id": 12,
+      "name": "班车预约",
+      "icon": "dist/imgs/app-icon-13.png",
+      "bgColor": "rgb(55,155,255)",
+      "themeColor":"rgb(55,155,255)"
     }
   ]
 }
