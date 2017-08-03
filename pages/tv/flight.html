@@ -1,0 +1,38 @@
+<div ng-controller="tvFlightController as tvFlight" ng-init="tvFlight.init()">
+    <!--添加机场信息按钮-->
+        <a class="button button-light" ng-click="tvFlight.add()">
+            <i class="icon ion-ios-plus-outline"></i>
+            添加机场
+        </a>
+    <!--添加直播频道按钮-->
+    <!--直播列表-->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>机场编码</th>
+                <th>机场名</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="flight in tvFlight.flights track by $index">
+                <td>{{flight.AirportNum}}</td>
+                <td>{{flight.AirportCode}}</td>
+                <td>{{flight.AirportName[tvFlight.defaultLangCode]}}</td>
+                <td>
+                    <!--编辑按钮-->
+                    <a class="" ng-click="tvFlight.edit($index)">编辑</a>
+                    <!--编辑按钮-->
+                    <!--删除按钮-->
+                    <a class="" ng-click="tvFlight.del(flight.ID, $index)">删除</a>
+                    <!--删除按钮-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+<!--直播列表-->
+</div>

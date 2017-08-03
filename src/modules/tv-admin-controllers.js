@@ -488,6 +488,53 @@
                     self.changeMenuInfo();
                 }
 
+                /**
+                 * -------------------------------------  烟草局  -------------------------------------------
+                 * author: caizb
+                 * date: 2017-8-2
+                 */
+                // 烟草局电影
+                if(branch.data.type == 'YCJ_MovieCommon') {
+                    $state.go('app.tvAdmin.YCJ_MovieCommon', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // 烟草局多图文
+                if(branch.data.type == 'YCJ_MultPic') {
+                    $state.go('app.tvAdmin.YCJ_MultPic', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // 烟草局单视频
+                if(branch.data.type == 'YCJ_SingleVideoText') {
+                    $state.go('app.tvAdmin.YCJ_SingleVideoText', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // 烟草局多视频
+                if(branch.data.type == 'YCJ_MultVideoText') {
+                    $state.go('app.tvAdmin.YCJ_MultVideoText', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // 烟草局 WPS 文件
+                if(branch.data.type == 'WPS_FileCommon') {
+                    $state.go('app.tvAdmin.WPS_FileCommon', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // 航班
+                if(branch.data.type == 'Flight') {
+                    $state.go('app.tvAdmin.Flight', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // 账单
+                if(branch.data.type == 'Bill') {
+                    $state.go('app.tvAdmin.Bill', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // MainMenu_THJ_SecondMenu
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu'
                     || branch.data.type == 'MainMenu_QHtl_SecondMenu'
@@ -499,7 +546,6 @@
                     $state.go('app.tvAdmin.blank', {label: branch.label});
                     self.changeMenuInfo();
                 }
-
                 
             }
 
@@ -8730,6 +8776,82 @@
             }
         ])
 
+    /*账单URL*/
+    .controller('BillController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;
+
+                self.init = function() {
+                    self.viewId = $stateParams.moduleId;
+                    self.loadURL();
+                }
+
+                self.saving=false ;
+
+                self.save = function(id, index) {
+
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "update",
+                        "viewID": Number(self.viewId),
+                        "data": {
+                            "Url":self.url
+                        },
+                        "lang": util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            self.saving = false;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('修改失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    });
+                }
+
+
+
+                self.loadURL = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "get",
+                        "viewID": self.viewId-0,
+                        "lang": util.langStyle()
+                    })
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.url = data.data.Url;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+            }
+        ])
 
     //通用天气（土豪金） WeatherCommon
     .controller('WeatherCommon_Controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
@@ -22395,6 +22517,465 @@ console.log("Samsung_Lunch_PicText_Classification")
                 });
             }
 
+        }
+    ])
+
+    //航班查询
+    .controller('tvFlightController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;
+
+                self.init = function() {
+                    self.viewId = $stateParams.moduleId;
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.loadFlightList();
+                }
+
+                self.edit = function(index) {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.flightInfo = self.flights[index];
+                    $scope.app.showHideMask(true,'pages/tv/flightEdit.html');
+                }
+
+                self.del = function(id, index) {
+                    var index = index;
+                    if(!confirm('确认删除？')) {
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "delAirport",
+                        "viewID": self.viewId,
+                        "data": {
+                            "AirportList":[
+                                {"ID":id-0}
+                            ]
+                        },
+                        "lang": util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('删除成功');
+                            self.flights.splice(index,1);
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('删除失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    });
+                }
+
+                self.add = function() {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.showHideMask(true,'pages/tv/flightAdd.html');
+                }
+
+                self.loadFlightList = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "get",
+                        "viewID": self.viewId-0,
+                        "lang": util.langStyle()
+                    })
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.flights = data.data.AirportList;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载机场列表信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+            }
+        ])
+
+    // 航班查询 ----添加机场
+    .controller('tvFlightAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+
+                // 获取编辑多语言信息
+                self.editLangs = util.getParams('editLangs');
+            }
+
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "addAirport",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "AirportNum": self.airportNum,
+                        "AirportCode":self.airportCode,
+                        "AirportName": self.airportName
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('添加成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('添加失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            }
+        }
+    ])
+
+    // 航班查询 ----编辑机场
+    .controller('tvFlightEditController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+
+                self.init = function() {
+                    self.viewId = $scope.app.maskParams.viewId;
+                    self.flightInfo = $scope.app.maskParams.flightInfo;
+
+                    // 获取编辑多语言信息
+                    self.editLangs = util.getParams('editLangs');
+
+                    self.setInfo();
+
+                }
+
+                self.cancel = function() {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.setInfo = function () {
+                    self.airportNum = self.flightInfo.AirportNum;
+                    self.airportCode = self.flightInfo.AirportCode;
+                    self.airportName = self.flightInfo.AirportName;
+                }
+
+                self.save = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "editAirport",
+                        "viewID": Number(self.viewId),
+                        "data":{
+                            "ID": Number(self.flightInfo.ID),
+                            "AirportNum": self.airportNum,
+                            "AirportCode": self.airportCode,
+                            "AirportName": self.airportName,
+                        },
+                        "lang": util.langStyle()
+                    })
+
+                    self.saving = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            $state.reload();
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('修改失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+
+                }
+            }
+    ])
+
+    // Wps文件
+    .controller('tvWpsController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                self.defaultLangCode = util.getDefaultLangCode();
+                self.loadWpsList();
+            }
+
+            self.loadWpsList = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "get",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        if(data.data.FileURL) {
+                            self.imgs1 = new Imgs([{"FileURL": data.data.FileURL, "FileSize": data.data.FileSize}], true);
+                            self.imgs1.initImgs();
+                        }
+                        else {
+                            self.imgs1 = new Imgs([],true);
+                        }
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载机场列表信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.save = function() {
+
+                if(self.imgs1.data.length == 0) {
+                    alert('请上传文件');
+                    return;
+                }
+                else if (self.imgs1.data[0].progress < 100) {
+                    alert('文件正在上传中，请稍后...');
+                    return;
+                }
+                else if (self.imgs1.data[0].progress == -1) {
+                    alert('文件上传失败，请重新上传');
+                    return;
+                }
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "update",
+                    "viewID": Number(self.viewId),
+                    "data": {
+                        "FileURL": self.imgs1.data[0].src, 
+                        "FileSize": self.imgs1.data[0].fileSize
+                    },
+                    "lang": util.langStyle()
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                        self.saving = false;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                });
+
+            }
+            // 图片上传相关
+            self.clickUpload = function (e) {
+                setTimeout(function () {
+                    document.getElementById(e).click();
+                }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single ? true : false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function () {
+                    var l = this.initImgList;
+                    for (var i = 0; i < l.length; i++) {
+                        this.data[i] = {
+                            "src": l[i].FileURL,
+                            "fileSize": l[i].FileSize,
+                            "id": this.maxId++,
+                            "progress": 100
+                        };
+                    }
+                },
+                deleteById: function (id) {
+                    var l = this.data;
+                    for (var i = 0; i < l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if (l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add: function (xhr, fileName, fileSize) {
+                    this.data.push({
+                        "xhr": xhr,
+                        "fileName": fileName,
+                        "fileSize": fileSize,
+                        "progress": 0,
+                        "id": this.maxId
+                    });
+                    return this.maxId++;
+                },
+
+                update: function (id, progress, leftSize, fileSize) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        var f = this.data[i];
+                        if (f.id === id) {
+                            f.progress = progress;
+                            f.leftSize = leftSize;
+                            f.fileSize = fileSize;
+                            break;
+                        }
+                    }
+                },
+
+                setSrcSizeByXhr: function (xhr, src, size) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        if (this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function (e, o) {
+                    console.log(e)
+                    if(!e || !checkType(e.name)){
+                        return false
+                    }
+                    
+                    // 如果这个对象只允许上传一张图片
+                    if (this.single) {
+                        // 删除第二张以后的图片
+                        for (var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = e;
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+                    
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function (evt) {
+                            $scope.$apply(function () {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console && console.log(percentComplete);
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function () {
+                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                // 如果这个对象只允许上传一张图片
+                                if (o.single) {
+                                    // 如果长度大于1张图片，删除前几张图片
+                                    if(o.data.length > 1) {
+                                        for(var i=0; i<o.data.length-1;i++) {
+                                            o.deleteById(o.data[i].id);
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            $scope.$apply(function () {
+                                o.update(fileId, -1, '', '');
+                            });
+                            console && console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
+            }
+
+            function checkType(target) {
+                var filetypes =['.doc','.docx','.xls','.xlsx','.ppt','.pptx'];
+                var filepath = target;
+                if(filepath){
+                    var isnext = false;
+                    var fileend = filepath.substring(filepath.lastIndexOf("."));
+                    console.log(fileend)
+                    if(filetypes && filetypes.length>0){
+                        for(var i =0; i<filetypes.length;i++){
+                            if(filetypes[i]==fileend){
+                                isnext = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!isnext){
+                        alert("不接受此文件类型！");
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+                return true
+            }
         }
     ])
 })();

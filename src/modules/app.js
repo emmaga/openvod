@@ -842,6 +842,89 @@
                     }
                 })
 
+                /**
+                 * -------------------------------------  烟草局  -------------------------------------------
+                 * author: caizb
+                 * date: 2017-8-2
+                 */
+                // 烟草局电影
+                .state('app.tvAdmin.YCJ_MovieCommon', {
+                    url: '/YCJ_MovieCommon?moduleId&label',
+                    templateUrl: 'pages/tv/movieCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 烟草局图文
+                .state('app.tvAdmin.YCJ_MultPic', {
+                    url: '/YCJ_MultPic?moduleId&label',
+                    templateUrl: 'pages/tv/multPic.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 烟草局单视频
+                .state('app.tvAdmin.YCJ_SingleVideoText', {
+                    url: '/YCJ_SingleVideoText?moduleId&label',
+                    templateUrl: 'pages/tv/SingleVideoText_YCJ.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 烟草局多视频
+                .state('app.tvAdmin.YCJ_MultVideoText', {
+                    url: '/YCJ_MultVideoText?moduleId&label',
+                    templateUrl: 'pages/tv/MultVideoText_YCJ.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 烟草局 WPS 文件
+                .state('app.tvAdmin.WPS_FileCommon', {
+                    url: '/WPS_FileCommon?moduleId&label',
+                    templateUrl: 'pages/tv/WPS_FileCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+
+                // 烟草局航班
+                .state('app.tvAdmin.Flight', {
+                    url: '/Flight?moduleId&label',
+                    templateUrl: 'pages/tv/Flight.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 烟草局账单
+                .state('app.tvAdmin.Bill', {
+                    url: '/Bill?moduleId&label',
+                    templateUrl: 'pages/tv/BillCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                 .state('app.tvAdmin.blank', {
                     url: '/blank?label',
                     templateUrl: 'pages/tv/blank.html'
