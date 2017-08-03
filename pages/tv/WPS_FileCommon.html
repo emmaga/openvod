@@ -1,0 +1,36 @@
+<div ng-controller="tvWpsController as tvWps" ng-init="tvWps.init()" class="row">
+    <div class="col-xs-6">
+        <form name="wpsForm" ng-submit="wpsForm.$valid && tvWps.save()" class="">
+        <!--酒店logo图-->
+        <div class="form-group ">
+            <label>WPS文件</label>
+            <!--酒店logo图修改按钮-->
+            <a ng-click="tvWps.clickUpload('upload1')">上传</a>
+            <br>
+            <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+            <a id="hidenUpload1" style="display: none;" ng-click="tvWps.imgs1.uploadFile(myFile, tvWps.imgs1)"></a>
+            <!--酒店logo图修改按钮 end-->
+            <!-- 图 -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div ng-repeat="img in tvWps.imgs1.data" class="form-thumbnail" style="background-image: url(/dist/imgs/wps.png)">
+                        <!-- 进度条 -->
+
+                        <!-- -1代表失败 -->
+                        <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both" ng-show="tvWps.imgs1.data[0].src">
+                        <a ng-href="{{tvWps.imgs1.data[0].src}}">下载文件</a>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="button button-small button-block theme-button-outline">
+                <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+            </button>
+        </div>
+        </form>
+    </div>
+</div>
