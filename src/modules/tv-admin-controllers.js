@@ -8776,82 +8776,6 @@
             }
         ])
 
-    /*账单URL*/
-    .controller('BillController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
-            function ($scope, $state, $http, $stateParams, $location, util) {
-                var self = this;
-
-                self.init = function() {
-                    self.viewId = $stateParams.moduleId;
-                    self.loadURL();
-                }
-
-                self.saving=false ;
-
-                self.save = function(id, index) {
-
-                    var data = JSON.stringify({
-                        "token": util.getParams('token'),
-                        "action": "update",
-                        "viewID": Number(self.viewId),
-                        "data": {
-                            "Url":self.url
-                        },
-                        "lang": util.langStyle()
-                    })
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl('commonview', '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        var data = response.data;
-                        if (data.rescode == '200') {
-                            alert('修改成功');
-                            self.saving = false;
-                        } else if(data.rescode == '401'){
-                            alert('访问超时，请重新登录');
-                            $state.go('login');
-                        } else{
-                            alert('修改失败，' + data.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        alert('连接服务器出错');
-                    });
-                }
-
-
-
-                self.loadURL = function() {
-                    var data = JSON.stringify({
-                        "token": util.getParams('token'),
-                        "action": "get",
-                        "viewID": self.viewId-0,
-                        "lang": util.langStyle()
-                    })
-                    self.loading = true;
-                    $http({
-                        method: 'POST',
-                        url: util.getApiUrl('commonview', '', 'server'),
-                        data: data
-                    }).then(function successCallback(response) {
-                        var data = response.data;
-                        if (data.rescode == '200') {
-                            self.url = data.data.Url;
-                        } else if(data.rescode == '401'){
-                            alert('访问超时，请重新登录');
-                            $state.go('login');
-                        } else{
-                            alert('加载信息失败，' + data.errInfo);
-                        }
-                    }, function errorCallback(response) {
-                        alert('连接服务器出错');
-                    }).finally(function (value) {
-                        self.loading = false;
-                    });
-                }
-
-            }
-        ])
 
     //通用天气（土豪金） WeatherCommon
     .controller('WeatherCommon_Controler', ['$q', '$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
@@ -22758,7 +22682,7 @@ console.log("Samsung_Lunch_PicText_Classification")
                     var data = response.data;
                     if (data.rescode == '200') {
                         if(data.data.FileURL) {
-                            self.imgs1 = new Imgs([{"FileURL": data.data.FileURL, "FileSize": data.data.FileSize}], true);
+                            self.imgs1 = new Imgs([{"ImageURL": data.data.FileURL, "ImageSize": data.data.FileSize}], true);
                             self.imgs1.initImgs();
                         }
                         else {
@@ -22810,6 +22734,7 @@ console.log("Samsung_Lunch_PicText_Classification")
                     var data = response.data;
                     if (data.rescode == '200') {
                         alert('修改成功');
+                        $state.reload()
                         self.saving = false;
                     } else if(data.rescode == '401'){
                         alert('访问超时，请重新登录');
@@ -22841,8 +22766,8 @@ console.log("Samsung_Lunch_PicText_Classification")
                     var l = this.initImgList;
                     for (var i = 0; i < l.length; i++) {
                         this.data[i] = {
-                            "src": l[i].FileURL,
-                            "fileSize": l[i].FileSize,
+                            "src": l[i].ImageURL,
+                            "fileSize": l[i].ImageSize,
                             "id": this.maxId++,
                             "progress": 100
                         };
@@ -22977,5 +22902,925 @@ console.log("Samsung_Lunch_PicText_Classification")
                 return true
             }
         }
+    ])
+    
+
+    // 单视频图文
+    .controller('singleVideoTextController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+
+                self.init = function() {
+                    self.viewId = $stateParams.moduleId;
+                    self.editLangs = util.getParams('editLangs')
+                    self.getSingleVideo();
+                }
+
+                self.saving=false ;
+
+                self.save=function(){
+                    if(self.imgs1.data.length == 0) {
+                        alert('请上传封面图片');
+                        return;
+                    }
+                    // 视频未上传完成
+                    else if (self.imgs1.data[0].progress < 100) {
+                        alert('封面图片正在上传中，请稍后...');
+                        return;
+                    }
+                    // 视频上传失败时
+                    else if (self.imgs1.data[0].progress == -1) {
+                        alert('封面图片上传失败，请重新上传');
+                        return;
+                    }
+
+                    if(self.imgs2.data.length == 0) {
+                        alert('请上传视频');
+                        return;
+                    }
+                    // 视频未上传完成
+                    else if (self.imgs2.data[0].progress < 100) {
+                        alert('视频正在上传中，请稍后...');
+                        return;
+                    }
+                    // 视频上传失败时
+                    else if (self.imgs2.data[0].progress == -1) {
+                        alert('视频上传失败，请重新上传');
+                        return;
+                    }
+                    var data
+                    if(self.video.length>0){
+                        data = JSON.stringify({
+                            "token": util.getParams('token'),
+                            "action": "edit",
+                            "viewID": Number(self.viewId),
+                            "data": {
+                                "ID":self.ID,
+                                "Title":self.Title,
+                                "PicURL":self.imgs1.data[0].src,
+                                "PicSize":self.imgs1.data[0].fileSize,
+                                "VideoURL":self.imgs2.data[0].src,
+                                "VideoSize":self.imgs2.data[0].fileSize
+                            },
+                            "lang": util.langStyle()
+                        })
+                    }else{
+                        data = JSON.stringify({
+                            "token": util.getParams('token'),
+                            "action": "add",
+                            "viewID": Number(self.viewId),
+                            "data": {
+                                "Title":self.Title,
+                                "PicURL":self.imgs1.data[0].src,
+                                "PicSize":self.imgs1.data[0].fileSize,
+                                "VideoURL":self.imgs2.data[0].src,
+                                "VideoSize":self.imgs2.data[0].fileSize
+                            },
+                            "lang": util.langStyle()
+                        })
+                    }
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            // self.saving = false;
+                            $state.reload();
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('修改失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    });
+                }
+
+                self.getSingleVideo = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "get",
+                        "viewID": self.viewId-0,
+                        "lang": util.langStyle()
+                    })
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            if(data.data.res.length>0) {
+                                var res=data.data.res[0]
+                                self.imgs1 = new Imgs([{"ImageURL": res.PicURL, "ImageSize": res.PicSize}], true);
+                                self.imgs1.initImgs();
+                                self.imgs2 = new Imgs([{"ImageURL": res.VideoURL, "ImageSize": res.VideoSize}], true);
+                                self.imgs2.initImgs();
+                                self.Title=res.Title
+                                self.ID=res.ID
+                                self.video=data.data.res
+                            }
+                            else {
+                                self.imgs1 = new Imgs([],true);
+                                self.imgs2 = new Imgs([],true);
+                                self.Title={
+                                    'zh-CN':'',
+                                    'en-US':''
+                                }
+                                self.video=[]
+                            }
+                            
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                // 图片上传相关
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
+
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
+
+                Imgs.prototype = {
+                    initImgs: function () {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
+                        }
+                    },
+                    deleteById: function (id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
+                            }
+                        }
+                    },
+
+                    add: function (xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
+
+                    update: function (id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
+                            }
+                        }
+                    },
+
+                    setSrcSizeByXhr: function (xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
+                            }
+                        }
+                    },
+
+                    uploadFile: function (e, o) {
+                        console.log(11212)    
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = e;
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function (evt) {
+                                $scope.$apply(function () {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console && console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function () {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 如果长度大于1张图片，删除前几张图片
+                                        if(o.data.length > 1) {
+                                            for(var i=0; i<o.data.length-1;i++) {
+                                                o.deleteById(o.data[i].id);
+                                            }
+                                        }
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                $scope.$apply(function () {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console && console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
+                }
+            }
+    ])
+
+    // 多视频图文
+    .controller('multVideoController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+        function ($scope, $state, $http, $stateParams, $location, util) {
+            var self = this;
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                console.log(self.viewId);
+                self.defaultLangCode = util.getDefaultLangCode();
+                console.log(self.defaultLangCode);
+                self.loadList();
+            }
+
+            self.edit = function(index) {
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.maskParams.videoInfo = self.videos[index];
+                $scope.app.showHideMask(true,'pages/tv/multVideoTextEdit.html');
+            }
+
+            self.del = function(id, index) {
+                var index = index;
+                if(!confirm('确认删除？')) {
+                    return;
+                }
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "delete",
+                    "viewID": self.viewId,
+                    "data": {
+                        "ID":id-0
+                    },
+                    "lang": util.langStyle()
+                })
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('删除成功');
+                        self.pics.splice(index,1);
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('删除失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                });
+            }
+
+            self.del = function(index) {
+                if(!confirm('确认删除？')){
+                    return;
+                }
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "delete",
+                    "viewID": self.viewId,
+                    "lang": util.langStyle(),
+                    "data": {
+                        "ID": self.videos[index].ID
+                    }
+                });
+                self.picDeleting = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('删除成功')
+                        $state.reload();
+                    }
+                    else {
+                        alert('连接服务器出错' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function(value) {
+                    self.picDeleting = false;
+                });
+            }
+
+            self.add = function() {
+                $scope.app.maskParams.viewId = self.viewId;
+                $scope.app.showHideMask(true,'pages/tv/multVideoTextAdd.html');
+            }
+
+            self.loadList = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "get",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.videos = data.data.res
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+        }
+    ])
+
+    // 多视频图文——添加项目
+    .controller('multVideoAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+
+            var self = this;
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+
+                // 获取编辑多语言信息
+                self.editLangs = util.getParams('editLangs');
+
+                // 初始化频道图片
+                self.imgs1 = new Imgs([], true);
+                // 初始化频道图片
+                self.imgs2 = new Imgs([], true);
+            }
+
+
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            self.save = function() {
+                if(self.imgs1.data.length == 0) {
+                    alert('请上传封面图片');
+                    return;
+                }
+                // 视频未上传完成
+                else if (self.imgs1.data[0].progress < 100) {
+                    alert('封面图片正在上传中，请稍后...');
+                    return;
+                }
+                // 视频上传失败时
+                else if (self.imgs1.data[0].progress == -1) {
+                    alert('封面图片上传失败，请重新上传');
+                    return;
+                }
+
+                if(self.imgs2.data.length == 0) {
+                    alert('请上传视频');
+                    return;
+                }
+                // 视频未上传完成
+                else if (self.imgs2.data[0].progress < 100) {
+                    alert('视频正在上传中，请稍后...');
+                    return;
+                }
+                // 视频上传失败时
+                else if (self.imgs2.data[0].progress == -1) {
+                    alert('视频上传失败，请重新上传');
+                    return;
+                }
+
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "add",
+                    "viewID": Number(self.viewId),
+                    "data":{
+                        "Title":self.Title,
+                        "PicURL":self.imgs1.data[0].src,
+                        "PicSize":self.imgs1.data[0].fileSize,
+                        "VideoURL":self.imgs2.data[0].src,
+                        "VideoSize":self.imgs2.data[0].fileSize
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('添加成功');
+                        $state.reload();
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('添加失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+
+            }
+
+
+            // 图片上传相关
+            self.clickUpload = function (e) {
+                setTimeout(function () {
+                    document.getElementById(e).click();
+                }, 0);
+            }
+
+            function Imgs(imgList, single) {
+                this.initImgList = imgList;
+                this.data = [];
+                this.maxId = 0;
+                this.single = single ? true : false;
+            }
+
+            Imgs.prototype = {
+                initImgs: function () {
+                    var l = this.initImgList;
+                    for (var i = 0; i < l.length; i++) {
+                        this.data[i] = {
+                            "src": l[i].ImageURL,
+                            "fileSize": l[i].ImageSize,
+                            "id": this.maxId++,
+                            "progress": 100
+                        };
+                    }
+                },
+                deleteById: function (id) {
+                    var l = this.data;
+                    for (var i = 0; i < l.length; i++) {
+                        if (l[i].id == id) {
+                            // 如果正在上传，取消上传
+                            if (l[i].progress < 100 && l[i].progress != -1) {
+                                l[i].xhr.abort();
+                            }
+                            l.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+
+                add: function (xhr, fileName, fileSize) {
+                    this.data.push({
+                        "xhr": xhr,
+                        "fileName": fileName,
+                        "fileSize": fileSize,
+                        "progress": 0,
+                        "id": this.maxId
+                    });
+                    return this.maxId++;
+                },
+
+                update: function (id, progress, leftSize, fileSize) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        var f = this.data[i];
+                        if (f.id === id) {
+                            f.progress = progress;
+                            f.leftSize = leftSize;
+                            f.fileSize = fileSize;
+                            break;
+                        }
+                    }
+                },
+
+                setSrcSizeByXhr: function (xhr, src, size) {
+                    for (var i = 0; i < this.data.length; i++) {
+                        if (this.data[i].xhr == xhr) {
+                            this.data[i].src = src;
+                            this.data[i].fileSize = size;
+                            break;
+                        }
+                    }
+                },
+
+                uploadFile: function (e, o) {
+
+                    // 如果这个对象只允许上传一张图片
+                    if (this.single) {
+                        // 删除第二张以后的图片
+                        for (var i = 1; i < this.data.length; i++) {
+                            this.deleteById(this.data[i].id);
+                        }
+                    }
+
+                    var file = $scope[e];
+                    var uploadUrl = CONFIG.uploadUrl;
+                    var xhr = new XMLHttpRequest();
+                    var fileId = this.add(xhr, file.name, file.size, xhr);
+                    // self.search();
+
+                    util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                        function (evt) {
+                            $scope.$apply(function () {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                    o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                    console && console.log(percentComplete);
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            var ret = JSON.parse(xhr.responseText);
+                            console && console.log(ret);
+                            $scope.$apply(function () {
+                                o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                // 如果这个对象只允许上传一张图片
+                                if (o.single) {
+                                    // 如果长度大于1张图片，删除前几张图片
+                                    if(o.data.length > 1) {
+                                        for(var i=0; i<o.data.length-1;i++) {
+                                            o.deleteById(o.data[i].id);
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        function (xhr) {
+                            $scope.$apply(function () {
+                                o.update(fileId, -1, '', '');
+                            });
+                            console && console.log('failure');
+                            xhr.abort();
+                        }
+                    );
+                }
+            }
+
+        }
+    ])
+
+    // 多视频图文——编辑项目
+    .controller('multVideoEditController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+
+                self.init = function() {
+                    self.viewId = $scope.app.maskParams.viewId;
+                    self.info = $scope.app.maskParams.videoInfo;
+                    self.Title = self.info.Title;
+
+                    // 获取编辑多语言信息
+                    self.editLangs = util.getParams('editLangs');
+
+                    // 初始化频道图片
+                    self.imgs1 = new Imgs([{"ImageURL": self.info.PicURL, "ImageSize": self.info.PicSize}], true);
+                    self.imgs1.initImgs();
+
+                    // 初始化频道图片
+                    self.imgs2 = new Imgs([{"ImageURL": self.info.VideoURL, "ImageSize": self.info.VideoSize}], true);
+                    self.imgs2.initImgs();
+
+                }
+
+
+                self.cancel = function() {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.save = function() {
+                    if(self.imgs1.data.length == 0) {
+                        alert('请上传封面图片');
+                        return;
+                    }
+                    // 视频未上传完成
+                    else if (self.imgs1.data[0].progress < 100) {
+                        alert('封面图片正在上传中，请稍后...');
+                        return;
+                    }
+                    // 视频上传失败时
+                    else if (self.imgs1.data[0].progress == -1) {
+                        alert('封面图片上传失败，请重新上传');
+                        return;
+                    }
+
+                    if(self.imgs2.data.length == 0) {
+                        alert('请上传视频');
+                        return;
+                    }
+                    // 视频未上传完成
+                    else if (self.imgs2.data[0].progress < 100) {
+                        alert('视频正在上传中，请稍后...');
+                        return;
+                    }
+                    // 视频上传失败时
+                    else if (self.imgs2.data[0].progress == -1) {
+                        alert('视频上传失败，请重新上传');
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "edit",
+                        "viewID": Number(self.viewId),
+                        "data":{
+                            "ID": self.info.ID,
+                            "Title":self.Title,
+                            "PicURL":self.imgs1.data[0].src,
+                            "PicSize":self.imgs1.data[0].fileSize,
+                            "VideoURL":self.imgs2.data[0].src,
+                            "VideoSize":self.imgs2.data[0].fileSize
+                        },
+                        "lang": util.langStyle()
+                    })
+                    self.saving = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('更新成功！');
+                            $state.reload();
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('添加失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+
+                }
+
+
+                // 图片上传相关
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
+
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
+
+                Imgs.prototype = {
+                    initImgs: function () {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
+                        }
+                    },
+                    deleteById: function (id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
+                            }
+                        }
+                    },
+
+                    add: function (xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
+
+                    update: function (id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
+                            }
+                        }
+                    },
+
+                    setSrcSizeByXhr: function (xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
+                            }
+                        }
+                    },
+
+                    uploadFile: function (e, o) {
+
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = $scope[e];
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function (evt) {
+                                $scope.$apply(function () {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console && console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function () {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 如果长度大于1张图片，删除前几张图片
+                                        if(o.data.length > 1) {
+                                            for(var i=0; i<o.data.length-1;i++) {
+                                                o.deleteById(o.data[i].id);
+                                            }
+                                        }
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                $scope.$apply(function () {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console && console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
+                }
+
+            }
+    ])
+
+    /*账单URL*/
+    .controller('BillController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;
+
+                self.init = function() {
+                    self.viewId = $stateParams.moduleId;
+                    self.loadURL();
+                }
+
+                self.saving=false ;
+
+                self.save = function(id, index) {
+
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "update",
+                        "viewID": Number(self.viewId),
+                        "data": {
+                            "Url":self.url
+                        },
+                        "lang": util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            $state.reload();
+                            self.saving = false;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('修改失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    });
+                }
+
+
+
+                self.loadURL = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "get",
+                        "viewID": self.viewId-0,
+                        "lang": util.langStyle()
+                    })
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.url = data.data.Url;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+            }
     ])
 })();

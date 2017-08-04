@@ -872,7 +872,7 @@
                 // 烟草局单视频
                 .state('app.tvAdmin.YCJ_SingleVideoText', {
                     url: '/YCJ_SingleVideoText?moduleId&label',
-                    templateUrl: 'pages/tv/SingleVideoText_YCJ.html',
+                    templateUrl: 'pages/tv/singleVideoText.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
@@ -883,7 +883,7 @@
                 // 烟草局多视频
                 .state('app.tvAdmin.YCJ_MultVideoText', {
                     url: '/YCJ_MultVideoText?moduleId&label',
-                    templateUrl: 'pages/tv/MultVideoText_YCJ.html',
+                    templateUrl: 'pages/tv/multVideoText.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 

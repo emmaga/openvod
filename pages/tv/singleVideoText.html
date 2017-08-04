@@ -1,0 +1,62 @@
+<div ng-controller="singleVideoTextController as singleVideoCtrl" ng-init="singleVideoCtrl.init()" class="row">
+    <div class="col-xs-6">
+        <form id="singleVideoCtrlForm" name="singleVideoCtrlForm"
+              ng-submit="singleVideoCtrlForm.$valid && singleVideoCtrl.save()">
+            <!--标题-->
+            <div class="form-group">
+                <ng-repeat ng-repeat="lang in singleVideoCtrl.editLangs">
+                    <ng-if ng-if="lang.default">
+                        <label>标题{{lang.name}}：</label>
+                        <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" placeholder="（必填）" ng-model="singleVideoCtrl.Title[lang.code]" required/>
+                    </ng-if>
+                    <ng-if ng-if="lang.default !== true">
+                        <label>标题 {{lang.name}}：</label>
+                        <input class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" placeholder="（必填）" ng-model="singleVideoCtrl.Title[lang.code]" />
+                    </ng-if>
+                </ng-repeat>
+            </div>
+
+            <div class="form-group ">
+                <label>封面图片</label>
+                <a ng-click="singleVideoCtrl.clickUpload('upload1')">上传</a>
+                <br>
+                <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                <a id="hidenUpload1" style="display: none;" ng-click="singleVideoCtrl.imgs1.uploadFile(myFile, singleVideoCtrl.imgs1)"></a>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div ng-repeat="img in singleVideoCtrl.imgs1.data" class="form-thumbnail" style="background-image: url({{img.src}})">
+                            <!-- 进度条 -->
+                            <!-- -1代表失败 -->
+                            <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label>视频</label>
+                <a ng-click="singleVideoCtrl.clickUpload('upload2')">上传</a>
+                <br>
+                <input id="upload2" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload2" />
+                <a id="hidenUpload2" style="display: none;" ng-click="singleVideoCtrl.imgs2.uploadFile(myFile, singleVideoCtrl.imgs2)"></a>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div ng-repeat="img in singleVideoCtrl.imgs2.data" class="form-thumbnail form-thumbnail-screen-lg">
+                            <video preload="none" src="{{img.src}}" controls=""></video>
+                            <!-- -1代表失败 -->
+                            <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="button button-small button-block theme-button-outline">
+                {{singleVideoCtrl.video.length>0?"更新":"新增"}}
+            </button>
+        </form>
+    </div>
+</div>
