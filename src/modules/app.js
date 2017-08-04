@@ -906,7 +906,7 @@
                 // 烟草局航班
                 .state('app.tvAdmin.Flight', {
                     url: '/Flight?moduleId&label',
-                    templateUrl: 'pages/tv/Flight.html',
+                    templateUrl: 'pages/tv/flight.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
