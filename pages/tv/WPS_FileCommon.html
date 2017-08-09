@@ -13,9 +13,8 @@
             <!-- 图 -->
             <div class="row">
                 <div class="col-xs-12">
-                    <div ng-repeat="img in tvWps.imgs1.data" class="form-thumbnail" style="background-image: url(/dist/imgs/wps.png)">
+                    <div ng-repeat="img in tvWps.imgs1.data" class="form-thumbnail" style="background-image: url('./dist/imgs/wps.png')">
                         <!-- 进度条 -->
-
                         <!-- -1代表失败 -->
                         <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
                             <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
