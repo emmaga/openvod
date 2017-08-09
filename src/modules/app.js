@@ -359,7 +359,7 @@
                 })
                 .state('app.tvAdmin.Samsung_MultPic_Flight', {
                     url: '/Samsung_MultPic_Flight?moduleId&label',
-                    templateUrl: 'pages/tv/flight_Samsung.html',
+                    templateUrl: 'pages/tv/flight.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
