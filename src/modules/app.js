@@ -752,7 +752,7 @@
                 })
                 .state('app.tvAdmin.QHtlMovieCommon', {
                     url: '/QHtlMovieCommon?moduleId&label',
-                    templateUrl: 'pages/tv/QHtl_movieCommon.html',
+                    templateUrl: 'pages/tv/movieCommon.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
@@ -780,7 +780,7 @@
                 // 专题大片
                 .state('app.tvAdmin.MovieTopic', {
                     url: '/MovieTopic?moduleId&label',
-                    templateUrl: 'pages/tv/MovieTopic.html',
+                    templateUrl: 'pages/tv/movieCommon.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
@@ -791,7 +791,7 @@
                 // 专题大片
                 .state('app.tvAdmin.MovieLocal', {
                     url: '/MovieLocal?moduleId&label',
-                    templateUrl: 'pages/tv/MovieLocal.html',
+                    templateUrl: 'pages/tv/movieCommon.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
