@@ -132,13 +132,27 @@
                         "url": "shoporder"
                     }
 
+                    self.busData = {
+                        "noData": false,
+                        "newData": false,
+                        "TIMER": null,
+                        "orderNum": 0,
+                        "createTime": 0,
+                        "total": 0,
+                        "action": "getList",
+                        "ID": "BusID",
+                        "url": "businfo/order"
+                    }
+
                     if (self.path != '/login') {//未登录时不轮询，和退出登录时结束轮询
                         //解决重载时，需要等待polling轮询一次,才能得到数据
                         self.search(self.roomData);
                         self.search(self.shopData);
+                        self.search(self.busData);
 
                         self.polling(self.roomData);
                         self.polling(self.shopData);
+                        self.polling(self.busData);
                     }
                 }
                 // 新订单提醒弹框:
@@ -159,9 +173,12 @@
                     if (DATA.ID == "HotelID") {//客房订单
                         util.setParams('newRoomOrder', DATA.orderNum);//更新订单号
                         util.setParams('roomCreateTime', DATA.createTime);//更新下单时间
-                    } else {//商城订单
+                    } else if (DATA.ID == "ShopID") {//商城订单
                         util.setParams('newShopOrder', DATA.orderNum);//更新订单号
                         util.setParams('shopCreateTime', DATA.createTime);//更新下单时间
+                    } else { //班车订单
+                        util.setParams('newBusOrder', DATA.orderNum);//更新订单号
+                        util.setParams('busCreateTime', DATA.createTime);//更新下单时间
                     }
                     DATA.newData = false;//更新新订单说明，隐藏弹框
                 }
@@ -203,6 +220,22 @@
                                 $event.preventDefault();
                                 break;
                             }
+                        case 13://班车订单
+                            if (target.tagName == 'B') {
+                                if ($state.includes('app.busOrderList')) {
+                                    $state.reload();//解决点击当前页面，不能重新加载的问题
+                                } else {
+                                    $state.go('app.busOrderList', {'appId': n});
+                                }
+                                // 增加 TypeError: Cannot read property 'click' of nul 错误处理
+                                $timeout(function () {
+                                    // todo 点击待审核
+                                }, 0);
+                                break;
+                            }else{
+                                $event.preventDefault();
+                                break;
+                            }    
                         default:
                             break;
                     }
@@ -246,7 +279,12 @@
                         "ContactorName": '',
                         "OrderNum": '',
                         "page": 1,
-                        "per_page": 1
+                        "per_page": 1,
+                        data: {
+                            page: 1,
+                            per_page: 1,
+                            Status: 'WAITAPPROVAL'
+                        }
                     });
                     $http({
                         method: 'POST',
@@ -257,7 +295,7 @@
                         var data = response.data;
                         // console && console.dir(data);
                         if (data.rescode == '200') {
-                            if (data.total == 0) {//如果没有待审核订单
+                            if (data.total === 0 || data.data.TotalCount === 0) {//如果没有待审核订单
                                 DATA.noData = true;
                                 DATA.newData = false;//没有新订单
                             } else {//否则，有待审核订单
@@ -280,7 +318,7 @@
                                     }else {
                                         DATA.newData = false;//没有新订单
                                     }
-                                } else {//商城订单
+                                } else if(DATA.ID == "ShopID"){//商城订单
                                     if (!util.getParams('newShopOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
                                         DATA.newData = true;//说明有新订单
                                         DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
@@ -298,9 +336,27 @@
                                     }else {
                                         DATA.newData = false;//没有新订单
                                     }
+                                } else { //班车订单
+                                    if (!util.getParams('newBusOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
+                                        DATA.newData = true;//说明有新订单
+                                        DATA.orderNum = data.data.data[0].OrderID;//暂存新订单订单号
+                                        DATA.createTime = data.data.data[0].CreateTime;//暂存新订单下单时间
+                                        document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
+                                    } else if (util.getParams('newBusOrder') != data.data.data[0].OrderID) {//如果新订单号改变
+                                        if (data.data.data[0].CreateTime > util.getParams('busCreateTime')) {//且该订单号下单时间不早于之前订单
+                                            DATA.newData = true;//说明有新订单
+                                            DATA.orderNum = data.data.data[0].OrderID;//暂存新订单订单号
+                                            DATA.createTime = data.data.data[0].CreateTime;//暂存新订单下单时间
+                                            document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
+                                        } else {
+                                            DATA.newData = false;//没有新订单
+                                        }
+                                    }else {
+                                        DATA.newData = false;//没有新订单
+                                    }
                                 }
                             }
-                            DATA.total = data.total;//不管有没有待审核订单，都要更新待审核订单总数
+                            DATA.total = data.total ? data.total : data.data.TotalCount;//不管有没有待审核订单，都要更新待审核订单总数
                         } else if (data.rescode == '401') {
                             console && console.log('访问超时，请重新登录');
                             $state.go('login');
