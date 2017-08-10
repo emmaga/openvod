@@ -1,0 +1,165 @@
+<div ng-controller="hotelOrderListController as hol" ng-init="hol.init()" class="container-fluid has-nav-left">
+
+    <!--加载门店列表loading-->
+    <div ng-show="hol.loadingShopList">loading...</div>
+
+    <!-- 左侧菜单 筛选条件——门店-->
+    <div class="nav-left">
+        <ul class="nav nav-stacked nav-left-content">
+            <li ng-click="hol.searchByShop(shop.ID)" class="nav-header {{hol.searchStr.shopId == shop.ID ? 'active' : ''}}" ng-repeat="shop in shopList" >
+                <a>{{shop.Name[hol.defaultLangCode]}}</a> 
+            </li>
+        </ul>
+    </div>
+
+    <!-- 右侧部分 -->
+    <div class="content-right">
+
+        <!-- 标题 -->
+        <h4>{{hol.getSelectedHotel().Name[hol.defaultLangCode]}}</h4>
+        <hr>
+        
+        <!--关键字搜索 筛选条件－买家名&&订单号-->
+        <div class="search-bar">
+            <div class="form-group">
+                <!-- <label class="h5">手机号</label> -->
+                <input ng-model="hol.searchStr.userPhone" type="text" class="form-control" placeholder="手机号">
+            </div>
+            <div class="form-group">
+                <!-- <label class="h5">订单号</label> -->
+                <input ng-model="hol.searchStr.orderNumber" type="text" class="form-control" placeholder="订单号">
+            </div>
+            <div class="form-group">
+                <!-- <label class="h5">联系人</label> -->
+                <input ng-model="hol.searchStr.userName" type="text" class="form-control" placeholder="联系人">
+            </div>
+            <a ng-click="hol.search()" class="button button-light">
+                <i class="icon ion-ios-search-strong"></i>
+                搜索
+            </a>
+        </div>
+
+        
+        <!--tab 筛选条件－订单状态-->
+        <ul class="nav nav-tabs">
+            <li  ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
+                <a ng-click="hol.searchByStatus(s.code)" id="{{s.code}}Room">{{s.name[hol.defaultLangCode]}}</a>
+            </li>
+        </ul>
+
+        <!--订单列表-->
+        <table ng-table="hol.tableParams" class="table table-hover table-condensed">
+            <tr ng-repeat="row in $data">
+                <!--订单号-->
+                <td title="'订单号'">
+                    {{row.OrderNum}}
+                </td>
+                <!--订单号-->
+
+                <!--下单时间-->
+                <td title="'下单时间'">
+                    {{row.CreateTime}}
+                </td>
+                <!--下单时间-->
+
+                <!--订单状态-->
+                <td title="'订单状态'">
+                    {{row.Status | orderStatus}}
+                </td>
+                <!--订单状态-->
+
+                <!--订单总价-->
+                <td title="'订单总价'">
+                    {{row.GoodsTotalPrice | fenToYuan}}
+                </td>
+                <!--订单总价-->
+
+                <!--优惠券-->
+                <td title="'优惠券'">
+                    {{row.card_info_title | arrToString}}
+                </td>
+                <!--优惠券-->
+
+                <!--客房信息－酒店名-->
+                <td title="'酒店'">
+                    {{row.Name[hol.defaultLangCode]}}
+                </td>
+                <!--客房信息－酒店名-->
+
+                <!--客房信息－客房名-->
+                <td title="'客房'">
+                    {{row.RoomTypeName[hol.defaultLangCode]}}
+                </td>
+
+                <!--入住信息－入住时间-->
+                <td title="'入住时间'">
+                    {{row.BookStartDate}}
+                </td>
+                <!--入住信息－入住时间-->
+
+                <!--入住信息－离店时间-->
+                <td title="'离店时间'">
+                    {{row.BookEndDate}}
+                </td>
+                <!--入住信息－离店时间-->
+
+                <!--入住信息－房间数量-->
+                <td title="'房间数量'">
+                    {{row.GoodsNum}}
+                </td>
+                <!--入住信息－房间数量-->
+
+                <!--联系人－姓名-->
+                <td title="'姓名'">
+                    {{row.ContactorName}}
+                </td>
+                <!--联系人－姓名-->
+                
+                <!--会员等级-->
+                <td title="'会员等级'">
+                    {{row.MemberCardLevelName ? row.MemberCardLevelName : '微信粉丝'}}
+                </td>
+                <!--会员等级-->
+
+                <!--联系人－手机-->
+                <td title="'手机'">
+                    {{row.ContactorPhone}}
+                </td>
+                <!--联系人－手机-->
+                
+                <!--操作-->
+                <td title="'操作'">
+                    <!--详情-->
+                    <a ng-click="hol.gotoDetail(row)">详情</a>
+                    <!--详情-->
+
+                    <!--接受-->
+                    <a ng-click="hol.accept(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
+                    <!--接受-->
+
+                    <!--拒绝-->
+                    <a ng-click="hol.reject(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
+                    <!--拒绝-->
+
+                    <!--已完成-->
+                    <a ng-click="hol.finish(row.OrderID)" ng-show="row.Status=='ACCEPT'">已完成</a>
+                    <!--已完成-->
+
+                    <!--取消订单-->
+                    <a ng-click="hol.cancel(row.OrderID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>
+                    <!--取消订单-->
+                </td>
+                <!--操作-->
+
+            </tr>
+        </table>
+        <!-- 列表loading -->
+        <div ng-show="hol.loading">loading...</div>
+        <!-- 列表无数据 -->
+        <div ng-show="hol.noData">无数据</div>
+        <!--订单列表 end-->
+
+    </div>
+    <!-- 右侧部分 end-->
+
+</div>

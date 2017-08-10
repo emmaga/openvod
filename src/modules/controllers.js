@@ -390,6 +390,11 @@
                                 $state.go('app.bus', {'appId': n});
                             }
                             break;
+                        case 13:
+                            if (!$state.includes('app.busOrderList')) {
+                                $state.go('app.busOrderList', {'appId': n});
+                            }
+                            break;
                         default:
                             break;
 
@@ -864,6 +869,9 @@
                 self.init = function () {
                     self.ID = $scope.app.maskParams.LineID
                     self.Date = $scope.app.maskParams.Date
+                    self.RouteName = $scope.app.maskParams.RouteName
+                    self.BusTime = $scope.app.maskParams.BusTime
+                    self.Number = $scope.app.maskParams.Number
                     self.getInfo();
                 }
 
@@ -929,6 +937,9 @@
                 self.routeAdd = function () {
                     $scope.app.showHideMask(true, 'pages/routeAdd.html');
                 }
+                self.config = function () {
+                    $scope.app.showHideMask(true, 'pages/busConfig.html');
+                }
                 self.routeEdit = function () {
                     $scope.app.maskParams = {'routeinfo': self.routeList[self.routeIndex]};
                     $scope.app.showHideMask(true, 'pages/routeEdit.html');
@@ -938,8 +949,14 @@
                     $scope.app.maskParams.listBustime = self.listBustime
                     $scope.app.showHideMask(true, 'pages/bustimeAdd.html');
                 }
-                self.orderDetail = function (ID) {
-                    $scope.app.maskParams = {'LineID': ID, 'Date': util.format_yyyyMMdd(new Date(self.searchDate))};
+                self.orderDetail = function (ID, time, number) {
+                    $scope.app.maskParams = {
+                        'LineID': ID, 
+                        'Date': util.format_yyyyMMdd(new Date(self.searchDate)),
+                        'RouteName': self.routeList[self.routeIndex].Name,
+                        'BusTime': time,
+                        'Number': number
+                    };
                     $scope.app.showHideMask(true, 'pages/busOrderDetail.html');
                 }
                 self.arrive = function (ID) {
@@ -1314,8 +1331,47 @@
                     self.saving = false;
                     self.loading = false;
                     self.ID = $scope.app.maskParams.routeinfo.ID
-                    self.Name = $scope.app.maskParams.routeinfo.Name
-                    self.Phone = $scope.app.maskParams.routeinfo.Phone
+                    self.loadInfo()
+                    // self.Name = $scope.app.maskParams.routeinfo.Name
+                    // self.Phone = $scope.app.maskParams.routeinfo.Phone
+                }
+
+                self.loadInfo = function () {
+                    self.loading = true;
+                    var data = {
+                        "action": "get",
+                        "token": util.getParams("token"),
+                        "data": {
+                          "ID": self.ID
+                        }
+                    };
+                    data = JSON.stringify(data);
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            var info = data.data.data
+                            self.Name = info.Name
+                            self.Phone = info.Phone
+                            self.StartTime = info.ReservationTime.StartTime
+                            self.EndTime = info.ReservationTime.EndTime
+                            self.StartDays = info.MinAdvanceReservationDays
+                            self.EndDays = info.MaxAdvanceReservationDays
+                            self.AdvanceReservationTimeInDay = info.AdvanceReservationTimeInDay
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('获取信息失败，' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('获取信息失败，' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
                 }
 
                 self.cancel = function () {
@@ -1359,6 +1415,8 @@
                 }
 
                 self.saveForm = function () {
+                    var dateStart = new Date(self.StartTime)
+                    var dateEnd = new Date(self.EndTime)
                     var data = {
                         "action": "edit",
                         "token": util.getParams("token"),
@@ -1366,7 +1424,14 @@
                         "data": {
                             "ID": self.ID,
                             "Name": self.Name,
-                            "Phone": self.Phone
+                            "Phone": self.Phone,
+                            "ReservationTime": {
+                                "StartTime": util.format_hhmm(dateStart) + ':00',
+                                "EndTime": util.format_hhmm(dateEnd) + ':59'
+                            },
+                            "MaxAdvanceReservationDays": self.EndDays,
+                            "MinAdvanceReservationDays": self.StartDays,
+                            "AdvanceReservationTimeInDay": self.AdvanceReservationTimeInDay
                         }
                     };
                     data = JSON.stringify(data);
@@ -1445,6 +1510,95 @@
             }
         ])
 
+        .controller('busConfigController', ['$scope', '$state', '$http', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $translate, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.saving = false;
+                    self.loading = false;
+                    self.loadInfo();
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.loadInfo = function () {
+                    self.loading = true;
+                    var data = {
+                        "action": "getBusConfig",
+                        "token": util.getParams("token")
+                    };
+                    data = JSON.stringify(data);
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/config', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            var info = data.data.data
+                            self.StartTime = info.ReservationTime.StartTime
+                            self.EndTime = info.ReservationTime.EndTime
+                            self.StartDays = info.MinAdvanceReservationDays
+                            self.EndDays = info.MaxAdvanceReservationDays
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('获取信息失败，' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('获取信息失败，' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                self.saveForm = function () {
+                    var dateStart = new Date(self.StartTime)
+                    var dateEnd = new Date(self.EndTime)
+                    var data = {
+                        "action": "setBusConfig",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                          "ReservationTime": {
+                            "StartTime": util.format_hhmm(dateStart) + ':00',
+                            "EndTime": util.format_hhmm(dateEnd) + ':59'
+                          },
+                          "MaxAdvanceReservationDays": self.EndDays,
+                          "MinAdvanceReservationDays": self.StartDays
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/config', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('修改成功')
+                            $scope.app.showHideMask(false);
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('修改失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('修改失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+            }
+        ])
+
         .controller('bustimeAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
             function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
                 console.log('bustimeAddController');
@@ -1454,7 +1608,6 @@
                     self.multiLang = util.getParams('editLangs');
                     self.routeid = $scope.app.maskParams.routeid;
                     self.saving = false;
-                    self.loading = false;
                 }
 
                 self.cancel = function () {

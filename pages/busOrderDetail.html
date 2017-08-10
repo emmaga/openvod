@@ -11,8 +11,35 @@
             <h5 class="modal-title">登记详情</h5>
         </div>
         <!-- body -->
-        <div class="modal-body">
-            <!--商品列表-->
+        <div print-section class="modal-body">
+            <!--订单信息-->
+            <ul class="list-group list-group-condensed">
+                <!--线路名称-->
+                <li class="list-group-item">
+                    线路名称
+                    <span class="pull-right">{{bod.RouteName}}</span>
+                </li>
+                <!--线路名称-->
+                <!--班次-->
+                <li class="list-group-item">
+                    班次
+                    <span class="pull-right">{{bod.BusTime}}</span>
+                </li>
+                <!--班次-->
+                <!--日期-->
+                <li class="list-group-item">
+                    日期
+                    <span class="pull-right">{{bod.Date}}</span>
+                </li>
+                <!--日期-->
+                <!--总人数-->
+                <li class="list-group-item">
+                    总人数
+                    <span class="pull-right">{{bod.Number}}</span>
+                </li>
+                <!--总人数-->
+                <!--商品列表-->
+            </ul>
             <!-- <div class="row"> -->
             <table class="table table-condensed table-responsive">
                 <thead>
@@ -40,6 +67,10 @@
         <div class="modal-footer">
             <!-- 取消 -->
             <button type="button" class="btn btn-default btn-sm" ng-click="bod.close()">{{'CANCEL' | translate}}</button>
+            <!-- 订单打印 -->
+            <button type="button" class="btn btn-primary btn-sm" print-btn>
+            <i class="icon ion-printer"></i> 打印
+            </button>
             <!--footer end-->
         </div>
     </div>

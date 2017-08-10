@@ -1,8 +1,7 @@
 <div ng-controller="routeEditController as routeEdit" ng-init="routeEdit.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
         <!-- loading -->
-        <div ng-show="route.loading">loading...</div>
-        <div ng-show="route.noData">查无数据</div>
+        <div ng-show="routeEdit.loading">loading...</div>
         <!-- form -->
         <form novalidate name="routeEditForm" ng-submit="routeEditForm.$valid && routeEdit.saveForm()">
             <!--header-->
@@ -29,6 +28,27 @@
                     <input type="text" name="" required placeholder="（必填）" ng-model="routeEdit.Phone" class="form-control">
                 </div>
                 <!-- 管理员手机／400电话 -->
+
+                <!-- 可预订时间 -->
+                <div class="form-group">
+                    <label>可预订时间范围(开始)：</label>
+                    <input type="time" name="" ng-model="routeEdit.StartTime" required class="form-control">
+                    <label>可预订时间范围(结束)：</label>
+                    <input type="time" name="" ng-model="routeEdit.EndTime" required class="form-control">
+                </div>
+                <!-- 可预订时间 -->
+                <!-- 需提前预订天数 -->
+                <div class="form-group">
+                    <label>需提前预订天数：</label>
+                    <input type="number" min="0" required step= "1" name="" ng-model="routeEdit.StartDays" class="form-control">
+                </div>
+                <!-- 需提前预订天数 -->
+                <!-- 可预订最晚天数 -->
+                <div class="form-group">
+                    <label>可预订最晚天数:</label>
+                    <input type="number" min="0" required step= "1" name="" ng-model="routeEdit.EndDays" class="form-control">
+                </div>
+                <!-- 可预订最晚天数 -->
             </div>
             <!--body end-->
             <!--footer-->

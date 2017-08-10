@@ -110,6 +110,10 @@
                     url: '/shopOrderDeliver',
                     templateUrl: 'pages/orders/shopOrderDeliver.html'
                 })
+                .state('app.busOrderList', {
+                    url: '/busOrderList',
+                    templateUrl: 'pages/orders/busOrderList.html'
+                })
                 .state('app.projectConfig', {
                     url: '/projectConfig',
                     templateUrl: 'pages/projectConfig/projectConfig.html'

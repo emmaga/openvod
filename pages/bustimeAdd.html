@@ -1,8 +1,5 @@
 <div ng-controller="bustimeAddController as bustimeAdd" ng-init="bustimeAdd.init()" class="modal-dialog modal-sm">
     <div class="modal-content">
-        <!-- loading -->
-        <div ng-show="route.loading">loading...</div>
-        <div ng-show="route.noData">查无数据</div>
         <!-- form -->
         <form novalidate name="bustimeAddForm" ng-submit="bustimeAddForm.$valid && bustimeAdd.saveForm()">
             <!--header-->
