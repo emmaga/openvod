@@ -922,7 +922,7 @@
             }
         ])
 
-        .controller('busOrderDetailController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        .controller('busTimeOrderDetailController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
             function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
                 var self = this;
 
@@ -1023,7 +1023,7 @@
                         'BusTime': time,
                         'Number': number
                     };
-                    $scope.app.showHideMask(true, 'pages/busOrderDetail.html');
+                    $scope.app.showHideMask(true, 'pages/busTimeOrderDetail.html');
                 }
                 self.arrive = function (ID) {
                     $scope.app.maskParams = {ID: ID, Date: util.format_yyyyMMdd(new Date(self.searchDate))}
