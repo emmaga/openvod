@@ -30,6 +30,9 @@
                     <b class="corner"  ng-click="app.PendingList($event,4)" ng-if="appIcon.id == 4 && app.shopData.total">
                         {{app.shopData.total}}
                     </b>
+                    <b class="corner"  ng-click="app.PendingList($event,13)" ng-if="appIcon.id == 13 && app.busData.total">
+                        {{app.busData.total}}
+                    </b>
                 </i>
                 <h4 class="app-name">{{appIcon.name}}</h4>
                 <!-- {{appIcon.bgColor}} -->
@@ -70,6 +73,8 @@
                         <b class="corner"  ng-click="app.PendingList($event,2)" ng-if="appIcon.id == 2 && app.roomData.total">{{app.roomData.total}}
                         </b>
                         <b class="corner"  ng-click="app.PendingList($event,4)" ng-if="appIcon.id == 4 && app.shopData.total">{{app.shopData.total}}
+                        </b>
+                        <b class="corner"  ng-click="app.PendingList($event,13)" ng-if="appIcon.id == 13 && app.busData.total">{{app.busData.total}}
                         </b>
                     </i>
                     <h5 class="app-name">{{appIcon.name}}</h5>
@@ -120,7 +125,17 @@
                     <span class="sr-only">Close</span>
                 </button>
             </li>
-            <video id="speaker" width="0" height="0" autoplay ng-if="app.roomData.newData || app.shopData.newData">
+            <li class="alert alert-{{type || 'info'}}" ng-show="app.busData.newData" style="padding:5px;margin-bottom:0" ng-click="app.viewPendingList($event,'app.busOrderList',13,app.busData)">
+                <img src="dist/imgs/app-icon-14.png" alt="" style=" width:36px;height:36px;border-radius: 5px">
+                <a href="" style="padding-left:5px;padding-right:5px">
+                    您有新的订单，请及时处理！
+                </a>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </li>
+            <video id="speaker" width="0" height="0" autoplay ng-if="app.roomData.newData || app.shopData.newData || app.busData.newData">
                 <source src="./dist/mp3/order.mp3">
                 Your browser does not support the video tag.
             </video>
@@ -191,10 +206,6 @@
     .pagination>li>span:hover{
         color: {{app.activeAppThemeColor}};
     }
-
-
-
-
 
     </style>
 </div>

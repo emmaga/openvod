@@ -132,13 +132,27 @@
                         "url": "shoporder"
                     }
 
+                    self.busData = {
+                        "noData": false,
+                        "newData": false,
+                        "TIMER": null,
+                        "orderNum": 0,
+                        "createTime": 0,
+                        "total": 0,
+                        "action": "getList",
+                        "ID": "BusID",
+                        "url": "businfo/order"
+                    }
+
                     if (self.path != '/login') {//未登录时不轮询，和退出登录时结束轮询
                         //解决重载时，需要等待polling轮询一次,才能得到数据
                         self.search(self.roomData);
                         self.search(self.shopData);
+                        self.search(self.busData);
 
                         self.polling(self.roomData);
                         self.polling(self.shopData);
+                        self.polling(self.busData);
                     }
                 }
                 // 新订单提醒弹框:
@@ -159,9 +173,12 @@
                     if (DATA.ID == "HotelID") {//客房订单
                         util.setParams('newRoomOrder', DATA.orderNum);//更新订单号
                         util.setParams('roomCreateTime', DATA.createTime);//更新下单时间
-                    } else {//商城订单
+                    } else if (DATA.ID == "ShopID") {//商城订单
                         util.setParams('newShopOrder', DATA.orderNum);//更新订单号
                         util.setParams('shopCreateTime', DATA.createTime);//更新下单时间
+                    } else { //班车订单
+                        util.setParams('newBusOrder', DATA.orderNum);//更新订单号
+                        util.setParams('busCreateTime', DATA.createTime);//更新下单时间
                     }
                     DATA.newData = false;//更新新订单说明，隐藏弹框
                 }
@@ -203,6 +220,22 @@
                                 $event.preventDefault();
                                 break;
                             }
+                        case 13://班车订单
+                            if (target.tagName == 'B') {
+                                if ($state.includes('app.busOrderList')) {
+                                    $state.reload();//解决点击当前页面，不能重新加载的问题
+                                } else {
+                                    $state.go('app.busOrderList', {'appId': n});
+                                }
+                                // 增加 TypeError: Cannot read property 'click' of nul 错误处理
+                                $timeout(function () {
+                                    // todo 点击待审核
+                                }, 0);
+                                break;
+                            }else{
+                                $event.preventDefault();
+                                break;
+                            }    
                         default:
                             break;
                     }
@@ -223,9 +256,13 @@
                             $timeout(function () {
                                 document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click();
                             }, 0);
-                        } else {//商城订单
+                        } else if (DATA.ID == "viewPendingList") {//商城订单
                             $timeout(function () {
                                 document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click();
+                            }, 0);
+                        } else {
+                            $timeout(function () {
+                                document.getElementById("WAITAPPROVALBus") && document.getElementById("WAITAPPROVALBus").click();
                             }, 0);
                         }
                         self.hideAlert(DATA);
@@ -246,7 +283,12 @@
                         "ContactorName": '',
                         "OrderNum": '',
                         "page": 1,
-                        "per_page": 1
+                        "per_page": 1,
+                        data: {
+                            page: 1,
+                            per_page: 1,
+                            Status: 'WAITAPPROVAL'
+                        }
                     });
                     $http({
                         method: 'POST',
@@ -257,7 +299,7 @@
                         var data = response.data;
                         // console && console.dir(data);
                         if (data.rescode == '200') {
-                            if (data.total == 0) {//如果没有待审核订单
+                            if (data.total === 0 || data.data.TotalCount === 0) {//如果没有待审核订单
                                 DATA.noData = true;
                                 DATA.newData = false;//没有新订单
                             } else {//否则，有待审核订单
@@ -280,7 +322,7 @@
                                     }else {
                                         DATA.newData = false;//没有新订单
                                     }
-                                } else {//商城订单
+                                } else if(DATA.ID == "ShopID"){//商城订单
                                     if (!util.getParams('newShopOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
                                         DATA.newData = true;//说明有新订单
                                         DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
@@ -298,9 +340,27 @@
                                     }else {
                                         DATA.newData = false;//没有新订单
                                     }
+                                } else { //班车订单
+                                    if (!util.getParams('newBusOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
+                                        DATA.newData = true;//说明有新订单
+                                        DATA.orderNum = data.data.data[0].OrderID;//暂存新订单订单号
+                                        DATA.createTime = data.data.data[0].CreateTime;//暂存新订单下单时间
+                                        document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
+                                    } else if (util.getParams('newBusOrder') != data.data.data[0].OrderID) {//如果新订单号改变
+                                        if (data.data.data[0].CreateTime > util.getParams('busCreateTime')) {//且该订单号下单时间不早于之前订单
+                                            DATA.newData = true;//说明有新订单
+                                            DATA.orderNum = data.data.data[0].OrderID;//暂存新订单订单号
+                                            DATA.createTime = data.data.data[0].CreateTime;//暂存新订单下单时间
+                                            document.getElementById('speaker') && document.getElementById('speaker').play();//播放提示音
+                                        } else {
+                                            DATA.newData = false;//没有新订单
+                                        }
+                                    }else {
+                                        DATA.newData = false;//没有新订单
+                                    }
                                 }
                             }
-                            DATA.total = data.total;//不管有没有待审核订单，都要更新待审核订单总数
+                            DATA.total = data.total ? data.total : data.data.TotalCount;//不管有没有待审核订单，都要更新待审核订单总数
                         } else if (data.rescode == '401') {
                             console && console.log('访问超时，请重新登录');
                             $state.go('login');
@@ -388,6 +448,11 @@
                         case 12:
                             if (!$state.includes('app.bus')) {
                                 $state.go('app.bus', {'appId': n});
+                            }
+                            break;
+                        case 13:
+                            if (!$state.includes('app.busOrderList')) {
+                                $state.go('app.busOrderList', {'appId': n});
                             }
                             break;
                         default:
@@ -864,6 +929,9 @@
                 self.init = function () {
                     self.ID = $scope.app.maskParams.LineID
                     self.Date = $scope.app.maskParams.Date
+                    self.RouteName = $scope.app.maskParams.RouteName
+                    self.BusTime = $scope.app.maskParams.BusTime
+                    self.Number = $scope.app.maskParams.Number
                     self.getInfo();
                 }
 
@@ -929,6 +997,9 @@
                 self.routeAdd = function () {
                     $scope.app.showHideMask(true, 'pages/routeAdd.html');
                 }
+                self.config = function () {
+                    $scope.app.showHideMask(true, 'pages/busConfig.html');
+                }
                 self.routeEdit = function () {
                     $scope.app.maskParams = {'routeinfo': self.routeList[self.routeIndex]};
                     $scope.app.showHideMask(true, 'pages/routeEdit.html');
@@ -938,8 +1009,20 @@
                     $scope.app.maskParams.listBustime = self.listBustime
                     $scope.app.showHideMask(true, 'pages/bustimeAdd.html');
                 }
-                self.orderDetail = function (ID) {
-                    $scope.app.maskParams = {'LineID': ID, 'Date': util.format_yyyyMMdd(new Date(self.searchDate))};
+                self.edit = function (bustime) {
+                    $scope.app.maskParams = {'routeid': self.routeList[self.routeIndex].ID};
+                    $scope.app.maskParams.listBustime = self.listBustime
+                    $scope.app.maskParams.bustime = bustime
+                    $scope.app.showHideMask(true, 'pages/bustimeEdit.html');
+                }
+                self.orderDetail = function (ID, time, number) {
+                    $scope.app.maskParams = {
+                        'LineID': ID, 
+                        'Date': util.format_yyyyMMdd(new Date(self.searchDate)),
+                        'RouteName': self.routeList[self.routeIndex].Name,
+                        'BusTime': time,
+                        'Number': number
+                    };
                     $scope.app.showHideMask(true, 'pages/busOrderDetail.html');
                 }
                 self.arrive = function (ID) {
@@ -1314,8 +1397,47 @@
                     self.saving = false;
                     self.loading = false;
                     self.ID = $scope.app.maskParams.routeinfo.ID
-                    self.Name = $scope.app.maskParams.routeinfo.Name
-                    self.Phone = $scope.app.maskParams.routeinfo.Phone
+                    self.loadInfo()
+                    // self.Name = $scope.app.maskParams.routeinfo.Name
+                    // self.Phone = $scope.app.maskParams.routeinfo.Phone
+                }
+
+                self.loadInfo = function () {
+                    self.loading = true;
+                    var data = {
+                        "action": "get",
+                        "token": util.getParams("token"),
+                        "data": {
+                          "ID": self.ID
+                        }
+                    };
+                    data = JSON.stringify(data);
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            var info = data.data.data
+                            self.Name = info.Name
+                            self.Phone = info.Phone
+                            self.StartTime = new Date('2000-01-01 ' + info.ReservationTime.StartTime.slice(0, 5))
+                            self.EndTime = new Date('2000-01-01 ' + info.ReservationTime.EndTime.slice(0, 5))
+                            self.StartDays = Number(info.MinAdvanceReservationDays)
+                            self.EndDays = Number(info.MaxAdvanceReservationDays)
+                            self.AdvanceReservationTimeInDay = info.AdvanceReservationTimeInDay
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('获取信息失败，' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('获取信息失败，' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
                 }
 
                 self.cancel = function () {
@@ -1359,6 +1481,8 @@
                 }
 
                 self.saveForm = function () {
+                    var dateStart = new Date(self.StartTime)
+                    var dateEnd = new Date(self.EndTime)
                     var data = {
                         "action": "edit",
                         "token": util.getParams("token"),
@@ -1366,7 +1490,14 @@
                         "data": {
                             "ID": self.ID,
                             "Name": self.Name,
-                            "Phone": self.Phone
+                            "Phone": self.Phone,
+                            "ReservationTime": {
+                                "StartTime": util.format_hhmm(dateStart) + ':00',
+                                "EndTime": util.format_hhmm(dateEnd) + ':59'
+                            },
+                            "MaxAdvanceReservationDays": self.EndDays,
+                            "MinAdvanceReservationDays": self.StartDays,
+                            "AdvanceReservationTimeInDay": self.AdvanceReservationTimeInDay + ''
                         }
                     };
                     data = JSON.stringify(data);
@@ -1445,6 +1576,95 @@
             }
         ])
 
+        .controller('busConfigController', ['$scope', '$state', '$http', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $translate, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.saving = false;
+                    self.loading = false;
+                    self.loadInfo();
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.loadInfo = function () {
+                    self.loading = true;
+                    var data = {
+                        "action": "getBusConfig",
+                        "token": util.getParams("token")
+                    };
+                    data = JSON.stringify(data);
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/config', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            var info = data.data.data
+                            self.StartTime = new Date('2000-01-01 ' + info.ReservationTime.StartTime.slice(0, 5))
+                            self.EndTime = new Date('2000-01-01 ' + info.ReservationTime.EndTime.slice(0, 5))
+                            self.StartDays = info.MinAdvanceReservationDays
+                            self.EndDays = info.MaxAdvanceReservationDays
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('获取信息失败，' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('获取信息失败，' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                self.saveForm = function () {
+                    var dateStart = new Date(self.StartTime)
+                    var dateEnd = new Date(self.EndTime)
+                    var data = {
+                        "action": "setBusConfig",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                          "ReservationTime": {
+                            "StartTime": util.format_hhmm(dateStart) + ':00',
+                            "EndTime": util.format_hhmm(dateEnd) + ':59'
+                          },
+                          "MaxAdvanceReservationDays": self.EndDays,
+                          "MinAdvanceReservationDays": self.StartDays
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/config', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('修改成功')
+                            $scope.app.showHideMask(false);
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('修改失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('修改失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+            }
+        ])
+
         .controller('bustimeAddController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
             function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
                 console.log('bustimeAddController');
@@ -1454,7 +1674,6 @@
                     self.multiLang = util.getParams('editLangs');
                     self.routeid = $scope.app.maskParams.routeid;
                     self.saving = false;
-                    self.loading = false;
                 }
 
                 self.cancel = function () {
@@ -1469,7 +1688,9 @@
                         "lang": self.langStyle,
                         "data": {
                           "RouteID": self.routeid,
-                          "Time": util.format_hhmm(date)
+                          "Time": util.format_hhmm(date),
+                          "MaxReservationNumber": self.MaxReservationNumber,
+                          "MaxReservationNumberPerOrder": self.MaxReservationNumberPerOrder
                         }
                     };
                     data = JSON.stringify(data);
@@ -1485,6 +1706,66 @@
                             $scope.app.maskParams.listBustime()
                             $scope.app.showHideMask(false);
                             // $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('添加失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+            }
+        ])
+
+        .controller('bustimeEditController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.routeid = $scope.app.maskParams.routeid;
+                    var bustime = $scope.app.maskParams.bustime
+                    self.ID = bustime.LineID
+                    self.time = new Date('2000-01-01 ' + bustime.Time)
+                    self.MaxReservationNumber = bustime.MaxReservationNumber
+                    self.MaxReservationNumberPerOrder = bustime.MaxReservationNumberPerOrder
+                    self.saving = false;
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.saveForm = function () {
+                    var date = new Date(self.time)
+                    var data = {
+                        "action": "edit",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                          "ID": self.ID,
+                          "RouteID": self.routeid,
+                          "Time": util.format_hhmm(date),
+                          "MaxReservationNumber": self.MaxReservationNumber,
+                          "MaxReservationNumberPerOrder": self.MaxReservationNumberPerOrder
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/line', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('编辑成功')
+                            $scope.app.maskParams.listBustime()
+                            $scope.app.showHideMask(false);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')

@@ -18,6 +18,11 @@
                     <i class="icon ion-android-add-circle"></i> 添加线路
                 </a>
             </li>
+            <li class="nav-header">
+                <a class="theme-color theme-hover" ng-click="bus.config()">
+                    <i class="icon ion-gear-b"></i> 配置
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -37,7 +42,7 @@
                     <div class="form-group">
                         <!--开始日期-->
                         <small>日期</small>
-                        <input readonly type="text" class="form-control" uib-datepicker-popup ng-model="bus.searchDate" is-open="bus.dateIsOpened" datepicker-options="dateOptions" close-text="Close" ng-click="bus.open($event)" />
+                        <input readonly type="text" class="form-control" uib-datepicker-popup ng-model="bus.searchDate" is-open="bus.dateIsOpened" datepicker-options="dateOptions" close-text="关闭" clear-text="清空" current-text="今天" ng-click="bus.open($event)" />
                     </div>
                     <a ng-click="bus.listBustime()" class="button button-light" style="top: 10px;">
                         <i class="icon ion-ios-search-strong"></i> 查询
@@ -58,9 +63,12 @@
                 <td data-title="'发车时间'">{{bustime.Time}}</td>
                 <td data-title="'登记人数'">{{bustime.Number}}</td>
                 <td data-title="'状态'">{{bustime.Status | busStatus}}</td>
+                <td data-title="'班次总计可预约人数'">{{bustime.MaxReservationNumber}}</td>
+                <td data-title="'每单最多可预约人数'">{{bustime.MaxReservationNumberPerOrder}}</td>
                 <td data-title="'操作'">
                     <a ng-click="bus.delete(bustime.LineID)">删除</a>
-                    <a ng-click="bus.orderDetail(bustime.LineID)">登记详情</a>
+                    <a ng-click="bus.edit(bustime)">编辑</a>
+                    <a ng-click="bus.orderDetail(bustime.LineID, bustime.Time, bustime.Number)">登记详情</a>
                     <a ng-click="bus.arrive(bustime.LineID)">更新到达信息</a>
                 </td>
             </tr>
