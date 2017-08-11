@@ -13,6 +13,7 @@
         'app.directives',
         'app.services',
         'app.qcode',
+        'app.report',
         'angular-md5',
         'ngCookies',
         'ngTable',
@@ -949,6 +950,11 @@
                 .state('app.memberCard.memberList', {
                     url: '/memberList',
                     templateUrl: 'pages/memberCard/memberList.html'
+                })
+
+                .state('app.reportForm', {
+                    url: '/reportForm',
+                    templateUrl: 'pages/reportForm.html'
                 })
         }])
 

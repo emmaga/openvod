@@ -19,7 +19,9 @@ module.exports = function(grunt) {
                             'src/modules/directives.js',
                             'src/modules/services.js',
                             'src/modules/filters.js',
-                            'src/modules/qcode-controller.js'
+                            'src/modules/qcode-controller.js',
+                            'src/modules/report-controller.js',
+                            'plugins/angular-locale_zh-cn.js'
                         ],
                         dest: "dist/js/app.min.js"
                     }

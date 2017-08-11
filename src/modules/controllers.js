@@ -32,7 +32,7 @@
                         method: 'POST',
                         url: util.getApiUrl('logon', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             util.setParams('userName', self.userName);
@@ -43,7 +43,7 @@
                         } else {
                             alert(msg.rescode + ' ' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -53,10 +53,10 @@
                     $http({
                         method: 'GET',
                         url: util.getApiUrl('', 'editLangs.json', 'local')
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         util.setParams('editLangs', response.data.editLangs);
                         $state.go('app');
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
 
                     });
                 }
@@ -64,8 +64,8 @@
             }
         ])
 
-        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util', '$rootScope', '$interval', '$timeout', '$location','$cookies',
-            function ($http, $scope, $state, $stateParams, util, $rootScope, $interval, $timeout, $location,$cookies) {
+        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util', '$rootScope', '$interval', '$timeout', '$location', '$cookies',
+            function ($http, $scope, $state, $stateParams, util, $rootScope, $interval, $timeout, $location, $cookies) {
                 var self = this;
 
                 self.init = function () {
@@ -94,13 +94,13 @@
                     $http({
                         method: 'GET',
                         url: util.getApiUrl('', 'apps.json', 'local')
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         $scope.appList = data.data.apps;
                         // 如果有指定appid focus
                         if ($stateParams.appId) {
                             self.setFocusApp($stateParams.appId);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
 
                     }).finally(function (value) {
                         self.loading = false;
@@ -166,7 +166,7 @@
                     DATA.newData = false;//更新新订单说明，隐藏弹框
                 }
                 //查看待审核列表
-                self.PendingList = function ($event,n) {
+                self.PendingList = function ($event, n) {
                     // console && console.log('PendingList');
                     var target = $event.target;
                     // console && console.log(target.tagName);
@@ -183,7 +183,7 @@
                                     document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click('WAITAPPROVAL');
                                 }, 0);
                                 break;
-                            }else{
+                            } else {
                                 $event.preventDefault();
                                 break;
                             }
@@ -199,7 +199,7 @@
                                     document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click('WAITAPPROVAL');
                                 }, 0);
                                 break;
-                            }else{
+                            } else {
                                 $event.preventDefault();
                                 break;
                             }
@@ -252,7 +252,7 @@
                         method: 'POST',
                         url: util.getApiUrl(DATA.url, '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         // console && console.dir(response);
                         var data = response.data;
                         // console && console.dir(data);
@@ -277,7 +277,7 @@
                                         } else {//否则，下单时间不是最新
                                             DATA.newData = false;//没有新订单
                                         }
-                                    }else {
+                                    } else {
                                         DATA.newData = false;//没有新订单
                                     }
                                 } else {//商城订单
@@ -295,7 +295,7 @@
                                         } else {
                                             DATA.newData = false;//没有新订单
                                         }
-                                    }else {
+                                    } else {
                                         DATA.newData = false;//没有新订单
                                     }
                                 }
@@ -307,7 +307,7 @@
                         } else {
                             console && ('获取订单列表失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         // alert('连接服务器出错');
                         console && console.log('轮循出错 500');
                     }).finally(function (value) {
@@ -385,6 +385,11 @@
                                 $state.go('app.memberCard.memberList', {'appId': n});
                             }
                             break;
+                        case 14:
+                            if (!$state.includes('app.reportForm')) {
+                                $state.go('app.reportForm', {'appId': n});
+                            }
+                            break;
                         default:
                             break;
 
@@ -460,7 +465,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('hotelroom', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
 
                             self.hotelList = data.data.data;
@@ -471,7 +476,7 @@
                             alert('列表获取失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('获取失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.loading = false;
@@ -506,7 +511,7 @@
                                 method: $filter('ajaxMethod')(),
                                 url: util.getApiUrl('devinfo', 'shopList', 'server'),
                                 data: data
-                            }).then(function successCallback(data, status, headers, config) {
+                            }).then(function successCallback (data, status, headers, config) {
                                 if (data.data.rescode == '200') {
                                     if (data.data.total == 0) {
                                         self.noData = true;
@@ -520,7 +525,7 @@
                                     alert(data.rescode + ' ' + data.errInfo);
                                 }
 
-                            }, function errorCallback(data, status, headers, config) {
+                            }, function errorCallback (data, status, headers, config) {
                                 alert(response.status + ' 服务器出错');
                             }).finally(function (value) {
                                 self.loading = false;
@@ -547,7 +552,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('devinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == '200') {
                             self.form.total = data.data.total;
                             self.form.online = data.data.online;
@@ -557,7 +562,7 @@
                         } else {
                             alert(data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -583,7 +588,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('devinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == '200') {
                             self.getDevList();
                             self.getDevNum(self.form.HotelID, self.hotelListIndex);
@@ -593,7 +598,7 @@
                         } else {
                             alert(data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     })
                 }
@@ -618,7 +623,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('devinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('操作成功');
                             $state.reload($state.current.name, $stateParams, true)
@@ -629,7 +634,7 @@
                             alert('操作失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('操作失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                     });
@@ -676,7 +681,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('devinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert("终端添加成功");
                             self.cancel();
@@ -688,7 +693,7 @@
                             alert('列表获取失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('获取失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -735,7 +740,7 @@
                                 method: $filter('ajaxMethod')(),
                                 url: util.getApiUrl('devinfo', 'shopList', 'server'),
                                 data: data
-                            }).then(function successCallback(data, status, headers, config) {
+                            }).then(function successCallback (data, status, headers, config) {
                                 if (data.data.rescode == '200') {
                                     if (data.data.total == 0) {
                                         self.noData = true;
@@ -749,7 +754,7 @@
                                     alert(data.rescode + ' ' + data.errInfo);
                                 }
 
-                            }, function errorCallback(data, status, headers, config) {
+                            }, function errorCallback (data, status, headers, config) {
                                 alert(response.status + ' 服务器出错');
                             }).finally(function (value) {
                                 self.loading = false;
@@ -820,7 +825,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('realtimecmd', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == '200') {
                             alert("编辑成功");
                             self.cancel();
@@ -831,7 +836,7 @@
                             alert(data.rescode + ' ' + data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -880,7 +885,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             if (data.data.data.shopList.length == 0) {
                                 self.noData = true;
@@ -904,7 +909,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -916,7 +921,7 @@
                     $scope.app.showHideMask(true, 'pages/shopAdd.html');
                 }
 
-                self.goTo = function(ShopID, HotelID, ShopName, HotelName, ShopType, ServiceTelephone, PayCash, PayOnline) {
+                self.goTo = function (ShopID, HotelID, ShopName, HotelName, ShopType, ServiceTelephone, PayCash, PayOnline) {
                     $scope.app.maskParams.ShopName = ShopName;
                     $scope.app.maskParams.HotelName = HotelName;
                     $scope.app.maskParams.ShopType = ShopType;
@@ -973,7 +978,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('hotelroom', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             if (data.data.data.length == 0) {
                                 self.noData = true;
@@ -987,7 +992,7 @@
                             alert('列表获取失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('获取失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.loading = false;
@@ -1021,7 +1026,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('添加成功')
                             $state.reload();
@@ -1031,7 +1036,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -1096,7 +1101,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             if (data.data.data.categoryList.length == 0) {
                                 self.noData = true;
@@ -1119,7 +1124,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.loading = false;
@@ -1244,14 +1249,14 @@
                         method: 'POST',
                         url: util.getApiUrl('shopinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('添加成功');
                             $state.reload();
                         } else {
                             alert('添加失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;
@@ -1264,7 +1269,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList) {
+                function Imgs (imgList) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -1397,7 +1402,7 @@
                         method: 'POST',
                         url: util.getApiUrl('shopinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             var data = data.data.data;
                             self.name = data.product.name;
@@ -1424,7 +1429,7 @@
                         } else {
                             alert('读取商品失败' + data.data.rescode + '，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -1455,7 +1460,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('删除成功')
                             $state.reload();
@@ -1466,7 +1471,7 @@
                             alert('删除失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         // self.saving = false;
@@ -1556,7 +1561,7 @@
                         method: 'POST',
                         url: util.getApiUrl('shopinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('修改成功');
                             $state.reload('app.shop.goods.goodsList');
@@ -1564,7 +1569,7 @@
                         } else {
                             alert('修改失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;
@@ -1577,7 +1582,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList) {
+                function Imgs (imgList) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -1766,7 +1771,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('保存成功');
                             $state.reload();
@@ -1776,7 +1781,7 @@
                         } else {
                             alert('保存失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.saving = false;
@@ -1807,7 +1812,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('删除成功')
                             $state.reload();
@@ -1818,7 +1823,7 @@
                             alert('删除失败，' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.saving = false;
@@ -1870,7 +1875,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('分类添加成功');
                             $state.reload();
@@ -1881,7 +1886,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.saving = false;
@@ -1934,10 +1939,10 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         alert('分类修改成功')
                         $state.reload();
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
 
                     }).finally(function (value) {
                         self.saving = false;
@@ -1984,7 +1989,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('分类删除成功')
                             $state.reload();
@@ -1995,7 +2000,7 @@
                             alert('删除失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
                     });
                 }
@@ -2026,9 +2031,9 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         self.categoryList = data.data.data.categoryList;
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
 
                     });
                 }
@@ -2056,12 +2061,12 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         // params.total(data.data.data.productTotal);
                         self.goodsList = data.data.data.productList;
                         // return data.data.data.productList;
                         console && console.dir(self.goodsList);
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
 
                     })
                 }
@@ -2113,10 +2118,10 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         console.log(data)
                         alert('修改分类成功');
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')
                     });
@@ -2153,9 +2158,9 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         alert('修改成功')
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')
                     });
@@ -2182,7 +2187,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.hotels = data.data;
@@ -2204,7 +2209,7 @@
                         } else {
                             alert(data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loadingHotelInfo = false;
@@ -2239,7 +2244,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.hotel = {};
@@ -2260,7 +2265,7 @@
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loadingHotelInfo = false;
@@ -2293,7 +2298,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             self.rooms = msg.roomsInfo;
@@ -2304,7 +2309,7 @@
                         } else {
                             alert('读取数据出错，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function () {
                         self.loading = false;
@@ -2335,7 +2340,7 @@
                             method: 'POST',
                             url: util.getApiUrl('room', '', 'server'),
                             data: data
-                        }).then(function successCallback(response) {
+                        }).then(function successCallback (response) {
                             var msg = response.data;
                             if (msg.rescode == '200') {
                             } else if (msg.rescode == '401') {
@@ -2344,7 +2349,7 @@
                             } else {
                                 alert('操作失败，' + msg.errInfo);
                             }
-                        }, function errorCallback(response) {
+                        }, function errorCallback (response) {
                             alert(response.status + ' 服务器出错');
                         }).finally(function () {
                             self.loading = false;
@@ -2418,7 +2423,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.hotel = {};
@@ -2442,7 +2447,7 @@
                             alert('读取信息失败，' + data.errInfo);
                             deferred.reject();
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                         deferred.reject();
                     }).finally(function (e) {
@@ -2519,7 +2524,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('修改成功');
@@ -2527,7 +2532,7 @@
                         } else {
                             alert('保存失败' + data.err);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -2545,7 +2550,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             console && console.log(data.data);
@@ -2554,7 +2559,7 @@
                         } else {
                             alert('读取酒店标签出错' + data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loading = false;
@@ -2581,7 +2586,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -2729,7 +2734,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.tags = data.tags;
@@ -2741,7 +2746,7 @@
                         } else {
                             alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loading = false;
@@ -2794,7 +2799,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('添加成功')
@@ -2803,7 +2808,7 @@
                         } else {
                             alert('添加失败' + data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -2816,7 +2821,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -2985,7 +2990,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.tags = data.tags;
@@ -3000,7 +3005,7 @@
                             // alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
                             self.addAlert('读取标签失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         // alert(response.status + ' 服务器出错');
                         self.addAlert(response.status + ' 服务器出错', false, 'warning');
                     }).finally(function (e) {
@@ -3023,7 +3028,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         // console.log(data);
                         if (data.rescode == '200') {
@@ -3045,7 +3050,7 @@
                             // alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
                             self.addAlert('读取客房信息失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loading = false;
@@ -3065,7 +3070,7 @@
                             method: 'POST',
                             url: util.getApiUrl('room', '', 'server'),
                             data: data
-                        }).then(function successCallback(response) {
+                        }).then(function successCallback (response) {
                             var data = response.data;
                             if (data.rescode == '200') {
                                 self.addAlert('删除成功', true, 'success');
@@ -3075,7 +3080,7 @@
                                 // alert('删除失败' + data.rescode + ' ' + data.errInfo);
                                 self.addAlert('删除失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                             }
-                        }, function errorCallback(response) {
+                        }, function errorCallback (response) {
                             // alert(response.status + ' 服务器出错');
                             self.addAlert(response.status + ' 服务器出错', false, 'warning');
                         }).finally(function (e) {
@@ -3130,7 +3135,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             // self.addAlert('保存成功', true, 'success');
@@ -3139,7 +3144,7 @@
                         } else {
                             alert('保存失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                         // self.addAlert(response.status + ' 服务器出错', false, 'danger');
                     }).finally(function (e) {
@@ -3153,7 +3158,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -3285,6 +3290,7 @@
                     self.addPrice = [];
                     self.load();
                     self.loadAddPrice();
+                    self.loadTicketPrice();
                     self.multiLang = util.getParams('editLangs');
                 }
 
@@ -3314,7 +3320,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             alert('保存成功');
@@ -3325,7 +3331,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.savingAddPrice = false;
@@ -3348,7 +3354,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.addPrice = data.data;
@@ -3361,7 +3367,7 @@
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                             self.loadingAddPrice = false;
@@ -3369,6 +3375,69 @@
                     );
                 }
 
+                // 加载票价
+                self.loadTicketPrice = function () {
+                    var data = JSON.stringify({
+                        action: "getTicketPriceInfo",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId
+                    })
+                    self.loadingTicketPrice = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback (response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            console.log(data)
+                            self.ticketPrice = data.TicketPriceInfo;
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('读取信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback (response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                            self.loadingAddPrice = false;
+                        }
+                    );
+                }
+
+                // 保存票价
+                self.saveTicketPrice = function () {
+                    var data = JSON.stringify({
+                        action: "setTicketPriceInfo",
+                        lang: lang,
+                        token: token,
+                        roomID: self.roomId,
+                        TicketPriceInfo: self.ticketPrice
+                    })
+                    self.loadingTicketPrice = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('room', '', 'server'),
+                        data: data
+                    }).then(function successCallback (response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('保存成功');
+                            $state.reload();
+                        } else if (msg.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('保存失败，' + msg.errInfo);
+                        }
+                    }, function errorCallback (response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        }
+                    );
+                }
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
                 }
@@ -3420,7 +3489,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         console.dir(msg);
                         if (msg.rescode == '200') {
@@ -3442,7 +3511,7 @@
                         } else {
                             alert('读取价格信息失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                             self.loading = false;
@@ -3489,7 +3558,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             alert('保存成功');
@@ -3500,7 +3569,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -3513,7 +3582,7 @@
                  * @param key
                  * @returns {boolean}
                  */
-                function countJson(json, key) {
+                function countJson (json, key) {
                     if (json.length == 0) {
                         return true;
                     }
@@ -3602,7 +3671,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             self.roomDetail.AvailableNum = msg.AvailableNum;
@@ -3617,7 +3686,7 @@
                         } else {
                             alert('读取数量信息失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                             self.loading = false;
@@ -3658,7 +3727,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             alert('保存成功');
@@ -3669,7 +3738,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -3705,7 +3774,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             self.save();
@@ -3715,7 +3784,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -3729,7 +3798,7 @@
                  * @param key
                  * @returns {boolean}
                  */
-                function countJson(json, key) {
+                function countJson (json, key) {
                     if (json.length == 0) {
                         return true;
                     }

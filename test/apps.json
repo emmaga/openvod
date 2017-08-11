@@ -76,6 +76,13 @@
       "icon": "dist/imgs/app-icon-12.png",
       "bgColor": "#4b3d3c",
       "themeColor":"#c18458"
+    },
+    {
+      "id": 14,
+      "name": "报表统计",
+      "icon": "dist/imgs/app-icon-14.png",
+      "bgColor": "#4b3d3c",
+      "themeColor":"#c18458"
     }
   ]
 }
