@@ -937,6 +937,8 @@
                 }).finally(function (value) {
 
                 });
+
+                alert('命令已发送，请稍后');
             }
 
             self.searchByStatus = function (statusCode) {
