@@ -63,8 +63,11 @@
                 <td data-title="'发车时间'">{{bustime.Time}}</td>
                 <td data-title="'登记人数'">{{bustime.Number}}</td>
                 <td data-title="'状态'">{{bustime.Status | busStatus}}</td>
+                <td data-title="'班次总计可预约人数'">{{bustime.MaxReservationNumber}}</td>
+                <td data-title="'每单最多可预约人数'">{{bustime.MaxReservationNumberPerOrder}}</td>
                 <td data-title="'操作'">
                     <a ng-click="bus.delete(bustime.LineID)">删除</a>
+                    <a ng-click="bus.edit(bustime)">编辑</a>
                     <a ng-click="bus.orderDetail(bustime.LineID, bustime.Time, bustime.Number)">登记详情</a>
                     <a ng-click="bus.arrive(bustime.LineID)">更新到达信息</a>
                 </td>

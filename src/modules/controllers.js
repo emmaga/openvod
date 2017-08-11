@@ -256,9 +256,13 @@
                             $timeout(function () {
                                 document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click();
                             }, 0);
-                        } else {//商城订单
+                        } else if (DATA.ID == "viewPendingList") {//商城订单
                             $timeout(function () {
                                 document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click();
+                            }, 0);
+                        } else {
+                            $timeout(function () {
+                                document.getElementById("WAITAPPROVALBus") && document.getElementById("WAITAPPROVALBus").click();
                             }, 0);
                         }
                         self.hideAlert(DATA);
@@ -1005,6 +1009,12 @@
                     $scope.app.maskParams.listBustime = self.listBustime
                     $scope.app.showHideMask(true, 'pages/bustimeAdd.html');
                 }
+                self.edit = function (bustime) {
+                    $scope.app.maskParams = {'routeid': self.routeList[self.routeIndex].ID};
+                    $scope.app.maskParams.listBustime = self.listBustime
+                    $scope.app.maskParams.bustime = bustime
+                    $scope.app.showHideMask(true, 'pages/bustimeEdit.html');
+                }
                 self.orderDetail = function (ID, time, number) {
                     $scope.app.maskParams = {
                         'LineID': ID, 
@@ -1412,10 +1422,10 @@
                             var info = data.data.data
                             self.Name = info.Name
                             self.Phone = info.Phone
-                            self.StartTime = info.ReservationTime.StartTime
-                            self.EndTime = info.ReservationTime.EndTime
-                            self.StartDays = info.MinAdvanceReservationDays
-                            self.EndDays = info.MaxAdvanceReservationDays
+                            self.StartTime = new Date('2000-01-01 ' + info.ReservationTime.StartTime.slice(0, 5))
+                            self.EndTime = new Date('2000-01-01 ' + info.ReservationTime.EndTime.slice(0, 5))
+                            self.StartDays = Number(info.MinAdvanceReservationDays)
+                            self.EndDays = Number(info.MaxAdvanceReservationDays)
                             self.AdvanceReservationTimeInDay = info.AdvanceReservationTimeInDay
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
@@ -1487,7 +1497,7 @@
                             },
                             "MaxAdvanceReservationDays": self.EndDays,
                             "MinAdvanceReservationDays": self.StartDays,
-                            "AdvanceReservationTimeInDay": self.AdvanceReservationTimeInDay
+                            "AdvanceReservationTimeInDay": self.AdvanceReservationTimeInDay + ''
                         }
                     };
                     data = JSON.stringify(data);
@@ -1596,8 +1606,8 @@
                     }).then(function successCallback(data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             var info = data.data.data
-                            self.StartTime = info.ReservationTime.StartTime
-                            self.EndTime = info.ReservationTime.EndTime
+                            self.StartTime = new Date('2000-01-01 ' + info.ReservationTime.StartTime.slice(0, 5))
+                            self.EndTime = new Date('2000-01-01 ' + info.ReservationTime.EndTime.slice(0, 5))
                             self.StartDays = info.MinAdvanceReservationDays
                             self.EndDays = info.MaxAdvanceReservationDays
                         } else if (data.data.rescode == "401") {
@@ -1678,7 +1688,9 @@
                         "lang": self.langStyle,
                         "data": {
                           "RouteID": self.routeid,
-                          "Time": util.format_hhmm(date)
+                          "Time": util.format_hhmm(date),
+                          "MaxReservationNumber": self.MaxReservationNumber,
+                          "MaxReservationNumberPerOrder": self.MaxReservationNumberPerOrder
                         }
                     };
                     data = JSON.stringify(data);
@@ -1694,6 +1706,66 @@
                             $scope.app.maskParams.listBustime()
                             $scope.app.showHideMask(false);
                             // $state.reload();
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('添加失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+            }
+        ])
+
+        .controller('bustimeEditController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.routeid = $scope.app.maskParams.routeid;
+                    var bustime = $scope.app.maskParams.bustime
+                    self.ID = bustime.LineID
+                    self.time = new Date('2000-01-01 ' + bustime.Time)
+                    self.MaxReservationNumber = bustime.MaxReservationNumber
+                    self.MaxReservationNumberPerOrder = bustime.MaxReservationNumberPerOrder
+                    self.saving = false;
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.saveForm = function () {
+                    var date = new Date(self.time)
+                    var data = {
+                        "action": "edit",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "data": {
+                          "ID": self.ID,
+                          "RouteID": self.routeid,
+                          "Time": util.format_hhmm(date),
+                          "MaxReservationNumber": self.MaxReservationNumber,
+                          "MaxReservationNumberPerOrder": self.MaxReservationNumberPerOrder
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/line', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('编辑成功')
+                            $scope.app.maskParams.listBustime()
+                            $scope.app.showHideMask(false);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')

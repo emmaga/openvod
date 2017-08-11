@@ -824,45 +824,33 @@
                 // 初始化订单状态
                 $scope.status = [
                     {'code': '', active: true, 'name': {'zh-CN': '全部'}},
-                    {'code': 'WAITPAY', active: false, 'name': {'zh-CN': '待付款'}},
                     {'code': 'WAITAPPROVAL', active: false, 'name': {'zh-CN': '待审核'}},
-                    {'code': 'ACCEPT', active: false, 'name': {'zh-CN': '待入住'}},
-                    {'code': 'COMPLETED', active: false, 'name': {'zh-CN': '订单完成'}},
-                    {'code': 'REFUNDING', active: false, 'name': {'zh-CN': '退款中'}},
-                    {'code': 'CANCELED', active: false, 'name': {'zh-CN': '已取消'}}
+                    {'code': 'ACCEPT', active: false, 'name': {'zh-CN': '审核通过'}},
+                    {'code': 'DECLINE', active: false, 'name': {'zh-CN': '审核不通过'}},
+                    {'code': 'CANCELED', active: false, 'name': {'zh-CN': '已取消'}},
+                    {'code': 'COMPLETED', active: false, 'name': {'zh-CN': '已完成'}}
                 ];
-                self.searchStr.status = '';
+                self.statusCode = '';
 
-                self.loadShopList().then(function () {
+                self.loadRouteList().then(function () {
                     self.search();
                 });
             }
 
-            self.getSelectedHotel = function () {
-                var ret = {};
-                if ($scope.shopList) {
-                    for (var i = 0; i < $scope.shopList.length; i++) {
-                        if ($scope.shopList[i].active) {
-                            ret = $scope.shopList[i];
-                            break;
-                        }
-                    }
-                }
-                return ret;
-            };
-
             self.accept = function (id) {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
-                    "action": "OrderApproval",
+                    "action": "approval",
                     "lang": util.langStyle(),
-                    "OrderID": id,
-                    "status": "ACCEPT"
+                    data: {
+                        "ID": id,
+                        "Status": "ACCEPT" 
+                    }
                 })
 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('businfo/order', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -887,15 +875,17 @@
             self.reject = function (id) {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
-                    "action": "OrderApproval",
+                    "action": "approval",
                     "lang": util.langStyle(),
-                    "OrderID": id,
-                    "status": "DECLINE"
+                    "data": {
+                        "ID": id,
+                        "Status": "DECLINE"
+                    }
                 })
 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('businfo/order', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -917,47 +907,19 @@
                 alert('命令已发送，请稍后');
             }
 
-            self.finish = function (id) {
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "orderCompleted",
-                    "lang": util.langStyle(),
-                    "OrderID": id
-                })
-
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('操作已成功');
-                        self.search();
-                    } else if (data.rescode == '401') {
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else {
-                        alert('操作失败' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function (value) {
-
-                });
-            }
-
             self.cancel = function (id) {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
-                    "action": "adminCancelOrder",
+                    "action": "cancel",
                     "lang": util.langStyle(),
-                    "OrderID": id
+                    data: {
+                        "ID": id
+                    }   
                 })
 
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('order', '', 'server'),
+                    url: util.getApiUrl('businfo/order', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
@@ -981,7 +943,7 @@
                 for (var i = 0; i < $scope.status.length; i++) {
                     if ($scope.status[i].code == statusCode) {
                         $scope.status[i].active = true;
-                        self.searchStr.status = statusCode;
+                        self.statusCode = statusCode;
                     }
                     else {
                         $scope.status[i].active = false;
@@ -990,58 +952,40 @@
                 self.search();
             }
 
-            self.searchByShop = function (shopId) {
-                for (var i = 0; i < $scope.shopList.length; i++) {
-                    if ($scope.shopList[i].ID == shopId) {
-                        $scope.shopList[i].active = true;
-                        self.searchStr.shopId = shopId;
-                    }
-                    else {
-                        $scope.shopList[i].active = false;
-                    }
-                }
-                self.search();
-            }
-
-            self.loadShopList = function () {
+            self.loadRouteList = function () {
                 var deferred = $q.defer();
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
-                    "action": "getHotelList",
+                    "action": "getList",
                     "lang": util.langStyle()
                 })
-                self.loadingShopList = true;
+                self.loadingBusList = true;
                 $http({
                     method: 'POST',
-                    url: util.getApiUrl('hotelroom', '', 'server'),
+                    url: util.getApiUrl('businfo/route', '', 'server'),
                     data: data
                 }).then(function successCallback(response) {
                     var data = response.data;
                     if (data.rescode == '200') {
-                        $scope.shopList = data.data;
-                        var shopListNameAll = {'zh-CN': '全部', 'en-US': 'All'};
-                        for (var i = 0; i < $scope.shopList.length; i++) {
-                            $scope.shopList[i].active = false;
-                        }
-                        $scope.shopList.unshift({
-                            "ID": 0,
-                            "Name": shopListNameAll,
-                            "active": true
+                        $scope.busList = data.data;
+                        $scope.busList.unshift({
+                            ID: '',
+                            Name: '全部路线'
                         });
-                        self.searchStr.shopId = 0;
+                        self.routeId = '';
                         deferred.resolve();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
                         $state.go('login');
                     } else {
-                        alert('获取门店列表信息失败，' + data.errInfo);
+                        alert('获取路线列表信息失败，' + data.errInfo);
                         deferred.reject();
                     }
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
                     deferred.reject();
                 }).finally(function (value) {
-                    self.loadingShopList = false;
+                    self.loadingBusList = false;
                 });
                 return deferred.promise;
             }
@@ -1060,36 +1004,36 @@
 
                             var data = JSON.stringify({
                                 "token": util.getParams('token'),
-                                "action": "getRoomOrderByStatus",
+                                "action": "getList",
                                 "lang": util.langStyle(),
-                                "HotelID": self.searchStr.shopId,
-                                "ContactorPhone": self.searchStr.userPhone,
-                                "Status": self.searchStr.status,
-                                "ContactorName": self.searchStr.userName,
-                                "OrderNum": self.searchStr.orderNumber,
-                                "page": paramsUrl.page - 0,
-                                "per_page": paramsUrl.count - 0
+                                "data": {
+                                    "page": paramsUrl.page - 0,
+                                    "per_page": paramsUrl.count - 0,
+                                    "RouteID": self.routeId,
+                                    "Status": self.statusCode,
+                                    "Phone": self.phone
+                                }  
                             });
                             self.loading = true;
                             self.noData = false;
 
                             return $http({
                                 method: 'POST',
-                                url: util.getApiUrl('order', '', 'server'),
+                                url: util.getApiUrl('businfo/order', '', 'server'),
                                 data: data
                             }).then(function successCallback(response) {
                                 var data = response.data;
                                 if (data.rescode == '200') {
-                                    if (data.total == 0) {
+                                    if (data.data.TotalCount == 0) {
                                         self.noData = true;
                                     }
-                                    params.total(data.total);
-                                    return data.resault;
+                                    params.total(data.data.TotalCount);
+                                    return data.data.data;
                                 } else if (data.rescode == '401') {
                                     alert('访问超时，请重新登录');
                                     $state.go('login');
                                 } else {
-                                    alert('获取客房预订订单列表失败，' + data.errInfo);
+                                    alert('获取班车预订订单列表失败，' + data.errInfo);
                                 }
                             }, function errorCallback(response) {
                                 alert('连接服务器出错');
@@ -1102,9 +1046,57 @@
             }
 
             self.gotoDetail = function (orderInfo) {
-                console.dir(orderInfo);
                 $scope.app.maskParams = {'orderInfo': orderInfo};
-                $scope.app.showHideMask(true, 'pages/orders/hotelOrderDetail.html');
+                $scope.app.showHideMask(true, 'pages/orders/busOrderDetail.html');
+            }
+        }
+    ])
+    .controller('busOrderDetailController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+
+            self.init = function () {
+                self.orderInfo = $scope.app.maskParams.orderInfo;
+                self.defaultLangCode = util.getDefaultLangCode();
+                self.id = self.orderInfo.OrderID;
+                self.getInfo();
+            }
+
+            self.close = function () {
+                $scope.app.showHideMask(false);
+            }
+
+            self.getInfo = function () {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getOperateLog",
+                    "lang": util.langStyle(),
+                    "data": {
+                        "ID": self.id
+                    }     
+                })
+
+                self.loading = true;
+
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('businfo/order', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.list = data.data;
+                    } else if (data.rescode == '401') {
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else {
+                        alert('获取信息失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
             }
         }
     ])
