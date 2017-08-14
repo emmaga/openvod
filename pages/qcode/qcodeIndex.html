@@ -12,12 +12,12 @@
                     <div class="form-group">
                         <!--开始日期-->
                         <small>开始日期</small>
-                        <input type="text" class="form-control start" uib-datepicker-popup ng-model="qcode.searchDate" is-open="qcode.startOpened" datepicker-options="dateOptions" close-text="Close" ng-click="qcode.open($event)" />
+                        <input type="text" class="form-control start" uib-datepicker-popup ng-model="qcode.searchDate" is-open="qcode.startOpened" datepicker-options="dateOptions" close-text="关闭" clear-text="清空" current-text="今天" ng-click="qcode.open($event)" />
                     </div>
                     <div class="form-group">
                         <!--结束日期-->
                         <small>结束日期</small>
-                        <input type="text" class="form-control end" uib-datepicker-popup ng-model="qcode.endDate" is-open="qcode.endOpened" datepicker-options="dateOptions" close-text="Close" ng-click="qcode.open($event)" />
+                        <input type="text" class="form-control end" uib-datepicker-popup ng-model="qcode.endDate" is-open="qcode.endOpened" datepicker-options="dateOptions" close-text="关闭" clear-text="清空" current-text="今天" ng-click="qcode.open($event)" />
                     </div>
                     <a ng-click="qcode.getInfo()" class="button button-light" style="top: 10px;">
                         <i class="icon ion-ios-search-strong"></i> 查询

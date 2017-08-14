@@ -196,6 +196,23 @@
                     }
                     var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
                     return currentdate;
+                },
+                /**
+                 * 转换格式为‘01:01’
+                 * @param date
+                 * @returns {string}
+                 */
+                'format_hhmm': function (date) {
+                    var hour = date.getHours();
+                    if (hour >= 0 && hour <= 9) {
+                        hour = "0" + hour;
+                    }
+                    var mins = date.getMinutes();
+                    if (mins >= 0 && mins <= 9) {
+                        mins = "0" + mins;
+                    }
+                    var time = hour + ':' + mins;
+                    return time;
                 }
             }
         }])

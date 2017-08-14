@@ -1,0 +1,50 @@
+<div ng-controller="tvMenuAdvAddController as tvMenuAdvAdd" ng-init="tvMenuAdvAdd.init()" class="modal-dialog">
+    <div class="modal-content">
+        <form name="tvAdvAddForm" ng-submit="tvMenuAdvAdd.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="tvMenuAdvAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加菜单</h5>
+            </div>
+            <!--/header-->
+            <!--body-->
+            <div class="modal-body">
+                <!--loading-->
+                <div ng-show=tvMenuAdvAdd.loading>loading...</div>
+                <!--loading-->
+                <!--广告列表-->
+                <ul class="list-group list-group-modal">
+                    <li ng-repeat="ad in tvMenuAdvAdd.adList" class="list-group-item">
+                        <!--广告位标识-->
+                        {{ad.PositionStrID}}
+
+                        <h5>
+                            <!--选中框-->
+                            <input type="checkbox" ng-model="ad.checked" ng-disabled="ad.disabled">
+                            <!--广告位名称-->
+                            {{ad.Name}}
+                        </h5>
+
+                        <!--广告位描述-->
+                        <p class="input-indent">{{ad.Description}}</p>
+
+                    </li>
+                </ul>
+                <!--广告列表-->
+            </div>
+            <!--/body-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!--取消按钮-->
+                <div ng-click="tvMenuAdvAdd.cancel()" class="btn btn-default btn-sm">取消</div>
+                <!--取消按钮-->
+                <!--保存按钮-->
+                <button type="submit" ng-disabled="tvMenuAdvAdd.saving" class="btn btn-primary btn-sm">添加</button>
+                <!--保存按钮-->
+            </div>
+        </form>
+    </div>
+</div>

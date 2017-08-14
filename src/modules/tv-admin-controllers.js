@@ -20301,7 +20301,7 @@ console.log("Samsung_Lunch_PicText_Classification")
         }
 
         self.save = function(id) {
-            
+
             var selAdList = [];
             for(var i=0; i<self.adList.length;i++) {
                 if(!self.adList[i].disabled && self.adList[i].checked) {
@@ -20352,6 +20352,167 @@ console.log("Samsung_Lunch_PicText_Classification")
         }
 
     }])
+
+    .controller('changeMenuAdvSeqController', ['$scope', '$http', 'util',
+            function ($scope, $http, util) {
+                var self = this;
+
+                self.init = function() {
+                    self.data = $scope.app.maskParams.data;
+                    self.newSeq = null;
+                    self.callback = $scope.app.maskParams.callback;
+                }
+
+
+                self.save = function() {
+                    if(!self.newSeq) {
+                        alert('请输入新序号');
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "changeSeq",
+                        "lang": util.langStyle(),
+                        "data": {
+                            PositionID: self.data.PositionID,
+                            Seq: self.newSeq
+                        }
+                    })
+                    self.saving = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('menuadvpos', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            self.cancel();
+                            self.callback();
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('添加失败' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+
+                self.cancel = function() {
+                    $scope.app.showHideMask(false);
+                }
+
+            }])
+
+    .controller('tvMenuAdvAddController', ['$scope', '$http', 'util',
+            function ($scope, $http, util) {
+                var self = this;
+
+                self.init = function() {
+                    self.disabledList = $scope.app.maskParams.list;
+                    self.callback = $scope.app.maskParams.callback;
+                    self.loadList();
+                }
+
+                self.loadList = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "getPosList",
+                        "lang": util.langStyle()
+                    });
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('menuadvpos', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            var list = data.data;
+                            // 将已添加的广告禁用,设为已选；其他默认都设置为未选
+                            for(var i = 0; i < list.length; i++) {
+                                list[i].disabled = false;
+                                list[i].checked = false;
+                                // 判断是否已选
+                                for(var j=0; j< self.disabledList.length; j++) {
+                                    if(list[i].ID == self.disabledList[j].PositionID) {
+                                        list[i].disabled = true;
+                                        list[i].checked = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            self.adList = list;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载广告位信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                self.save = function(id) {
+
+                    var selAdList = [];
+                    for(var i=0; i<self.adList.length;i++) {
+                        if(!self.adList[i].disabled && self.adList[i].checked) {
+                            selAdList.push({
+                                "Seq": 1,
+                                "ID": self.adList[i].ID,
+                                "Name": self.adList[i].Name
+                            })
+                        }
+                    }
+                    if(selAdList.length == 0) {
+                        alert('请选择要添加的菜单广告');
+                        return;
+                    }
+
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "addPos",
+                        "lang": util.langStyle(),
+                        "data": selAdList
+                    })
+                    self.saving = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('menuadvpos', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('添加成功');
+                            self.cancel();
+                            self.callback();
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('添加失败' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+
+                self.cancel = function() {
+                    $scope.app.showHideMask(false);
+                }
+
+            }])
 
     .controller('tvVersionController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
         function ($scope, $state, $http, $stateParams, $location, util) {
@@ -20454,88 +20615,166 @@ console.log("Samsung_Lunch_PicText_Classification")
             }
 
         }
-    ]) 
-
-    .controller('tvGuangGaoWeiController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
-        function ($scope, $state, $http, $stateParams, $location, util) {
-            var self = this;
-
-            self.init = function() {
-                self.loadList();
-            }
-
-            self.loadList = function() {
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "getPosOpenList",
-                    "lang": util.langStyle()
-                });
-                self.loading = true;
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('advpos', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        self.adList = data.data;
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('加载广告位信息失败，' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function (value) {
-                    self.loading = false;
-                });
-            }
-
-            self.close = function(id) {
-                if(!confirm('确认删除？')) {
-                    return;
-                }
-                var data = JSON.stringify({
-                    "token": util.getParams('token'),
-                    "action": "delPos",
-                    "lang": util.langStyle(),
-                    "data": [
-                      {
-                        "PositionID": id
-                      }
-                    ]
-                })
-                
-                $http({
-                    method: 'POST',
-                    url: util.getApiUrl('advpos', '', 'server'),
-                    data: data
-                }).then(function successCallback(response) {
-                    var data = response.data;
-                    if (data.rescode == '200') {
-                        alert('删除成功');
-                        self.loadList();
-                    } else if(data.rescode == '401'){
-                        alert('访问超时，请重新登录');
-                        $state.go('login');
-                    } else{
-                        alert('删除失败' + data.errInfo);
-                    }
-                }, function errorCallback(response) {
-                    alert('连接服务器出错');
-                }).finally(function (value) {
-                    
-                });
-            }
-
-            self.add = function() {
-                $scope.app.maskParams = {'list': self.adList};
-                $scope.app.maskParams.callback = self.loadList;
-                $scope.app.showHideMask(true,'pages/tv/advAdd.html');
-            }
-        }
     ])
+
+        .controller('tvGuangGaoWeiController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;
+
+                self.init = function() {
+                    self.loadList();
+                    self.loadMenuAdvList();
+                }
+
+                self.loadList = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "getPosOpenList",
+                        "lang": util.langStyle()
+                    });
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('advpos', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.adList = data.data;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载广告位信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                self.loadMenuAdvList = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "getPosOpenList",
+                        "lang": util.langStyle()
+                    });
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('menuadvpos', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.menuAdList = data.data;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载广告位信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                self.close = function(id) {
+                    if(!confirm('确认删除？')) {
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "delPos",
+                        "lang": util.langStyle(),
+                        "data": [
+                            {
+                                "PositionID": id
+                            }
+                        ]
+                    })
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('advpos', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('删除成功');
+                            self.loadList();
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('删除失败' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+
+                    });
+                }
+
+                self.menuAdvDel = function(id) {
+                    if(!confirm('确认删除？')) {
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "delPos",
+                        "lang": util.langStyle(),
+                        "data": [
+                            {
+                                "PositionID": id
+                            }
+                        ]
+                    })
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('menuadvpos', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('删除成功');
+                            self.init();
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('删除失败' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+
+                    });
+                }
+
+                self.add = function() {
+                    $scope.app.maskParams = {'list': self.adList};
+                    $scope.app.maskParams.callback = self.loadList;
+                    $scope.app.showHideMask(true,'pages/tv/advAdd.html');
+                }
+
+                self.menuAdd = function() {
+                    $scope.app.maskParams = {'list': self.menuAdList};
+                    $scope.app.maskParams.callback = self.init;
+                    $scope.app.showHideMask(true,'pages/tv/menuAdvAdd.html');
+                }
+
+                self.changeMenuAdvSeq = function(data) {
+                    $scope.app.maskParams = {'data': data};
+                    $scope.app.maskParams.callback = self.init;
+                    $scope.app.showHideMask(true,'pages/tv/changeMenuAdvSeq.html');
+                }
+            }
+        ])
 
     .controller('tvprojectConfigController', ['$scope', '$filter', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
         function ($scope, $filter, $state, $http, $stateParams, $location, util, CONFIG) {

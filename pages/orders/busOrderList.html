@@ -1,0 +1,130 @@
+<div ng-controller="busOrderListController as bol" ng-init="bol.init()" class="container-fluid has-nav-left">
+
+    <!--加载门店列表loading-->
+    <div ng-show="bol.loadingBusList">loading...</div>
+
+    <!-- 左侧菜单 -->
+
+    <!-- 右侧部分 -->
+    <div class="content-right">
+
+        <!-- 标题 -->
+        <!-- <h4></h4>
+        <hr> -->
+        
+        <!--关键字搜索-->
+        <div class="search-bar">
+            <!--线路筛选-->
+            <div class="form-group">
+                <select ng-change="bol.search()" name="routeSelect" ng-model="bol.routeId">
+                  <option ng-repeat="item in busList" ng-value="item.ID">{{item.Name}}</option>
+                </select>
+            </div>
+            <!--线路筛选-->
+            <div class="form-group">
+                <!-- <label class="h5">手机号</label> -->
+                <input ng-model="bol.phone" type="text" class="form-control" placeholder="手机号">
+            </div>
+            <a ng-click="bol.search()" class="button button-light">
+                <i class="icon ion-ios-search-strong"></i>
+                搜索
+            </a>
+        </div>
+
+        
+        <!--tab 筛选条件－订单状态-->
+        <ul class="nav nav-tabs">
+            <li  ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
+                <a ng-click="bol.searchByStatus(s.code)" id="{{s.code}}Bus">{{s.name[bol.defaultLangCode]}}</a>
+            </li>
+        </ul>
+
+        <!--订单列表-->
+        <table ng-table="bol.tableParams" class="table table-hover table-condensed">
+            <tr ng-repeat="row in $data">
+                <!--订单号-->
+                <td title="'订单号'">
+                    {{row.OrderID}}
+                </td>
+                <!--订单号-->
+
+                <!--下单时间-->
+                <td title="'下单时间'">
+                    {{row.CreateTime}}
+                </td>
+                <!--下单时间-->
+
+                <!--订单状态-->
+                <td title="'订单状态'">
+                    {{row.Status | busOrderStatus}}
+                </td>
+                <!--订单状态-->
+
+                <!--姓名-->
+                <td title="'姓名'">
+                    {{row.Name}}
+                </td>
+                <!--姓名-->
+
+                <!--手机号-->
+                <td title="'手机号'">
+                    {{row.Phone}}
+                </td>
+                <!--手机号-->
+
+                <!--人数-->
+                <td title="'人数'">
+                    {{row.Number}}
+                </td>
+                <!--人数-->
+
+                <!--发车日期-->
+                <td title="'发车日期'">
+                    {{row.Date}}
+                </td>
+                <!--发车日期-->
+
+                <!--线路名称-->
+                <td title="'线路名称'">
+                    {{row.RouteName}}
+                </td>
+                <!--线路名称-->
+
+                <!--班次-->
+                <td title="'班次'">
+                    {{row.Time}}
+                </td>
+                <!--班次-->
+                
+                <!--操作-->
+                <td title="'操作'">
+                    <!--详情-->
+                    <a ng-click="bol.gotoDetail(row)">操作日志</a>
+                    <!--详情-->
+
+                    <!--接受-->
+                    <a ng-click="bol.accept(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
+                    <!--接受-->
+
+                    <!--拒绝-->
+                    <a ng-click="bol.reject(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
+                    <!--拒绝-->
+
+                    <!--取消订单-->
+                    <a ng-click="bol.cancel(row.OrderID)" ng-show="row.Status=='WAITAPPROVAL' || row.Status=='ACCEPT'">取消订单</a>
+                    <!--取消订单-->
+                </td>
+                <!--操作-->
+
+            </tr>
+        </table>
+        <!-- 列表loading -->
+        <div ng-show="bol.loading">loading...</div>
+        <!-- 列表无数据 -->
+        <div ng-show="bol.noData">无数据</div>
+        <!--订单列表 end-->
+
+    </div>
+    <!-- 右侧部分 end-->
+
+</div>

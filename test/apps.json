@@ -78,9 +78,23 @@
       "themeColor":"#c18458"
     },
     {
+      "id": 12,
+      "name": "班车预约",
+      "icon": "dist/imgs/app-icon-13.png",
+      "bgColor": "rgb(55,155,255)",
+      "themeColor":"rgb(55,155,255)"
+    },
+    {
+      "id": 13,
+      "name": "班车订单",
+      "icon": "dist/imgs/app-icon-14.png",
+      "bgColor": "rgb(55,155,255)",
+      "themeColor":"rgb(55,155,255)"
+    },
+    {
       "id": 14,
       "name": "报表统计",
-      "icon": "dist/imgs/app-icon-14.png",
+      "icon": "dist/imgs/app-icon-15.png",
       "bgColor": "#4b3d3c",
       "themeColor":"#c18458"
     }
