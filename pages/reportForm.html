@@ -70,7 +70,7 @@
             <tr>
                 <td ng-repeat="item in reportForm.roomTable">
                     <span ng-repeat="(key,val) in item">
-                        {{key=='代收门票（元）（以现票价统计）'||key=='订单总收入（元）'? val/100 : val}}
+                        {{key=='代收门票（元）（以现票价统计）'||key=='订单总收入（元）'? (val | number:2) : val}}
                     </span>
                 </td>
             </tr>
