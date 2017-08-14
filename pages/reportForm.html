@@ -33,7 +33,8 @@
                     </a>
 
                     <a class="button button-light" style="top: 10px;" ng-show="reportForm.downloading">数据生成中，请稍等...</a>
-                    <a href="{{reportForm.downloadLink}}" class="button button-light" style="top: 10px;" ng-show="reportForm.complete">
+                    <a href="{{reportForm.downloadLink}}" class="button button-light" style="top: 10px;"
+                       ng-show="reportForm.complete">
                         <i class="icon ion-ios-download-outline"></i> 下载详细数据（{{reportForm.sTime}}至{{reportForm.eTime}}）
                     </a>
                 </div>
@@ -42,14 +43,36 @@
         <hr style="margin-top: 0;">
         <h5>扫码统计</h5>
         <table class="table table-hover table-condensed" ng-show="!reportForm.loading">
-            <tr ng-repeat="item in reportForm.qrcodeTable track by $index">
-                <th ng-repeat="i in item track by $index" >{{i}}</th>
+            <tr>
+                <td ng-repeat="item in reportForm.qrcodeTable">
+                    <span ng-repeat="(key,val) in item">
+                        {{key}}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td ng-repeat="item in reportForm.qrcodeTable">
+                    <span ng-repeat="(key,val) in item">
+                        {{val}}
+                    </span>
+                </td>
             </tr>
         </table>
         <h5>订房统计</h5>
         <table class="table table-hover table-condensed" ng-show="!reportForm.loading">
-            <tr ng-repeat="item in reportForm.roomTable track by $index">
-                <td ng-repeat="i in item track by $index">{{i}}</td>
+            <tr>
+                <td ng-repeat="item in reportForm.roomTable">
+                    <span ng-repeat="(key,val) in item">
+                        {{key}}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td ng-repeat="item in reportForm.roomTable">
+                    <span ng-repeat="(key,val) in item">
+                        {{key=='代收门票（元）（以现票价统计）'||key=='订单总收入（元）'? val/100 : val}}
+                    </span>
+                </td>
             </tr>
         </table>
         <div ng-show="reportForm.loading">loading...</div>

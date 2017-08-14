@@ -46,35 +46,37 @@
                         var data = response.data;
                         console.log(data)
                         if (data.rescode == '200') {
-                            var array1 = [], array2 = [], array3 = [], array4 = [];
+                            // 拼接扫码统计数据
                             for (var key1 in data.qrcode) {
                                 var total1 = 0
                                 for (var i = 0; i < data.qrcode[key1].length; i++) {
                                     total1 += data.qrcode[key1][i]
                                 }
-                                array1.push(key1)
-                                array2.push(total1)
+                                // array1.push(key1)
+                                // array2.push(total1)
+                                var item = {};
+                                item[key1] = total1
+                                qrcodeData.push(item)
                             }
-                            // 移动总计到数组最后
-                            var idx = array1.indexOf('总计')
-                            var lastItemName=array1[idx]
-                            var lastItemVal=array2[idx]
-                            array1.splice(idx, 1)
-                            array2.splice(idx, 1)
-                            array1.push(lastItemName)
-                            array2.push(lastItemVal)
-                            // 合并两行扫码数据
-                            qrcodeData.push(array1, array2)
+                            // 扫码统计中的“总计”移动到最后
+                            for (var k=0; k < qrcodeData.length; k++) {
+                                for(var key in qrcodeData[k]){
+                                    if(key=='总计'){
+                                        qrcodeData.push(qrcodeData[k])
+                                        qrcodeData.splice(k,1);
+                                    }
+                                }
+                            }
+                            // 拼接订房统计数据
                             for (var key2 in data.room) {
                                 var total2 = 0
                                 for (var j = 0; j < data.room[key2].length; j++) {
                                     total2 += data.room[key2][j]
                                 }
-                                array3.push(key2)
-                                array4.push(total2)
+                                var item = {};
+                                item[key2] = total2
+                                roomData.push(item)
                             }
-                            // 合并两行订房数据
-                            roomData.push(array3, array4)
                             self.qrcodeTable = qrcodeData
                             self.roomTable = roomData
                             self.loading = false

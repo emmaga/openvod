@@ -4320,8 +4320,7 @@
                     }).then(function successCallback(response) {
                         var data = response.data;
                         if (data.rescode == '200') {
-                            console.log(data)
-                            self.ticketPrice = data.TicketPriceInfo;
+                            self.ticketPrice = data.TicketPriceInfo/100;
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $state.go('login');
@@ -4343,7 +4342,7 @@
                         lang: lang,
                         token: token,
                         roomID: self.roomId,
-                        TicketPriceInfo: self.ticketPrice
+                        TicketPriceInfo: self.ticketPrice*100
                     })
                     self.loadingTicketPrice = true;
                     $http({
