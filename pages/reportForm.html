@@ -29,13 +29,15 @@
                     </a>
 
                     <a ng-click="reportForm.export()" class="button button-light" style="top: 10px;">
-                        <i class="icon ion-log-out"></i> 导出
+                        <i class="icon ion-log-out"></i> 导出总报表
                     </a>
 
-                    <a class="button button-light" style="top: 10px;" ng-show="reportForm.downloading">数据生成中，请稍等...</a>
+                    <a class="button button-light" style="top: 10px;" ng-show="reportForm.downloading">
+                        <i class="icon ion-ios-time-outline"></i> 数据生成中，请稍等...
+                    </a>
                     <a href="{{reportForm.downloadLink}}" class="button button-light" style="top: 10px;"
                        ng-show="reportForm.complete">
-                        <i class="icon ion-ios-download-outline"></i> 下载详细数据（{{reportForm.sTime}}至{{reportForm.eTime}}）
+                        <i class="icon ion-ios-download-outline"></i> 下载总报表（{{reportForm.sTime}}至{{reportForm.eTime}}）
                     </a>
                 </div>
             </div>
@@ -77,5 +79,18 @@
         </table>
         <div ng-show="reportForm.loading">loading...</div>
         <div ng-show="reportForm.noData">查无数据</div>
+
+        <div>
+            <a ng-click="reportForm.exportTicketReport()" class="button button-light" style="top: 10px;">
+                <i class="icon ion-log-out"></i> 门票报表导出
+            </a>
+            <a class="button button-light" style="top: 10px;" ng-show="reportForm.ticketDownloading">
+                <i class="icon ion-ios-time-outline"></i> 数据生成中，请稍等...
+            </a>
+            <a href="{{reportForm.ticketDownloadLink}}" class="button button-light" style="top: 10px;"
+               ng-show="reportForm.ticketComplete">
+                <i class="icon ion-ios-download-outline"></i> 下载门票报表（{{reportForm.sTime}}至{{reportForm.eTime}}）
+            </a>
+        </div>
     </div>
 </div>

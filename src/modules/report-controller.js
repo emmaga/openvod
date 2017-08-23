@@ -9,6 +9,8 @@
                     self.endDate = new Date();
                     self.downloading = false;
                     self.complete = false;
+                    self.ticketDownloading = false;
+                    self.ticketComplete = false;
                     self.getInfo();
                     console && console.log(self.searchDate, self.endDate);
                 };
@@ -125,7 +127,45 @@
                             alert('修改失败' + data.errInfo);
                         }
                     }, function errorCallback (response) {
-                        alert('连接服务器出错');
+                        alert('连接服务器出错，请重新导出');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+
+                // 获取下载链接
+                self.exportTicketReport = function () {
+                    self.sTime = util.format_yyyyMMdd(new Date(self.searchDate))
+                    self.eTime = util.format_yyyyMMdd(new Date(self.endDate))
+                    self.ticketDownloading = true
+                    self.ticketComplete = false
+                    var data = {
+                        "action": "getTicketStatisXlsLoad",
+                        "token": util.getParams("token"),
+                        "projectList": [util.getParams("projectName")],
+                        "startDate": util.format_yyyyMMdd(new Date(self.searchDate)) + ' 00:00:00',
+                        "endDate": util.format_yyyyMMdd(new Date(self.endDate)) + ' 00:00:00'
+                    }
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('luan/statistics', '', 'server'),
+                        data: data
+                    }).then(function successCallback (response) {
+                        var data = response.data;
+                        console.log(data)
+                        if (data.rescode == '200') {
+                            console.log(data)
+                            self.ticketDownloadLink = data.file_url[0]
+                            self.ticketDownloading = false
+                            self.ticketComplete = true
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('修改失败' + data.errInfo);
+                        }
+                    }, function errorCallback (response) {
+                        alert('连接服务器出错，请重新导出');
                     }).finally(function (value) {
                         self.saving = false;
                     });
