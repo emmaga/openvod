@@ -11,13 +11,13 @@
         <!-- 标题 -->
         <!-- <h4></h4>
         <hr> -->
-        
+
         <!--关键字搜索-->
         <div class="search-bar">
             <!--线路筛选-->
             <div class="form-group">
                 <select ng-change="bol.search()" name="routeSelect" ng-model="bol.routeId">
-                  <option ng-repeat="item in busList" ng-value="item.ID">{{item.Name}}</option>
+                    <option ng-repeat="item in busList" ng-value="item.ID">{{item.Name}}</option>
                 </select>
             </div>
             <!--线路筛选-->
@@ -29,12 +29,19 @@
                 <i class="icon ion-ios-search-strong"></i>
                 搜索
             </a>
+            <div class="form-group" style="margin-left: 40px">
+                <input readonly type="text" class="form-control start" uib-datepicker-popup ng-model="bol.searchDate" is-open="bol.dateIsOpened" datepicker-options="dateOptions" close-text="关闭" clear-text="清空" current-text="今天" ng-click="bol.open($event)"/>
+            </div>
+            <a ng-click="bol.export()" class="button button-light">
+                <i class="icon ion-ios-eye-outline"></i>
+                查看班车登记表
+            </a>
         </div>
 
-        
+
         <!--tab 筛选条件－订单状态-->
         <ul class="nav nav-tabs">
-            <li  ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
+            <li ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
                 <a ng-click="bol.searchByStatus(s.code)" id="{{s.code}}Bus">{{s.name[bol.defaultLangCode]}}</a>
             </li>
         </ul>
@@ -95,7 +102,7 @@
                     {{row.Time}}
                 </td>
                 <!--班次-->
-                
+
                 <!--操作-->
                 <td title="'操作'">
                     <!--详情-->

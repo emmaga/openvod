@@ -32,7 +32,7 @@
                         method: 'POST',
                         url: util.getApiUrl('logon', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             util.setParams('userName', self.userName);
@@ -43,7 +43,7 @@
                         } else {
                             alert(msg.rescode + ' ' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -53,10 +53,10 @@
                     $http({
                         method: 'GET',
                         url: util.getApiUrl('', 'editLangs.json', 'local')
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         util.setParams('editLangs', response.data.editLangs);
                         $state.go('app');
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
 
                     });
                 }
@@ -64,8 +64,8 @@
             }
         ])
 
-        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util', '$rootScope', '$interval', '$timeout', '$location','$cookies',
-            function ($http, $scope, $state, $stateParams, util, $rootScope, $interval, $timeout, $location,$cookies) {
+        .controller('appController', ['$http', '$scope', '$state', '$stateParams', 'util', '$rootScope', '$interval', '$timeout', '$location', '$cookies',
+            function ($http, $scope, $state, $stateParams, util, $rootScope, $interval, $timeout, $location, $cookies) {
                 var self = this;
 
                 self.init = function () {
@@ -94,13 +94,13 @@
                     $http({
                         method: 'GET',
                         url: util.getApiUrl('', 'apps.json', 'local')
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         $scope.appList = data.data.apps;
                         // 如果有指定appid focus
                         if ($stateParams.appId) {
                             self.setFocusApp($stateParams.appId);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
 
                     }).finally(function (value) {
                         self.loading = false;
@@ -183,7 +183,7 @@
                     DATA.newData = false;//更新新订单说明，隐藏弹框
                 }
                 //查看待审核列表
-                self.PendingList = function ($event,n) {
+                self.PendingList = function ($event, n) {
                     // console && console.log('PendingList');
                     var target = $event.target;
                     // console && console.log(target.tagName);
@@ -200,7 +200,7 @@
                                     document.getElementById("WAITAPPROVALRoom") && document.getElementById("WAITAPPROVALRoom").click('WAITAPPROVAL');
                                 }, 0);
                                 break;
-                            }else{
+                            } else {
                                 $event.preventDefault();
                                 break;
                             }
@@ -216,7 +216,7 @@
                                     document.getElementById("WAITAPPROVALShop") && document.getElementById("WAITAPPROVALShop").click('WAITAPPROVAL');
                                 }, 0);
                                 break;
-                            }else{
+                            } else {
                                 $event.preventDefault();
                                 break;
                             }
@@ -232,7 +232,7 @@
                                     // todo 点击待审核
                                 }, 0);
                                 break;
-                            }else{
+                            } else {
                                 $event.preventDefault();
                                 break;
                             }
@@ -294,7 +294,7 @@
                         method: 'POST',
                         url: util.getApiUrl(DATA.url, '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         // console && console.dir(response);
                         var data = response.data;
                         // console && console.dir(data);
@@ -319,10 +319,10 @@
                                         } else {//否则，下单时间不是最新
                                             DATA.newData = false;//没有新订单
                                         }
-                                    }else {
+                                    } else {
                                         DATA.newData = false;//没有新订单
                                     }
-                                } else if(DATA.ID == "ShopID"){//商城订单
+                                } else if (DATA.ID == "ShopID") {//商城订单
                                     if (!util.getParams('newShopOrder')) {//否则如果，有待审核订单，但是没有保存订单号和下单时间
                                         DATA.newData = true;//说明有新订单
                                         DATA.orderNum = data.resault[0].OrderNum;//暂存新订单订单号
@@ -337,7 +337,7 @@
                                         } else {
                                             DATA.newData = false;//没有新订单
                                         }
-                                    }else {
+                                    } else {
                                         DATA.newData = false;//没有新订单
                                     }
                                 } else { //班车订单
@@ -355,7 +355,7 @@
                                         } else {
                                             DATA.newData = false;//没有新订单
                                         }
-                                    }else {
+                                    } else {
                                         DATA.newData = false;//没有新订单
                                     }
                                 }
@@ -367,7 +367,7 @@
                         } else {
                             console && ('获取订单列表失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         // alert('连接服务器出错');
                         console && console.log('轮循出错 500');
                     }).finally(function (value) {
@@ -535,7 +535,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('hotelroom', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
 
                             self.hotelList = data.data.data;
@@ -546,7 +546,7 @@
                             alert('列表获取失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('获取失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.loading = false;
@@ -581,7 +581,7 @@
                                 method: $filter('ajaxMethod')(),
                                 url: util.getApiUrl('devinfo', 'shopList', 'server'),
                                 data: data
-                            }).then(function successCallback(data, status, headers, config) {
+                            }).then(function successCallback (data, status, headers, config) {
                                 if (data.data.rescode == '200') {
                                     if (data.data.total == 0) {
                                         self.noData = true;
@@ -595,7 +595,7 @@
                                     alert(data.rescode + ' ' + data.errInfo);
                                 }
 
-                            }, function errorCallback(data, status, headers, config) {
+                            }, function errorCallback (data, status, headers, config) {
                                 alert(response.status + ' 服务器出错');
                             }).finally(function (value) {
                                 self.loading = false;
@@ -622,7 +622,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('devinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == '200') {
                             self.form.total = data.data.total;
                             self.form.online = data.data.online;
@@ -632,7 +632,7 @@
                         } else {
                             alert(data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -658,7 +658,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('devinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == '200') {
                             self.getDevList();
                             self.getDevNum(self.form.HotelID, self.hotelListIndex);
@@ -668,7 +668,7 @@
                         } else {
                             alert(data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     })
                 }
@@ -693,7 +693,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('devinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('操作成功');
                             $state.reload($state.current.name, $stateParams, true)
@@ -704,7 +704,7 @@
                             alert('操作失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('操作失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                     });
@@ -751,7 +751,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('devinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert("终端添加成功");
                             self.cancel();
@@ -763,7 +763,7 @@
                             alert('列表获取失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('获取失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -810,7 +810,7 @@
                                 method: $filter('ajaxMethod')(),
                                 url: util.getApiUrl('devinfo', 'shopList', 'server'),
                                 data: data
-                            }).then(function successCallback(data, status, headers, config) {
+                            }).then(function successCallback (data, status, headers, config) {
                                 if (data.data.rescode == '200') {
                                     if (data.data.total == 0) {
                                         self.noData = true;
@@ -824,7 +824,7 @@
                                     alert(data.rescode + ' ' + data.errInfo);
                                 }
 
-                            }, function errorCallback(data, status, headers, config) {
+                            }, function errorCallback (data, status, headers, config) {
                                 alert(response.status + ' 服务器出错');
                             }).finally(function (value) {
                                 self.loading = false;
@@ -895,7 +895,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('realtimecmd', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == '200') {
                             alert("编辑成功");
                             self.cancel();
@@ -906,7 +906,7 @@
                             alert(data.rescode + ' ' + data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -957,7 +957,7 @@
                         method: 'POST',
                         url: util.getApiUrl('businfo/line', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.list = data.data;
@@ -967,7 +967,7 @@
                         } else {
                             alert('获取信息失败' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -980,6 +980,113 @@
             }
         ])
 
+        .controller('busOrderPrintController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+                self.init = function () {
+                    self.Date = $scope.app.maskParams.Date
+                    self.getInfo();
+                }
+
+                self.getInfo = function () {
+                    self.loading = true;
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "getList",
+                        "lang": util.langStyle(),
+                        data: {
+                            "page": 1,
+                            "per_page": 999,
+                            "RouteID": "",
+                            "Date": self.Date,
+                            "Status": "ACCEPT"
+                        }
+                    })
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('businfo/order', '', 'server'),
+                        data: data
+                    }).then(function successCallback (response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            var sortData = getSortedData(data.data.data) // 对数据进行排序处理
+                            self.list = combineCell(sortData)  // 添加表格跨行信息
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('获取信息失败' + data.errInfo);
+                        }
+                    }, function errorCallback (response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                self.close = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                // 给数据添加表格合并信息
+                function combineCell (list) {
+                    for (var field in list[0]) {
+                        var k = 0
+                        if (!(field === 'RouteName' || field === 'Time')) {
+                            list[k][field + 'span'] = 1
+                            list[k][field + 'dis'] = false
+                        } else {
+                            while (k < list.length) {
+                                list[k][field + 'span'] = 1
+                                list[k]['Total'] = list[k]['Number']
+                                list[k][field + 'dis'] = false
+                                for (var i = k + 1; i <= list.length - 1; i++) {
+                                    if (list[k]['RouteName'] === list[i]['RouteName'] && list[k][field] === list[i][field] && list[k][field] !== '' && list[k][field] !== '0') {
+                                        list[k][field + 'span']++
+                                        list[k][field + 'dis'] = false
+                                        list[i][field + 'span'] = 1
+                                        list[i][field + 'dis'] = true
+                                        list[k]['Total'] += list[i]['Number']
+                                    } else {
+                                        break
+                                    }
+                                }
+                                k = i
+                            }
+                        }
+                    }
+                    return list
+                }
+
+                // 对数据将同一路线的不同班次进行排序
+                function getSortedData (data) {
+                    var newData = []
+
+                    // 获取所有路线
+                    var lines = []
+                    for (var i = 0; i < data.length; i++) {
+                        var lineType = data[i].RouteName
+                        lines.push(lineType)
+                    }
+                    var uniqLine = R.uniq(lines) // 数组去重
+
+                    // 对单一路线进行时间排序
+                    uniqLine.forEach(function (item) {
+                        var findLine = function (obj) {
+                            return obj.RouteName === item
+                        }
+                        var lineGroup = R.filter(findLine, data)
+                        var sortByTime = R.sortBy(R.prop('Time'))
+                        var lineSortGroup = sortByTime(lineGroup)  // 按时间排序过的某条路线
+                        newData = newData.concat(lineSortGroup)  // 拼接所有排序正确的数据
+                    })
+
+                    return newData
+                }
+            }
+        ])
+
         .controller('busController', ['$q', '$scope', '$state', '$translate', '$http', '$stateParams', '$filter', 'util', 'NgTableParams',
             function ($q, $scope, $state, $translate, $http, $stateParams, $filter, util, NgTableParams) {
                 console.log('busController');
@@ -988,7 +1095,7 @@
                     self.searchDate = new Date().getTime()
                     self.dateIsOpened = false
                     self.routeList = []
-                    self.listRoute().then(function() {
+                    self.listRoute().then(function () {
                         self.routeIndex = 0
                         self.listBustime();
                     })
@@ -1058,7 +1165,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/line', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('删除成功')
                             // $state.reload();
@@ -1069,7 +1176,7 @@
                         } else {
                             alert('删除失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.deleting = false;
@@ -1087,7 +1194,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/route', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == '200') {
                             if (data.data.data.length == 0) {
                                 self.noData = true;
@@ -1100,14 +1207,14 @@
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
-                            alert('读取信息出错，'+data.errInfo);
+                            alert('读取信息出错，' + data.errInfo);
                             deferred.reject();
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                         deferred.reject();
-                    }).finally(function(value) {
+                    }).finally(function (value) {
                         self.loading = false;
                     })
                     return deferred.promise;
@@ -1126,7 +1233,7 @@
                         url: ''
                     }, {
                         counts: [],
-                        getData: function(params) {
+                        getData: function (params) {
                             var data = {
                                 "action": "getLineList",
                                 "token": util.getParams("token"),
@@ -1143,7 +1250,7 @@
                                 method: $filter('ajaxMethod')(),
                                 url: util.getApiUrl('businfo/route', '', 'server'),
                                 data: data
-                            }).then(function successCallback(data, status, headers, config) {
+                            }).then(function successCallback (data, status, headers, config) {
                                 if (data.data.rescode == '200') {
                                     if (data.data.data.length == 0) {
                                         self.noData = true;
@@ -1156,12 +1263,12 @@
                                     alert('访问超时，请重新登录');
                                     $state.go('login');
                                 } else {
-                                    alert('读取信息出错，'+data.errInfo);
+                                    alert('读取信息出错，' + data.errInfo);
                                 }
 
-                            }, function errorCallback(data, status, headers, config) {
+                            }, function errorCallback (data, status, headers, config) {
                                 alert('连接服务器出错');
-                            }).finally(function(value) {
+                            }).finally(function (value) {
                                 self.loading = false;
                             })
                         }
@@ -1202,7 +1309,7 @@
                         method: 'POST',
                         url: util.getApiUrl('businfo/line', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             console.log(data)
@@ -1213,7 +1320,7 @@
                         } else {
                             alert('读取信息出错' + data.err);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -1250,7 +1357,7 @@
                         method: 'POST',
                         url: util.getApiUrl('businfo/line', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('更新成功');
@@ -1260,7 +1367,7 @@
                         } else {
                             alert('更新失败' + data.err);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -1273,7 +1380,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -1373,7 +1480,7 @@
                                     // 如果这个对象只允许上传一张图片
                                     if (o.single) {
                                         // 删除第一站图片
-                                        if(o.data.length > 1) {
+                                        if (o.data.length > 1) {
                                             o.deleteById(o.data[0].id);
                                         }
                                     }
@@ -1413,7 +1520,7 @@
                         "action": "get",
                         "token": util.getParams("token"),
                         "data": {
-                          "ID": self.ID
+                            "ID": self.ID
                         }
                     };
                     data = JSON.stringify(data);
@@ -1422,7 +1529,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/route', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             var info = data.data.data
                             self.Name = info.Name
@@ -1438,7 +1545,7 @@
                         } else {
                             alert('获取信息失败，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('获取信息失败，' + data.data.errInfo);
                     }).finally(function (value) {
                         self.loading = false;
@@ -1468,7 +1575,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/route', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('删除成功')
                             $state.reload();
@@ -1478,7 +1585,7 @@
                         } else {
                             alert('删除失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.deleting = false;
@@ -1512,7 +1619,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/route', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('编辑成功')
                             $state.reload();
@@ -1522,7 +1629,7 @@
                         } else {
                             alert('编辑失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('编辑失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -1562,7 +1669,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/route', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('添加成功')
                             $state.reload();
@@ -1572,7 +1679,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -1608,7 +1715,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/config', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             var info = data.data.data
                             self.StartTime = new Date('2000-01-01 ' + info.ReservationTime.StartTime.slice(0, 5))
@@ -1621,7 +1728,7 @@
                         } else {
                             alert('获取信息失败，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('获取信息失败，' + data.data.errInfo);
                     }).finally(function (value) {
                         self.loading = false;
@@ -1636,12 +1743,12 @@
                         "token": util.getParams("token"),
                         "lang": self.langStyle,
                         "data": {
-                          "ReservationTime": {
-                            "StartTime": util.format_hhmm(dateStart) + ':00',
-                            "EndTime": util.format_hhmm(dateEnd) + ':59'
-                          },
-                          "MaxAdvanceReservationDays": self.EndDays,
-                          "MinAdvanceReservationDays": self.StartDays
+                            "ReservationTime": {
+                                "StartTime": util.format_hhmm(dateStart) + ':00',
+                                "EndTime": util.format_hhmm(dateEnd) + ':59'
+                            },
+                            "MaxAdvanceReservationDays": self.EndDays,
+                            "MinAdvanceReservationDays": self.StartDays
                         }
                     };
                     data = JSON.stringify(data);
@@ -1651,7 +1758,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/config', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('修改成功')
                             $scope.app.showHideMask(false);
@@ -1661,7 +1768,7 @@
                         } else {
                             alert('修改失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('修改失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -1692,10 +1799,10 @@
                         "token": util.getParams("token"),
                         "lang": self.langStyle,
                         "data": {
-                          "RouteID": self.routeid,
-                          "Time": util.format_hhmm(date),
-                          "MaxReservationNumber": self.MaxReservationNumber,
-                          "MaxReservationNumberPerOrder": self.MaxReservationNumberPerOrder
+                            "RouteID": self.routeid,
+                            "Time": util.format_hhmm(date),
+                            "MaxReservationNumber": self.MaxReservationNumber,
+                            "MaxReservationNumberPerOrder": self.MaxReservationNumberPerOrder
                         }
                     };
                     data = JSON.stringify(data);
@@ -1705,7 +1812,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/line', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('添加成功')
                             $scope.app.maskParams.listBustime()
@@ -1717,7 +1824,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -1752,11 +1859,11 @@
                         "token": util.getParams("token"),
                         "lang": self.langStyle,
                         "data": {
-                          "ID": self.ID,
-                          "RouteID": self.routeid,
-                          "Time": util.format_hhmm(date),
-                          "MaxReservationNumber": self.MaxReservationNumber,
-                          "MaxReservationNumberPerOrder": self.MaxReservationNumberPerOrder
+                            "ID": self.ID,
+                            "RouteID": self.routeid,
+                            "Time": util.format_hhmm(date),
+                            "MaxReservationNumber": self.MaxReservationNumber,
+                            "MaxReservationNumberPerOrder": self.MaxReservationNumberPerOrder
                         }
                     };
                     data = JSON.stringify(data);
@@ -1766,7 +1873,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('businfo/line', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('编辑成功')
                             $scope.app.maskParams.listBustime()
@@ -1777,7 +1884,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -1814,7 +1921,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             if (data.data.data.shopList.length == 0) {
                                 self.noData = true;
@@ -1838,7 +1945,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -1850,7 +1957,7 @@
                     $scope.app.showHideMask(true, 'pages/shopAdd.html');
                 }
 
-                self.goTo = function(ShopID, HotelID, ShopName, HotelName, ShopType, ServiceTelephone, PayCash, PayOnline) {
+                self.goTo = function (ShopID, HotelID, ShopName, HotelName, ShopType, ServiceTelephone, PayCash, PayOnline) {
                     $scope.app.maskParams.ShopName = ShopName;
                     $scope.app.maskParams.HotelName = HotelName;
                     $scope.app.maskParams.ShopType = ShopType;
@@ -1907,7 +2014,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('hotelroom', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             if (data.data.data.length == 0) {
                                 self.noData = true;
@@ -1921,7 +2028,7 @@
                             alert('列表获取失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('获取失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.loading = false;
@@ -1955,7 +2062,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('添加成功')
                             $state.reload();
@@ -1965,7 +2072,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
                     }).finally(function (value) {
                         self.saving = false;
@@ -2030,7 +2137,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             if (data.data.data.categoryList.length == 0) {
                                 self.noData = true;
@@ -2053,7 +2160,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.loading = false;
@@ -2178,14 +2285,14 @@
                         method: 'POST',
                         url: util.getApiUrl('shopinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('添加成功');
                             $state.reload();
                         } else {
                             alert('添加失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;
@@ -2198,7 +2305,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList) {
+                function Imgs (imgList) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -2331,7 +2438,7 @@
                         method: 'POST',
                         url: util.getApiUrl('shopinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             var data = data.data.data;
                             self.name = data.product.name;
@@ -2358,7 +2465,7 @@
                         } else {
                             alert('读取商品失败' + data.data.rescode + '，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
@@ -2389,7 +2496,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('删除成功')
                             $state.reload();
@@ -2400,7 +2507,7 @@
                             alert('删除失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         // self.saving = false;
@@ -2490,7 +2597,7 @@
                         method: 'POST',
                         url: util.getApiUrl('shopinfo', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('修改成功');
                             $state.reload('app.shop.goods.goodsList');
@@ -2498,7 +2605,7 @@
                         } else {
                             alert('修改失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;
@@ -2511,7 +2618,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList) {
+                function Imgs (imgList) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -2700,7 +2807,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('保存成功');
                             $state.reload();
@@ -2710,7 +2817,7 @@
                         } else {
                             alert('保存失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.saving = false;
@@ -2741,7 +2848,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('删除成功')
                             $state.reload();
@@ -2752,7 +2859,7 @@
                             alert('删除失败，' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.saving = false;
@@ -2804,7 +2911,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('分类添加成功');
                             $state.reload();
@@ -2815,7 +2922,7 @@
                         } else {
                             alert('添加失败， ' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错')
                     }).finally(function (value) {
                         self.saving = false;
@@ -2868,10 +2975,10 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         alert('分类修改成功')
                         $state.reload();
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
 
                     }).finally(function (value) {
                         self.saving = false;
@@ -2918,7 +3025,7 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('分类删除成功')
                             $state.reload();
@@ -2929,7 +3036,7 @@
                             alert('删除失败， ' + data.data.errInfo);
                         }
 
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('添加失败， ' + data.data.errInfo);
                     });
                 }
@@ -2960,9 +3067,9 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         self.categoryList = data.data.data.categoryList;
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
 
                     });
                 }
@@ -2990,12 +3097,12 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         // params.total(data.data.data.productTotal);
                         self.goodsList = data.data.data.productList;
                         // return data.data.data.productList;
                         console && console.dir(self.goodsList);
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
 
                     })
                 }
@@ -3047,10 +3154,10 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         console.log(data)
                         alert('修改分类成功');
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')
                     });
@@ -3087,9 +3194,9 @@
                         method: $filter('ajaxMethod')(),
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         alert('修改成功')
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')
                     });
@@ -3116,7 +3223,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.hotels = data.data;
@@ -3138,7 +3245,7 @@
                         } else {
                             alert(data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loadingHotelInfo = false;
@@ -3173,7 +3280,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.hotel = {};
@@ -3194,7 +3301,7 @@
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loadingHotelInfo = false;
@@ -3227,7 +3334,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             self.rooms = msg.roomsInfo;
@@ -3238,7 +3345,7 @@
                         } else {
                             alert('读取数据出错，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function () {
                         self.loading = false;
@@ -3269,7 +3376,7 @@
                             method: 'POST',
                             url: util.getApiUrl('room', '', 'server'),
                             data: data
-                        }).then(function successCallback(response) {
+                        }).then(function successCallback (response) {
                             var msg = response.data;
                             if (msg.rescode == '200') {
                             } else if (msg.rescode == '401') {
@@ -3278,7 +3385,7 @@
                             } else {
                                 alert('操作失败，' + msg.errInfo);
                             }
-                        }, function errorCallback(response) {
+                        }, function errorCallback (response) {
                             alert(response.status + ' 服务器出错');
                         }).finally(function () {
                             self.loading = false;
@@ -3352,7 +3459,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.hotel = {};
@@ -3376,7 +3483,7 @@
                             alert('读取信息失败，' + data.errInfo);
                             deferred.reject();
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                         deferred.reject();
                     }).finally(function (e) {
@@ -3453,7 +3560,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('修改成功');
@@ -3461,7 +3568,7 @@
                         } else {
                             alert('保存失败' + data.err);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -3479,7 +3586,7 @@
                         method: 'POST',
                         url: util.getApiUrl('hotelroom', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             console && console.log(data.data);
@@ -3488,7 +3595,7 @@
                         } else {
                             alert('读取酒店标签出错' + data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loading = false;
@@ -3515,7 +3622,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -3663,7 +3770,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.tags = data.tags;
@@ -3675,7 +3782,7 @@
                         } else {
                             alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loading = false;
@@ -3728,7 +3835,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('添加成功')
@@ -3737,7 +3844,7 @@
                         } else {
                             alert('添加失败' + data.rescode + ' ' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -3750,7 +3857,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -3919,7 +4026,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.tags = data.tags;
@@ -3934,7 +4041,7 @@
                             // alert('读取标签失败' + data.rescode + ' ' + data.errInfo);
                             self.addAlert('读取标签失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         // alert(response.status + ' 服务器出错');
                         self.addAlert(response.status + ' 服务器出错', false, 'warning');
                     }).finally(function (e) {
@@ -3957,7 +4064,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         // console.log(data);
                         if (data.rescode == '200') {
@@ -3979,7 +4086,7 @@
                             // alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
                             self.addAlert('读取客房信息失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.loading = false;
@@ -3999,7 +4106,7 @@
                             method: 'POST',
                             url: util.getApiUrl('room', '', 'server'),
                             data: data
-                        }).then(function successCallback(response) {
+                        }).then(function successCallback (response) {
                             var data = response.data;
                             if (data.rescode == '200') {
                                 self.addAlert('删除成功', true, 'success');
@@ -4009,7 +4116,7 @@
                                 // alert('删除失败' + data.rescode + ' ' + data.errInfo);
                                 self.addAlert('删除失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
                             }
-                        }, function errorCallback(response) {
+                        }, function errorCallback (response) {
                             // alert(response.status + ' 服务器出错');
                             self.addAlert(response.status + ' 服务器出错', false, 'warning');
                         }).finally(function (e) {
@@ -4064,7 +4171,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             // self.addAlert('保存成功', true, 'success');
@@ -4073,7 +4180,7 @@
                         } else {
                             alert('保存失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                         // self.addAlert(response.status + ' 服务器出错', false, 'danger');
                     }).finally(function (e) {
@@ -4087,7 +4194,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -4249,7 +4356,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             alert('保存成功');
@@ -4260,7 +4367,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.savingAddPrice = false;
@@ -4283,7 +4390,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.addPrice = data.data;
@@ -4296,7 +4403,7 @@
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                             self.loadingAddPrice = false;
@@ -4317,17 +4424,17 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
-                            self.ticketPrice = data.TicketPriceInfo/100;
+                            self.ticketPrice = data.TicketPriceInfo / 100;
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
                             alert('读取信息失败，' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                             self.loadingAddPrice = false;
@@ -4342,14 +4449,14 @@
                         lang: lang,
                         token: token,
                         roomID: self.roomId,
-                        TicketPriceInfo: self.ticketPrice*100
+                        TicketPriceInfo: self.ticketPrice * 100
                     })
                     self.loadingTicketPrice = true;
                     $http({
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('保存成功');
@@ -4360,7 +4467,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         }
@@ -4417,7 +4524,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         console.dir(msg);
                         if (msg.rescode == '200') {
@@ -4439,7 +4546,7 @@
                         } else {
                             alert('读取价格信息失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                             self.loading = false;
@@ -4486,7 +4593,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             alert('保存成功');
@@ -4497,7 +4604,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -4510,7 +4617,7 @@
                  * @param key
                  * @returns {boolean}
                  */
-                function countJson(json, key) {
+                function countJson (json, key) {
                     if (json.length == 0) {
                         return true;
                     }
@@ -4599,7 +4706,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             self.roomDetail.AvailableNum = msg.AvailableNum;
@@ -4614,7 +4721,7 @@
                         } else {
                             alert('读取数量信息失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                             self.loading = false;
@@ -4655,7 +4762,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             alert('保存成功');
@@ -4666,7 +4773,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -4702,7 +4809,7 @@
                         method: 'POST',
                         url: util.getApiUrl('room', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var msg = response.data;
                         if (msg.rescode == '200') {
                             self.save();
@@ -4712,7 +4819,7 @@
                         } else {
                             alert('保存失败，' + msg.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');
                     }).finally(function (e) {
                         self.saving = false;
@@ -4726,7 +4833,7 @@
                  * @param key
                  * @returns {boolean}
                  */
-                function countJson(json, key) {
+                function countJson (json, key) {
                     if (json.length == 0) {
                         return true;
                     }

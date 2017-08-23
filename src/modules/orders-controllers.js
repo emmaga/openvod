@@ -819,6 +819,7 @@
 
             self.init = function () {
                 self.defaultLangCode = util.getDefaultLangCode();
+                self.searchDate = new Date().getTime()
                 self.searchStr = {};
 
                 // 初始化订单状态
@@ -837,6 +838,10 @@
                 });
             }
 
+            self.open = function ($event) {
+                self.dateIsOpened = true
+            }
+
             self.accept = function (id) {
                 var data = JSON.stringify({
                     "token": util.getParams('token'),
@@ -844,7 +849,7 @@
                     "lang": util.langStyle(),
                     data: {
                         "ID": id,
-                        "Status": "ACCEPT" 
+                        "Status": "ACCEPT"
                     }
                 })
 
@@ -914,7 +919,7 @@
                     "lang": util.langStyle(),
                     data: {
                         "ID": id
-                    }   
+                    }
                 })
 
                 $http({
@@ -1014,7 +1019,7 @@
                                     "RouteID": self.routeId,
                                     "Status": self.statusCode,
                                     "Phone": self.phone
-                                }  
+                                }
                             });
                             self.loading = true;
                             self.noData = false;
@@ -1051,6 +1056,17 @@
                 $scope.app.maskParams = {'orderInfo': orderInfo};
                 $scope.app.showHideMask(true, 'pages/orders/busOrderDetail.html');
             }
+
+            self.export = function () {
+                if (!self.searchDate) {
+                    alert('请选择查询日期')
+                    return
+                }
+                $scope.app.maskParams = {
+                    'Date': util.format_yyyyMMdd(new Date(self.searchDate)),
+                };
+                $scope.app.showHideMask(true, 'pages/busOrderPrint.html');
+            }
         }
     ])
     .controller('busOrderDetailController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
@@ -1075,7 +1091,7 @@
                     "lang": util.langStyle(),
                     "data": {
                         "ID": self.id
-                    }     
+                    }
                 })
 
                 self.loading = true;

@@ -621,6 +621,10 @@ textarea.form-control{
         margin-left: 120px;
         width: 560px !important;
     }
+    .modal-bus-body{
+        margin-left: 0px;
+        width: 800px !important;
+    }
     .modal li>.pull-right{
         position: absolute;
         left: 120px;

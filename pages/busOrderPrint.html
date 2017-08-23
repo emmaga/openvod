@@ -1,0 +1,61 @@
+<div ng-controller="busOrderPrintController as bod" ng-init="bod.init()" class="modal-dialog" style="width: 800px">
+    <div class="modal-content">
+        <!--loading-->
+        <div ng-show="bod.loading">loading...</div>
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="bod.close()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">班车登记详情</h5>
+        </div>
+        <!-- body -->
+        <div print-section class="modal-body modal-bus-body">
+            <!-- <div class="row"> -->
+            <div class="title" style="line-height: 30px">
+                班车登记表 <span style="margin-left: 20px">发车日期：{{bod.Date}}</span>
+            </div>
+            <style>
+                .busPrintTable{ width: 100% }
+                .busPrintTable td,.busPrintTable th{
+                    border: 1px solid #999; vertical-align: middle;
+                    padding: 5px 10px;
+                }
+            </style>
+            <table class="busPrintTable table-responsive">
+                <tr>
+                    <td>线路名称</td>
+                    <td>班次</td>
+                    <td>总人数</td>
+                    <td>订单号</td>
+                    <td>预订人姓名</td>
+                    <td>预订人数</td>
+                    <td>预订人手机</td>
+                </tr>
+                <tr ng-repeat="item in bod.list">
+                    <td rowspan="{{item.RouteNamespan}}" ng-show="!item.RouteNamedis">{{item.RouteName}}</td>
+                    <td rowspan="{{item.Timespan}}" ng-show="!item.Timedis">{{item.Time}}</td>
+                    <td rowspan="{{item.Timespan}}" ng-show="!item.Timedis">{{item.Total}}</td>
+                    <td rowspan="{{item.OrderIDspan}}" ng-show="!item.OrderIDdis">{{item.OrderID}}</td>
+                    <td rowspan="{{item.Namespan}}" ng-show="!item.Namedis">{{item.Name}}</td>
+                    <td rowspan="{{item.Numberspan}}" ng-show="!item.Numberdis">{{item.Number}}</td>
+                    <td rowspan="{{item.Phonespan}}" ng-show="!item.Phonedis">{{item.Phone}}</td>
+                </tr>
+            </table>
+            <!-- </div> -->
+            <ng-if ng-if="bod.list.length == 0">查无数据</ng-if>
+        </div>
+        <!-- body end -->
+        <div class="modal-footer">
+            <!-- 取消 -->
+            <button type="button" class="btn btn-default btn-sm" ng-click="bod.close()">{{'CANCEL' | translate}}
+            </button>
+            <!-- 订单打印 -->
+            <button type="button" class="btn btn-primary btn-sm" print-btn>
+                <i class="icon ion-printer"></i> 打印
+            </button>
+            <!--footer end-->
+        </div>
+    </div>
+</div>
