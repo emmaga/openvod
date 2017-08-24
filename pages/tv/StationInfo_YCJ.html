@@ -1,0 +1,26 @@
+<div ng-controller="tvStationInfoController_YCJ as stationInfo" ng-init="stationInfo.init()">
+    <div class="col-xs-6">
+        <form id="stationForm" name="stationForm" ng-submit="stationForm.$valid && stationInfo.save()" novalidate>
+            <div class="form-group">
+
+                <label>URL:</label>
+
+                <input type="url" name="url" class="form-control" ng-maxlength="255" ng-model="stationInfo.url">
+                <span ng-show="stationForm.url.$dirty && stationForm.url.$invalid" class="warning-color">名称最大为255</span>
+            </div>
+
+            <div class="form-group">
+
+                <label>提示信息:</label>
+
+                <textarea ng-model="stationInfo.tips" ng-trim="false" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label> </label>
+                <button type="submit" class="button button-small button-block theme-button-outline">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

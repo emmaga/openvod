@@ -14,6 +14,7 @@
                 self.initS = $stateParams.label ? $stateParams.label : '欢迎页面';
                 self.menuRoot = false;
                 self.MainMenu_THJ_SecondMenu = false;
+                self.MainMenu_YCJ_SecondMenu = false;
                 self.MainMenu_QHtl_SecondMenu = false;
                 self.MainMenu_LiFeng_SecondMenu = false;
                 self.MainMenu_SX_SecondMenu = false;
@@ -523,6 +524,12 @@
                     self.changeMenuInfo();
                 }
 
+                // 烟草局送站信息
+                if(branch.data.type == 'StationInfo_YCJ') {
+                    $state.go('app.tvAdmin.StationInfo_YCJ', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // 航班
                 if(branch.data.type == 'Flight') {
                     $state.go('app.tvAdmin.Flight', {moduleId: branch.data.moduleId, label: branch.label});
@@ -537,6 +544,7 @@
 
                 // MainMenu_THJ_SecondMenu
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu'
+                    || branch.data.type == 'MainMenu_YCJ_SecondMenu'
                     || branch.data.type == 'MainMenu_QHtl_SecondMenu'
                     || branch.data.type == 'MainMenu_SX_SecondMenu'
                     || branch.data.type == 'MainMenu_LiFeng_SecondMenu'
@@ -10037,6 +10045,16 @@ console.log("Samsung_Lunch_PicText_Classification")
                 }
 
                 /**
+                 * 修改该模版的信息
+                 *
+                 * @method addCategory
+                 */
+                self.editModule = function() {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.showHideMask(true,'pages/tv/PicTextClassModuleEdit_SamsungLunch.html');
+                }
+
+                /**
                  * 删除图文分类
                  *
                  * @method delCate
@@ -10590,6 +10608,95 @@ console.log("Samsung_Lunch_PicText_Classification")
                 }
             }
 
+        }
+    ])
+    //三星午餐 编辑模块信息
+    .controller('tvPicTextClassModuleEditController_SamsungLunch', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+        function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+            var self = this;
+            self.viewId = 0;
+
+            self.init = function() {
+                self.viewId = $scope.app.maskParams.viewId;
+                self.loadModuleInfo()
+            }
+
+            /**
+             * 关闭弹窗
+             *
+             * @method cancel
+             */
+            self.cancel = function() {
+                $scope.app.showHideMask(false);
+            }
+
+            /**
+             * 保存模块信息
+             *
+             * @method save
+             */
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "editReserveInfo",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle(),
+                    "data": {
+                        "tel": self.tel
+                    }
+                });
+
+                self.saving = true;
+                console.log(data)    
+                return $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    alert('保存成功')
+                    $scope.app.showHideMask(false);
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function(value) {
+                    self.saving = false;
+                });
+            }
+
+            // 加载模块信息
+            self.loadModuleInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getReserveInfo",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                })
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    console.log(data.data)
+                    if (data.rescode == '200') {
+                        if(data.data){
+                            self.tel=data.data.tel
+                        }else{
+                            self.tel=null
+                        }
+                        console.log(self.tel)
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }    
         }
     ])
     //三星午餐 Add图文
@@ -24062,4 +24169,83 @@ console.log("Samsung_Lunch_PicText_Classification")
 
             }
     ])
+
+    /*烟草局送站信息*/
+    .controller('tvStationInfoController_YCJ', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;
+
+                self.init = function() {
+                    self.viewId = $stateParams.moduleId;
+                    self.loadInfo();
+                }
+
+                self.saving=false ;
+
+                self.save = function(id, index) {
+
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "update",
+                        "viewID": Number(self.viewId),
+                        "data": {
+                            "Tips":self.tips,
+                            "Url":self.url
+                        },
+                        "lang": util.langStyle()
+                    })
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            self.saving = false;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('修改失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    });
+                }
+
+
+
+                self.loadInfo = function() {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "get",
+                        "viewID": self.viewId-0,
+                        "lang": util.langStyle()
+                    })
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.url = data.data.Url;
+                            self.tips = data.data.Tips;
+                        } else if(data.rescode == '401'){
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else{
+                            alert('加载信息失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+            }
+        ])
 })();

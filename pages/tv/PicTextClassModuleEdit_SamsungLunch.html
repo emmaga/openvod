@@ -1,0 +1,38 @@
+<div ng-controller="tvPicTextClassModuleEditController_SamsungLunch as tvPicTextClassModuleEidt" ng-init="tvPicTextClassModuleEidt.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form novalidate name="tvPicTextClassModuleEidtForm" ng-submit="tvPicTextClassModuleEidtForm.$valid && tvPicTextClassModuleEidt.save()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="tvPicTextClassModuleEidt.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">模块信息</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 分类序号 -->
+                <div class="form-group">
+                    <label>送餐电话</label>
+                    <input type="tel" name="" required placeholder="（必填）" ng-model="tvPicTextClassModuleEidt.tel" class="form-control">
+                </div>
+                <!-- 分类序号 -->
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="tvPicTextClassModuleEidt.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="tvPicTextClassModuleEidtForm.$invalid || tvPicTextClassModuleEidt.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
+
+        </form>
+    </div>
+</div>

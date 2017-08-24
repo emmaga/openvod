@@ -367,7 +367,7 @@
                 })
                 .state('app.tvAdmin.Samsung_MultPic_Flight', {
                     url: '/Samsung_MultPic_Flight?moduleId&label',
-                    templateUrl: 'pages/tv/flight.html',
+                    templateUrl: 'pages/tv/flight_Samsung.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
@@ -926,6 +926,17 @@
                 .state('app.tvAdmin.Bill', {
                     url: '/Bill?moduleId&label',
                     templateUrl: 'pages/tv/BillCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 烟草局送站信息
+                .state('app.tvAdmin.StationInfo_YCJ', {
+                    url: '/StationInfo_YCJ?moduleId&label',
+                    templateUrl: 'pages/tv/StationInfo_YCJ.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 

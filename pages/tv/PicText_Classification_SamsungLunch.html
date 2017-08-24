@@ -13,6 +13,11 @@
                 <i class="icon ion-android-add-circle"></i> 分类添加
             </a>
         </li>
+        <li class="cursor-pointer">
+            <a ng-click="Samsung.editModule()">
+                <i class="icon ion-edit"></i> 模块信息编辑
+            </a>
+        </li>
     </ul>
     <!-- 按钮: 编辑分类 -->
     <a ng-if="Samsung.info.length > 0" ng-click="Samsung.editCate()" class="button button-light">
