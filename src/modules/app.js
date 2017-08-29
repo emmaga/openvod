@@ -899,17 +899,6 @@
                     }
                 })
 
-                // philips清流
-                .state('app.tvAdmin.DVB_C', {
-                    url: '/DVB_C?moduleId&label',
-                    templateUrl: 'pages/tv/live.html',
-                    resolve: {
-                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
-
-                        }]
-                    }
-                })
-
                 // 烟草局 WPS 文件
                 .state('app.tvAdmin.WPS_FileCommon', {
                     url: '/WPS_FileCommon?moduleId&label',

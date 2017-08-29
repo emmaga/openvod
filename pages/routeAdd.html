@@ -19,8 +19,13 @@
                     <input type="text" name="" required placeholder="（必填）" ng-model="routeAdd.Name" class="form-control">
                 </div>
                 <!-- 商城标识 -->
-
-                <!-- 商城名称 -->
+                <div class="form-group">
+                    <label>路线类型：</label>
+                    <select name="" required ng-model="routeAdd.Type">
+                        <option value="普通">普通路线</option>
+                        <option value="机场">机场路线</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label>管理员手机／400电话：</label>
                     <input type="text" name="" required placeholder="（必填）" ng-model="routeAdd.Phone" class="form-control">

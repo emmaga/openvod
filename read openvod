@@ -1,0 +1,9 @@
+欢迎页面 welcome  参数label appId
+首页 blank        
+直播 live         参数moduleId 
+广告位 guangGaoWei 
+项目设置 projectConfig
+提交版本 version
+
+首页→模块内容→添加菜单 menuAdd
+首页→模块内容→添加模块 moduleAdd

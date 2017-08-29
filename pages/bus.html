@@ -34,6 +34,23 @@
             <a class="title-btn"><i class="icon ion-ios-compose-outline theme-color"></i></a>
         </h4>
         <hr>
+        <!-- 航站楼部分 -->
+        <!-- 添加，点击按钮显示输入框 -->
+        <div ng-show="bus.routeList[bus.routeIndex].Type === '机场'">
+            <a ng-click="bus.addTerminal()" class="button button-light">
+                <i class="icon ion-ios-plus-outline"></i> 添加航站楼
+            </a>
+            <!-- 显示当前的航站楼列表 -->
+            <div>
+                <span ng-repeat="terminal in bus.terminalList" style="line-height: 18px;">
+                    {{terminal.Name}}
+                    <a ng-click="bus.editTerminal(terminal.ID)" class="title-btn"><i class="icon ion-ios-compose-outline theme-color"></i></a>
+                    <a ng-click="bus.delTerminal(terminal.ID)" class="title-btn"><i class="icon ion-ios-close-outline theme-color"></i></a>
+                    &emsp;
+                </span>
+            </div>
+            <hr>
+        </div>
         <div class="row">
             <!--搜索 筛选条件－开始日期&&结束日期-->
             <div class="col-xs-6">

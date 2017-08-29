@@ -1094,10 +1094,13 @@
                 self.init = function () {
                     self.searchDate = new Date().getTime()
                     self.dateIsOpened = false
+                    self.terminalList = []
                     self.routeList = []
+                    // 获取路线列表 ID Name Phone Type 
                     self.listRoute().then(function () {
                         self.routeIndex = 0
-                        self.listBustime();
+                        self.listBustime(); // 查询某个路线某一天的时刻表
+                        self.getTerminal(); // 按路线的ID查询航站楼列表
                     })
                 }
                 /**
@@ -1144,6 +1147,7 @@
                 }
                 self.checkRoute = function (index) {
                     self.routeIndex = index
+                    self.getTerminal()
                     self.listBustime()
                 }
                 self.delete = function (ID) {
@@ -1201,6 +1205,7 @@
                                 deferred.reject();
                             } else {
                                 self.routeList = data.data.data
+                                console.log(self.routeList)
                                 deferred.resolve();
                             }
                         } else if (data.data.rescode == '401') {
@@ -1219,6 +1224,81 @@
                     })
                     return deferred.promise;
                 }
+                self.getTerminal = function () {
+                    self.terminalList = []
+                    var data = {
+                        "action": "getTerminal",
+                        "token": util.getParams("token"),
+                        "data": {
+                            "ID": self.routeList[self.routeIndex].ID
+                        } 
+                    }
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback (data, status, headers, config) {
+                        if (data.data.rescode == '200') {
+                            if (data.data.data.length == 0) {
+                                self.noData = true;
+                            } else {
+                                self.terminalList = data.data.data
+                            }
+                        } else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('读取信息出错，' + data.errInfo);
+                        }
+                    }, function errorCallback (data, status, headers, config) {
+                        alert('连接服务器出错');
+                    })
+                }
+                self.addTerminal = function () {
+                    $scope.app.maskParams = {'routeid': self.routeList[self.routeIndex].ID};
+                    $scope.app.maskParams.getTerminal = self.getTerminal;
+                    $scope.app.showHideMask(true, 'pages/addTerminal.html');
+                }
+                self.editTerminal = function (id) {
+                    $scope.app.maskParams = {'editTMId': id};
+                    $scope.app.maskParams.getTerminal = self.getTerminal;
+                    $scope.app.showHideMask(true, 'pages/editTerminal.html');
+                }
+                self.delTerminal = function (id) {
+                    var flag = confirm('确认删除？');
+                    if (!flag) {
+                        return;
+                    }
+                    self.deleting = true;
+                    var data = {
+                        "action": "delTerminal",
+                        "token": util.getParams("token"),
+                        "data": {
+                            "ID": id,
+                        }
+                    }
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback (data, status, headers, config) {
+                        if (data.data.rescode == '200') {
+                            self.getTerminal()
+                        } else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('删除失败，' + data.errInfo);
+                        }
+                    }, function errorCallback (data, status, headers, config) {
+                        alert('删除失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.deleting = false;
+                    });
+                }
+
                 self.listBustime = function () {
                     if (!self.searchDate) {
                         alert('请选择查询日期')
@@ -1272,6 +1352,106 @@
                                 self.loading = false;
                             })
                         }
+                    });
+                }
+            }
+        ])
+
+        .controller('addTerminalController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
+                console.log('addTerminalController');
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.routeid = $scope.app.maskParams.routeid;
+                    self.saving = false;
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.saveForm = function () {
+                    var data = {
+                        "action": "addTerminal",
+                        "token": util.getParams("token"),
+                        "data": {
+                            "ID": self.routeid,
+                            "Name": self.Name
+                        } 
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback (data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            $scope.app.maskParams.getTerminal();
+                            $scope.app.showHideMask(false);
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('添加失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback (data, status, headers, config) {
+                        alert('添加失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+            }
+        ])
+
+        .controller('editTerminalController', ['$scope', '$state', '$http', '$stateParams', '$translate', '$filter', 'util',
+            function ($scope, $state, $http, $stateParams, $translate, $filter, util) {
+                console.log('editTerminalController');
+                var self = this;
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    self.multiLang = util.getParams('editLangs');
+                    self.editTMId = $scope.app.maskParams.editTMId;
+                    self.saving = false;
+                }
+
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.saveForm = function () {
+                    var data = {
+                        "action": "editTerminal",
+                        "token": util.getParams("token"),
+                        "data": {
+                            "ID": self.editTMId,
+                            "Name": self.Name
+                        }
+                    };
+                    data = JSON.stringify(data);
+                    self.saving = true;
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('businfo/route', '', 'server'),
+                        data: data
+                    }).then(function successCallback (data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            $scope.app.maskParams.getTerminal();
+                            $scope.app.showHideMask(false);
+                        } else if (data.data.rescode == "401") {
+                            alert('访问超时，请重新登录');
+                            $state.go('login')
+                        } else {
+                            alert('修改失败， ' + data.data.errInfo);
+                        }
+                    }, function errorCallback (data, status, headers, config) {
+                        alert('修改失败， ' + data.data.errInfo);
+                    }).finally(function (value) {
+                        self.saving = false;
                     });
                 }
             }
@@ -1363,7 +1543,6 @@
                             alert('更新成功');
                             $scope.app.maskParams.listBustime()
                             $scope.app.showHideMask(false);
-                            // $state.reload();
                         } else {
                             alert('更新失败' + data.err);
                         }
@@ -1646,6 +1825,7 @@
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.saving = false;
+                    self.Type = '普通';
                 }
 
                 self.cancel = function () {
@@ -1659,6 +1839,7 @@
                         "lang": self.langStyle,
                         "data": {
                             "Name": self.Name,
+                            "Type": self.Type,
                             "Phone": self.Phone
                         }
                     };

@@ -1,0 +1,37 @@
+<div ng-controller="addTerminalController as addTM" ng-init="addTM.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!-- form -->
+        <form novalidate name="addTMForm" ng-submit="addTMForm.$valid && addTM.saveForm()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="addTM.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加航站楼</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 商城标识 -->
+                <div class="form-group">
+                    <label>航站楼名称：</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="addTM.Name" class="form-control">
+                </div>
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="addTM.cancel()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="addTMForm.$invalid || addTM.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> 
+                    <ng-if ng-if="!addTM.saving">{{'SAVE' | translate}}</ng-if>
+                    <ng-if ng-if="addTM.saving">保存中...</ng-if>
+                </button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
+</div>
