@@ -39,6 +39,7 @@
                             util.setParams('projectName', self.projectName);
                             util.setParams('token', msg.token);
                             util.setParams('projectDes', msg.ProjectNameCN);
+                            util.setParams('visibleApp', msg.privileges);
                             self.getEditLangs();
                         } else {
                             alert(msg.rescode + ' ' + msg.errInfo);
@@ -89,13 +90,19 @@
                     self.maskUrl = '';
                     self.maskParams = {};
 
+                    self.visibleApp = util.getParams('visibleApp')
                     // 读取applists
                     self.loading = true;
                     $http({
                         method: 'GET',
                         url: util.getApiUrl('', 'apps.json', 'local')
                     }).then(function successCallback (data, status, headers, config) {
-                        $scope.appList = data.data.apps;
+                        // 获取要显示的图标
+                        var getVisibleApp = R.filter(function (item) {
+                            var val = item.appName
+                            return self.visibleApp.indexOf(val) > -1
+                        })
+                        $scope.appList = getVisibleApp(data.data.apps)
                         // 如果有指定appid focus
                         if ($stateParams.appId) {
                             self.setFocusApp($stateParams.appId);
@@ -498,9 +505,57 @@
                     }
 
                 }
+
+                self.changePass = function () {
+                    $scope.app.maskParams = {};
+                    $scope.app.showHideMask(true, 'pages/password.html');
+                }
             }
         ])
+        // 修改密码
+        .controller('changePasswordController', ['$scope', '$filter',  '$state', '$http', '$stateParams', 'md5','util',
+            function ($scope, $filter,  $state, $http, $stateParams,md5, util) {
+                var self = this;
 
+                self.init = function () {
+                    self.langStyle = util.langStyle();
+                    // 表单提交 等级信息
+                    self.form = {};
+                }
+                self.submit = function () {
+                    var data = JSON.stringify({
+                        "action": "ChangePassword",
+                        "token": util.getParams('token'),
+                        "OldPassword": md5.createHash(self.form.oldPassword),
+                        "Password": md5.createHash(self.form.password)
+                    });
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('user', '', 'server'),
+                        data: data
+                    }).then(function successCallback(data, status, headers, config) {
+                        if (data.data.rescode == "200") {
+                            alert('修改成功');
+                            $state.reload();
+                        }
+                        else if (data.data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        }
+                        else {
+                            alert('修改失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+                self.close = function () {
+                    $scope.app.showHideMask(false);
+                }
+            }
+        ])
         .controller('feedbackController', ['$scope', function ($scope) {
             var self = this;
             self.init = function () {
