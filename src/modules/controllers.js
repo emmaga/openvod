@@ -999,7 +999,7 @@
                             "per_page": 999,
                             "RouteID": "",
                             "Date": self.Date,
-                            "Status": "ACCEPT"
+                            "Status": ["ACCEPT", "COMPLETED"]   // 审核通过和已完成订单
                         }
                     })
 
@@ -1010,8 +1010,7 @@
                     }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
-                            var sortData = getSortedData(data.data.data) // 对数据进行排序处理
-                            self.list = combineCell(sortData)  // 添加表格跨行信息
+                            self.list = self.rebuildData(data.data.data)  // 对数据按表格进行格式化
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $state.go('login');
@@ -1029,60 +1028,55 @@
                     $scope.app.showHideMask(false);
                 }
 
-                // 给数据添加表格合并信息
-                function combineCell (list) {
-                    for (var field in list[0]) {
-                        var k = 0
-                        if (!(field === 'RouteName' || field === 'Time')) {
-                            list[k][field + 'span'] = 1
-                            list[k][field + 'dis'] = false
-                        } else {
-                            while (k < list.length) {
-                                list[k][field + 'span'] = 1
-                                list[k]['Total'] = list[k]['Number']
-                                list[k][field + 'dis'] = false
-                                for (var i = k + 1; i <= list.length - 1; i++) {
-                                    if (list[k]['RouteName'] === list[i]['RouteName'] && list[k][field] === list[i][field] && list[k][field] !== '' && list[k][field] !== '0') {
-                                        list[k][field + 'span']++
-                                        list[k][field + 'dis'] = false
-                                        list[i][field + 'span'] = 1
-                                        list[i][field + 'dis'] = true
-                                        list[k]['Total'] += list[i]['Number']
-                                    } else {
-                                        break
-                                    }
-                                }
-                                k = i
-                            }
-                        }
+                // 按班次排序生成跨行表格数据
+                self.rebuildData = function (tableData) {
+                    // 获取去重属性值
+                    function getUiqName (prop, data) {
+                        var name = []
+                        R.forEach(function (item) {
+                            name.push(item[prop])
+                        }, data)
+                        return R.uniq(name)
                     }
-                    return list
-                }
 
-                // 对数据将同一路线的不同班次进行排序
-                function getSortedData (data) {
-                    var newData = []
-
-                    // 获取所有路线
-                    var lines = []
-                    for (var i = 0; i < data.length; i++) {
-                        var lineType = data[i].RouteName
-                        lines.push(lineType)
+                    // 数组属性值求和
+                    function sum (a, b, prop) {
+                        var nextVal = b[prop] ? Number(b[prop]) : 0
+                        return a + nextVal
                     }
-                    var uniqLine = R.uniq(lines) // 数组去重
 
-                    // 对单一路线进行时间排序
-                    uniqLine.forEach(function (item) {
-                        var findLine = function (obj) {
-                            return obj.RouteName === item
-                        }
-                        var lineGroup = R.filter(findLine, data)
-                        var sortByTime = R.sortBy(R.prop('Time'))
-                        var lineSortGroup = sortByTime(lineGroup)  // 按时间排序过的某条路线
-                        newData = newData.concat(lineSortGroup)  // 拼接所有排序正确的数据
-                    })
+                    var lines = getUiqName('RouteName', tableData)
+                    var sortedArr = []
+                    R.forEach(function (j) {
+                        var lineArr = R.filter(R.propEq('RouteName', j))(tableData)   // 获取单一路线
+                        var lineTimeArr = R.sortBy(R.prop('Time'))(lineArr)           // 按时间排序
+                        var times = getUiqName('Time', lineTimeArr)                   // 当前线路所有班次
+                        lineTimeArr[0].routeSpan = lineTimeArr.length                 // 设置路线跨行
 
-                    return newData
+                        R.forEach(function (k) {
+                            var timeArr = R.filter(R.propEq('Time', k))(lineTimeArr)  // 获取单一班次
+                            var towers = getUiqName('Terminal', timeArr)              // 当前班次所有航站楼
+                            timeArr[0].timeSpan = timeArr.length                      // 设置班次跨行
+                            timeArr[0].timeAll = 0
+                            timeArr.forEach(function (item) {
+                                timeArr[0].timeAll += item.Number    // 计算班次总计
+                            })
+
+                            R.forEach(function (l) {
+                                var towerArr = R.filter(R.propEq('Terminal', l))(timeArr)  // 获取单一航站楼
+                                towerArr[0].towerSpan = towerArr.length   // 设置航班跨行
+                                towerArr[0].towerAll = 0
+                                towerArr.forEach(function (item) {
+                                    towerArr[0].towerAll += item.Number    // 计算航班总计
+                                })
+                                sortedArr = sortedArr.concat(towerArr)   // 拼接所有数据
+                            })(towers)
+
+                        })(times)
+
+                    })(lines)
+
+                    return sortedArr
                 }
             }
         ])
