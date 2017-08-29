@@ -999,7 +999,7 @@
         }])
 
         .constant('CONFIG', {
-            serverUrl: 'http://192.168.30.100/backend_mgt/v1/',
+            serverUrl: 'http://192.168.17.27/backend_mgt/v1/',
             // serverUrl: 'http://192.168.17.132/backend_mgt/v1/',
             // serverUrl: 'http://openvod.cleartv.cn/backend_mgt/v1/',
             uploadUrl: 'http://mres.cleartv.cn/upload',

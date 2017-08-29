@@ -39,7 +39,7 @@
                             util.setParams('projectName', self.projectName);
                             util.setParams('token', msg.token);
                             util.setParams('projectDes', msg.ProjectNameCN);
-
+                            util.setParams('visibleApp', msg.privileges);
                             self.getEditLangs();
                         } else {
                             alert(msg.rescode + ' ' + msg.errInfo);
@@ -90,7 +90,7 @@
                     self.maskUrl = '';
                     self.maskParams = {};
 
-                    self.visibleApp = ['Bus', 'Hotel','BusOrder', 'MemberManage', 'QrcodeScene']
+                    self.visibleApp = util.getParams('visibleApp')
                     // 读取applists
                     self.loading = true;
                     $http({
