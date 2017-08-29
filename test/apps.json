@@ -3,6 +3,7 @@
     {
       "id": 1,
       "name": "酒店客房",
+      "appName":"Room",
       "icon": "dist/imgs/app-icon-02.png",
       "bgColor": "rgb(186,104,4)",
       "themeColor":"#fbb03b"
@@ -10,6 +11,7 @@
     {
       "id": 2,
       "name": "预定订单",
+      "appName":"RoomOrder",
       "icon": "dist/imgs/app-icon-04.png",
       "bgColor": "rgb(186,104,4)",
       "themeColor":"#fbb03b"
@@ -17,6 +19,7 @@
     {
       "id": 3,
       "name": "商城",
+      "appName":"Shop",
       "icon": "dist/imgs/app-icon-01.png",
       "bgColor": "rgb(125,0,0)",
       "themeColor":"#c1272d"
@@ -24,6 +27,7 @@
     {
       "id": 4,
       "name": "商城订单",
+      "appName":"ShopOrder",
       "icon": "dist/imgs/app-icon-03.png",
       "bgColor": "rgb(125,0,0)",
       "themeColor":"#c1272d"
@@ -31,6 +35,7 @@
     {
       "id": 5,
       "name": "TV界面",
+      "appName":"TV",
       "icon": "dist/imgs/app-icon-06.png",
       "bgColor": "rgb(31,30,23)",
       "themeColor":"rgb(51,121,191)"
@@ -38,6 +43,7 @@
     {
       "id": 6,
       "name": "终端管理",
+      "appName": "TermManage",
       "icon": "dist/imgs/app-icon-07.png",
       "bgColor": "rgb(21,21,21)",
       "themeColor":"rgb(51,121,191)"
@@ -45,6 +51,7 @@
     {
       "id": 7,
       "name": "微信用户",
+      "appName": "WeiXinManage",
       "icon": "dist/imgs/app-icon-08.png",
       "bgColor": "#088b08",
       "themeColor":"#088b08"
@@ -52,6 +59,7 @@
     {
       "id": 8,
       "name": "扫码统计",
+      "appName": "QrcodeScene",
       "icon": "dist/imgs/app-icon-11.png",
       "bgColor": "rgb(1,161,171)",
       "themeColor":"rgb(1,141,151)"
@@ -59,6 +67,7 @@
     {
       "id": 9,
       "name": "项目配置",
+      "appName": "Hotel",
       "icon": "dist/imgs/app-icon-09.png",
       "bgColor": "rgb(251,91,51)",
       "themeColor":"rgb(251,91,51)"
@@ -66,6 +75,7 @@
     {
       "id": 10,
       "name": "滚动字幕",
+      "appName": "ScrollingMarquee",
       "icon": "dist/imgs/app-icon-10.png",
       "bgColor": "rgb(51,91,51)",
       "themeColor":"rgb(51,91,51)"
@@ -73,6 +83,7 @@
     {
       "id": 11,
       "name": "会员",
+      "appName": "MemberManage",
       "icon": "dist/imgs/app-icon-12.png",
       "bgColor": "#4b3d3c",
       "themeColor":"#c18458"
@@ -80,6 +91,7 @@
     {
       "id": 12,
       "name": "班车预约",
+      "appName": "Bus",
       "icon": "dist/imgs/app-icon-13.png",
       "bgColor": "rgb(55,155,255)",
       "themeColor":"rgb(55,155,255)"
@@ -87,6 +99,7 @@
     {
       "id": 13,
       "name": "班车订单",
+      "appName": "BusOrder",
       "icon": "dist/imgs/app-icon-14.png",
       "bgColor": "rgb(55,155,255)",
       "themeColor":"rgb(55,155,255)"
@@ -94,6 +107,7 @@
     {
       "id": 14,
       "name": "报表统计",
+      "appName": "Statistics",
       "icon": "dist/imgs/app-icon-15.png",
       "bgColor": "#4b3d3c",
       "themeColor":"#c18458"
