@@ -1225,7 +1225,7 @@
                         "token": util.getParams("token"),
                         "data": {
                             "ID": self.routeList[self.routeIndex].ID
-                        } 
+                        }
                     }
                     data = JSON.stringify(data);
                     $http({
@@ -1234,11 +1234,7 @@
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == '200') {
-                            if (data.data.data.length == 0) {
-                                self.noData = true;
-                            } else {
-                                self.terminalList = data.data.data
-                            }
+                            self.terminalList = data.data.data
                         } else if (data.data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $state.go('login');
@@ -1254,7 +1250,7 @@
                     $scope.app.maskParams.getTerminal = self.getTerminal;
                     $scope.app.showHideMask(true, 'pages/addTerminal.html');
                 }
-                self.editTerminal = function (id,name) {
+                self.editTerminal = function (id, name) {
                     $scope.app.maskParams = {'editTMId': id};
                     $scope.app.maskParams.getTerminal = self.getTerminal;
                     $scope.app.maskParams.oldName = name;
@@ -1375,7 +1371,7 @@
                         "data": {
                             "ID": self.routeid,
                             "Name": self.Name
-                        } 
+                        }
                     };
                     data = JSON.stringify(data);
                     self.saving = true;
