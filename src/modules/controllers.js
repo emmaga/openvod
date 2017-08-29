@@ -1260,9 +1260,11 @@
                     $scope.app.maskParams.getTerminal = self.getTerminal;
                     $scope.app.showHideMask(true, 'pages/addTerminal.html');
                 }
-                self.editTerminal = function (id) {
+                self.editTerminal = function (id,name) {
                     $scope.app.maskParams = {'editTMId': id};
                     $scope.app.maskParams.getTerminal = self.getTerminal;
+                    $scope.app.maskParams.oldName = name;
+                    console.log(name)
                     $scope.app.showHideMask(true, 'pages/editTerminal.html');
                 }
                 self.delTerminal = function (id) {
@@ -1416,6 +1418,8 @@
                     self.multiLang = util.getParams('editLangs');
                     self.editTMId = $scope.app.maskParams.editTMId;
                     self.saving = false;
+                    self.Name = $scope.app.maskParams.oldName;
+                    console.log(self.Name + 'selfName')
                 }
 
                 self.cancel = function () {

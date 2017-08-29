@@ -44,7 +44,7 @@
             <div>
                 <span ng-repeat="terminal in bus.terminalList" style="line-height: 18px;">
                     {{terminal.Name}}
-                    <a ng-click="bus.editTerminal(terminal.ID)" class="title-btn"><i class="icon ion-ios-compose-outline theme-color"></i></a>
+                    <a ng-click="bus.editTerminal(terminal.ID, terminal.Name)" class="title-btn"><i class="icon ion-ios-compose-outline theme-color"></i></a>
                     <a ng-click="bus.delTerminal(terminal.ID)" class="title-btn"><i class="icon ion-ios-close-outline theme-color"></i></a>
                     &emsp;
                 </span>
