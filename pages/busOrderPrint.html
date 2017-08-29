@@ -17,30 +17,38 @@
                 班车登记表 <span style="margin-left: 20px">发车日期：{{bod.Date}}</span>
             </div>
             <style>
-                .busPrintTable{ width: 100% }
-                .busPrintTable td,.busPrintTable th{
-                    border: 1px solid #999; vertical-align: middle;
+                .busPrintTable {
+                    width: 100%
+                }
+
+                .busPrintTable td, .busPrintTable th {
+                    border: 1px solid #999;
+                    vertical-align: middle;
                     padding: 5px 10px;
                 }
             </style>
             <table class="busPrintTable table-responsive">
                 <tr>
-                    <td>线路名称</td>
-                    <td>班次</td>
-                    <td>总人数</td>
-                    <td>订单号</td>
-                    <td>预订人姓名</td>
-                    <td>预订人数</td>
-                    <td>预订人手机</td>
+                    <td width="110">路线名称</td>
+                    <td width="80">班次</td>
+                    <td width="70">总人数</td>
+                    <td width="70">航站楼</td>
+                    <td width="70">航站楼总人数</td>
+                    <td width="100">预订人姓名</td>
+                    <td>人数</td>
+                    <td width="70">航班号</td>
+                    <td width="136">航班号预订人手机</td>
                 </tr>
                 <tr ng-repeat="item in bod.list">
-                    <td rowspan="{{item.RouteNamespan}}" ng-show="!item.RouteNamedis">{{item.RouteName}}</td>
-                    <td rowspan="{{item.Timespan}}" ng-show="!item.Timedis">{{item.Time}}</td>
-                    <td rowspan="{{item.Timespan}}" ng-show="!item.Timedis">{{item.Total}}</td>
-                    <td rowspan="{{item.OrderIDspan}}" ng-show="!item.OrderIDdis">{{item.OrderID}}</td>
-                    <td rowspan="{{item.Namespan}}" ng-show="!item.Namedis">{{item.Name}}</td>
-                    <td rowspan="{{item.Numberspan}}" ng-show="!item.Numberdis">{{item.Number}}</td>
-                    <td rowspan="{{item.Phonespan}}" ng-show="!item.Phonedis">{{item.Phone}}</td>
+                    <td rowspan="{{item.routeSpan}}" ng-show="item.routeSpan&&item.routeSpan>=1">{{item.RouteName}}</td>
+                    <td rowspan="{{item.timeSpan}}" ng-show="item.timeSpan&&item.timeSpan>=1">{{item.Time}}</td>
+                    <td rowspan="{{item.timeSpan}}" ng-show="item.timeSpan&&item.timeSpan>=1">{{item.timeAll}}</td>
+                    <td rowspan="{{item.towerSpan}}" ng-show="item.towerSpan&&item.towerSpan>=1">{{item.Terminal}}</td>
+                    <td rowspan="{{item.towerSpan}}" ng-show="item.towerSpan&&item.towerSpan>=1">{{item.towerAll}}</td>
+                    <td>{{item.Name}}</td>
+                    <td>{{item.Number}}</td>
+                    <td>{{item.Flight}}</td>
+                    <td>{{item.Phone}}</td>
                 </tr>
             </table>
             <!-- </div> -->
