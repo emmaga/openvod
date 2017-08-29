@@ -1,0 +1,123 @@
+<div ng-controller="ticketAddController as ticketAdd" ng-init="ticketAdd.init()"
+     class="autoscroll modal-dialog modal-lg">
+    <div class="modal-content">
+        <!-- loading -->
+        <div ng-show="loading">loading...</div>
+        <!-- loadingAddPrice -->
+        <div ng-show="loadingAddPrice">loadingAddPrice...</div>
+        <!-- form -->
+        <form id="ticketAddForm" name="ticketAddForm"
+              ng-submit="ticketAddForm.$valid && ticketAdd.save()" role="form">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="ticketAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">新增门票</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>名称</label>
+                    <input class="form-control" ng-model="ticketAdd.name" required placeholder="（必填）" step='0.01' min="0">
+                </div>
+                <div class="form-group">
+                    <label>描述</label>
+                    <textarea ng-trim="false" class="form-control" rows="2" ng-model="ticketAdd.description" required placeholder="（必填）"></textarea>
+                </div>
+                <!-- 常规 -->
+                <label>平时价格</label>
+                <br>
+                <div class="weeklysetting">
+                    <div class="form-group">
+                        <small>周一</small>
+                        <input type="number" class="form-control" ng-model="ticketAdd.ticketDetail.PriceMonday"
+                               required placeholder="（必填）" step='0.01' min="0">
+                    </div>
+                    <div class="form-group">
+                        <small>周二</small>
+                        <input type="number" class="form-control" ng-model="ticketAdd.ticketDetail.PriceTuesday"
+                               required placeholder="（必填）" step='0.01' min="0">
+                    </div>
+                    <div class="form-group">
+                        <small>周三</small>
+                        <input type="number" class="form-control" ng-model="ticketAdd.ticketDetail.PriceWednesday"
+                               required placeholder="（必填）" step='0.01' min="0">
+                    </div>
+                    <div class="form-group">
+                        <small>周四</small>
+                        <input type="number" class="form-control" ng-model="ticketAdd.ticketDetail.PriceThursday"
+                               required placeholder="（必填）" step='0.01' min="0">
+                    </div>
+                    <div class="form-group">
+                        <small>周五</small>
+                        <input type="number" class="form-control" ng-model="ticketAdd.ticketDetail.PriceFriday"
+                               required placeholder="（必填）" step='0.01' min="0">
+                    </div>
+                    <div class="form-group">
+                        <small>周六</small>
+                        <input type="number" class="form-control" ng-model="ticketAdd.ticketDetail.PriceSaturday"
+                               required placeholder="（必填）" step='0.01' min="0">
+                    </div>
+                    <div class="form-group">
+                        <small>周日</small>
+                        <input type="number" class="form-control" ng-model="ticketAdd.ticketDetail.PriceSunday"
+                               required placeholder="（必填）" step='0.01' min="0">
+                    </div>
+                </div>
+                <!-- 常规 end-->
+                <!-- 特殊 -->
+                <label>临时设置</label>
+                <a type="button" ng-click="ticketAdd.addTemporary(0)">添加设置</a>
+                <ul class="setting-group">
+                    <!-- 设置块 -->
+                    <li class="setting-group-item " ng-repeat="reply in ticketAdd.SpecialPrice">
+                        <div class="row">
+                            <!-- 日期选择器 -->
+                            <div class="col-xs-7 col-condensed">
+                                <small>日期</small>
+                                <input type="text" class="form-control" uib-datepicker-popup
+                                       ng-model="ticketAdd.SpecialPrice[$index].PlayDate"
+                                       is-open="ticketAdd.SpecialPrice[$index].Opened"
+                                       datepicker-options="dateOptions" required placeholder="（必填）" close-text="Close"
+                                       placeholder="请选择日期" ng-click="ticketAdd.open($index)"/>
+                            </div>
+                            <!-- 数字输入框 -->
+                            <div class="col-xs-4 col-condensed">
+                                <small>价格</small>
+                                <input type="number" class="form-control"
+                                       ng-model="ticketAdd.SpecialPrice[$index].Price" required
+                                       placeholder="请输入价格（必填）" step='0.01' min="0"/>
+                                <!-- {{ticketAdd.SpecialPrice[$index].Price | currency : '￥'}} -->
+                            </div>
+                            <!-- 关闭按钮 -->
+                            <div class="col-xs-1 col-condensed">
+                                <button type="button" data-dismiss="modal"
+                                        ng-click="ticketAdd.deleteTemporary($index)"
+                                        class="button button-light setting-group-delete">
+                                    <i class="ion-ios-close-outline"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    <!--设置块 end-->
+                </ul>
+                <!-- 特殊 end -->
+                <!-- row end -->
+            </div>
+            <!--body end-->
+
+            <!--footer-->
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="ticketAdd.cancel()">{{'CANCEL' | translate}}</button>
+                <button class="btn btn-primary" type="submit" ng-disabled="ticketAdd.saving"
+                        form="ticketAddForm">{{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
+        </form>
+
+    </div>
+</div>

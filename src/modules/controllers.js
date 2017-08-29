@@ -460,6 +460,11 @@
                                 $state.go('app.reportForm', {'appId': n});
                             }
                             break;
+                        case 15:
+                            if (!$state.includes('app.ticket')) {
+                                $state.go('app.ticket', {'appId': n});
+                            }
+                            break;
                         default:
                             break;
 
@@ -4324,6 +4329,8 @@
                     self.SpecialPrice = [];
                     self.roomDetail = [];
                     self.addPrice = [];
+                    self.selected = null;
+                    self.ticketEditing = false;
                     self.load();
                     self.loadAddPrice();
                     self.loadTicketPrice();
@@ -4411,7 +4418,7 @@
                     );
                 }
 
-                // 加载票价
+                // 获取门票
                 self.loadTicketPrice = function () {
                     var data = JSON.stringify({
                         action: "getTicketPriceInfo",
@@ -4427,7 +4434,7 @@
                     }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
-                            self.ticketPrice = data.TicketPriceInfo / 100;
+                            self.ticket = data
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $state.go('login');
@@ -4449,7 +4456,7 @@
                         lang: lang,
                         token: token,
                         roomID: self.roomId,
-                        TicketPriceInfo: self.ticketPrice * 100
+                        TicketID: self.selected
                     })
                     self.loadingTicketPrice = true;
                     $http({
@@ -4473,6 +4480,37 @@
                         }
                     );
                 }
+
+                self.showAllTicket = function () {
+                    var data = JSON.stringify({
+                        "action": "getList",
+                        "token": token
+                    })
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('ticket', '', 'server'),
+                        data: data
+                    }).then(function successCallback (response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.ticketEditing = true
+                            self.ticketList = data.data
+                            self.ticketList.unshift({'Name': '请选择', 'ID': 0})
+                            self.selected = self.ticket.TicketID !== 0 ? self.ticket.TicketID : 0
+                            if (data.data.length > 0) {
+                                self.noData = false;
+                            }
+                        } else {
+                            alert('读取失败' + data.rescode + ' ' + data.errInfo);
+                        }
+                    }, function errorCallback (response) {
+                        alert(response.status + ' 服务器出错');
+                    }).finally(function (e) {
+                        self.loading = false;
+                    });
+                }
+
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
                 }

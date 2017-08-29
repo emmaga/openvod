@@ -8,6 +8,13 @@
       "themeColor":"#fbb03b"
     },
     {
+      "id": 15,
+      "name": "门票",
+      "icon": "dist/imgs/app-icon-15.png",
+      "bgColor": "#4b3d3c",
+      "themeColor":"#c18458"
+    },
+    {
       "id": 2,
       "name": "预定订单",
       "icon": "dist/imgs/app-icon-04.png",

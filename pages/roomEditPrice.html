@@ -180,30 +180,19 @@
             <!--footer end-->
         </form>
 
-        <form id="roomEditTicketPriceForm" name="roomEditTicketPriceForm"
-              ng-submit="roomEditTicketPriceForm.$valid && roomEditPrice.saveTicketPrice()" role="form">
+        <form id="roomEditTicketPriceForm" name="roomEditTicketPriceForm" ng-submit="roomEditTicketPriceForm.$valid && roomEditPrice.saveTicketPrice()" role="form">
             <div class="modal-body">
-                <label>总票价(元)</label>
-                <ul class="setting-group" style="position: relative; top: -21px; padding-top: 0;">
-                    <li class="setting-group-item " style="margin-top: 40px;">
-                        <div class="row">
-                            <div class="col-xs-3  col-condensed">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <input type="number" class="form-control" ng-model="roomEditPrice.ticketPrice"
-                                               required placeholder="请输入价格" step='0.01'/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <label>当前已绑定门票为：</label>
+                <span ng-show="!roomEditPrice.ticketEditing">{{roomEditPrice.ticket.TicketName?roomEditPrice.ticket.TicketName:'空'}} —— {{roomEditPrice.ticket.TicketDescription?roomEditPrice.ticket.TicketDescription:'暂无描述'}}</span>
+                <span ng-show="roomEditPrice.ticketEditing" class="form-inline">
+                    <select class="form-control" ng-model="roomEditPrice.selected" ng-options="item.ID as item.Name for item in roomEditPrice.ticketList"></select>
+                </span>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" ng-click="roomEditPrice.cancel()">{{'CANCEL' | translate}}</button>
-                <button class="btn btn-primary" type="submit" ng-disabled="roomEditPrice.savingTicketPrice"
-                        form="roomEditTicketPriceForm">{{'SAVE' | translate}}
+                <button class="btn btn-primary" type="submit" ng-disabled="roomEditPrice.savingTicketPrice" form="roomEditTicketPriceForm" ng-show="roomEditPrice.ticketEditing">提交修改
                 </button>
+                <a class="btn btn-primary" ng-click="roomEditPrice.showAllTicket()" ng-show="!roomEditPrice.ticketEditing">添加或修改绑定</a>
             </div>
         </form>
 

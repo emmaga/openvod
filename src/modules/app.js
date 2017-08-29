@@ -14,6 +14,7 @@
         'app.services',
         'app.qcode',
         'app.report',
+        'app.ticket',
         'angular-md5',
         'ngCookies',
         'ngTable',
@@ -984,6 +985,11 @@
                 .state('app.reportForm', {
                     url: '/reportForm',
                     templateUrl: 'pages/reportForm.html'
+                })
+
+                .state('app.ticket', {
+                    url: '/ticket',
+                    templateUrl: 'pages/ticket.html'
                 })
         }])
 
