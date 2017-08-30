@@ -1,0 +1,22 @@
+<div ng-controller="memberCardController as memberCard" ng-init="memberCard.init()" class="container">
+
+    <!-- 左侧菜单 -->
+    <div class="nav-left ">
+        <ul class="nav nav-stacked nav-left-content">
+            <li class="nav-header" ui-sref-active="active" ui-sref="app.reportForm.placeOrderForm">
+                <a class="theme-hover">
+                    下单统计
+                </a>
+            </li>
+            <li class="nav-header" ui-sref-active="active" ui-sref="app.reportForm.orderCompleteForm">
+                <a class="theme-hover">
+                    已完成统计
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 右侧部分 -->
+    <ui-view></ui-view>
+
+</div>
