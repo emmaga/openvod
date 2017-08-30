@@ -1271,7 +1271,6 @@
                                 deferred.reject();
                             } else {
                                 self.routeList = data.data.data
-                                console.log(self.routeList)
                                 deferred.resolve();
                             }
                         } else if (data.data.rescode == '401') {
