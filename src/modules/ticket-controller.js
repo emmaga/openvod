@@ -40,6 +40,10 @@
 
                 // 删除
                 self.delete = function (id) {
+                    var flag = confirm('确认删除？');
+                    if (!flag) {
+                        return;
+                    }
                     var data = JSON.stringify({
                         "action": "delete",
                         "token": token,
@@ -54,14 +58,21 @@
                         data: data
                     }).then(function successCallback (response) {
                         var data = response.data;
+                        console.log(data)
                         if (data.rescode == '200') {
                             alert('删除成功')
                             self.loadList()
-                        } else if (data.data.rescode == "401") {
+                        } else if (data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
-                            alert('删除失败， ' + data.data.errInfo);
+                            var error
+                            if (data.errInfo === 'Ticket is in use.') {
+                                error = '门票已被绑定，请取消绑定再删除'
+                            } else {
+                                error = data.errInfo
+                            }
+                            alert('删除失败， ' + error);
                         }
                     }, function errorCallback (response) {
                         alert(response.status + ' 服务器出错');

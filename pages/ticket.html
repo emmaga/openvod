@@ -13,13 +13,11 @@
         </div>
         <table class="table table-hover table-condensed" ng-show="!ticketCtr.loading">
             <tr>
-                <td>ID</td>
-                <td>门票名称</td>
-                <td>门票描述</td>
-                <td>操作</td>
+                <th>门票名称</th>
+                <th>门票描述</th>
+                <th>操作</th>
             </tr>
             <tr ng-repeat="item in ticketCtr.ticketList">
-                <td>{{item.ID}}</td>
                 <td>{{item.Name}}</td>
                 <td>{{item.Description}}</td>
                 <td>
