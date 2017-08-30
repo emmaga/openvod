@@ -21,6 +21,7 @@ module.exports = function(grunt) {
                             'src/modules/filters.js',
                             'src/modules/qcode-controller.js',
                             'src/modules/report-controller.js',
+                            'src/modules/ticket-controller.js',
                             'plugins/angular-locale_zh-cn.js',
                             'plugins/ramda.min.js'
                         ],

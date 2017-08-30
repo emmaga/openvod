@@ -17,6 +17,13 @@
       "themeColor":"#fbb03b"
     },
     {
+      "id": 15,
+      "name": "门票",
+      "icon": "dist/imgs/app-icon-15.png",
+      "bgColor": "#4b3d3c",
+      "themeColor":"#c18458"
+    },
+    {
       "id": 3,
       "name": "商城",
       "appName":"Shop",
