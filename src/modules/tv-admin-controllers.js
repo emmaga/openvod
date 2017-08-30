@@ -518,6 +518,11 @@
                     self.changeMenuInfo();
                 }
 
+                // philips清流
+                if(branch.data.type == 'DVB_C') {
+                    $state.go('app.tvAdmin.DVB_C', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
                 // 烟草局 WPS 文件
                 if(branch.data.type == 'WPS_FileCommon') {
                     $state.go('app.tvAdmin.WPS_FileCommon', {moduleId: branch.data.moduleId, label: branch.label});

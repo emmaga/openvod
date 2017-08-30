@@ -20,9 +20,9 @@
       "id": 15,
       "name": "门票",
       "appName":"Ticket",
-      "icon": "dist/imgs/app-icon-15.png",
-      "bgColor": "#4b3d3c",
-      "themeColor":"#c18458"
+      "icon": "dist/imgs/app-icon-16.png",
+      "bgColor": "#10946a",
+      "themeColor":"#12966a"
     },
     {
       "id": 3,
