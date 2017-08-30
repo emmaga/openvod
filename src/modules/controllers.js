@@ -4451,6 +4451,10 @@
 
                 // 保存票价
                 self.saveTicketPrice = function () {
+                    if (R.isEmpty(self.selected)) {
+                        alert('请选择取消绑定或门票')
+                        return false
+                    }
                     var data = JSON.stringify({
                         action: "setTicketPriceInfo",
                         lang: lang,
@@ -4467,7 +4471,9 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('保存成功');
-                            $state.reload();
+                            self.loadTicketPrice()
+                            self.ticketEditing = false
+                            // $state.reload();
                         } else if (msg.rescode == '401') {
                             alert('访问超时，请重新登录');
                             $state.go('login');
@@ -4496,8 +4502,9 @@
                         if (data.rescode == '200') {
                             self.ticketEditing = true
                             self.ticketList = data.data
-                            self.ticketList.unshift({'Name': '请选择', 'ID': 0})
-                            self.selected = self.ticket.TicketID !== 0 ? self.ticket.TicketID : 0
+                            self.ticketList.unshift({'Name': '请选择', 'ID': ''})
+                            self.ticketList.push({'Name': '取消绑定', 'ID': 0})
+                            self.selected = self.ticket.TicketID !== 0 ? self.ticket.TicketID : ''
                             if (data.data.length > 0) {
                                 self.noData = false;
                             }
