@@ -1065,10 +1065,14 @@
                             R.forEach(function (l) {
                                 var towerArr = R.filter(R.propEq('Terminal', l))(timeArr)  // 获取单一航站楼
                                 towerArr[0].towerSpan = towerArr.length   // 设置航班跨行
-                                towerArr[0].towerAll = 0
-                                towerArr.forEach(function (item) {
-                                    towerArr[0].towerAll += item.Number    // 计算航班总计
-                                })
+                                if(R.isEmpty(l)){
+                                    towerArr[0].towerAll=''
+                                }else{
+                                    towerArr[0].towerAll = 0
+                                    towerArr.forEach(function (item) {
+                                        towerArr[0].towerAll += item.Number    // 计算航班总计
+                                    })
+                                }
                                 sortedArr = sortedArr.concat(towerArr)   // 拼接所有数据
                             })(towers)
 
