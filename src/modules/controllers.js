@@ -151,15 +151,24 @@
                         "url": "businfo/order"
                     }
 
+
+
                     if (self.path != '/login') {//未登录时不轮询，和退出登录时结束轮询
                         //解决重载时，需要等待polling轮询一次,才能得到数据
-                        self.search(self.roomData);
-                        self.search(self.shopData);
-                        self.search(self.busData);
+                        if(self.visibleApp.indexOf('RoomOrder')>-1){
+                            self.search(self.roomData);
+                            self.polling(self.roomData);
+                        }
 
-                        self.polling(self.roomData);
-                        self.polling(self.shopData);
-                        self.polling(self.busData);
+                        if(self.visibleApp.indexOf('ShopOrder')>-1) {
+                            self.search(self.shopData);
+                            self.polling(self.shopData);
+                        }
+
+                        if(self.visibleApp.indexOf('BusOrder')>-1) {
+                            self.search(self.busData);
+                            self.polling(self.busData);
+                        }
                     }
                 }
                 // 新订单提醒弹框:
@@ -464,7 +473,7 @@
                             break;
                         case 14:
                             if (!$state.includes('app.reportForm')) {
-                                $state.go('app.reportForm', {'appId': n});
+                                $state.go('app.reportForm.placeOrderForm', {'appId': n});
                             }
                             break;
                         case 15:

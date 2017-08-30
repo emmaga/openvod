@@ -973,7 +973,17 @@
 
                 .state('app.reportForm', {
                     url: '/reportForm',
-                    templateUrl: 'pages/reportForm.html'
+                    templateUrl: 'pages/reportForm/reportForm.html'
+                })
+
+                .state('app.reportForm.placeOrderForm', {
+                    url: '/placeOrderForm',
+                    templateUrl: 'pages/reportForm/placeOrderForm.html'
+                })
+
+                .state('app.reportForm.orderCompleteForm', {
+                    url: '/orderCompleteForm',
+                    templateUrl: 'pages/reportForm/orderCompleteForm.html'
                 })
 
                 .state('app.ticket', {
