@@ -152,20 +152,19 @@
                     }
 
 
-
                     if (self.path != '/login') {//未登录时不轮询，和退出登录时结束轮询
                         //解决重载时，需要等待polling轮询一次,才能得到数据
-                        if(self.visibleApp.indexOf('RoomOrder')>-1){
+                        if (self.visibleApp.indexOf('RoomOrder') > -1) {
                             self.search(self.roomData);
                             self.polling(self.roomData);
                         }
 
-                        if(self.visibleApp.indexOf('ShopOrder')>-1) {
+                        if (self.visibleApp.indexOf('ShopOrder') > -1) {
                             self.search(self.shopData);
                             self.polling(self.shopData);
                         }
 
-                        if(self.visibleApp.indexOf('BusOrder')>-1) {
+                        if (self.visibleApp.indexOf('BusOrder') > -1) {
                             self.search(self.busData);
                             self.polling(self.busData);
                         }
@@ -315,7 +314,7 @@
                         var data = response.data;
                         // console && console.dir(data);
                         if (data.rescode == '200') {
-                            if (data.total === 0 || data.data.TotalCount === 0) {//如果没有待审核订单
+                            if (data.total === 0 || (data.data && data.data.TotalCount === 0)) {//如果没有待审核订单
                                 DATA.noData = true;
                                 DATA.newData = false;//没有新订单
                             } else {//否则，有待审核订单
@@ -527,8 +526,8 @@
             }
         ])
         // 修改密码
-        .controller('changePasswordController', ['$scope', '$filter',  '$state', '$http', '$stateParams', 'md5','util',
-            function ($scope, $filter,  $state, $http, $stateParams,md5, util) {
+        .controller('changePasswordController', ['$scope', '$filter', '$state', '$http', '$stateParams', 'md5', 'util',
+            function ($scope, $filter, $state, $http, $stateParams, md5, util) {
                 var self = this;
 
                 self.init = function () {
@@ -547,7 +546,7 @@
                         method: 'POST',
                         url: util.getApiUrl('user', '', 'server'),
                         data: data
-                    }).then(function successCallback(data, status, headers, config) {
+                    }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
                             alert('修改成功');
                             $state.reload();
@@ -559,7 +558,7 @@
                         else {
                             alert('修改失败，错误编码：' + data.data.rescode + '，' + data.data.errInfo);
                         }
-                    }, function errorCallback(data, status, headers, config) {
+                    }, function errorCallback (data, status, headers, config) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;
@@ -1134,9 +1133,9 @@
                             R.forEach(function (l) {
                                 var towerArr = R.filter(R.propEq('Terminal', l))(timeArr)  // 获取单一航站楼
                                 towerArr[0].towerSpan = towerArr.length   // 设置航班跨行
-                                if(R.isEmpty(l)){
-                                    towerArr[0].towerAll=''
-                                }else{
+                                if (R.isEmpty(l)) {
+                                    towerArr[0].towerAll = ''
+                                } else {
                                     towerArr[0].towerAll = 0
                                     towerArr.forEach(function (item) {
                                         towerArr[0].towerAll += item.Number    // 计算航班总计
