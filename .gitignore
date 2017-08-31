@@ -14,5 +14,7 @@ dist/style/app.min.css
 
 *.xml
 
+package-lock.json
+
 *.iml
 .idea/*
