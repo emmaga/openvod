@@ -63,6 +63,10 @@
                     url: '/shop',
                     templateUrl: 'pages/shop.html'
                 })
+                .state('app.ShopDesign', {
+                    url: '/ShopDesign',
+                    templateUrl: 'pages/shop.html'
+                })
                 .state('app.terminal', {
                     url: '/terminal',
                     templateUrl: 'pages/terminal.html'
@@ -903,6 +907,16 @@
                 .state('app.tvAdmin.DVB_C', {
                     url: '/DVB_C?moduleId&label',
                     templateUrl: 'pages/tv/live.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                //线上超市
+                .state('app.tvAdmin.ShopDesign', {
+                    url: '/ShopDesign?moduleId&label',
+                    templateUrl: 'pages/tv/shop.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
 
