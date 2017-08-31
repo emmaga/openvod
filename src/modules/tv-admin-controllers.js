@@ -548,6 +548,12 @@
                     self.changeMenuInfo();
                 }
 
+                // 线上超市
+                if(branch.data.type == 'ShopDesign') {
+                    $state.go('app.tvAdmin.ShopDesign', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // MainMenu_THJ_SecondMenu
                 if(branch.data.type == 'MainMenu_THJ_SecondMenu'
                     || branch.data.type == 'MainMenu_YCJ_SecondMenu'

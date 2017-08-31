@@ -909,6 +909,17 @@
                         }]
                     }
                 })
+                //线上超市
+                .state('app.tvAdmin.ShopDesign', {
+                    url: '/ShopDesign?moduleId&label',
+                    templateUrl: 'pages/tv/shop.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
                 // 烟草局 WPS 文件
                 .state('app.tvAdmin.WPS_FileCommon', {
                     url: '/WPS_FileCommon?moduleId&label',
