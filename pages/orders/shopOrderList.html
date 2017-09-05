@@ -40,6 +40,13 @@
                 <i class="icon ion-ios-search-strong"></i>搜索
             </a>
         </div>
+        <div class="bill-status">
+            开票状态：
+            <label><input type="radio" name="billStatus" ng-model="billStatus" value="" checked> 全部</label>
+            <label><input type="radio" name="billStatus" ng-model="billStatus" value="2"> 已开发票</label>
+            <label><input type="radio" name="billStatus" ng-model="billStatus" value="1"> 待开发票</label>
+            <label><input type="radio" name="billStatus" ng-model="billStatus" value="0"> 不需要发票</label>
+        </div>
         <!--/筛选条件－买家名&&订单号-->
         <!--筛选条件－订单状态-->
         <ul class="nav nav-tabs">
@@ -115,6 +122,7 @@
                     <!--取消订单-->
                     <a ng-click="sol.cancel(row.ID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>
                     <!--/取消订单-->
+                    <a ng-click="sol.setInvoice(row.ID)" ng-show="row.InvoiceStatus==1">已开票</a>
                 </td>
                 <!--/操作-->
             </tr>

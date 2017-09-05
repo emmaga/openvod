@@ -109,6 +109,29 @@
                     快递公司
                     <span class="pull-right">{{sod.deliverInfo.ExpressCompany}}</span>
                 </li>
+                <hr>
+                <li class="list-group-item">
+                    发票状态
+                    <span class="pull-right" ng-show="sod.info.detail.InvoiceStatus==0">不需要发票</span>
+                    <span class="pull-right" ng-show="sod.info.detail.InvoiceStatus==1">待开发票</span>
+                    <span class="pull-right" ng-show="sod.info.detail.InvoiceStatus==2">已开发票</span>
+                </li>
+                <li class="list-group-item" ng-if="sod.info.detail.InvoiceStatus!=0">
+                    发票类型
+                    <span class="pull-right">{{sod.info.detail.InvoiceType==1?'公司':'个人'}}</span>
+                </li>
+                <li class="list-group-item" ng-if-start="sod.info.detail.InvoiceType==1">
+                    发票抬头
+                    <span class="pull-right">{{sod.info.detail.InvoiceTitle}}</span>
+                </li>
+                <li class="list-group-item" ng-if-end>
+                    发票税号
+                    <span class="pull-right">{{sod.info.detail.TaxID}}</span>
+                </li>
+                <li class="list-group-item" ng-if="sod.info.detail.InvoiceStatus!=0 && sod.info.detail.InvoiceRemark">
+                    发票备注
+                    <span class="pull-right">{{sod.info.detail.InvoiceRemark}}</span>
+                </li>
             </ul>
             <hr>
             <!--操作记录-->

@@ -166,7 +166,6 @@
                         "data": {
                             "Name": self.name,
                             "Description": self.description,
-                            "PriceNormal": 1,
                             "PriceMonday": Number(self.ticketDetail.PriceMonday) * 100,
                             "PriceTuesday": Number(self.ticketDetail.PriceTuesday) * 100,
                             "PriceWednesday": Number(self.ticketDetail.PriceWednesday) * 100,
