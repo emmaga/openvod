@@ -276,7 +276,7 @@ body, .app {
 .app-launcher-grid {
     position: relative;
     width: 56px;
-    height: 56px;;
+    height: 56px;
     /*will-change:width;*/
 }
 

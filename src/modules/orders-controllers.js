@@ -887,7 +887,7 @@
                     "lang": util.langStyle(),
                     data: {
                         "ID": id,
-                        "Status": "ACCEPT"
+                        "Status": "ACCEPT" 
                     }
                 })
 
@@ -957,7 +957,7 @@
                     "lang": util.langStyle(),
                     data: {
                         "ID": id
-                    }
+                    }   
                 })
 
                 $http({
@@ -1057,7 +1057,7 @@
                                     "RouteID": self.routeId,
                                     "Status": self.statusCode,
                                     "Phone": self.phone
-                                }
+                                }  
                             });
                             self.loading = true;
                             self.noData = false;
@@ -1129,7 +1129,7 @@
                     "lang": util.langStyle(),
                     "data": {
                         "ID": self.id
-                    }
+                    }     
                 })
 
                 self.loading = true;
