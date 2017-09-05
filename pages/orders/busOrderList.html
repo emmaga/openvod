@@ -11,13 +11,13 @@
         <!-- 标题 -->
         <!-- <h4></h4>
         <hr> -->
-
+        
         <!--关键字搜索-->
         <div class="search-bar">
             <!--线路筛选-->
             <div class="form-group">
                 <select ng-change="bol.search()" name="routeSelect" ng-model="bol.routeId">
-                    <option ng-repeat="item in busList" ng-value="item.ID">{{item.Name}}</option>
+                  <option ng-repeat="item in busList" ng-value="item.ID">{{item.Name}}</option>
                 </select>
             </div>
             <!--线路筛选-->
@@ -38,10 +38,10 @@
             </a>
         </div>
 
-
+        
         <!--tab 筛选条件－订单状态-->
         <ul class="nav nav-tabs">
-            <li ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
+            <li  ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
                 <a ng-click="bol.searchByStatus(s.code)" id="{{s.code}}Bus">{{s.name[bol.defaultLangCode]}}</a>
             </li>
         </ul>

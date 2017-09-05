@@ -25,6 +25,27 @@
                         <input type="text" name="" ng-model="categoryAdd.form.shopName[lang.code]" class="form-control">
                     </div>
                 </ng-repeat>
+                <div class="form-group ">
+                    <label>分类图片</label>
+                    <a ng-click="categoryAdd.clickUpload('upload1')">上传</a>
+                    <br>
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1" />
+                    <a id="hidenUpload1" style="display: none;" ng-click="categoryAdd.imgs1.uploadFile(myFile, categoryAdd.imgs1)"></a>
+                    <!--酒店logo图修改按钮 end-->
+                    <!-- 图 -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-repeat="img in categoryAdd.imgs1.data" class="form-thumbnail" style="background-image: url({{img.src}})">
+                                <!-- 进度条 -->
+                                <!-- -1代表失败 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!--body end-->
             <!--footer-->

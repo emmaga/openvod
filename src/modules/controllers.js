@@ -2399,7 +2399,7 @@
                                     }
                                 }
                             }
-                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name);
+                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name,self.gotoShopCate.pic);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -2417,10 +2417,11 @@
                     return JSON.stringify(data)
                 }
                 // 前往goodsList
-                self.goTo = function (categoryId, categoryName) {
+                self.goTo = function (categoryId, categoryName,categoryPic) {
                     // active
                     self.ShopGoodsCategoryID = categoryId;
                     $scope.app.maskParams.name = categoryName;
+                    $scope.app.maskParams.pic = categoryPic;
                     $state.go('app.shop.goods.goodsList', {ShopGoodsCategoryID: categoryId});
                 }
             }
@@ -2439,6 +2440,7 @@
                     self.name = {};
                     self.intro = {};
                     self.paytype = 'price';
+                    self.tvShow = true;
                 }
 
                 self.cancel = function () {
@@ -2521,7 +2523,8 @@
                             "price": _price,
                             "deliveryType": _deliveryType,
                             "intro": self.intro,
-                            "imgSrc": imgSrc
+                            "imgSrc": imgSrc,
+                            "TVGoodsShow": self.tvShow ? 1 : 0
                         }
                     });
                     console.dir(data);
@@ -2690,6 +2693,7 @@
                             self.name = data.product.name;
                             self.invetory = data.product.invetory - 0;
                             self.intro = data.product.intro;
+                            self.tvShow = data.product.tvshow == 1 ? true : false
                             self.imgs = new Imgs(data.product.imgSrc);
                             self.imgs.initImgs();
                             var _price = data.product.price;
@@ -2834,7 +2838,8 @@
                             "price": _price,
                             "deliveryType": _deliveryType,
                             "intro": self.intro,
-                            "imgSrc": imgSrc
+                            "imgSrc": imgSrc,
+                            "TVGoodsShow":self.tvShow ? 1 : 0
                         }
                     });
                     console.log(data);
@@ -3115,8 +3120,8 @@
             }
         ])
 
-        .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-            function ($scope, $state, $http, $stateParams, $filter, util) {
+        .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util','CONFIG',
+            function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 console.log('categoryAddController');
                 console.log($stateParams);
                 console.log($scope.app.maskParams);
@@ -3126,7 +3131,7 @@
                     self.maskParams = $scope.app.maskParams;
                     self.ShopName = self.maskParams.ShopGoodsCategoryName;
                     self.multiLang = util.getParams('editLangs');
-
+                    self.imgs1 = new Imgs([],true)
                     self.saving = false;
 
                     // 表单提交 商城信息
@@ -3148,9 +3153,9 @@
                         "lang": self.langStyle,
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryName": self.form.shopName,
+                            "ShopGoodsCategoryPic":self.imgs1.data[0].src,
                             "ShopID": self.maskParams.ShopID - 0
                         }
-
                     };
                     data = JSON.stringify(data);
                     $http({
@@ -3175,12 +3180,137 @@
                     });
                 }
 
+                // 图片上传相关
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
+
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
+
+                Imgs.prototype = {
+                    initImgs: function () {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
+                        }
+                    },
+                    deleteById: function (id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
+                            }
+                        }
+                    },
+
+                    add: function (xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
+
+                    update: function (id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
+                            }
+                        }
+                    },
+
+                    setSrcSizeByXhr: function (xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
+                            }
+                        }
+                    },
+
+                    uploadFile: function (e, o) {
+
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = e;
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function (evt) {
+                                $scope.$apply(function () {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console && console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function () {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 如果长度大于1张图片，删除前几张图片
+                                        if(o.data.length > 1) {
+                                            for(var i=0; i<o.data.length-1;i++) {
+                                                o.deleteById(o.data[i].id);
+                                            }
+                                        }
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                $scope.$apply(function () {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console && console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
+                }
 
             }
         ])
 
-        .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util',
-            function ($scope, $state, $http, $stateParams, $filter, util) {
+        .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util','CONFIG',
+            function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 console.log('categoryEditController');
 
                 var self = this;
@@ -3197,6 +3327,13 @@
                     // self.getCategoryDetail();
                     self.categoryDetail = $scope.app.maskParams.name;
 
+                    if($scope.app.maskParams.pic) {
+                        self.imgs1 = new Imgs([{"ImageURL": $scope.app.maskParams.pic, "ImageSize":0}], true);
+                        self.imgs1.initImgs();
+                    }
+                    else {
+                        self.imgs1 = new Imgs([],true);
+                    }
                     self.saving = false;
                 }
 
@@ -3213,6 +3350,7 @@
                         "lang": self.langStyle,
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryID": self.maskParams.id,
+                            "ShopGoodsCategoryPic":self.imgs1.data[0].src,
                             "ShopGoodsCategoryName": self.categoryDetail
                         }
                     };
@@ -3231,6 +3369,132 @@
                     })
 
                 };
+
+                // 图片上传相关
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
+
+                function Imgs(imgList, single) {
+                    this.initImgList = imgList;
+                    this.data = [];
+                    this.maxId = 0;
+                    this.single = single ? true : false;
+                }
+
+                Imgs.prototype = {
+                    initImgs: function () {
+                        var l = this.initImgList;
+                        for (var i = 0; i < l.length; i++) {
+                            this.data[i] = {
+                                "src": l[i].ImageURL,
+                                "fileSize": l[i].ImageSize,
+                                "id": this.maxId++,
+                                "progress": 100
+                            };
+                        }
+                    },
+                    deleteById: function (id) {
+                        var l = this.data;
+                        for (var i = 0; i < l.length; i++) {
+                            if (l[i].id == id) {
+                                // 如果正在上传，取消上传
+                                if (l[i].progress < 100 && l[i].progress != -1) {
+                                    l[i].xhr.abort();
+                                }
+                                l.splice(i, 1);
+                                break;
+                            }
+                        }
+                    },
+
+                    add: function (xhr, fileName, fileSize) {
+                        this.data.push({
+                            "xhr": xhr,
+                            "fileName": fileName,
+                            "fileSize": fileSize,
+                            "progress": 0,
+                            "id": this.maxId
+                        });
+                        return this.maxId++;
+                    },
+
+                    update: function (id, progress, leftSize, fileSize) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            var f = this.data[i];
+                            if (f.id === id) {
+                                f.progress = progress;
+                                f.leftSize = leftSize;
+                                f.fileSize = fileSize;
+                                break;
+                            }
+                        }
+                    },
+
+                    setSrcSizeByXhr: function (xhr, src, size) {
+                        for (var i = 0; i < this.data.length; i++) {
+                            if (this.data[i].xhr == xhr) {
+                                this.data[i].src = src;
+                                this.data[i].fileSize = size;
+                                break;
+                            }
+                        }
+                    },
+
+                    uploadFile: function (e, o) {
+
+                        // 如果这个对象只允许上传一张图片
+                        if (this.single) {
+                            // 删除第二张以后的图片
+                            for (var i = 1; i < this.data.length; i++) {
+                                this.deleteById(this.data[i].id);
+                            }
+                        }
+
+                        var file = e;
+                        var uploadUrl = CONFIG.uploadUrl;
+                        var xhr = new XMLHttpRequest();
+                        var fileId = this.add(xhr, file.name, file.size, xhr);
+                        // self.search();
+
+                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                            function (evt) {
+                                $scope.$apply(function () {
+                                    if (evt.lengthComputable) {
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                        console && console.log(percentComplete);
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                var ret = JSON.parse(xhr.responseText);
+                                console && console.log(ret);
+                                $scope.$apply(function () {
+                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    // 如果这个对象只允许上传一张图片
+                                    if (o.single) {
+                                        // 如果长度大于1张图片，删除前几张图片
+                                        if(o.data.length > 1) {
+                                            for(var i=0; i<o.data.length-1;i++) {
+                                                o.deleteById(o.data[i].id);
+                                            }
+                                        }
+                                    }
+                                });
+                            },
+                            function (xhr) {
+                                $scope.$apply(function () {
+                                    o.update(fileId, -1, '', '');
+                                });
+                                console && console.log('failure');
+                                xhr.abort();
+                            }
+                        );
+                    }
+                }
             }
         ])
 

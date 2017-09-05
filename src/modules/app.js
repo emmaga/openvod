@@ -906,6 +906,7 @@
                     templateUrl: 'pages/tv/live.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
                         }]
                     }
                 })

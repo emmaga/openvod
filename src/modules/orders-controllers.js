@@ -372,6 +372,12 @@
                 self.loadShopList().then(function () {
                     self.search();
                 });
+
+                $scope.billStatus=''
+
+                $scope.$watch('billStatus', function () {
+                    self.search()
+                }, true);
             }
 
             self.getSelectedShop = function () {
@@ -523,6 +529,37 @@
                 });
             }
 
+            self.setInvoice = function (id) {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "setInvoiceStatus",
+                    "lang": util.langStyle(),
+                    "OrderID": id,
+                    "Status":2
+                })
+
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('shoporder', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('操作已成功');
+                        self.search();
+                    } else if (data.rescode == '401') {
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else {
+                        alert('操作失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+
+                });
+            }
+
             self.searchByStatus = function (statusCode) {
                 for (var i = 0; i < $scope.status.length; i++) {
                     if ($scope.status[i].code == statusCode) {
@@ -616,7 +653,8 @@
                                 "ContactorName": self.searchStr.userName,
                                 "OrderNum": self.searchStr.orderNumber,
                                 "page": paramsUrl.page - 0,
-                                "per_page": paramsUrl.count - 0
+                                "per_page": paramsUrl.count - 0,
+                                "InvoiceStatus": $scope.billStatus
                             });
                             self.loading = true;
                             self.noData = false;
@@ -849,7 +887,7 @@
                     "lang": util.langStyle(),
                     data: {
                         "ID": id,
-                        "Status": "ACCEPT"
+                        "Status": "ACCEPT" 
                     }
                 })
 
@@ -919,7 +957,7 @@
                     "lang": util.langStyle(),
                     data: {
                         "ID": id
-                    }
+                    }   
                 })
 
                 $http({
@@ -1019,7 +1057,7 @@
                                     "RouteID": self.routeId,
                                     "Status": self.statusCode,
                                     "Phone": self.phone
-                                }
+                                }  
                             });
                             self.loading = true;
                             self.noData = false;
@@ -1091,7 +1129,7 @@
                     "lang": util.langStyle(),
                     "data": {
                         "ID": self.id
-                    }
+                    }     
                 })
 
                 self.loading = true;
