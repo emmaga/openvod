@@ -77,6 +77,10 @@
                     <input ng-model="goodsAdd.byDelivery" type="checkbox" /> 支持快递
                     <input ng-model="goodsAdd.bySelf" type="checkbox" /> 支持到店自取
                 </div>
+                <div class="form-group">
+                    <label>在TV端显示：</label>
+                    <toggle ng-model="goodsAdd.tvShow"></toggle>
+                </div>
                 <!-- 简介 -->
                 <ng-repeat ng-repeat="lang in goodsAdd.editLangs">
                     <div class="form-group" ng-if="lang.default==true">

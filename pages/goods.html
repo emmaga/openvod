@@ -15,7 +15,7 @@
             <a ng-click="" >全部商品</a>
         </li>
         <li class="cursor-pointer ShopGoodsCategoryID {{category.id == goods.ShopGoodsCategoryID ? 'active' : ''}}" ng-repeat="category in goods.categoryList">
-            <a ng-click="goods.goTo(category.id,category.name)">{{category.name[goods.langStyle]}}</a>
+            <a ng-click="goods.goTo(category.id,category.name,category.pic)">{{category.name[goods.langStyle]}}</a>
         </li>
         <li class="cursor-pointer">
             <a ng-click="goods.categoryAdd()">
