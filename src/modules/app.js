@@ -64,6 +64,10 @@
                     url: '/shop',
                     templateUrl: 'pages/shop.html'
                 })
+                .state('app.ShopDesign', {
+                    url: '/ShopDesign',
+                    templateUrl: 'pages/shop.html'
+                })
                 .state('app.terminal', {
                     url: '/terminal',
                     templateUrl: 'pages/terminal.html'
