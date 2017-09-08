@@ -26,6 +26,11 @@
                         <input type="text" name="" ng-model="goodsAdd.name[lang.code]" class="form-control">
                     </div>
                 </ng-repeat>
+                <!-- 商品排序 -->
+                <div class="form-group">
+                    <label>商品排序</label>
+                    <input ng-model="goodsAdd.seq" required placeholder="（必填）" type="number" min="0" class="form-control" />
+                </div>
                 <!--商品图-->
                 <div class="form-group">
                     <label>商品图片</label>

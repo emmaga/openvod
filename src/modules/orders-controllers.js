@@ -29,6 +29,16 @@
                 });
             }
 
+            self.open = function ($event) {
+                    if ($event.target.className.indexOf('create') != -1) {
+                        self.createOpened = true;
+                        self.bookOpened = false;
+                    } else {
+                        self.createOpened = false;
+                        self.bookOpened = true;
+                    }
+                };
+
             self.getSelectedHotel = function () {
                 var ret = {};
                 if ($scope.shopList) {
@@ -238,6 +248,7 @@
             }
 
             self.search = function () {
+                console.log('search clicked')
                 self.tableParams = new NgTableParams(
                     {
                         page: 1,
@@ -248,6 +259,16 @@
                         counts: false,
                         getData: function (params) {
                             var paramsUrl = params.url();
+                            if (!self.createDate) {
+                                self.CreateStartDate = undefined
+                            } else {
+                                self.CreateStartDate = util.format_yyyyMMdd(new Date(self.createDate))
+                            }
+                            if (!self.bookDate) {
+                                self.BookStartDate = undefined
+                            } else {
+                                self.BookStartDate = util.format_yyyyMMdd(new Date(self.bookDate))
+                            }
 
                             var data = JSON.stringify({
                                 "token": util.getParams('token'),
@@ -259,7 +280,9 @@
                                 "ContactorName": self.searchStr.userName,
                                 "OrderNum": self.searchStr.orderNumber,
                                 "page": paramsUrl.page - 0,
-                                "per_page": paramsUrl.count - 0
+                                "per_page": paramsUrl.count - 0,
+                                "BookStartDate": self.BookStartDate, 
+                                "CreateStartDate": self.CreateStartDate
                             });
                             self.loading = true;
                             self.noData = false;
