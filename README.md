@@ -1,16 +1,16 @@
 # openvod
-###安装说明
-####1.安装nodejs
+### 安装说明
+#### 1.安装nodejs
 
-####2.全局安装gulp
+#### 2.全局安装gulp
 ```shell
 npm install gulp -g
 ```
-####3.安装项目依赖
+#### 3.安装项目依赖
 ```shell
 npm install
 ```
-####4.运行项目
+#### 4.运行项目
 ```shell
 gulp
 ```
