@@ -15,7 +15,7 @@
     <!-- 列表: 商品列表 -->
     <div ng-init="room.search()" class="wf-container">
         <!-- 容器: 瀑布流容器 -->
-        <div class="wf-box box" ng-repeat="product in gl.goodsList">
+        <div class="wf-box box" ng-repeat="product in gl.goodsList | orderBy: product.seq">
             <div class="panel panel-default">
                 <!-- 内容: 商品图 -->
                 <div class="box-top-img" ng-style="{'background-image': 'url({{product.imgSrc}})'}"></div>

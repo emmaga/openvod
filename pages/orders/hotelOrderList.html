@@ -33,6 +33,21 @@
                 <!-- <label class="h5">联系人</label> -->
                 <input ng-model="hol.searchStr.userName" type="text" class="form-control" placeholder="联系人">
             </div>
+            <div class="form-group">
+                <!--下单日期-->
+                <small>下单日期</small>
+                <input type="text" class="form-control create" uib-datepicker-popup
+                       ng-model="hol.createDate" is-open="hol.createOpened"
+                       datepicker-options="dateOptions" current-text="今天" close-text="关闭" clear-text="清空"
+                       ng-click="hol.open($event)"/>
+            </div>
+            <div class="form-group">
+                <!--入住日期-->
+                <small>入住日期</small>
+                <input type="text" class="form-control book" uib-datepicker-popup ng-model="hol.bookDate"
+                       is-open="hol.bookOpened" datepicker-options="dateOptions" current-text="今天"
+                       close-text="关闭" clear-text="清空" ng-click="hol.open($event)"/>
+            </div>
             <a ng-click="hol.search()" class="button button-light">
                 <i class="icon ion-ios-search-strong"></i>
                 搜索
