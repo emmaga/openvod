@@ -2392,10 +2392,8 @@
                 }
 
                 self.categoryAdd = function () {
-                    $scope.app.maskParams = {
-                        'ShopID': self.stateParams.ShopID - 0,
-                        'categoryAmount': self.categoryList.length
-                    };
+                    $scope.app.maskParams.ShopID=self.stateParams.ShopID - 0
+                    $scope.app.maskParams.categoryAmount=self.categoryList.length
                     $scope.app.showHideMask(true, 'pages/categoryAdd.html');
                 }
 
@@ -3402,7 +3400,7 @@
                         "lang": self.langStyle,
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryID": self.maskParams.id,
-                            "ShopGoodsCategoryPic":self.imgs1.data[0].src,
+                            "ShopGoodsCategoryPic":self.imgs1.data.length>0?self.imgs1.data[0].src:'',
                             "ShopGoodsCategoryName": self.categoryDetail,
                             "seq": self.seq
                         }
