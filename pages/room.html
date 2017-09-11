@@ -146,7 +146,7 @@
             <!-- 列表: 客房列表 -->
             <div ng-init="room.search()" class="wf-container">
                 <!-- 容器: 瀑布流容器 -->
-                <div class="wf-box box" ng-repeat="item in room.rooms | orderBy: item.Seq"> 
+                <div class="wf-box box" ng-repeat="item in room.rooms">
                     <div class="panel panel-default">
                         <!-- 内容: 客房图 -->
                         <div class="box-top-img" ng-style="{'background-image': 'url({{item.imgs[0].ImageURL}})'}">

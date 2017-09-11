@@ -66,7 +66,8 @@ gulp.task('uglifyJS', function () {
         .pipe(uglify())
         .pipe(remember('js-task'))
         .pipe(concat('app.min.js'))
-        .pipe(gulp.dest('./dist/js'));
+        .pipe(gulp.dest('./dist/js'))
+        .pipe(browserSync.reload({stream: true}));
 })
 
 gulp.task('css', function () {
@@ -95,9 +96,8 @@ gulp.task('cache:clear', function (cb) {
 // 监控任务，当有less文件，html文件，js文件改动的时候，刷新浏览器
 gulp.task('watch', ['browserSync', 'css', 'uglifyJS'], function () {
     gulp.watch('./src/style/**/*.css', ['css']);
-    gulp.watch('./pages/*.html', browserSync.reload);
+    gulp.watch('./pages/**/*.html', browserSync.reload);
     gulp.watch('./src/**/*.js', ['uglifyJS']);
-    gulp.watch('./dist/**/*.js', browserSync.reload);
 });
 
 

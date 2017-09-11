@@ -2442,7 +2442,7 @@
                                     }
                                 }
                             }
-                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name,self.gotoShopCate.pic);
+                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name,self.gotoShopCate.pic,self.gotoShopCate.seq);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -3560,8 +3560,8 @@
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.getGoodsCategory();
+                    self.getAllProductNum(self.stateParams.ShopGoodsCategoryID);
                     self.getProductList(self.stateParams.ShopGoodsCategoryID);
-
                     self.saving = false;
                 }
 
@@ -3605,16 +3605,13 @@
                 }
 
                 self.goodsAdd = function () {
-                    $scope.app.maskParams = {
-                        'shopId': self.stateParams.ShopID,
-                        'shopGoodsCategoryId': self.stateParams.ShopGoodsCategoryID,
-                        'currentAmount': self.currentAmount
-                    }; //全部分类 ShopGoodsCategoryID －1
+                    $scope.app.maskParams.shopId = self.stateParams.ShopID;
+                    $scope.app.maskParams.shopGoodsCategoryId = self.stateParams.ShopGoodsCategoryID;
                     $scope.app.showHideMask(true, 'pages/goodsAdd.html');
                 }
 
                 self.goodsEdit = function (goodsId) {
-                    $scope.app.maskParams = {'productId': goodsId};
+                    $scope.app.maskParams.productId = goodsId;
                     $scope.app.showHideMask(true, 'pages/goodsEdit.html');
                 }
 
@@ -3636,6 +3633,33 @@
                     }, function errorCallback (data, status, headers, config) {
 
                     });
+                }
+
+                // 所有商品列表
+                self.getAllProductNum = function (ShopGoodsCategoryID) {
+
+                    var data = {
+                        "action": "getMgtShopProductList",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "ShopID": self.stateParams.ShopID - 0,
+                        "count": 100000,
+                        "page": 1
+                    }
+
+                    data = JSON.stringify(data);
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback (data, status, headers, config) {
+                        self.goodsList = data.data.data.productList;
+                        $scope.app.maskParams.currentAmount = self.goodsList.length;
+                        // self.getProductList(self.stateParams.ShopGoodsCategoryID)
+                    }, function errorCallback (data, status, headers, config) {
+
+                    })
                 }
 
                 // 商品列表
@@ -3662,12 +3686,7 @@
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
-                        // params.total(data.data.data.productTotal);
                         self.goodsList = data.data.data.productList;
-                        // return data.data.data.productList;
-                        if (ShopGoodsCategoryID == "all") {
-                            self.currentAmount = self.goodsList.length;
-                        }
                         // console && console.dir(self.goodsList);
                     }, function errorCallback (data, status, headers, config) {
 
