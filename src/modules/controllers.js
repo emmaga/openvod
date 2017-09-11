@@ -18,6 +18,12 @@
             function ($scope, $http, $filter, $state, md5, util) {
                 var self = this;
                 self.init = function () {
+                    document.title = 'OPEN VOD'
+                    if (util.projectChange) {
+                        window.removeEventListener('storage', util.projectChange)
+                        util.projectChange = undefined
+                        console.log('取消了监听')
+                    }  
                 }
 
                 self.login = function () {
@@ -37,6 +43,7 @@
                         if (msg.rescode == '200') {
                             util.setParams('userName', self.userName);
                             util.setParams('projectName', self.projectName);
+                            localStorage.setItem('projectName', self.projectName);
                             util.setParams('token', msg.token);
                             util.setParams('projectDes', msg.ProjectNameCN);
                             util.setParams('visibleApp', msg.privileges);
@@ -70,12 +77,26 @@
                 var self = this;
 
                 self.init = function () {
+                    console.log('进入appcontroller')
                     if (util.getParams("projectDes")) {
                         this.projectDes = util.getParams("projectDes")
                     } else {
                         alert("访问超时，请重新登录");
                         $state.go('login')
                     }
+                    self.projectName = localStorage.getItem('projectName')
+
+                    if (util.projectChange == undefined) {
+                        util.projectChange = function (e) {
+                            if (e.key === 'projectName' && self.projectName != localStorage.getItem('projectName')) {
+                                alert('您已登录其他项目，本页面自动退出！');
+                                $state.go('login');
+                            }
+                        }
+                        window.addEventListener('storage', util.projectChange)
+                        console.log('设置了监听')
+                    }
+                    
                     // app 页面展开desktop
                     if ($state.current.name !== 'app') {
                         self.appPhase = 2;
@@ -113,8 +134,11 @@
                         self.loading = false;
                     });
                     // console.log(util.getParams('editLangs'))
+
                     // 新订单提醒弹框:
                     self.path = $location.path();
+
+
                     self.roomData = {
                         "noData": false,
                         "newData": false,
@@ -170,6 +194,21 @@
                         }
                     }
                 }
+
+                self.changeTitle = function () {
+                    if (self.path != '/login' && (self.roomData.newData || self.shopData.newData || self.busData.newData)) {
+                        document.title = '有新订单！'  
+                        // $timeout(function(){
+                        //     document.title = '怎么打空格';
+                        //     $timeout(function(){
+                        //         self.changeTitle();
+                        //     },300) 
+                        // },700)
+                    } else {
+                        document.title = 'OPEN VOD'
+                    }
+                }
+
                 // 新订单提醒弹框:
                 //10秒一次轮询待审核订单
                 self.polling = function (DATA) {
@@ -196,6 +235,7 @@
                         util.setParams('busCreateTime', DATA.createTime);//更新下单时间
                     }
                     DATA.newData = false;//更新新订单说明，隐藏弹框
+                    self.changeTitle();
                 }
                 //查看待审核列表
                 self.PendingList = function ($event, n) {
@@ -375,6 +415,7 @@
                                     }
                                 }
                             }
+                            self.changeTitle();
                             DATA.total = data.total ? data.total : data.data.TotalCount;//不管有没有待审核订单，都要更新待审核订单总数
                         } else if (data.rescode == '401') {
                             console && console.log('访问超时，请重新登录');
@@ -410,7 +451,6 @@
                 self.switchApp = function (n) {
                     // 收起桌面
                     self.appPhase = 2;
-
                     // 缩小导航栏
                     self.appFramePhase = 1;
                     self.setFocusApp(n);
@@ -2352,7 +2392,8 @@
                 }
 
                 self.categoryAdd = function () {
-                    $scope.app.maskParams = {'ShopID': self.stateParams.ShopID - 0};
+                    $scope.app.maskParams.ShopID=self.stateParams.ShopID - 0
+                    $scope.app.maskParams.categoryAmount=self.categoryList.length
                     $scope.app.showHideMask(true, 'pages/categoryAdd.html');
                 }
 
@@ -2399,7 +2440,7 @@
                                     }
                                 }
                             }
-                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name,self.gotoShopCate.pic);
+                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name,self.gotoShopCate.pic,self.gotoShopCate.seq);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -2417,11 +2458,12 @@
                     return JSON.stringify(data)
                 }
                 // 前往goodsList
-                self.goTo = function (categoryId, categoryName,categoryPic) {
+                self.goTo = function (categoryId, categoryName,categoryPic,categorySeq) {
                     // active
                     self.ShopGoodsCategoryID = categoryId;
                     $scope.app.maskParams.name = categoryName;
                     $scope.app.maskParams.pic = categoryPic;
+                    $scope.app.maskParams.categorySeq = categorySeq;
                     $state.go('app.shop.goods.goodsList', {ShopGoodsCategoryID: categoryId});
                 }
             }
@@ -2441,6 +2483,7 @@
                     self.intro = {};
                     self.paytype = 'price';
                     self.tvShow = true;
+                    self.seq = $scope.app.maskParams.currentAmount + 1;
                 }
 
                 self.cancel = function () {
@@ -2467,6 +2510,7 @@
                         alert('请选择配送方式');
                         return;
                     }
+                    
 
                     // 图片不能为空
                     if (self.imgs.data.length == 0) {
@@ -2520,6 +2564,7 @@
                             "categoryId": self.shopGoodsCategoryId,
                             "name": self.name,
                             "invetory": self.invetory,
+                            "seq": self.seq,
                             "price": _price,
                             "deliveryType": _deliveryType,
                             "intro": self.intro,
@@ -2692,6 +2737,7 @@
                             var data = data.data.data;
                             self.name = data.product.name;
                             self.invetory = data.product.invetory - 0;
+                            self.seq = data.product.seq - 0;
                             self.intro = data.product.intro;
                             self.tvShow = data.product.tvshow == 1 ? true : false
                             self.imgs = new Imgs(data.product.imgSrc);
@@ -2783,6 +2829,7 @@
                         alert('请选择配送方式');
                         return;
                     }
+                    
 
                     // 图片不能为空
                     if (self.imgs.data.length == 0) {
@@ -2835,6 +2882,7 @@
                             "productID": self.productId,
                             "name": self.name,
                             "invetory": self.invetory,
+                            "seq": self.seq,
                             "price": _price,
                             "deliveryType": _deliveryType,
                             "intro": self.intro,
@@ -3133,7 +3181,8 @@
                     self.multiLang = util.getParams('editLangs');
                     self.imgs1 = new Imgs([],true)
                     self.saving = false;
-
+                    console.log(self.maskParams)
+                    self.seq = self.maskParams.categoryAmount + 1;
                     // 表单提交 商城信息
                     self.form = {};
                     // 多语言
@@ -3154,7 +3203,8 @@
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryName": self.form.shopName,
                             "ShopGoodsCategoryPic":self.imgs1.data[0].src,
-                            "ShopID": self.maskParams.ShopID - 0
+                            "ShopID": self.maskParams.ShopID - 0,
+                            "seq": self.seq
                         }
                     };
                     data = JSON.stringify(data);
@@ -3319,7 +3369,7 @@
                     self.maskParams = $scope.app.maskParams;
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
-
+                    self.seq = self.maskParams.categorySeq;
                     // 表单提交 商城信息
                     self.form = {};
                     // 多语言
@@ -3350,8 +3400,9 @@
                         "lang": self.langStyle,
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryID": self.maskParams.id,
-                            "ShopGoodsCategoryPic":self.imgs1.data[0].src,
-                            "ShopGoodsCategoryName": self.categoryDetail
+                            "ShopGoodsCategoryPic":self.imgs1.data.length>0?self.imgs1.data[0].src:'',
+                            "ShopGoodsCategoryName": self.categoryDetail,
+                            "seq": self.seq
                         }
                     };
                     data = JSON.stringify(data);
@@ -3507,8 +3558,8 @@
                     self.langStyle = util.langStyle();
                     self.multiLang = util.getParams('editLangs');
                     self.getGoodsCategory();
+                    self.getAllProductNum(self.stateParams.ShopGoodsCategoryID);
                     self.getProductList(self.stateParams.ShopGoodsCategoryID);
-
                     self.saving = false;
                 }
 
@@ -3552,15 +3603,13 @@
                 }
 
                 self.goodsAdd = function () {
-                    $scope.app.maskParams = {
-                        'shopId': self.stateParams.ShopID,
-                        'shopGoodsCategoryId': self.stateParams.ShopGoodsCategoryID
-                    }; //全部分类 ShopGoodsCategoryID －1
+                    $scope.app.maskParams.shopId = self.stateParams.ShopID;
+                    $scope.app.maskParams.shopGoodsCategoryId = self.stateParams.ShopGoodsCategoryID;
                     $scope.app.showHideMask(true, 'pages/goodsAdd.html');
                 }
 
                 self.goodsEdit = function (goodsId) {
-                    $scope.app.maskParams = {'productId': goodsId};
+                    $scope.app.maskParams.productId = goodsId;
                     $scope.app.showHideMask(true, 'pages/goodsEdit.html');
                 }
 
@@ -3582,6 +3631,33 @@
                     }, function errorCallback (data, status, headers, config) {
 
                     });
+                }
+
+                // 所有商品列表
+                self.getAllProductNum = function (ShopGoodsCategoryID) {
+
+                    var data = {
+                        "action": "getMgtShopProductList",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "ShopID": self.stateParams.ShopID - 0,
+                        "count": 100000,
+                        "page": 1
+                    }
+
+                    data = JSON.stringify(data);
+
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('shopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback (data, status, headers, config) {
+                        self.goodsList = data.data.data.productList;
+                        $scope.app.maskParams.currentAmount = self.goodsList.length;
+                        // self.getProductList(self.stateParams.ShopGoodsCategoryID)
+                    }, function errorCallback (data, status, headers, config) {
+
+                    })
                 }
 
                 // 商品列表
@@ -3608,10 +3684,8 @@
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
-                        // params.total(data.data.data.productTotal);
                         self.goodsList = data.data.data.productList;
-                        // return data.data.data.productList;
-                        console && console.dir(self.goodsList);
+                        // console && console.dir(self.goodsList);
                     }, function errorCallback (data, status, headers, config) {
 
                     })
@@ -3909,7 +3983,10 @@
                 }
 
                 self.roomAdd = function () {
-                    $scope.app.maskParams = {'hotelId': self.hotelId};
+                    $scope.app.maskParams = {
+                        'hotelId': self.hotelId,
+                        'roomAmount': self.rooms.length
+                    };
                     $scope.app.showHideMask(true, 'pages/roomAdd.html');
                 }
 
@@ -4261,6 +4338,7 @@
                     self.getRoomTags();
                     self.ifCheckedTags = [];
                     self.imgs = new Imgs([]);
+                    self.seq = $scope.app.maskParams.roomAmount + 1;
                 }
                 self.cancel = function () {
                     $scope.app.showHideMask(false);
@@ -4326,18 +4404,19 @@
 
                     self.saving = true;
                     var data = JSON.stringify({
-                        action: "addRoom",
-                        token: util.getParams('token'),
-                        lang: util.langStyle(),
-                        tags: tags,
-                        IntroImgs: imgs,
-                        roomDetail: {
-                            HotelID: self.hotelId,
-                            ViewURL: self.room.ViewURL ? self.room.ViewURL : '',
-                            Description: self.room.Description,
-                            RoomTypeName: self.room.RoomTypeName,
+                        "action": "addRoom",
+                        "token": util.getParams('token'),
+                        "lang": util.langStyle(),
+                        "tags": tags,
+                        "IntroImgs": imgs,
+                        "roomDetail": {
+                            "HotelID": self.hotelId,
+                            "ViewURL": self.room.ViewURL ? self.room.ViewURL : '',
+                            "Description": self.room.Description,
+                            "RoomTypeName": self.room.RoomTypeName,
                             // Roomsummary: self.room.Roomsummary
-                            Roomsummary: ""
+                            "Roomsummary": "",
+                            "Seq": self.seq
                         }
                     })
 
@@ -4591,6 +4670,7 @@
                             }
                             self.imgs = new Imgs(data.imgs);
                             self.imgs.initImgs();
+                            self.seq = data.Seq;
 
                         } else {
                             // alert('读取客房信息失败' + data.rescode + ' ' + data.errInfo);
@@ -4604,7 +4684,7 @@
                 }
 
                 self.deleteRoom = function () {
-                    if (confirm("确定要此客房吗？")) {
+                    if (confirm("确定要删除此客房吗？")) {
                         var data = JSON.stringify({
                             action: "delRooms",
                             token: util.getParams('token'),
@@ -4621,7 +4701,7 @@
                             if (data.rescode == '200') {
                                 self.addAlert('删除成功', true, 'success');
                                 // alert('删除成功')
-                                // $state.reload();
+                                $state.reload();
                             } else {
                                 // alert('删除失败' + data.rescode + ' ' + data.errInfo);
                                 self.addAlert('删除失败' + data.rescode + ' ' + data.errInfo, false, 'warning');
@@ -4664,17 +4744,18 @@
 
                     self.saving = true;
                     var data = JSON.stringify({
-                        action: "updateRoom",
-                        token: util.getParams('token'),
-                        lang: util.langStyle(),
-                        roomID: self.roomId,
-                        tags: tags,
-                        IntroImgs: imgs,
-                        roomDetail: {
+                        "action": "updateRoom",
+                        "token": util.getParams('token'),
+                        "lang": util.langStyle(),
+                        "roomID": self.roomId,
+                        "tags": tags,
+                        "IntroImgs": imgs,
+                        "roomDetail": {
                             "HotelID": self.hotelId,
                             "ViewURL": self.room.ViewURL ? self.room.ViewURL : '',
                             "Description": self.room.Description,
-                            "RoomTypeName": self.room.RoomTypeName
+                            "RoomTypeName": self.room.RoomTypeName,
+                            "Seq": self.seq
                         }
                     })
                     $http({

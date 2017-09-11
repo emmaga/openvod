@@ -759,6 +759,24 @@
                         }]
                     }
                 })
+                .state('app.tvAdmin.TVSeriesCommon', {
+                    url: '/TVSeriesCommon?moduleId&label',
+                    templateUrl: 'pages/tv/TVSeriesCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                .state('app.tvAdmin.TVSeriesLocal', {
+                    url: '/TVSeriesLocal?moduleId&label',
+                    templateUrl: 'pages/tv/TVSeriesLocal.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
                 .state('app.tvAdmin.QHtlMovieCommon', {
                     url: '/QHtlMovieCommon?moduleId&label',
                     templateUrl: 'pages/tv/movieCommon.html',

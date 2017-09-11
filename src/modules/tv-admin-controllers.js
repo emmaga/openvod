@@ -425,6 +425,18 @@
                     self.changeMenuInfo();
                 }
 
+                // TVSeriesCommon
+                if(branch.data.type == 'TVSeriesCommon') {
+                    $state.go('app.tvAdmin.TVSeriesCommon', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                // TVSeriesLocal
+                if(branch.data.type == 'TVSeriesLocal') {
+                    $state.go('app.tvAdmin.TVSeriesLocal', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
                 // QHtlMovieCommon
                 if(branch.data.type == 'QHtl_MovieCommon') {
                     $state.go('app.tvAdmin.QHtlMovieCommon', {moduleId: branch.data.moduleId, label: branch.label});
@@ -19360,6 +19372,163 @@ console.log("Samsung_Lunch_PicText_Classification")
                     "data": {
                       "MovieContentAPIParam": self.MovieContentAPIParam,
                       "MovieContentAPIURL": self.MovieContentAPIURL,
+                      "PackageFee": self.PackageFee,
+                      "FeeDiscount": self.FeeDiscount
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+            }
+
+        }
+    ]) 
+
+    .controller('tvSeriesCommonController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+        function ($scope, $state, $http, $stateParams, $location, util) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                self.getInfo();
+            }
+
+            self.getInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getAPIInfo",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                });
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.TVSeriesContentAPIParam = data.data.TVSeriesContentAPIParam;
+                        self.TVSeriesContentAPIURL = data.data.TVSeriesContentAPIURL;
+                        self.PackageFee = data.data.PackageFee;
+                        self.FeeDiscount = data.data.FeeDiscount;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载电影信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "updateAPIInfo",
+                    "viewID": self.viewId-0,
+                    "data": {
+                      "TVSeriesContentAPIParam": self.TVSeriesContentAPIParam,
+                      "TVSeriesContentAPIURL": self.TVSeriesContentAPIURL,
+                      "PackageFee": self.PackageFee,
+                      "FeeDiscount": self.FeeDiscount
+                    },
+                    "lang": util.langStyle()
+                })
+                self.saving = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('修改成功');
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('修改失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.saving = false;
+                });
+            }
+
+        }
+    ]) 
+    .controller('tvSeriesLocalController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+        function ($scope, $state, $http, $stateParams, $location, util) {
+            var self = this;
+
+            self.init = function() {
+                self.viewId = $stateParams.moduleId;
+                self.getInfo();
+            }
+
+            self.getInfo = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "getAPIInfo",
+                    "viewID": self.viewId-0,
+                    "lang": util.langStyle()
+                });
+                self.loading = true;
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('commonview', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.TVSeriesContentAPIParam = data.data.TVSeriesContentAPIParam;
+                        self.TVSeriesContentAPIURL = data.data.TVSeriesContentAPIURL;
+                        self.PackageFee = data.data.PackageFee;
+                        self.FeeDiscount = data.data.FeeDiscount;
+                    } else if(data.rescode == '401'){
+                        alert('访问超时，请重新登录');
+                        $state.go('login');
+                    } else{
+                        alert('加载电影信息失败，' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('连接服务器出错');
+                }).finally(function (value) {
+                    self.loading = false;
+                });
+            }
+
+            self.save = function() {
+                var data = JSON.stringify({
+                    "token": util.getParams('token'),
+                    "action": "updateAPIInfo",
+                    "viewID": self.viewId-0,
+                    "data": {
+                      "TVSeriesContentAPIParam": self.TVSeriesContentAPIParam,
+                      "TVSeriesContentAPIURL": self.TVSeriesContentAPIURL,
                       "PackageFee": self.PackageFee,
                       "FeeDiscount": self.FeeDiscount
                     },
