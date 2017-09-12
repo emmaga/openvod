@@ -3652,8 +3652,7 @@
                         url: util.getApiUrl('shopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
-                        self.goodsList = data.data.data.productList;
-                        $scope.app.maskParams.currentAmount = self.goodsList.length;
+                        $scope.app.maskParams.currentAmount = data.data.data.productList.length;
                         // self.getProductList(self.stateParams.ShopGoodsCategoryID)
                     }, function errorCallback (data, status, headers, config) {
 
