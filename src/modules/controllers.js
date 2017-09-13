@@ -23,7 +23,7 @@
                         window.removeEventListener('storage', util.projectChange)
                         util.projectChange = undefined
                         console.log('取消了监听')
-                    }  
+                    }
                 }
 
                 self.login = function () {
@@ -96,7 +96,7 @@
                         window.addEventListener('storage', util.projectChange)
                         console.log('设置了监听')
                     }
-                    
+
                     // app 页面展开desktop
                     if ($state.current.name !== 'app') {
                         self.appPhase = 2;
@@ -197,7 +197,7 @@
 
                 self.changeTitle = function () {
                     if (self.path != '/login' && (self.roomData.newData || self.shopData.newData || self.busData.newData)) {
-                        document.title = '有新订单！'  
+                        document.title = '有新订单！'
                         // $timeout(function(){
                         //     document.title = '怎么打空格';
                         //     $timeout(function(){
@@ -2224,7 +2224,7 @@
                                     }
                                 }
                             }
-                            self.goTo(self.shopFirst.ShopID, self.shopFirst.HotelID, self.shopFirst.ShopName, self.shopFirst.HotelName, self.shopFirst.ShopType, self.shopFirst.ServiceTelephone, self.shopFirst.PayCash, self.shopFirst.PayOnline);
+                            self.goTo(self.shopFirst.ShopID, self.shopFirst.HotelID, self.shopFirst.ShopName, self.shopFirst.HotelName, self.shopFirst.ShopType, self.shopFirst.ServiceTelephone, self.shopFirst.PayCash, self.shopFirst.PayOnline, self.shopFirst.SupportInvoice, self.shopFirst.ServiceStartTime, self.shopFirst.ServiceEndTime);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -2243,13 +2243,16 @@
                     $scope.app.showHideMask(true, 'pages/shopAdd.html');
                 }
 
-                self.goTo = function (ShopID, HotelID, ShopName, HotelName, ShopType, ServiceTelephone, PayCash, PayOnline) {
+                self.goTo = function (ShopID, HotelID, ShopName, HotelName, ShopType, ServiceTelephone, PayCash, PayOnline, SupportInvoice, ServiceStartTime, ServiceEndTime) {
                     $scope.app.maskParams.ShopName = ShopName;
                     $scope.app.maskParams.HotelName = HotelName;
                     $scope.app.maskParams.ShopType = ShopType;
                     $scope.app.maskParams.ServiceTelephone = ServiceTelephone;
                     $scope.app.maskParams.PayCash = PayCash;
                     $scope.app.maskParams.PayOnline = PayOnline;
+                    $scope.app.maskParams.SupportInvoice = SupportInvoice;
+                    $scope.app.maskParams.ServiceStartTime = ServiceStartTime;
+                    $scope.app.maskParams.ServiceEndTime = ServiceEndTime;
 
                     if (ShopID != $stateParams.ShopID) {
                         // for page active
@@ -2392,8 +2395,8 @@
                 }
 
                 self.categoryAdd = function () {
-                    $scope.app.maskParams.ShopID=self.stateParams.ShopID - 0
-                    $scope.app.maskParams.categoryAmount=self.categoryList.length
+                    $scope.app.maskParams.ShopID = self.stateParams.ShopID - 0
+                    $scope.app.maskParams.categoryAmount = self.categoryList.length
                     $scope.app.showHideMask(true, 'pages/categoryAdd.html');
                 }
 
@@ -2406,7 +2409,10 @@
                         ShopType: self.maskParams.ShopType,
                         ServiceTelephone: self.maskParams.ServiceTelephone,
                         PayCash: self.maskParams.PayCash,
-                        PayOnline: self.maskParams.PayOnline
+                        PayOnline: self.maskParams.PayOnline,
+                        SupportInvoice: self.maskParams.SupportInvoice,
+                        ServiceStartTime: self.maskParams.ServiceStartTime,
+                        ServiceEndTime: self.maskParams.ServiceEndTime
                     };
                     $scope.app.showHideMask(true, 'pages/shopEdit.html');
                 }
@@ -2440,7 +2446,7 @@
                                     }
                                 }
                             }
-                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name,self.gotoShopCate.pic,self.gotoShopCate.seq);
+                            self.goTo(self.gotoShopCate.id, self.gotoShopCate.name, self.gotoShopCate.pic, self.gotoShopCate.seq);
                         } else if (data.data.rescode == "401") {
                             alert('访问超时，请重新登录');
                             $state.go('login')
@@ -2458,7 +2464,7 @@
                     return JSON.stringify(data)
                 }
                 // 前往goodsList
-                self.goTo = function (categoryId, categoryName,categoryPic,categorySeq) {
+                self.goTo = function (categoryId, categoryName, categoryPic, categorySeq) {
                     // active
                     self.ShopGoodsCategoryID = categoryId;
                     $scope.app.maskParams.name = categoryName;
@@ -2510,7 +2516,7 @@
                         alert('请选择配送方式');
                         return;
                     }
-                    
+
 
                     // 图片不能为空
                     if (self.imgs.data.length == 0) {
@@ -2829,7 +2835,7 @@
                         alert('请选择配送方式');
                         return;
                     }
-                    
+
 
                     // 图片不能为空
                     if (self.imgs.data.length == 0) {
@@ -2887,7 +2893,7 @@
                             "deliveryType": _deliveryType,
                             "intro": self.intro,
                             "imgSrc": imgSrc,
-                            "TVGoodsShow":self.tvShow ? 1 : 0
+                            "TVGoodsShow": self.tvShow ? 1 : 0
                         }
                     });
                     console.log(data);
@@ -3042,8 +3048,11 @@
                     self.shopInfo = self.maskParams.ShopName;
                     self.ShopType = self.maskParams.ShopType;
                     self.ServiceTelephone = self.maskParams.ServiceTelephone;
-                    self.PayCash = self.maskParams.PayCash === 1 ? true : false;
-                    self.PayOnline = self.maskParams.PayOnline === 1 ? true : false;
+                    self.PayCash = self.maskParams.PayCash === 1 ;
+                    self.PayOnline = self.maskParams.PayOnline === 1 ;
+                    self.SupportInvoice = self.maskParams.SupportInvoice === 1 ;
+                    self.ServiceStartTime = new Date('2000-01-01 ' + self.maskParams.ServiceStartTime.slice(0, 5))
+                    self.ServiceEndTime = new Date('2000-01-01 ' + self.maskParams.ServiceEndTime.slice(0, 5))
                 }
 
                 self.cancel = function () {
@@ -3086,7 +3095,6 @@
 
                 self.saveForm = function () {
                     self.saving = true;
-
                     var data = {
                         "action": "editMgtHotelShop",
                         "token": util.getParams("token"),
@@ -3097,7 +3105,10 @@
                             "ShopType": self.ShopType,
                             "ServiceTelephone": self.ServiceTelephone ? self.ServiceTelephone : " ",
                             "PayCash": self.PayCash ? 1 : 0,
-                            "PayOnline": self.PayOnline ? 1 : 0
+                            "PayOnline": self.PayOnline ? 1 : 0,
+                            "SupportInvoice": self.SupportInvoice ? 1 : 0,
+                            "ServiceStartTime":util.format_hhmm(self.ServiceStartTime) + ':00',
+                            "ServiceEndTime":util.format_hhmm(self.ServiceEndTime) + ':59'
                         }
                     };
 
@@ -3168,7 +3179,7 @@
             }
         ])
 
-        .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util','CONFIG',
+        .controller('categoryAddController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
             function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 console.log('categoryAddController');
                 console.log($stateParams);
@@ -3179,7 +3190,7 @@
                     self.maskParams = $scope.app.maskParams;
                     self.ShopName = self.maskParams.ShopGoodsCategoryName;
                     self.multiLang = util.getParams('editLangs');
-                    self.imgs1 = new Imgs([],true)
+                    self.imgs1 = new Imgs([], true)
                     self.saving = false;
                     console.log(self.maskParams)
                     self.seq = self.maskParams.categoryAmount + 1;
@@ -3202,7 +3213,7 @@
                         "lang": self.langStyle,
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryName": self.form.shopName,
-                            "ShopGoodsCategoryPic":self.imgs1.data[0].src,
+                            "ShopGoodsCategoryPic": self.imgs1.data[0].src,
                             "ShopID": self.maskParams.ShopID - 0,
                             "seq": self.seq
                         }
@@ -3237,7 +3248,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -3337,8 +3348,8 @@
                                     // 如果这个对象只允许上传一张图片
                                     if (o.single) {
                                         // 如果长度大于1张图片，删除前几张图片
-                                        if(o.data.length > 1) {
-                                            for(var i=0; i<o.data.length-1;i++) {
+                                        if (o.data.length > 1) {
+                                            for (var i = 0; i < o.data.length - 1; i++) {
                                                 o.deleteById(o.data[i].id);
                                             }
                                         }
@@ -3359,7 +3370,7 @@
             }
         ])
 
-        .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util','CONFIG',
+        .controller('categoryEditController', ['$scope', '$state', '$http', '$stateParams', '$filter', 'util', 'CONFIG',
             function ($scope, $state, $http, $stateParams, $filter, util, CONFIG) {
                 console.log('categoryEditController');
 
@@ -3377,12 +3388,12 @@
                     // self.getCategoryDetail();
                     self.categoryDetail = $scope.app.maskParams.name;
 
-                    if($scope.app.maskParams.pic) {
-                        self.imgs1 = new Imgs([{"ImageURL": $scope.app.maskParams.pic, "ImageSize":0}], true);
+                    if ($scope.app.maskParams.pic) {
+                        self.imgs1 = new Imgs([{"ImageURL": $scope.app.maskParams.pic, "ImageSize": 0}], true);
                         self.imgs1.initImgs();
                     }
                     else {
-                        self.imgs1 = new Imgs([],true);
+                        self.imgs1 = new Imgs([], true);
                     }
                     self.saving = false;
                 }
@@ -3400,7 +3411,7 @@
                         "lang": self.langStyle,
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryID": self.maskParams.id,
-                            "ShopGoodsCategoryPic":self.imgs1.data.length>0?self.imgs1.data[0].src:'',
+                            "ShopGoodsCategoryPic": self.imgs1.data.length > 0 ? self.imgs1.data[0].src : '',
                             "ShopGoodsCategoryName": self.categoryDetail,
                             "seq": self.seq
                         }
@@ -3428,7 +3439,7 @@
                     }, 0);
                 }
 
-                function Imgs(imgList, single) {
+                function Imgs (imgList, single) {
                     this.initImgList = imgList;
                     this.data = [];
                     this.maxId = 0;
@@ -3528,8 +3539,8 @@
                                     // 如果这个对象只允许上传一张图片
                                     if (o.single) {
                                         // 如果长度大于1张图片，删除前几张图片
-                                        if(o.data.length > 1) {
-                                            for(var i=0; i<o.data.length-1;i++) {
+                                        if (o.data.length > 1) {
+                                            for (var i = 0; i < o.data.length - 1; i++) {
                                                 o.deleteById(o.data[i].id);
                                             }
                                         }

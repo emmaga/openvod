@@ -11,7 +11,7 @@
 	<!-- 左侧菜单 -->
     <div class="nav-left ">
         <ul class="nav nav-stacked nav-left-content">
-            <li class="nav-header {{shopItem.ShopID == ShopID ? 'active' : ''}}" ng-click="shop.goTo(shopItem.ShopID,shopItem.HotelID,shopItem.ShopName,shopItem.HotelName,shopItem.ShopType,shopItem.ServiceTelephone, shopItem.PayCash, shopItem.PayOnline)" ng-repeat="shopItem in shop.shopList">
+            <li class="nav-header {{shopItem.ShopID == ShopID ? 'active' : ''}}" ng-click="shop.goTo(shopItem.ShopID,shopItem.HotelID,shopItem.ShopName,shopItem.HotelName,shopItem.ShopType,shopItem.ServiceTelephone, shopItem.PayCash, shopItem.PayOnline,shopItem.SupportInvoice,shopItem.ServiceStartTime,shopItem.ServiceEndTime)" ng-repeat="shopItem in shop.shopList">
             	<a class="theme-hover">
 					{{shopItem.ShopName[shop.langStyle]}}
 					<br>
