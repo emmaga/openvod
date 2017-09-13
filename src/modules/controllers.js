@@ -957,6 +957,7 @@
                         startDate: new Date(),
                         endDate: new Date(),
                         Duration: 2,
+                        Interval: 1,
                         switch: 0
                     }
                 }
@@ -993,9 +994,9 @@
                                 startDate: $filter('date')(self.realTimeCmdInfo.startDate, 'yyyy-MM-dd'),
                                 endDate: $filter('date')(self.realTimeCmdInfo.endDate, 'yyyy-MM-dd'),
                                 Duration: self.realTimeCmdInfo.Duration,
+                                Interval: self.realTimeCmdInfo.Interval,
                                 switch: Number(self.realTimeCmdInfo.switch)
                             }
-
                         }
                     }
                     data = JSON.stringify(data);
