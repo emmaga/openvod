@@ -2506,7 +2506,7 @@
                     }
 
                     // 配送方式检查
-                    if (!self.byDelivery && !self.bySelf) {
+                    if (!self.byDelivery && !self.bySelf && !self.byHomeDelivery) {
                         alert('请选择配送方式');
                         return;
                     }
@@ -2546,6 +2546,7 @@
                     var _deliveryType = [];
                     self.byDelivery && _deliveryType.push('express');
                     self.bySelf && _deliveryType.push('bySelf');
+                    self.byHomeDelivery && _deliveryType.push('homeDelivery');
 
                     if (self.paytype == 'price') {
                         _price.money.Enable = true;
@@ -2758,6 +2759,9 @@
                             if (_deliveryType.indexOf('bySelf') !== -1) {
                                 self.bySelf = true;
                             }
+                            if (_deliveryType.indexOf('homeDelivery') !== -1) {
+                                self.byHomeDelivery = true;
+                            }
                         } else {
                             alert('读取商品失败' + data.data.rescode + '，' + data.data.errInfo);
                         }
@@ -2825,7 +2829,7 @@
                     }
 
                     // 配送方式检查
-                    if (!self.byDelivery && !self.bySelf) {
+                    if (!self.byDelivery && !self.bySelf && !self.byHomeDelivery) {
                         alert('请选择配送方式');
                         return;
                     }
@@ -2865,6 +2869,7 @@
                     var _deliveryType = [];
                     self.byDelivery && _deliveryType.push('express');
                     self.bySelf && _deliveryType.push('bySelf');
+                    self.byHomeDelivery && _deliveryType.push('homeDelivery');
 
                     if (self.paytype == 'price') {
                         _price.money.Enable = true;
