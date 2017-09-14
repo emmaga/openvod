@@ -92,8 +92,13 @@
                 </li>
                 <!--配送方式-->
                 <li class="list-group-item">
-                    配送方式
+                    收货方式
                     <span class="pull-right">{{sod.info.detail.deliverWay | deliverWay}}</span>
+                </li>
+                <!--收货地址-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='homeDelivery'">
+                    房间号
+                    <span class="pull-right">{{sod.info.detail.address}}</span>
                 </li>
                 <!--收货地址-->
                 <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
