@@ -450,10 +450,12 @@
                     } else {
                         alert('审核失败' + data.errInfo);
                     }
+                    $scope.app.showHideMask(false);
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
+                    $scope.app.showHideMask(false);
                 }).finally(function (value) {
-
+                    $scope.app.showHideMask(false);
                 });
 
                 alert('命令已发送，请稍后');
@@ -475,18 +477,20 @@
                 }).then(function successCallback(response) {
                     var data = response.data;
                     if (data.rescode == '200') {
-                        alert('审核成功');
+                        alert('操作成功');
                         self.search();
                     } else if (data.rescode == '401') {
                         alert('访问超时，请重新登录');
                         $state.go('login');
                     } else {
-                        alert('审核失败' + data.errInfo);
+                        alert('操作失败' + data.errInfo);
                     }
+                    $scope.app.showHideMask(false);
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
+                    $scope.app.showHideMask(false);
                 }).finally(function (value) {
-
+                    $scope.app.showHideMask(false);
                 });
 
                 alert('命令已发送，请稍后');
@@ -515,10 +519,12 @@
                     } else {
                         alert('操作失败' + data.errInfo);
                     }
+                    $scope.app.showHideMask(false);
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
+                    $scope.app.showHideMask(false);
                 }).finally(function (value) {
-
+                    $scope.app.showHideMask(false);
                 });
             }
 
@@ -545,10 +551,12 @@
                     } else {
                         alert('操作失败' + data.errInfo);
                     }
+                    $scope.app.showHideMask(false);
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
+                    $scope.app.showHideMask(false);
                 }).finally(function (value) {
-
+                    $scope.app.showHideMask(false);
                 });
             }
 
@@ -576,10 +584,12 @@
                     } else {
                         alert('操作失败' + data.errInfo);
                     }
+                    $scope.app.showHideMask(false);
                 }, function errorCallback(response) {
                     alert('连接服务器出错');
+                    $scope.app.showHideMask(false);
                 }).finally(function (value) {
-
+                    $scope.app.showHideMask(false);
                 });
             }
 
@@ -711,7 +721,7 @@
             }
 
             self.gotoDetail = function (info) {
-                $scope.app.maskParams = {'orderId': info.ID, 'orderInfo': info};
+                $scope.app.maskParams = {'orderId': info.ID, 'orderInfo': info,'accept':self.accept,'reject':self.reject,'deliver':self.deliver,'search':self.search,'finish':self.finish,'cancel':self.cancel,'setInvoice':self.setInvoice,'editDeliverInfo':self.editDeliverInfo};
                 $scope.app.showHideMask(true, 'pages/orders/shopOrderDetail.html');
             }
         }
@@ -724,6 +734,14 @@
             self.init = function () {
                 self.id = $scope.app.maskParams.orderId;
                 self.deliverInfo = $scope.app.maskParams.orderInfo;
+                self.accept= $scope.app.maskParams.accept;
+                self.reject= $scope.app.maskParams.reject;
+                self.deliver= $scope.app.maskParams.deliver;
+                self.search= $scope.app.maskParams.search;
+                self.finish= $scope.app.maskParams.finish;
+                self.cancel= $scope.app.maskParams.cancel;
+                self.setInvoice= $scope.app.maskParams.setInvoice;
+                self.editDeliverInfo= $scope.app.maskParams.editDeliverInfo;
                 self.getInfo();
             }
 
@@ -823,7 +841,7 @@
 
             self.init = function () {
                 self.info = $scope.app.maskParams.orderInfo;
-                self.id = self.info.ID;
+                self.id = self.info.ID || self.info.Id;
                 self.ExpressNum = self.info.ExpressNum;
                 self.ExpressCompany = self.info.ExpressCompany;
             }

@@ -2402,19 +2402,17 @@
                 }
 
                 self.shopEdit = function () {
-                    $scope.app.maskParams = {
-                        ShopID: $stateParams.ShopID,
-                        ShopName: self.maskParams.ShopName,
-                        HotelName: self.maskParams.HotelName,
-                        HotelID: $stateParams.HotelID,
-                        ShopType: self.maskParams.ShopType,
-                        ServiceTelephone: self.maskParams.ServiceTelephone,
-                        PayCash: self.maskParams.PayCash,
-                        PayOnline: self.maskParams.PayOnline,
-                        SupportInvoice: self.maskParams.SupportInvoice,
-                        ServiceStartTime: self.maskParams.ServiceStartTime,
-                        ServiceEndTime: self.maskParams.ServiceEndTime
-                    };
+                    $scope.app.maskParams.ShopID = $stateParams.ShopID;
+                    $scope.app.maskParams.ShopName = self.maskParams.ShopName;
+                    $scope.app.maskParams.HotelName = self.maskParams.HotelName;
+                    $scope.app.maskParams.HotelID = $stateParams.HotelID;
+                    $scope.app.maskParams.ShopType = self.maskParams.ShopType;
+                    $scope.app.maskParams.ServiceTelephone = self.maskParams.ServiceTelephone;
+                    $scope.app.maskParams.PayCash = self.maskParams.PayCash;
+                    $scope.app.maskParams.PayOnline = self.maskParams.PayOnline;
+                    $scope.app.maskParams.SupportInvoice = self.maskParams.SupportInvoice;
+                    $scope.app.maskParams.ServiceStartTime = self.maskParams.ServiceStartTime;
+                    $scope.app.maskParams.ServiceEndTime = self.maskParams.ServiceEndTime;
                     $scope.app.showHideMask(true, 'pages/shopEdit.html');
                 }
                 // 商品分类列表
@@ -3113,8 +3111,8 @@
                             "PayCash": self.PayCash ? 1 : 0,
                             "PayOnline": self.PayOnline ? 1 : 0,
                             "SupportInvoice": self.SupportInvoice ? 1 : 0,
-                            "ServiceStartTime":util.format_hhmm(self.ServiceStartTime) + ':00',
-                            "ServiceEndTime":util.format_hhmm(self.ServiceEndTime) + ':59'
+                            "ServiceStartTime":self.ServiceStartTime?util.format_hhmm(self.ServiceStartTime) + ':00':'00:00:00',
+                            "ServiceEndTime":self.ServiceEndTime?util.format_hhmm(self.ServiceEndTime) + ':59':'23:59:59'
                         }
                     };
 
