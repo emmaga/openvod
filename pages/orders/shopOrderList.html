@@ -116,7 +116,7 @@
                     <!--拒绝-->
                     <a ng-click="sol.reject(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
                     <!--/拒绝-->
-                    <a ng-click="sol.setInvoice(row.ID)" ng-show="(row.Status=='DELIVERING' || row.Status=='ACCEPT') && row.InvoiceStatus==1">已开票</a>
+                    <a ng-click="sol.setInvoice(row.ID)" ng-show="(row.Status=='DELIVERING' || row.Status=='ACCEPT' || row.Status=='COMPLETED') && row.InvoiceStatus==1">已开票</a>
                     <!--已完成-->
                     <a ng-click="sol.finish(row.ID)" ng-show="row.Status=='DELIVERING' || (row.Status=='ACCEPT' && row.DeliveryType==='bySelf') || (row.Status=='ACCEPT' && row.PayCash === 'CASH') || (row.Status=='ACCEPT' && row.DeliveryType==='homeDelivery')">已完成</a>
                     <!--/已完成-->
