@@ -108,7 +108,7 @@
                     <a ng-click="sol.editDeliverInfo(row)" ng-show="row.Status=='DELIVERING'">编辑快递信息</a>
                     <!--/编辑快递信息-->
                     <!--发货-->
-                    <a ng-click="sol.deliver(row.ID)" ng-show="row.Status=='ACCEPT' && row.DeliveryType!=='bySelf' && row.PayCash !== 'CASH'">发货</a>
+                    <a ng-click="sol.deliver(row.ID)" ng-show="row.Status=='ACCEPT' && row.DeliveryType=='express' && row.PayCash !== 'CASH'">发货</a>
                     <!--/发货-->
                     <!--接受-->
                     <a ng-click="sol.accept(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
@@ -116,13 +116,13 @@
                     <!--拒绝-->
                     <a ng-click="sol.reject(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
                     <!--/拒绝-->
+                    <a ng-click="sol.setInvoice(row.ID)" ng-show="(row.Status=='DELIVERING' || row.Status=='ACCEPT' || row.Status=='COMPLETED') && row.InvoiceStatus==1">已开票</a>
                     <!--已完成-->
-                    <a ng-click="sol.finish(row.ID)" ng-show="row.Status=='DELIVERING' || (row.Status=='ACCEPT' && row.DeliveryType==='bySelf') || (row.Status=='ACCEPT' && row.PayCash === 'CASH')">已完成</a>
+                    <a ng-click="sol.finish(row.ID)" ng-show="row.Status=='DELIVERING' || (row.Status=='ACCEPT' && row.DeliveryType==='bySelf') || (row.Status=='ACCEPT' && row.PayCash === 'CASH') || (row.Status=='ACCEPT' && row.DeliveryType==='homeDelivery')">已完成</a>
                     <!--/已完成-->
                     <!--取消订单-->
                     <a ng-click="sol.cancel(row.ID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>
                     <!--/取消订单-->
-                    <a ng-click="sol.setInvoice(row.ID)" ng-show="row.InvoiceStatus==1">已开票</a>
                 </td>
                 <!--/操作-->
             </tr>

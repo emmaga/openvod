@@ -168,6 +168,9 @@
                     case 'bySelf':
                         flag = '自提';
                         break;
+                    case 'homeDelivery':
+                        flag = '送至房间';
+                        break;
                 }
                 return flag;
             }

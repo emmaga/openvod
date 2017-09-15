@@ -92,8 +92,13 @@
                 </li>
                 <!--配送方式-->
                 <li class="list-group-item">
-                    配送方式
+                    收货方式
                     <span class="pull-right">{{sod.info.detail.deliverWay | deliverWay}}</span>
+                </li>
+                <!--收货地址-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='homeDelivery'">
+                    房间号
+                    <span class="pull-right">{{sod.info.detail.address}}</span>
                 </li>
                 <!--收货地址-->
                 <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
@@ -153,8 +158,22 @@
         <!--footer-->
         <div class="modal-footer">
             <!-- 取消 -->
-            <button type="button" class="btn btn-default btn-sm" ng-click="sod.close()">{{'CANCEL' | translate}}</button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="sod.close()">关闭</button>
+
             <!--footer end-->
+            <button ng-if="sod.info.detail.Status=='ACCEPT'&& sod.info.detail.deliverWay=='express' && sod.info.detail.PayCash !== 'CASH'" type="button" class="btn btn-primary btn-sm" ng-click="sod.deliver(sod.id)">发货</button>
+
+            <button ng-if="sod.info.detail.Status=='DELIVERING'" type="button" class="btn btn-primary btn-sm" ng-click="sod.editDeliverInfo(sod.info.detail)">编辑快递信息</button>
+
+            <button ng-if="(sod.info.detail.Status=='DELIVERING' || sod.info.detail.Status=='ACCEPT' || sod.info.detail.Status=='COMPLETED') && sod.info.detail.InvoiceStatus==1" type="button" class="btn btn-warning btn-sm" ng-click="sod.setInvoice(sod.id)">已开票</button>
+
+            <button ng-if="sod.info.detail.Status=='DELIVERING' || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='bySelf') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.PayCash === 'CASH') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='homeDelivery')" type="button" class="btn btn-success btn-sm" ng-click="sod.finish(sod.id)">已完成</button>
+
+            <button ng-if="sod.info.detail.Status=='WAITPAY' || sod.info.detail.Status=='ACCEPT'" type="button" class="btn btn-danger btn-sm" ng-click="sod.cancel(sod.id)">取消订单</button>
+
+            <button ng-if="sod.info.detail.Status=='WAITAPPROVAL'" type="button" class="btn btn-primary btn-sm" ng-click="sod.accept(sod.id)">接受</button>
+
+            <button ng-if="sod.info.detail.Status=='WAITAPPROVAL'" type="button" class="btn btn-danger btn-sm" ng-click="sod.reject(sod.id)">拒绝</button>
         </div>
     </div>
 </div>
