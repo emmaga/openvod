@@ -3111,8 +3111,8 @@
                             "PayCash": self.PayCash ? 1 : 0,
                             "PayOnline": self.PayOnline ? 1 : 0,
                             "SupportInvoice": self.SupportInvoice ? 1 : 0,
-                            "ServiceStartTime":util.format_hhmm(self.ServiceStartTime) + ':00',
-                            "ServiceEndTime":util.format_hhmm(self.ServiceEndTime) + ':59'
+                            "ServiceStartTime":self.ServiceStartTime?util.format_hhmm(self.ServiceStartTime) + ':00':'00:00:00',
+                            "ServiceEndTime":self.ServiceEndTime?util.format_hhmm(self.ServiceEndTime) + ':59':'23:59:59'
                         }
                     };
 
