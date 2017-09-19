@@ -1,0 +1,50 @@
+<div ng-controller="ticketController as ticketCtr" ng-init="ticketCtr.init()" class="container">
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <h4>门票管理</h4>
+        <hr>
+        <ul class="nav nav-tabs">
+            <li class="cursor-pointer" ng-class="{'active':ticketCtr.selectedCate=='all'}" ng-click="ticketCtr.goTo('all', '全部商品')">
+                <a ng-click="" >全部门票</a>
+            </li>
+            <li class="cursor-pointer" ng-class="{'active':ticketCtr.selectedCate==category.ID}" ng-repeat="category in ticketCtr.cateList">
+                <a ng-click="ticketCtr.goTo(category.ID)">{{category.Name}}</a>
+            </li>
+            <li class="cursor-pointer">
+                <a ng-click="ticketCtr.addCate()">
+                    <i class="icon ion-android-add-circle"></i> 添加分类
+                </a>
+            </li>
+        </ul>
+        <div class="row">
+            <div class="col-xs-12">
+                <a ng-click="ticketCtr.add()" class="button button-light ng-binding">
+                    <i class="icon ion-ios-plus-outline"></i> 添加门票
+                </a>
+                <a ng-show="ticketCtr.selectedCate!='all'" ng-click="ticketCtr.editCate()" class="button button-light ng-binding">
+                    <i class="icon ion-ios-plus-outline"></i> 编辑分类
+                </a>
+                <a ng-show="ticketCtr.selectedCate!='all'" ng-click="ticketCtr.deleteCate()" class="button button-light ng-binding">
+                    <i class="icon ion-ios-plus-outline"></i> 删除分类
+                </a>
+            </div>
+        </div>
+        <table class="table table-hover table-condensed" ng-show="!ticketCtr.loading">
+            <tr>
+                <th width="160">门票名称</th>
+                <th>门票描述</th>
+                <th width="120">操作</th>
+            </tr>
+            <tr ng-repeat="item in ticketCtr.ticketList">
+                <td>{{item.Name}}</td>
+                <td>{{item.Description}}</td>
+                <td>
+                    <a ng-click="ticketCtr.delete(item.ID)">删除</a>
+                    <a ng-click="ticketCtr.edit(item.ID)">编辑</a>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="ticketCtr.loading">loading...</div>
+        <div ng-show="ticketCtr.noData">查无数据</div>
+    </div>
+</div>

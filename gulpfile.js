@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-// var plumber = require('gulp-plumber'); // less编译出错时继续执行
+var plumber = require('gulp-plumber'); // less编译出错时继续执行
 
 // less 插件
 // var less = require('gulp-less');
@@ -62,6 +62,7 @@ var cssFiles = [
 
 gulp.task('uglifyJS', function () {
     return gulp.src(jsFiles)
+        .pipe(plumber())     // 编译出错时，不会中断任务
         .pipe(cached('js-task'))
         .pipe(uglify())
         .pipe(remember('js-task'))
