@@ -15,6 +15,7 @@
         'app.qcode',
         'app.report',
         'app.ticket',
+        'app.advanceGoods',
         'angular-md5',
         'ngCookies',
         'ngTable',
@@ -1028,6 +1029,16 @@
                 .state('app.ticket', {
                     url: '/ticket',
                     templateUrl: 'pages/ticket.html'
+                })
+
+                .state('app.advanceGoodsList', {
+                    url: '/advanceGoodsList',
+                    templateUrl: 'pages/advanceGoods/advanceGoodsList.html'
+                })
+
+                .state('app.advanceGoodsOrder', {
+                    url: '/advanceGoodsOrder',
+                    templateUrl: 'pages/advanceGoods/advanceGoodsOrder.html'
                 })
         }])
 

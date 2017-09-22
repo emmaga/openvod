@@ -112,6 +112,7 @@
                     self.maskParams = {};
 
                     self.visibleApp = util.getParams('visibleApp')
+                    self.visibleApp.push('AdvanceGoods', 'AdvanceGoodsOrder')
                     // 读取applists
                     self.loading = true;
                     $http({
@@ -518,6 +519,16 @@
                         case 15:
                             if (!$state.includes('app.ticket')) {
                                 $state.go('app.ticket', {'appId': n});
+                            }
+                            break;
+                        case 16:
+                            if (!$state.includes('app.advanceGoodsList')) {
+                                $state.go('app.advanceGoodsList', {'appId': n});
+                            }
+                            break;
+                        case 17:
+                            if (!$state.includes('app.advanceGoodsOrder')) {
+                                $state.go('app.advanceGoodsOrder', {'appId': n});
                             }
                             break;
                         default:
@@ -3052,9 +3063,9 @@
                     self.shopInfo = self.maskParams.ShopName;
                     self.ShopType = self.maskParams.ShopType;
                     self.ServiceTelephone = self.maskParams.ServiceTelephone;
-                    self.PayCash = self.maskParams.PayCash === 1 ;
-                    self.PayOnline = self.maskParams.PayOnline === 1 ;
-                    self.SupportInvoice = self.maskParams.SupportInvoice === 1 ;
+                    self.PayCash = self.maskParams.PayCash === 1;
+                    self.PayOnline = self.maskParams.PayOnline === 1;
+                    self.SupportInvoice = self.maskParams.SupportInvoice === 1;
                     self.ServiceStartTime = new Date('2000-01-01 ' + self.maskParams.ServiceStartTime.slice(0, 5))
                     self.ServiceEndTime = new Date('2000-01-01 ' + self.maskParams.ServiceEndTime.slice(0, 5))
                 }
@@ -3111,8 +3122,8 @@
                             "PayCash": self.PayCash ? 1 : 0,
                             "PayOnline": self.PayOnline ? 1 : 0,
                             "SupportInvoice": self.SupportInvoice ? 1 : 0,
-                            "ServiceStartTime":self.ServiceStartTime?util.format_hhmm(self.ServiceStartTime) + ':00':'00:00:00',
-                            "ServiceEndTime":self.ServiceEndTime?util.format_hhmm(self.ServiceEndTime) + ':59':'23:59:59'
+                            "ServiceStartTime": self.ServiceStartTime ? util.format_hhmm(self.ServiceStartTime) + ':00' : '00:00:00',
+                            "ServiceEndTime": self.ServiceEndTime ? util.format_hhmm(self.ServiceEndTime) + ':59' : '23:59:59'
                         }
                     };
 

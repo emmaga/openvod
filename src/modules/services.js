@@ -4,17 +4,16 @@
     var app = angular.module('app.services', ['ngCookies'])
 
         .factory('util', ['$cookies', '$translate', 'CONFIG', function ($cookies, $translate, CONFIG) {
-
-            return {
+            var utilObj = {
                 'projectChange': undefined,
-                /** 
+                /**
                  * 调用接口，本地和服务器的接口切换，方便调试
-                 * @param url 服务器接口名称 
+                 * @param url 服务器接口名称
                  * @param testUrl 测试接口名称
                  * @param forceType 强制读取服务器or本地接口 server or local
                  */
                 'getApiUrl': function (url, testUrl, forceType) {
-                    if(forceType) {
+                    if (forceType) {
                         if (forceType == 'server') {
                             return CONFIG.serverUrl + url;
                         }
@@ -64,7 +63,7 @@
                     var date = new Date();
                     date.setDate(date.getDate() + 1);
                     var expires = date;
-                    $cookies.put(paramsName, JSON.stringify(value),{'expires': expires})
+                    $cookies.put(paramsName, JSON.stringify(value), {'expires': expires})
                 },
                 /**
                  * 获取变量
@@ -72,7 +71,7 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
-                    if($cookies.get(paramsName)) {
+                    if ($cookies.get(paramsName)) {
                         return JSON.parse($cookies.get(paramsName));
                     }
                     else {
@@ -84,20 +83,20 @@
                  * 当前系统 使用 的 语言
                  * @returns {string|Object|string}
                  */
-                'langStyle': function(){
+                'langStyle': function () {
                     return $translate.proposedLanguage() || $translate.use();
                 },
 
                 /**
                  * 获取多语言编辑中的默认语言code
                  */
-                'getDefaultLangCode': function() {
+                'getDefaultLangCode': function () {
                     var langs = [];
-                    if($cookies.get('editLangs')) {
+                    if ($cookies.get('editLangs')) {
                         langs = JSON.parse($cookies.get('editLangs'));
                     }
                     for (var i = 0; i < langs.length; i++) {
-                        if(langs[i].default) {
+                        if (langs[i].default) {
                             return langs[i].code;
                         }
                     }
@@ -113,29 +112,29 @@
                  * @param succFn
                  * @param failFn
                  */
-                'uploadFileToUrl': function(xhr, file, uploadUrl, actionType, progressFn, succFn, failFn){
-                    
+                'uploadFileToUrl': function (xhr, file, uploadUrl, actionType, progressFn, succFn, failFn) {
+
                     var actionType = actionType ? actionType : 'normal';
 
                     var fd = new FormData();
                     fd.append('action', actionType);
                     fd.append('file', file);
-                    
+
                     // var xhr = new XMLHttpRequest();
                     xhr.open('POST', uploadUrl, true);
 
-                    xhr.upload.addEventListener("progress", function(evt) {
+                    xhr.upload.addEventListener("progress", function (evt) {
                         progressFn(evt);
                     }, false);
 
-                    xhr.onreadystatechange = function(response) {
+                    xhr.onreadystatechange = function (response) {
                         if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
                             console.log(xhr.responseText);
-                            if(JSON.parse(xhr.responseText).result !== 0) {
-                              failFn(xhr);
+                            if (JSON.parse(xhr.responseText).result !== 0) {
+                                failFn(xhr);
                             }
                             else {
-                              succFn(xhr);
+                                succFn(xhr);
                             }
                         } else if (xhr.status != 200 && xhr.responseText) {
                             failFn(xhr);
@@ -214,8 +213,124 @@
                     }
                     var time = hour + ':' + mins;
                     return time;
+                },
+
+                /**
+                 * 多图上传初始化
+                 * self.imgs = new util.initUploadImgs([],self,$scope,'imgs');        //多图
+                 * self.imgs = new util.initUploadImgs([],self,$scope,'imgs',true);   //单图
+                 * */
+                'initUploadImgs': function (imgList, target, scope, img, single) {
+                    var obj = {
+                        initImgList: imgList,
+                        data: [],
+                        maxId: 0,
+                        single: single ? true : false,
+                        initImgs: function () {
+                            var l = this.initImgList;
+                            for (var i = 0; i < l.length; i++) {
+                                this.data[i] = {
+                                    "src": l[i].ImageURL,
+                                    "fileSize": l[i].ImageSize,
+                                    "id": this.maxId++,
+                                    "progress": 100
+                                };
+                            }
+                        },
+                        deleteById: function (id) {
+                            var l = this.data;
+                            for (var i = 0; i < l.length; i++) {
+                                if (l[i].id == id) {
+                                    // 如果正在上传，取消上传
+                                    if (l[i].progress < 100 && l[i].progress != -1) {
+                                        l[i].xhr.abort();
+                                    }
+                                    l.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        },
+
+                        add: function (xhr, fileName, fileSize) {
+                            this.data.push({
+                                "xhr": xhr,
+                                "fileName": fileName,
+                                "fileSize": fileSize,
+                                "progress": 0,
+                                "id": this.maxId
+                            });
+                            return this.maxId++;
+                        },
+
+                        update: function (id, progress, leftSize, fileSize) {
+                            for (var i = 0; i < this.data.length; i++) {
+                                var f = this.data[i];
+                                if (f.id === id) {
+                                    f.progress = progress;
+                                    f.leftSize = leftSize;
+                                    f.fileSize = fileSize;
+                                    break;
+                                }
+                            }
+                        },
+
+                        setSrcSizeByXhr: function (xhr, src, size) {
+                            for (var i = 0; i < this.data.length; i++) {
+                                if (this.data[i].xhr == xhr) {
+                                    this.data[i].src = src;
+                                    this.data[i].fileSize = size;
+                                    break;
+                                }
+                            }
+                        },
+
+                        uploadFile: function (e) {
+                            console.error(single)
+                            if (single) {
+                                // 删除第二张以后的图片
+                                console.info(this.data)
+                                for (var i = 0; i < this.data.length; i++) {
+                                    this.deleteById(this.data[i].id);
+                                }
+                            }
+                            var file = scope[e];
+                            var uploadUrl = CONFIG.uploadUrl;
+                            var xhr = new XMLHttpRequest();
+                            var fileId = this.add(xhr, file.name, file.size, xhr);
+                            // self.search();
+
+                            utilObj.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
+                                function (evt) {
+                                    scope.$apply(function () {
+                                        if (evt.lengthComputable) {
+                                            var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                            target[img].update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
+                                            console.log(percentComplete);
+                                        }
+                                    });
+                                },
+                                function (xhr) {
+                                    var ret = JSON.parse(xhr.responseText);
+                                    console && console.log(ret);
+                                    scope.$apply(function () {
+                                        target[img].setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
+                                    });
+                                },
+                                function (xhr) {
+                                    scope.$apply(function () {
+                                        target[img].update(fileId, -1, '', '');
+                                    });
+                                    console.log('failure');
+                                    xhr.abort();
+                                }
+                            );
+                        }
+                    }
+                    return obj;
                 }
             }
+
+            return utilObj;
         }])
 
 })();

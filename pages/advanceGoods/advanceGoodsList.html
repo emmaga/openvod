@@ -1,0 +1,34 @@
+<div ng-controller="advanceGoodsController as adGoods" ng-init="adGoods.init()" class="container">
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <!--当前选中名称-->
+        <h4>商品管理</h4>
+        <hr>
+        <div class="row">
+            <div class="col-xs-12">
+                <a ng-click="adGoods.add()" class="button button-light ng-binding">
+                    <i class="icon ion-ios-plus-outline"></i> 添加商品
+                </a>
+            </div>
+        </div>
+        <table class="table table-hover table-condensed" ng-show="!adGoods.loading">
+            <tr>
+                <th>标题</th>
+                <th>抢购日期</th>
+                <th>可用日期</th>
+                <th>已售</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="item in adGoods.ticketList">
+                <td>{{item.Name}}</td>
+                <td>{{item.Description}}</td>
+                <td>
+                    <a ng-click="adGoods.delete(item.ID)">删除</a>
+                    <a ng-click="adGoods.edit(item.ID)">编辑</a>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="adGoods.loading">loading...</div>
+        <div ng-show="adGoods.noData">查无数据</div>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+<div ng-controller="advanceGoodsOrderController as adOrder" ng-init="adOrder.init()" class="container-fluid has-nav-left">
+    <!--加载门店列表loading-->
+    <div ng-show="adOrder.loadingShopList">loading...</div>
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <!-- 右侧部分 end-->
+        <!--当前选中商店名称及门店名称-->
+        <h4 class="ng-binding">
+            {{adOrder.getSelectedShop().ShopName[adOrder.defaultLangCode]}}
+            <span class="">{{adOrder.getSelectedShop().HotelName[adOrder.defaultLangCode]}}</span>
+        </h4>
+        <hr>
+        <!--/当前选中商店名称及门店名称-->
+        <!--筛选条件－买家名&&订单号-->
+        <div class="search-bar">
+            <div class="form-group">
+                <!-- <label class="h5">手机号</label> -->
+                <input ng-model="adOrder.searchStr.userPhone" type="text" class="form-control" placeholder="手机号">
+            </div>
+            <div class="form-group">
+                <!-- <label class="h5">订单号</label> -->
+                <input ng-model="adOrder.searchStr.orderNumber" type="text" class="form-control" placeholder="订单号">
+            </div>
+            <div class="form-group">
+                <!-- <label class="h5">联系人</label> -->
+                <input ng-model="adOrder.searchStr.userName" type="text" class="form-control" placeholder="联系人">
+            </div>
+            <a ng-click="adOrder.search()" class="button button-light">
+                <i class="icon ion-ios-search-strong"></i>搜索
+            </a>
+        </div>
+        <div class="bill-status">
+            开票状态：
+            <label><input type="radio" name="billStatus" ng-model="billStatus" value="" checked> 全部</label>
+            <label><input type="radio" name="billStatus" ng-model="billStatus" value="2"> 已开发票</label>
+            <label><input type="radio" name="billStatus" ng-model="billStatus" value="1"> 待开发票</label>
+            <label><input type="radio" name="billStatus" ng-model="billStatus" value="0"> 不需要发票</label>
+        </div>
+        <!--/筛选条件－买家名&&订单号-->
+        <!--筛选条件－订单状态-->
+        <ul class="nav nav-tabs">
+            <li ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
+                <a ng-click="adOrder.searchByStatus(s.code)" id="{{s.code}}Shop">{{s.name[adOrder.defaultLangCode]}}</a>
+            </li>
+        </ul>
+        <!--筛选条件－订单状态-->
+        <!--订单列表-->
+        <table ng-table="adOrder.tableParams" class="table table-hover">
+            <tr ng-repeat="row in $data">
+                <!--订单号-->
+                <td title="'订单号'">
+                    {{row.OrderNum}}
+                </td>
+                <!--/订单号-->
+                <!--下单时间-->
+                <td title="'下单时间'">
+                    {{row.CreateTime}}
+                </td>
+                <!--/下单时间-->
+                <!--订单状态-->
+                <td title="'订单状态'">
+                    {{row.Status | shopOrderStatus}}
+                </td>
+                <!--/订单状态-->
+                <!--配送方式-->
+                <td title="'配送方式'">
+                    {{row.DeliveryType | deliverWay}}
+                </td>
+                <!--/配送方式-->
+                <!--订单总价-->
+                <td title="'订单总价'">
+                    <ng-if ng-if="row.PayBy.indexOf('money') !== -1">{{row.TotalGoodsPrice | fenToYuan}}元 </ng-if>
+                    <ng-if ng-if="row.PayBy.indexOf('point') !== -1">{{row.TotalGoodsPoint}}积分</ng-if>
+                </td>
+                <!--/订单总价-->
+                <!--商品总数-->
+                <td title="'商品总数'">
+                    {{row.TotalGoodsCount}}
+                </td>
+                <!--/商品总数-->
+                <!--昵称-->
+                <td title="'昵称 / 房间号'">
+                    {{row.RoomID || row.name || ''}}
+                </td>
+                <!--/昵称-->
+                <!--手机号-->
+                <td title="'手机号'">
+                    {{row.mobile}}
+                </td>
+                <!--/手机号-->
+                <!--操作-->
+                <td title="'操作'">
+                    <!--详情-->
+                    <a ng-click="adOrder.gotoDetail(row)">详情</a>
+                    <!--/详情-->
+                    <!--编辑快递信息-->
+                    <a ng-click="adOrder.editDeliverInfo(row)" ng-show="row.Status=='DELIVERING'">编辑快递信息</a>
+                    <!--/编辑快递信息-->
+                    <!--发货-->
+                    <a ng-click="adOrder.deliver(row.ID)" ng-show="row.Status=='ACCEPT' && row.DeliveryType=='express' && row.PayCash !== 'CASH'">发货</a>
+                    <!--/发货-->
+                    <!--接受-->
+                    <a ng-click="adOrder.accept(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
+                    <!--/接受-->
+                    <!--拒绝-->
+                    <a ng-click="adOrder.reject(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
+                    <!--/拒绝-->
+                    <a ng-click="adOrder.setInvoice(row.ID)" ng-show="(row.Status=='DELIVERING' || row.Status=='ACCEPT' || row.Status=='COMPLETED') && row.InvoiceStatus==1">已开票</a>
+                    <!--已完成-->
+                    <a ng-click="adOrder.finish(row.ID)" ng-show="row.Status=='DELIVERING' || (row.Status=='ACCEPT' && row.DeliveryType==='bySelf') || (row.Status=='ACCEPT' && row.PayCash === 'CASH') || (row.Status=='ACCEPT' && row.DeliveryType==='homeDelivery')">已完成</a>
+                    <!--/已完成-->
+                    <!--取消订单-->
+                    <a ng-click="adOrder.cancel(row.ID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>
+                    <!--/取消订单-->
+                </td>
+                <!--/操作-->
+            </tr>
+        </table>
+        <div ng-show="adOrder.loading">loading...</div>
+        <div ng-show="adOrder.noData">无数据</div>
+        <!--订单列表 end-->
+    </div>
+    <!-- 右侧部分 end-->
+
+
+
+    <!--theme-->
+    <style type="text/css">
+        .nav-left-content a {
+            line-height: 1.25
+        }
+
+        .nav-left-content {
+            padding-top: 23px;
+        }
+    </style>
+</div>

@@ -41,6 +41,22 @@
       "themeColor":"#c1272d"
     },
     {
+      "id": 16,
+      "name": "预售商品",
+      "appName":"AdvanceGoods",
+      "icon": "dist/imgs/app-icon-01.png",
+      "bgColor": "rgb(125,0,0)",
+      "themeColor":"#c1272d"
+    },
+    {
+      "id": 17,
+      "name": "预售订单",
+      "appName":"AdvanceGoodsOrder",
+      "icon": "dist/imgs/app-icon-03.png",
+      "bgColor": "rgb(125,0,0)",
+      "themeColor":"#c1272d"
+    },
+    {
       "id": 5,
       "name": "TV界面",
       "appName":"TV",
