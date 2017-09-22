@@ -1,0 +1,69 @@
+<div ng-controller="movieIncomeController as movieIncome" ng-init="movieIncome.init()" class="content-right">
+    <!--当前选中名称-->
+    <h4>电影营收统计</h4>
+    <hr>
+    <div class="row">
+        <!--搜索 筛选条件－开始日期&&结束日期-->
+        <div class="col-xs-12">
+            <div class="search-bar">
+                <div class="form-group">
+                    <!--开始日期-->
+                    <small>开始日期</small>
+                    <input type="text" class="form-control start" id="startTime" ng-model="startTime" readonly/>
+                </div>
+                <div class="form-group">
+                    <!--结束日期-->
+                    <small>结束日期</small>
+                    <input type="text" class="form-control end" id="endTime" ng-model="endTime" readonly/>
+                </div>
+                <a ng-click="movieIncome.getInfo()" class="button button-light" style="top: 10px;">
+                    <i class="icon ion-ios-search-strong"></i> 查询
+                </a>
+
+                <a ng-click="movieIncome.export()" class="button button-light" style="top: 10px;">
+                    <i class="icon ion-log-out"></i> 导出总报表
+                </a>
+
+                <a class="button button-light" style="top: 10px;" ng-show="movieIncome.downloading">
+                    <i class="icon ion-ios-time-outline"></i> 数据生成中，请稍等...
+                </a>
+                <a href="{{movieIncome.downloadLink}}" class="button button-light" style="top: 10px;"
+                   ng-show="movieIncome.complete">
+                    <i class="icon ion-ios-download-outline"></i> 下载总报表（{{movieIncome.sTime}}至{{movieIncome.eTime}}）
+                </a>
+            </div>
+        </div>
+    </div>
+    <hr style="margin-top: 0;">
+    <table class="table table-hover table-condensed" ng-show="!movieIncome.loading">
+        <tr>
+            <th></th>
+            <th>订单数</th>
+            <th>电影收入（元）</th>
+            <th>清鹤收入（元）</th>
+            <th>酒店收入（元）</th>
+        </tr>
+        <tr>
+            <td>总计</td>
+            <td>{{movieIncome.movieData['订单数']}}</td>
+            <td>{{movieIncome.movieData['电影收入（元）']| number:2}}</td>
+            <td>{{movieIncome.movieData['清鹤收入（元）']| number:2}}</td>
+            <td>{{movieIncome.movieData['酒店收入（元）']| number:2}}</td>
+        </tr>
+    </table>
+    <div ng-show="movieIncome.loading">loading...</div>
+    <div ng-show="movieIncome.noData">查无数据</div>
+
+    <!--<div>-->
+    <!--<a ng-click="movieIncome.exportTicketReport()" class="button button-light" style="top: 10px;">-->
+    <!--<i class="icon ion-log-out"></i> 门票报表导出-->
+    <!--</a>-->
+    <!--<a class="button button-light" style="top: 10px;" ng-show="movieIncome.ticketDownloading">-->
+    <!--<i class="icon ion-ios-time-outline"></i> 数据生成中，请稍等...-->
+    <!--</a>-->
+    <!--<a href="{{movieIncome.ticketDownloadLink}}" class="button button-light" style="top: 10px;"-->
+    <!--ng-show="movieIncome.ticketComplete">-->
+    <!--<i class="icon ion-ios-download-outline"></i> 下载门票报表（{{movieIncome.sTime}}至{{movieIncome.eTime}}）-->
+    <!--</a>-->
+    <!--</div>-->
+</div>

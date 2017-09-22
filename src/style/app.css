@@ -1322,7 +1322,8 @@ label + hr {
 
 /*开票状态*/
 .bill-status {
-    margin-top: -10px; margin-bottom: 10px;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
 
 .bill-status label {
@@ -1335,4 +1336,9 @@ label + hr {
 .bill-status input {
     vertical-align: text-top;
     height: 13px;
+}
+
+.form-control[readonly] {
+    background-color: transparent !important;
+    opacity: 1;
 }

@@ -7,14 +7,14 @@
 
             return {
                 'projectChange': undefined,
-                /** 
+                /**
                  * 调用接口，本地和服务器的接口切换，方便调试
-                 * @param url 服务器接口名称 
+                 * @param url 服务器接口名称
                  * @param testUrl 测试接口名称
                  * @param forceType 强制读取服务器or本地接口 server or local
                  */
                 'getApiUrl': function (url, testUrl, forceType) {
-                    if(forceType) {
+                    if (forceType) {
                         if (forceType == 'server') {
                             return CONFIG.serverUrl + url;
                         }
@@ -64,7 +64,7 @@
                     var date = new Date();
                     date.setDate(date.getDate() + 1);
                     var expires = date;
-                    $cookies.put(paramsName, JSON.stringify(value),{'expires': expires})
+                    $cookies.put(paramsName, JSON.stringify(value), {'expires': expires})
                 },
                 /**
                  * 获取变量
@@ -72,7 +72,7 @@
                  * @returns {*}
                  */
                 'getParams': function (paramsName) {
-                    if($cookies.get(paramsName)) {
+                    if ($cookies.get(paramsName)) {
                         return JSON.parse($cookies.get(paramsName));
                     }
                     else {
@@ -84,20 +84,20 @@
                  * 当前系统 使用 的 语言
                  * @returns {string|Object|string}
                  */
-                'langStyle': function(){
+                'langStyle': function () {
                     return $translate.proposedLanguage() || $translate.use();
                 },
 
                 /**
                  * 获取多语言编辑中的默认语言code
                  */
-                'getDefaultLangCode': function() {
+                'getDefaultLangCode': function () {
                     var langs = [];
-                    if($cookies.get('editLangs')) {
+                    if ($cookies.get('editLangs')) {
                         langs = JSON.parse($cookies.get('editLangs'));
                     }
                     for (var i = 0; i < langs.length; i++) {
-                        if(langs[i].default) {
+                        if (langs[i].default) {
                             return langs[i].code;
                         }
                     }
@@ -113,29 +113,29 @@
                  * @param succFn
                  * @param failFn
                  */
-                'uploadFileToUrl': function(xhr, file, uploadUrl, actionType, progressFn, succFn, failFn){
-                    
+                'uploadFileToUrl': function (xhr, file, uploadUrl, actionType, progressFn, succFn, failFn) {
+
                     var actionType = actionType ? actionType : 'normal';
 
                     var fd = new FormData();
                     fd.append('action', actionType);
                     fd.append('file', file);
-                    
+
                     // var xhr = new XMLHttpRequest();
                     xhr.open('POST', uploadUrl, true);
 
-                    xhr.upload.addEventListener("progress", function(evt) {
+                    xhr.upload.addEventListener("progress", function (evt) {
                         progressFn(evt);
                     }, false);
 
-                    xhr.onreadystatechange = function(response) {
+                    xhr.onreadystatechange = function (response) {
                         if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
                             console.log(xhr.responseText);
-                            if(JSON.parse(xhr.responseText).result !== 0) {
-                              failFn(xhr);
+                            if (JSON.parse(xhr.responseText).result !== 0) {
+                                failFn(xhr);
                             }
                             else {
-                              succFn(xhr);
+                                succFn(xhr);
                             }
                         } else if (xhr.status != 200 && xhr.responseText) {
                             failFn(xhr);
@@ -214,6 +214,69 @@
                     }
                     var time = hour + ':' + mins;
                     return time;
+                },
+                /**
+                * 初始化时间范围选择控件
+                * */
+                'initRangeDatePicker': function (obj, opt) {
+                    obj.startTime = this.format_yyyyMMdd(new Date(new Date().getTime() - 2678400000))
+                    obj.endTime = this.format_yyyyMMdd(new Date())
+                    var defaultOption = {
+                        startEl: '#startTime',
+                        endEl: '#endTime',
+                        maxDate: this.format_yyyyMMdd(new Date())
+                    }
+                    var option = extend(defaultOption, opt || {})
+
+                    // 日期选择-开始时间
+                    laydate.render({
+                        elem: option.startEl,
+                        max: option.maxDate,
+                        btns: ['now','confirm'],
+                        done: function (value, date, endDate) {
+                            obj.$apply(function () {
+                                obj.startTime = value
+                            })
+                        }
+                    });
+                    // 日期选择-结束时间
+                    laydate.render({
+                        elem: option.endEl,
+                        max: option.maxDate,
+                        btns: ['now','confirm'],
+                        done: function (value, date, endDate) {
+                            obj.$apply(function () {
+                                obj.endTime = value
+                            })
+                        }
+                    });
+
+                    function extend (a, b) {
+                        for (var i in b) {
+                            //这个是检测for循环到的属性是不是b自身的
+                            if (b.hasOwnProperty(i)) {
+                                a[i] = b[i]
+                            }
+                        }
+                        return a;
+                    }
+                },
+                /**
+                 * 时间格式控制
+                 * */
+                'resetTime':function (obj,range) {
+                    if (obj.startTime > obj.endTime) {
+                        var k = obj.startTime;
+                        obj.startTime = obj.endTime;
+                        obj.endTime = k;
+                    }
+                    if(!range) return true;
+                    if (Math.abs(new Date(obj.startTime).getTime() - new Date(obj.endTime).getTime()) > range*24*60*60*1000) {
+                        alert('时间范围不能大于'+range+'天')
+                        return false;
+                    }else{
+                        return true;
+                    }
                 }
             }
         }])
