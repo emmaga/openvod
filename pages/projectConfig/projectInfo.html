@@ -52,10 +52,11 @@
                     </button>
                 </div>
             </form>
-            <hr>
+
             <form name="movieInfoForm" ng-submit="movieInfoForm.$valid && pcProjectInfo.saveMovieInfo()">
+                <hr>
                 <div class="form-group">
-                    <label>电影分成比例（％）</label>
+                    <label>电影分成清鹤占比（％）</label>
                     <input ng-model="pcProjectInfo.percent" type="number" step="1" required placeholder="（必填）" class="form-control" />
                 </div>
 
