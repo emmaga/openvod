@@ -3217,7 +3217,7 @@
                         "lang": self.langStyle,
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryName": self.form.shopName,
-                            "ShopGoodsCategoryPic": self.imgs1.data[0].src,
+                            "ShopGoodsCategoryPic": self.imgs1.data.length > 0 ? self.imgs1.data[0].src : '',
                             "ShopID": self.maskParams.ShopID - 0,
                             "seq": self.seq
                         }
