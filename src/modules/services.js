@@ -214,7 +214,6 @@
                     var time = hour + ':' + mins;
                     return time;
                 },
-
                 /**
                  * 多图上传初始化
                  * self.imgs = new util.initUploadImgs([],self,$scope,'imgs');        //多图
@@ -285,7 +284,6 @@
                         },
 
                         uploadFile: function (e) {
-                            console.error(single)
                             if (single) {
                                 // 删除第二张以后的图片
                                 console.info(this.data)

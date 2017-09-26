@@ -44,17 +44,17 @@
       "id": 16,
       "name": "预售商品",
       "appName":"AdvanceGoods",
-      "icon": "dist/imgs/app-icon-01.png",
-      "bgColor": "rgb(125,0,0)",
-      "themeColor":"#c1272d"
+      "icon": "dist/imgs/app-icon-18.png",
+      "bgColor": "#8cc63f",
+      "themeColor":"#8cc63f"
     },
     {
       "id": 17,
       "name": "预售订单",
       "appName":"AdvanceGoodsOrder",
-      "icon": "dist/imgs/app-icon-03.png",
-      "bgColor": "rgb(125,0,0)",
-      "themeColor":"#c1272d"
+      "icon": "dist/imgs/app-icon-17.png",
+      "bgColor": "#8cc63f",
+      "themeColor":"#8cc63f"
     },
     {
       "id": 5,

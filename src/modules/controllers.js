@@ -522,8 +522,8 @@
                             }
                             break;
                         case 16:
-                            if (!$state.includes('app.advanceGoodsList')) {
-                                $state.go('app.advanceGoodsList', {'appId': n});
+                            if (!$state.includes('app.advanceGoods')) {
+                                $state.go('app.advanceGoods', {'appId': n});
                             }
                             break;
                         case 17:

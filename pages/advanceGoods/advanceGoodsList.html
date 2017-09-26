@@ -1,34 +1,86 @@
-<div ng-controller="advanceGoodsController as adGoods" ng-init="adGoods.init()" class="container">
-    <!-- 右侧部分 -->
-    <div class="content-right">
-        <!--当前选中名称-->
-        <h4>商品管理</h4>
-        <hr>
-        <div class="row">
-            <div class="col-xs-12">
-                <a ng-click="adGoods.add()" class="button button-light ng-binding">
-                    <i class="icon ion-ios-plus-outline"></i> 添加商品
-                </a>
-            </div>
+<!--商城管理>右侧部分-->
+<div ng-controller="advanceGoodsController as goods" ng-init="goods.init();" class="content-right">
+
+    <!-- 标题 + 编辑酒店信息按钮-->
+    <h4 ng-click="goods.shopEdit()" class="cursor-pointer">
+        {{goods.maskParams.ShopName[goods.langStyle]}}
+        <a class="title-btn"><i class="icon ion-ios-compose-outline theme-color"></i></a>
+    </h4>
+    <hr>
+    <!-- 分类标签 -->
+    <ul class="nav nav-tabs">
+
+        <li class="cursor-pointer {{'all' == goods.selectedCate ? 'active' : ''}}"
+            ng-click="goods.goTo('all', '全部商品')">
+            <a ng-click="">全部商品</a>
+        </li>
+        <li class="cursor-pointer ShopGoodsCategoryID {{category.id == goods.selectedCate ? 'active' : ''}}"
+            ng-repeat="category in goods.categoryList">
+            <a ng-click="goods.goTo(category.id,category.name,category.seq)">{{category.name[goods.langStyle]}}</a>
+        </li>
+        <li class="cursor-pointer">
+            <a ng-click="goods.addCate()">
+                <i class="icon ion-android-add-circle"></i> 分类添加
+            </a>
+        </li>
+    </ul>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a ng-click="goods.addGoods()" class="button button-light ng-binding">
+                <i class="icon ion-ios-plus-outline"></i> 添加商品
+            </a>
+            <a ng-show="goods.selectedCate!='all'" ng-click="goods.editCate()"
+               class="button button-light ng-binding">
+                <i class="icon ion-ios-plus-outline"></i> 编辑分类
+            </a>
+            <a ng-show="goods.selectedCate!='all'" ng-click="goods.deleteCate()"
+               class="button button-light ng-binding">
+                <i class="icon ion-ios-plus-outline"></i> 删除分类
+            </a>
         </div>
-        <table class="table table-hover table-condensed" ng-show="!adGoods.loading">
-            <tr>
-                <th>标题</th>
-                <th>抢购日期</th>
-                <th>可用日期</th>
-                <th>已售</th>
-                <th>操作</th>
-            </tr>
-            <tr ng-repeat="item in adGoods.ticketList">
-                <td>{{item.Name}}</td>
-                <td>{{item.Description}}</td>
-                <td>
-                    <a ng-click="adGoods.delete(item.ID)">删除</a>
-                    <a ng-click="adGoods.edit(item.ID)">编辑</a>
-                </td>
-            </tr>
-        </table>
-        <div ng-show="adGoods.loading">loading...</div>
-        <div ng-show="adGoods.noData">查无数据</div>
     </div>
+
+    <!--订单列表-->
+    <table ng-table="goods.tableParams" class="table table-hover table-condensed">
+        <tr ng-repeat="row in $data">
+            <td title="'商品ID'" width="60">
+                {{row.productId}}
+            </td>
+            <td title="'商品名'" >
+                {{row.name}}
+            </td>
+            <td title="'使用日期'">
+                {{row.useStartDate}} 至 <br> {{row.useEndDate}}
+            </td>
+            <td title="'抢购日期'">
+                {{row.saleStartDate}} 至 <br> {{row.saleEndDate}}
+            </td>
+            <td title="'分类'">
+                <style>
+                    .cateList,.cateList li{
+                        padding:0;
+                        margin:0;
+                        list-style: none;
+                    }
+                    .cateList label{
+                        margin: 0;
+                    }
+                </style>
+                <ul class="cateList">
+                    <li ng-repeat="category in goods.categoryList">
+                        <label><input type="checkbox"  ng-checked="goods.checkGoodsCategory(category.id,row.categoryList)"  ng-model="this.value" ng-click="goods.changeGoodsCategory(row.productId,category.id,this.value,row.categoryList)">
+                        {{category.name[goods.langStyle]}}
+                        </label>
+                    </li>
+                </ul>
+            </td>
+            <td title="'操作'" width="100">
+                <a ng-click="goods.editGoods(row.productId)">编辑</a>
+                <a ng-click="goods.delGoods(row.productId)">删除</a>
+            </td>
+        </tr>
+    </table>
+    <!-- loading -->
+    <div ng-show="goods.loading">loading...</div>
 </div>

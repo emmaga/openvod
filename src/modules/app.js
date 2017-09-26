@@ -23,7 +23,8 @@
         'ui.bootstrap',
         'ui.toggle',
         'angularBootstrapNavTree',
-        'AngularPrint'
+        'AngularPrint',
+        'meta.umeditor'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';
@@ -1031,11 +1032,14 @@
                     templateUrl: 'pages/ticket.html'
                 })
 
-                .state('app.advanceGoodsList', {
-                    url: '/advanceGoodsList',
+                .state('app.advanceGoods', {
+                    url: '/advanceGoods',
+                    templateUrl: 'pages/advanceGoods/advanceShop.html'
+                })
+                .state('app.advanceGoods.goods', {
+                    url: '/goods?HotelID&ShopID',
                     templateUrl: 'pages/advanceGoods/advanceGoodsList.html'
                 })
-
                 .state('app.advanceGoodsOrder', {
                     url: '/advanceGoodsOrder',
                     templateUrl: 'pages/advanceGoods/advanceGoodsOrder.html'

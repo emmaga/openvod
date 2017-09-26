@@ -1,114 +1,170 @@
-<!-- 编辑商品信息 -->
-<div ng-controller="goodsEditController as goodsEdit" ng-init="goodsEdit.init()" class="modal-dialog">
+<!-- 新建商品 -->
+<div ng-controller="advanceGoodsEditController as goodsEdit" ng-init="goodsEdit.init()" class="modal-dialog">
     <div class="modal-content">
         <!-- loading -->
-        <div ng-show="goodsEdit.loading">loadingGoodsInfo...</div>
         <!-- form -->
-        <form name="goodsEditForm" ng-submit="goodsEditForm.$valid && goodsEdit.editGoods()">
+        <form name="goodsEditForm" ng-submit="goodsEditForm.$valid && goodsEdit.save()">
             <!--header-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="goodsEdit.cancel()">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h5 class="modal-title">编辑商品信息</h5>
+                <h5 class="modal-title">编辑商品</h5>
             </div>
             <!--header end-->
             <!--body-->
             <div class="modal-body">
                 <!-- 商品名 -->
-                <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
-                    <div class="form-group" ng-if="lang.default==true">
-                        <label>商品名({{lang.name}})</label>
-                        <input type="text" name="" required placeholder="（必填）" ng-model="goodsEdit.name[lang.code]" class="form-control">
-                    </div>
-                    <div class="form-group" ng-if="lang.default!==true">
-                        <label>商品名({{lang.name}})</label>
-                        <input type="text" name="" ng-model="goodsEdit.name[lang.code]" class="form-control">
-                    </div>
-                </ng-repeat>
-                <!-- 商品排序 -->
+                {{goodsEdit.pro}}
                 <div class="form-group">
-                    <label>商品排序</label>
-                    <input ng-model="goodsEdit.seq" required placeholder="（必填）" type="number" min="0" class="form-control" />
+                    <label>标题</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="goodsEdit.title"
+                           class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>商品名称</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="goodsEdit.name"
+                           class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>商品介绍</label>
+                    <textarea name="" required placeholder="（必填）" ng-model="goodsEdit.intro"
+                              class="form-control"></textarea>
                 </div>
                 <!--商品图-->
                 <div class="form-group">
-                    <label>商品图片</label>
-                    <br><small>建议使用宽高16:9、大小200kb以内的图片（应用于电视端时使用360×496的图片）</small>
+                    <label>商品封面</label>
+                    <a ng-click="goodsEdit.clickUpload('upload')">上传</a>
+                    <br>
+                    <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
+                    <a id="hidenUpload" style="display: none;" ng-click="goodsEdit.imgs.uploadFile('myFile')"></a>
                     <div class="row">
                         <div class="col-xs-12">
                             <!-- 图 -->
-                            <div ng-repeat="img in goodsEdit.imgs.data" style="background-image: url({{img.src}})" class="form-thumbnail">
+                            <div ng-repeat="img in goodsEdit.imgs.data" style="background-image: url({{img.src}})"
+                                 class="form-thumbnail">
                                 <!-- 进度条 -->
                                 <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{img.progress}}%;">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                         style="width: {{img.progress}}%;">
                                     </div>
                                 </div>
                                 <!-- 删除按钮 -->
-                                <i ng-click="goodsEdit.imgs.deleteById(img.id)" class="form-thumbnail-delete icon ion-close"></i>
-                            </div>
-                            <!-- 上传按钮 -->
-                            <div ng-click="goodsEdit.clickUpload('upload')" class="form-thumbnail form-thumbnail-creat">
-                                <i class="icon ion-upload"></i> 上传图片
-                                <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload" />
-                                <a id="hidenUpload" style="display: none;" ng-click="goodsEdit.imgs.uploadFile('myFile')"></a>
+                                <i ng-click="goodsEdit.imgs.deleteById(img.id)"
+                                   class="form-thumbnail-delete icon ion-close"></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!--/商品图-->
-                <!-- 单价or积分 -->
+
                 <div class="form-group">
-                    <label>支付方式</label>
-                    <div style="margin-bottom: 8px;">    
-                        <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="price" /> 现金
-                        <input type="radio" ng-model="goodsEdit.paytype" name="paytype" value="score" /> 积分
+                    <label>使用日期</label>
+                    <div class="form-inline">
+                        <input type="text" class="form-control" id="useStartTime" ng-model="goodsEdit.useStartTime" readonly/> -
+                        <input type="text" class="form-control" id="useEndTime" ng-model="goodsEdit.useEndTime" readonly/>
                     </div>
-                    <input ng-show="goodsEdit.paytype == 'price'" ng-model="goodsEdit.price" placeholder="请输入价格（元）" type="number" min="0" class="form-control" step="0.01" />
-                    <div ng-show="goodsEdit.paytype == 'price'" class="form-group">
-                        <label>下单立减</label>
-                        <input ng-model="goodsEdit.decline" placeholder="请输入立减金额（元）" type="number" min="0" max="{{goodsEdit.price}}" class="form-control" step="0.01" />
-                    </div>
-                    <input ng-show="goodsEdit.paytype == 'score'" ng-model="goodsEdit.score" placeholder="请输入积分" type="number" min="0" class="form-control" />
+
                 </div>
-                <!-- 库存 -->
+                <div class="form-group">
+                    <label>抢购日期</label>
+                    <div class="form-inline">
+                        <input type="text" class="form-control" id="saleStartTime" ng-model="goodsEdit.saleStartTime" readonly/> -
+                        <input type="text" class="form-control" id="saleEndTime" ng-model="goodsEdit.saleEndTime" readonly/>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>库存</label>
-                    <input ng-model="goodsEdit.invetory" required placeholder="（必填）" type="number" min="0" class="form-control" />
+                    <input ng-model="goodsEdit.invetory" required placeholder="（必填）" type="number" min="0"
+                           class="form-control" step="1"/>
                 </div>
-                <!-- 配送方式 -->
+                <div class="form-group">
+                    <label>单人可购数量</label>
+                    <input ng-model="goodsEdit.saleNumByOne" required placeholder="（必填）" type="number" min="0"
+                           class="form-control" step="1"/>
+                </div>
+                <div class="form-group">
+                    <label>门市价（元）</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="goodsEdit.pricePub"
+                           class="form-control" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label>抢购价（元）</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="goodsEdit.price"
+                           class="form-control" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label>佣金（元）</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="goodsEdit.commission"
+                           class="form-control" step="0.01" min="0">
+                </div>
                 <div class="form-group">
                     <label>配送方式</label><br>
-                    <input ng-model="goodsEdit.byDelivery" type="checkbox" /> 支持快递
-                    <input ng-model="goodsEdit.bySelf" type="checkbox" /> 支持到店自取
-                    <input ng-model="goodsEdit.byHomeDelivery" type="checkbox" /> 支持送至房间
+                    <label style="font-weight: normal;"><input ng-model="goodsEdit.byDelivery" type="checkbox"/> 支持快递</label> &nbsp;&nbsp;
+                    <label style="font-weight: normal;"><input ng-model="goodsEdit.bySelf" type="checkbox"/> 支持到店自取</label>
+                </div>
+                <!--<div class="form-group">-->
+                <!--<label>上架：</label>-->
+                <!--<toggle ng-model="goodsEdit.tvShow"></toggle>-->
+                <!--</div>-->
+                <label>产品详情</label>
+                <!--编辑器-->
+                <div type="text/html" ng-model='goodsEdit.htmlIntro' meta-umeditor meta-umeditor-config="goodsEdit.ueConfig"  style="width: 100%;height: 300px"></div>
+
+                <div class="form-group">
+                    <label>图片素材（点击图片，插入编辑器）</label>
+                    <a ng-click="goodsEdit.clickUpload('upload1')">上传</a>
+                    <br>
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+                    <a id="hidenUpload1" style="display: none;" ng-click="goodsEdit.imgs1.uploadFile('myFile')"></a>
+                    <!--图片编辑按钮-->
+                    <span ng-if="goodsEdit.imgs1.data.length>0">
+                        <a ng-show="!goodsEdit.imgEditing" ng-click="goodsEdit.imgEdit()">编辑</a>
+                        <a ng-show="goodsEdit.imgEditing" ng-click="goodsEdit.imgFinish()">完成</a>
+                    </span>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in goodsEdit.imgs1.data" style="background-image: url({{img.src}})"
+                                 class="form-thumbnail" ng-click="goodsEdit.insertImg(img.src)">
+                                <!-- 进度条 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                         style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                                <!-- 删除按钮 -->
+                                <i ng-click="goodsEdit.imgs1.deleteById(img.id)"
+                                   class="form-thumbnail-delete icon ion-close" ng-show="goodsEdit.imgEditing"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>在TV端显示：</label>
-                    <toggle ng-model="goodsEdit.tvShow"></toggle>
+                    <label>购买须知</label>
+                    <textarea class="form-control" ng-model="goodsEdit.buyNotes"></textarea>
                 </div>
-                <!-- 简介 -->
-                <ng-repeat ng-repeat="lang in goodsEdit.editLangs">
-                    <div class="form-group" ng-if="lang.default==true">
-                        <label>简介({{lang.name}})</label>
-                        <textarea ng-trim="false" ng-model="goodsEdit.intro[lang.code]" required placeholder="（必填）" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group" ng-if="lang.default!==true">
-                        <label>简介({{lang.name}})</label>
-                        <textarea ng-trim="false" ng-model="goodsEdit.intro[lang.code]" class="form-control"></textarea>
-                    </div>
-                </ng-repeat>
+                <div class="form-group">
+                    <label>排序</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="goodsEdit.seq"
+                           class="form-control" step="1" min="0">
+                </div>
             </div>
+
+
             <!-- body end -->
             <!--footer-->
             <div class="modal-footer">
                 <!-- 取消 -->
-                <button type="button" class="btn btn-default btn-sm" ng-click="goodsEdit.cancel()">{{'CANCEL' | translate}}</button>
-                <!-- 删除 -->
-                <button type="button" class="btn btn-danger btn-sm" ng-click="goodsEdit.deleteGoods()"><i class="glyphicon glyphicon-trash"></i> {{'DELETE' | translate}}</button>
+                <button type="button" class="btn btn-default btn-sm" ng-click="goodsEdit.cancel()">{{'CANCEL' |
+                    translate}}
+                </button>
                 <!-- 保存 -->
-                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="goodsEdit.saving"><i class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}</button>
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="goodsEdit.saving"><i
+                        class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
             </div>
             <!--footer end-->
         </form>
