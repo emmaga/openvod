@@ -669,7 +669,7 @@
                             "categoryId": self.shopGoodsCategoryId == 'all' ? -1 : self.shopGoodsCategoryId,
                             "useStartDate": self.useStartTime + ' 00:00:00',
                             "htmlIntro": self.htmlIntro,
-                            "shareDesc": [self.shareDesc],
+                            "shareDesc": self.shareDesc,
                             "useEndDate": self.useEndTime + ' 23:59:59',
                             "name": {
                                 "zh-CN": self.name
@@ -869,7 +869,7 @@
                             "useStartDate": self.useStartTime + ' 00:00:00',
                             "htmlIntro": self.htmlIntro,
                             "useEndDate": self.useEndTime + ' 23:59:59',
-                            "shareDesc": [self.shareDesc],
+                            "shareDesc": self.shareDesc,
                             "name": {
                                 "zh-CN": self.name
                             },
@@ -972,7 +972,7 @@
                     self.intro = $filter('parseBr')(obj.intro['zh-CN'])
                     self.invetory = obj.invetory
                     self.saleNumByOne = obj.saleNumByOne
-                    self.shareDesc = obj.shareDesc[0]
+                    self.shareDesc = obj.shareDesc
                     self.pricePub = Number(obj.pricePub) / 100
                     self.price = Number(obj.price) / 100
                     self.byDelivery = obj.expressSupport == 1
