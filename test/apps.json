@@ -43,7 +43,7 @@
     {
       "id": 16,
       "name": "预售商品",
-      "appName":"AdvanceGoods",
+      "appName":"FXShop",
       "icon": "dist/imgs/app-icon-17.png",
       "bgColor": "#8cc63f",
       "themeColor":"#8cc63f"
@@ -51,7 +51,7 @@
     {
       "id": 17,
       "name": "预售订单",
-      "appName":"AdvanceGoodsOrder",
+      "appName":"FXShopOrder",
       "icon": "dist/imgs/app-icon-18.png",
       "bgColor": "#8cc63f",
       "themeColor":"#8cc63f"

@@ -115,7 +115,7 @@
                     <a ng-click="sol.finish(row.ID)" ng-show="row.Status=='DELIVERING' || (row.Status=='ACCEPT' && row.DeliveryType==='bySelf') || (row.Status=='ACCEPT' && row.PayCash === 'CASH') || (row.Status=='ACCEPT' && row.DeliveryType==='homeDelivery')">已完成</a>
                     <!--/已完成-->
                     <!--取消订单-->
-                    <a ng-click="sol.cancel(row.ID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>
+                    <!--<a ng-click="sol.cancel(row.ID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>-->
                     <!--/取消订单-->
                 </td>
                 <!--/操作-->

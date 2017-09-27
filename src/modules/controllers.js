@@ -112,7 +112,6 @@
                     self.maskParams = {};
 
                     self.visibleApp = util.getParams('visibleApp')
-                    self.visibleApp.push('AdvanceGoods', 'AdvanceGoodsOrder')
                     // 读取applists
                     self.loading = true;
                     $http({
