@@ -1,0 +1,184 @@
+<!-- 新建商品 -->
+<div ng-controller="advanceGoodsAddController as goodsAdd" ng-init="goodsAdd.init()" class="modal-dialog">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form name="goodsAddForm" ng-submit="goodsAddForm.$valid && goodsAdd.addGoods()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="goodsAdd.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">添加商品</h5>
+            </div>
+            <!--header end-->
+            <!--body-->
+            <div class="modal-body">
+                <!-- 商品名 -->
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="goodsAdd.title"
+                           class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>商品名称</label>
+                    <input type="text" name="" required placeholder="（必填）" ng-model="goodsAdd.name"
+                           class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>商品介绍</label>
+                    <textarea name="" placeholder="（必填）" ng-model="goodsAdd.intro"
+                              class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>商品分享文字</label>
+                    <textarea name="" required placeholder="（必填）" ng-model="goodsAdd.shareDesc"
+                              class="form-control"></textarea>
+                </div>
+                <!--商品图-->
+                <div class="form-group">
+                    <label>商品封面</label>
+                    <a ng-click="goodsAdd.clickUpload('upload')">上传</a>
+                    <br>
+                    <input id="upload" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload"/>
+                    <a id="hidenUpload" style="display: none;" ng-click="goodsAdd.imgs.uploadFile('myFile')"></a>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in goodsAdd.imgs.data" style="background-image: url({{img.src}})"
+                                 class="form-thumbnail">
+                                <!-- 进度条 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                         style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                                <!-- 删除按钮 -->
+                                <i ng-click="goodsAdd.imgs.deleteById(img.id)"
+                                   class="form-thumbnail-delete icon ion-close"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/商品图-->
+
+                <div class="form-group">
+                    <label>使用日期</label>
+                    <div class="form-inline">
+                        <input type="text" class="form-control" id="useStartTime" ng-model="goodsAdd.useStartTime" readonly/> -
+                        <input type="text" class="form-control" id="useEndTime" ng-model="goodsAdd.useEndTime" readonly/>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label>抢购日期</label>
+                    <div class="form-inline">
+                        <input type="text" class="form-control" id="saleStartTime" ng-model="goodsAdd.saleStartTime" readonly/> -
+                        <input type="text" class="form-control" id="saleEndTime" ng-model="goodsAdd.saleEndTime" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>库存</label>
+                    <input ng-model="goodsAdd.invetory" required placeholder="（必填）" type="number" min="0"
+                           class="form-control" step="1"/>
+                </div>
+                <div class="form-group">
+                    <label>单人可购数量</label>
+                    <input ng-model="goodsAdd.saleNumByOne" required placeholder="（必填）" type="number" min="0"
+                           class="form-control" step="1"/>
+                </div>
+                <div class="form-group">
+                    <label>门市价（元）</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="goodsAdd.pricePub"
+                           class="form-control" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label>抢购价（元）</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="goodsAdd.price"
+                           class="form-control" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label>佣金（元）</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="goodsAdd.commission"
+                           class="form-control" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label>配送方式</label><br>
+                    <label style="font-weight: normal;"><input ng-model="goodsAdd.byDelivery" type="checkbox"/> 支持快递</label> &nbsp;&nbsp;
+                    <label style="font-weight: normal;"><input ng-model="goodsAdd.bySelf" type="checkbox"/> 支持到店自取</label>
+                </div>
+                <!--<div class="form-group">-->
+                <!--<label>上架：</label>-->
+                <!--<toggle ng-model="goodsAdd.tvShow"></toggle>-->
+                <!--</div>-->
+                <label>产品详情</label>
+                <!--编辑器-->
+                <div type="text/html" ng-model='goodsAdd.htmlIntro' meta-umeditor meta-umeditor-config="goodsAdd.ueConfig"  style="width: 100%;height: 300px"></div>
+
+                <div class="form-group">
+                    <label>图片素材（点击图片，插入编辑器）</label>
+                    <a ng-click="goodsAdd.clickUpload('upload1')">上传</a>
+                    <br>
+                    <input id="upload1" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload1"/>
+                    <a id="hidenUpload1" style="display: none;" ng-click="goodsAdd.imgs1.uploadFile('myFile')"></a>
+                    <!--图片编辑按钮-->
+                    <span ng-if="goodsAdd.imgs1.data.length>0">
+                        <a ng-show="!goodsAdd.imgEditing" ng-click="goodsAdd.imgEdit()">编辑</a>
+                        <a ng-show="goodsAdd.imgEditing" ng-click="goodsAdd.imgFinish()">完成</a>
+                    </span>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in goodsAdd.imgs1.data" style="background-image: url({{img.src}})"
+                                 class="form-thumbnail" ng-click="goodsAdd.insertImg(img.src)">
+                                <!-- 进度条 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                         style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                                <!-- 删除按钮 -->
+                                <i ng-click="goodsAdd.imgs1.deleteById(img.id)"
+                                   class="form-thumbnail-delete icon ion-close" ng-show="goodsAdd.imgEditing"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>购买须知</label>
+                    <textarea class="form-control" ng-model="goodsAdd.buyNotes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>使用规则</label>
+                    <textarea class="form-control" ng-model="goodsAdd.useNotes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>温馨提示</label>
+                    <textarea class="form-control" ng-model="goodsAdd.warmNotes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>排序</label>
+                    <input type="number" name="" required placeholder="（必填）" ng-model="goodsAdd.seq"
+                           class="form-control" step="1" min="0">
+                </div>
+            </div>
+
+
+            <!-- body end -->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="goodsAdd.cancel()">{{'CANCEL' |
+                    translate}}
+                </button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="goodsAdd.saving"><i
+                        class="icon ion-ios-checkmark-outline"></i> {{'SAVE' | translate}}
+                </button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
+</div>

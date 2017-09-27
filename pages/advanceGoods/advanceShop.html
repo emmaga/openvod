@@ -1,0 +1,44 @@
+
+<!-- 商城管理 -->
+<div ng-controller="advanceShopController as shop" ng-init="shop.init()" class="container">
+
+    <!-- loading -->
+    <div ng-show="shop.loading">loading...</div>
+
+    <!-- 查无数据 -->
+    <div ng-show="shop.noData">查无数据</div>
+
+    <!-- 左侧菜单 -->
+    <div class="nav-left ">
+        <ul class="nav nav-stacked nav-left-content">
+            <li class="nav-header {{shopItem.ShopID == ShopID ? 'active' : ''}}" ng-click="shop.goTo(shopItem.ShopID, shopItem.ShopName, shopItem.AdminSMSPhone, shopItem.ShopType, shopItem.ContactDimension, shopItem.ContactLongitude, shopItem.ContactName, shopItem.ContactAdress,shopItem.ContactTelephone,shopItem.QrCodeURL)" ng-repeat="shopItem in shop.shopList">
+                <a class="theme-hover">
+                    {{shopItem.ShopName[shop.langStyle]}}
+                    <br>
+                    <small>{{shopItem.HotelName[shop.langStyle]}}</small>
+                </a>
+            </li>
+            <li class="nav-header">
+                <a class="theme-color theme-hover" ng-click="shop.shopAdd()">
+                    <i class="icon ion-android-add-circle"></i> 添加商城
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 右侧 -->
+    <ui-view></ui-view>
+
+    <!-- 主题样式 -->
+    <style type="text/css">
+
+        .nav-left-content{
+            padding-top: 12px;
+        }
+
+        .nav-left-content a{
+            line-height: 1.25
+        }
+
+    </style>
+</div>

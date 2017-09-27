@@ -260,4 +260,20 @@
             }
         }])
 
+        // 数组转化为字符串
+        .filter('keepBr', function () {
+            return function (str) {
+                var result=str.replace(/(\n)/g,"\n");
+                    result=result.replace(/(\n)/g,"</br>");
+                return result;
+            }
+        })
+
+        // 数组转化为字符串
+        .filter('parseBr', function () {
+            return function (str) {
+                var result=str.replace(/<\/br>/g,"\n");
+                return result;
+            }
+        })
 })();
