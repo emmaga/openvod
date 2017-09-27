@@ -148,7 +148,8 @@ angular.module('meta.umeditor', []).value('metaUmeditorConfig', {
                 };
 
                 scope.$on('addImg', function (event, data) {
-                    ctrl.editorInstance.setContent(data, true)
+                    // ctrl.editorInstance.setContent(data, true)
+                    ctrl.editorInstance.execCommand('insertHtml', data)
                 })
 
                 scope.$on('intContent', function (event, data) {

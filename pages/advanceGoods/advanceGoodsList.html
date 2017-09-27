@@ -47,33 +47,41 @@
             <td title="'商品ID'" width="60">
                 {{row.productId}}
             </td>
-            <td title="'商品名'" >
+            <td title="'商品名'">
                 {{row.name}}
             </td>
             <td title="'使用日期'">
-                {{row.useStartDate}} 至 <br> {{row.useEndDate}}
+                {{row.useStartDate.slice(0,-9)}} 至 <br> {{row.useEndDate.slice(0,-9)}}
             </td>
-            <td title="'抢购日期'">
+            <td title="'抢购时间'">
                 {{row.saleStartDate}} 至 <br> {{row.saleEndDate}}
             </td>
             <td title="'分类'">
                 <style>
-                    .cateList,.cateList li{
-                        padding:0;
-                        margin:0;
+                    .cateList, .cateList li {
+                        padding: 0;
+                        margin: 0;
                         list-style: none;
                     }
-                    .cateList label{
+
+                    .cateList label {
                         margin: 0;
                     }
                 </style>
                 <ul class="cateList">
                     <li ng-repeat="category in goods.categoryList">
-                        <label><input type="checkbox"  ng-checked="goods.checkGoodsCategory(category.id,row.categoryList)"  ng-model="this.value" ng-click="goods.changeGoodsCategory(row.productId,category.id,this.value,row.categoryList)">
-                        {{category.name[goods.langStyle]}}
+                        <label><input type="checkbox"
+                                      ng-checked="goods.checkGoodsCategory(category.id,row.categoryList)"
+                                      ng-model="this.value"
+                                      ng-click="goods.changeGoodsCategory(row.productId,category.id,this.value,row.categoryList)">
+                            {{category.name[goods.langStyle]}}
                         </label>
                     </li>
                 </ul>
+            </td>
+            <td title="'上架'">
+                <toggle ng-model="row.status"
+                        ng-change="goods.changeGoodsStatus(row.productId,row.status)"></toggle>
             </td>
             <td title="'操作'" width="100">
                 <a ng-click="goods.editGoods(row.productId)">编辑</a>

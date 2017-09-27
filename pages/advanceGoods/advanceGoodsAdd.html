@@ -28,7 +28,12 @@
                 </div>
                 <div class="form-group">
                     <label>商品介绍</label>
-                    <textarea name="" required placeholder="（必填）" ng-model="goodsAdd.intro"
+                    <textarea name="" placeholder="（必填）" ng-model="goodsAdd.intro"
+                              class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>商品分享文字</label>
+                    <textarea name="" required placeholder="（必填）" ng-model="goodsAdd.shareDesc"
                               class="form-control"></textarea>
                 </div>
                 <!--商品图-->
@@ -144,6 +149,14 @@
                 <div class="form-group">
                     <label>购买须知</label>
                     <textarea class="form-control" ng-model="goodsAdd.buyNotes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>使用规则</label>
+                    <textarea class="form-control" ng-model="goodsAdd.useNotes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>温馨提示</label>
+                    <textarea class="form-control" ng-model="goodsAdd.warmNotes"></textarea>
                 </div>
                 <div class="form-group">
                     <label>排序</label>

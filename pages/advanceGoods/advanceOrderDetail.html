@@ -16,27 +16,23 @@
             <!-- <div class="row"> -->
             <table class="table table-condensed table-responsive">
                 <thead>
-                    <tr>
-                        <th>商品名</th>
-                        <th>单价</th>
-                        <th>数量</th>
-                        <th>佣金</th>
-                    </tr>
+                <tr>
+                    <th>商品名</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="product in sod.info.detail.productList">
-                        <!--商品名-->
-                        <td> {{product.GoodsName}}</td>
-                        <!--商品单价-->
-                        <td>
-                            {{product.price | fenToYuan}} 元
-                        </td>
-                        <!--商品数量-->
-                        <td>{{product.GoodsNum}}</td>
-                        <td>
-                            {{product.commission | fenToYuan}}
-                        </td>
-                    </tr>
+                <tr ng-repeat="product in sod.info.detail.productList">
+                    <!--商品名-->
+                    <td> {{product.GoodsName}}</td>
+                    <!--商品单价-->
+                    <td>
+                        {{product.price | fenToYuan}} 元
+                    </td>
+                    <!--商品数量-->
+                    <td>{{product.GoodsNum}}</td>
+                </tr>
                 </tbody>
             </table>
             <!-- </div> -->
@@ -56,7 +52,7 @@
                 <!--订单状态-->
                 <li class="list-group-item">
                     订单状态
-                    <span class="pull-right">{{sod.info.detail.Status | shopOrderStatus}}</span>
+                    <span class="pull-right">{{sod.info.detail.Status=='ACCEPT'?'待使用':(sod.info.detail.Status | shopOrderStatus)}}</span>
                 </li>
                 <!--订单总价-->
                 <li class="list-group-item">
@@ -69,6 +65,10 @@
                 <li class="list-group-item">
                     商品总数
                     <span class="pull-right">{{sod.info.detail.totalCount}}</span>
+                </li>
+                <li class="list-group-item">
+                    佣金总额
+                    <span class="pull-right">{{sod.info.detail.totalCommission | fenToYuan}} 元</span>
                 </li>
                 <hr>
                 <!--订单基本信息-->
@@ -136,19 +136,33 @@
             <button type="button" class="btn btn-default btn-sm" ng-click="sod.close()">关闭</button>
 
             <!--footer end-->
-            <button ng-if="sod.info.detail.Status=='ACCEPT'&& sod.info.detail.deliverWay=='express' && sod.info.detail.PayCash !== 'CASH'" type="button" class="btn btn-primary btn-sm" ng-click="sod.deliver(sod.id)">发货</button>
+            <button ng-if="sod.info.detail.Status=='ACCEPT'&& sod.info.detail.deliverWay=='express' && sod.info.detail.PayCash !== 'CASH'"
+                    type="button" class="btn btn-primary btn-sm" ng-click="sod.deliver(sod.id)">发货
+            </button>
 
-            <button ng-if="sod.info.detail.Status=='DELIVERING'" type="button" class="btn btn-primary btn-sm" ng-click="sod.editDeliverInfo(sod.info.detail)">编辑快递信息</button>
+            <button ng-if="sod.info.detail.Status=='DELIVERING'" type="button" class="btn btn-primary btn-sm"
+                    ng-click="sod.editDeliverInfo(sod.info.detail)">编辑快递信息
+            </button>
 
-            <button ng-if="(sod.info.detail.Status=='DELIVERING' || sod.info.detail.Status=='ACCEPT' || sod.info.detail.Status=='COMPLETED') && sod.info.detail.InvoiceStatus==1" type="button" class="btn btn-warning btn-sm" ng-click="sod.setInvoice(sod.id)">已开票</button>
+            <button ng-if="(sod.info.detail.Status=='DELIVERING' || sod.info.detail.Status=='ACCEPT' || sod.info.detail.Status=='COMPLETED') && sod.info.detail.InvoiceStatus==1"
+                    type="button" class="btn btn-warning btn-sm" ng-click="sod.setInvoice(sod.id)">已开票
+            </button>
 
-            <button ng-if="sod.info.detail.Status=='DELIVERING' || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='bySelf') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.PayCash === 'CASH') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='homeDelivery')" type="button" class="btn btn-success btn-sm" ng-click="sod.finish(sod.id)">已完成</button>
+            <button ng-if="sod.info.detail.Status=='DELIVERING' || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='bySelf') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.PayCash === 'CASH') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='homeDelivery')"
+                    type="button" class="btn btn-success btn-sm" ng-click="sod.finish(sod.id)">已完成
+            </button>
 
-            <button ng-if="sod.info.detail.Status=='WAITPAY' || sod.info.detail.Status=='ACCEPT'" type="button" class="btn btn-danger btn-sm" ng-click="sod.cancel(sod.id)">取消订单</button>
+            <button ng-if="sod.info.detail.Status=='WAITPAY' || sod.info.detail.Status=='ACCEPT'" type="button"
+                    class="btn btn-danger btn-sm" ng-click="sod.cancel(sod.id)">取消订单
+            </button>
 
-            <button ng-if="sod.info.detail.Status=='WAITAPPROVAL'" type="button" class="btn btn-primary btn-sm" ng-click="sod.accept(sod.id)">接受</button>
+            <button ng-if="sod.info.detail.Status=='WAITAPPROVAL'" type="button" class="btn btn-primary btn-sm"
+                    ng-click="sod.accept(sod.id)">接受
+            </button>
 
-            <button ng-if="sod.info.detail.Status=='WAITAPPROVAL'" type="button" class="btn btn-danger btn-sm" ng-click="sod.reject(sod.id)">拒绝</button>
+            <button ng-if="sod.info.detail.Status=='WAITAPPROVAL'" type="button" class="btn btn-danger btn-sm"
+                    ng-click="sod.reject(sod.id)">拒绝
+            </button>
         </div>
     </div>
 </div>

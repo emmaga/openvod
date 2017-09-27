@@ -16,7 +16,6 @@
             <!--body-->
             <div class="modal-body">
                 <!-- 商品名 -->
-                {{goodsEdit.pro}}
                 <div class="form-group">
                     <label>标题</label>
                     <input type="text" name="" required placeholder="（必填）" ng-model="goodsEdit.title"
@@ -29,7 +28,12 @@
                 </div>
                 <div class="form-group">
                     <label>商品介绍</label>
-                    <textarea name="" required placeholder="（必填）" ng-model="goodsEdit.intro"
+                    <textarea name="" placeholder="（必填）" ng-model="goodsEdit.intro"
+                              class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>商品分享文字</label>
+                    <textarea name="" required placeholder="（必填）" ng-model="goodsEdit.shareDesc"
                               class="form-control"></textarea>
                 </div>
                 <!--商品图-->
@@ -145,6 +149,14 @@
                 <div class="form-group">
                     <label>购买须知</label>
                     <textarea class="form-control" ng-model="goodsEdit.buyNotes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>使用规则</label>
+                    <textarea class="form-control" ng-model="goodsEdit.useNotes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>温馨提示</label>
+                    <textarea class="form-control" ng-model="goodsEdit.warmNotes"></textarea>
                 </div>
                 <div class="form-group">
                     <label>排序</label>

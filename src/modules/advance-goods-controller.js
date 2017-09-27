@@ -114,8 +114,8 @@
                         "ContactAdress": self.form.ContactAdress,
                         "ShopType": self.ShopType,
                         "ShopName": self.form.shopName,
-                        "ContactDimension": 0,
-                        "ContactLongitude": 0,
+                        "ContactDimension": self.form.ContactDimension,
+                        "ContactLongitude": self.form.ContactLongitude,
                         "ContactName": self.form.ContactName,
                         "ContactTelephone": self.form.ContactTelephone,
                         "AdminSMSPhone": self.form.AdminSMSPhone,
@@ -203,8 +203,8 @@
                         "ContactAdress": self.form.ContactAdress,
                         "ShopType": self.ShopType,
                         "ShopName": self.form.shopName,
-                        "ContactDimension": 0,
-                        "ContactLongitude": 0,
+                        "ContactDimension": self.form.ContactDimension,
+                        "ContactLongitude": self.form.ContactLongitude,
                         "ContactName": self.form.ContactName,
                         "ContactTelephone": self.form.ContactTelephone,
                         "AdminSMSPhone": self.form.AdminSMSPhone,
@@ -413,6 +413,9 @@
                                             self.noData = true;
                                         }
                                         params.total(data.data.productTotal);
+                                        R.forEach(function (item) {
+                                            item.status = item.status == '1'
+                                        })(data.data.productList)
                                         return data.data.productList;
                                     } else if (data.rescode == '401') {
                                         alert('访问超时，请重新登录');
@@ -521,6 +524,44 @@
                     });
                 }
 
+                self.changeGoodsStatus = function (productId, status, value) {
+                    console && console.log('productId:' + productId + ' status:' + status + ' value:' + value)
+
+                    if (status == true) {
+                        // todo:添加 status == 2 时的状态（后台）
+                        // if(status == 2){
+                        //     status == 2
+                        // }else{
+                        //     status = 1;
+                        // }
+                        status = 1;
+                    } else {
+                        status = 0;
+                    }
+
+                    var data = {
+                        "action": "editMgtProductStatus",
+                        "token": util.getParams("token"),
+                        "lang": self.langStyle,
+                        "product": {
+                            "productID": productId - 0,
+                            "Status": status
+                        }
+                    };
+
+                    data = JSON.stringify(data);
+                    $http({
+                        method: $filter('ajaxMethod')(),
+                        url: util.getApiUrl('fxshopinfo', 'shopList', 'server'),
+                        data: data
+                    }).then(function successCallback (data, status, headers, config) {
+                        alert('修改成功')
+                    }, function errorCallback (data, status, headers, config) {
+                        alert("修改失败" + data.errInfo);
+                        $state.reload('app.shop.goods.goodsList')
+                    });
+                }
+
                 self.JSONstringfy = function (data) {
                     return JSON.stringify(data)
                 }
@@ -549,10 +590,10 @@
                     self.seq = $scope.app.maskParams.currentAmount + 1;
 
                     // 时间控件设置
-                    setTime('useStartTime', 'useEndTime');
+                    setTime('useStartTime', 'useEndTime', 'date');
 
                     // 时间控件设置
-                    setTime('saleStartTime', 'saleEndTime');
+                    setTime('saleStartTime', 'saleEndTime', 'datetime');
 
                     self.ueConfig = {
                         toolbar: ['source | undo redo | bold italic underline | justifyleft justifyright justifycenter | fontsize | formatmatch | forecolor backcolor | removeformat '],
@@ -626,9 +667,10 @@
                         "product": {
                             "ShopID": self.shopId,
                             "categoryId": self.shopGoodsCategoryId == 'all' ? -1 : self.shopGoodsCategoryId,
-                            "useStartDate": self.useStartTime,
+                            "useStartDate": self.useStartTime + ' 00:00:00',
                             "htmlIntro": self.htmlIntro,
-                            "useEndDate": self.useEndTime,
+                            "shareDesc": [self.shareDesc],
+                            "useEndDate": self.useEndTime + ' 23:59:59',
                             "name": {
                                 "zh-CN": self.name
                             },
@@ -640,13 +682,19 @@
                             "bySelfSupport": self.bySelf ? 1 : 0,
                             "price": self.price * 100,
                             "buyNotes": {
-                                "zh-CN": self.buyNotes
+                                "zh-CN": $filter('keepBr')(self.buyNotes)
+                            },
+                            "useNotes": {
+                                "zh-CN": $filter('keepBr')(self.useNotes)
+                            },
+                            "warmNotes": {
+                                "zh-CN": $filter('keepBr')(self.warmNotes)
                             },
                             "pricePub": self.pricePub * 100,
                             "expressSupport": self.byDelivery ? 1 : 0,
                             "commission": self.commission * 100,
                             "intro": {
-                                "zh-CN": self.intro
+                                "zh-CN": $filter('keepBr')(self.intro)
                             },
                             "imgSrc": imgSrc1,
                             "invetory": self.invetory,
@@ -681,13 +729,19 @@
                     }, 0);
                 }
 
-                function setTime (start, end) {
-                    self[start] = $filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
-                    self[end] = $filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
+                function setTime (start, end, type) {
+                    if (type == 'date') {
+                        self[start] = $filter('date')(new Date(), 'yyyy-MM-dd')
+                        self[end] = $filter('date')(new Date(), 'yyyy-MM-dd')
+                    } else {
+                        self[start] = $filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
+                        self[end] = $filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
+                    }
+
                     var option = {
                         startEl: '#' + start,
                         endEl: '#' + end,
-                        type: 'datetime'
+                        type: type
                     }
 
                     // 日期选择-开始时间
@@ -812,9 +866,10 @@
                             "ShopID": self.shopId,
                             "productID": self.productId,
                             "categoryId": self.shopGoodsCategoryId == 'all' ? -1 : self.shopGoodsCategoryId,
-                            "useStartDate": self.useStartTime,
+                            "useStartDate": self.useStartTime + ' 00:00:00',
                             "htmlIntro": self.htmlIntro,
-                            "useEndDate": self.useEndTime,
+                            "useEndDate": self.useEndTime + ' 23:59:59',
+                            "shareDesc": [self.shareDesc],
                             "name": {
                                 "zh-CN": self.name
                             },
@@ -826,13 +881,19 @@
                             "bySelfSupport": self.bySelf ? 1 : 0,
                             "price": self.price * 100,
                             "buyNotes": {
-                                "zh-CN": self.buyNotes
+                                "zh-CN": $filter('keepBr')(self.buyNotes)
+                            },
+                            "useNotes": {
+                                "zh-CN": $filter('keepBr')(self.useNotes)
+                            },
+                            "warmNotes": {
+                                "zh-CN": $filter('keepBr')(self.warmNotes)
                             },
                             "pricePub": self.pricePub * 100,
                             "expressSupport": self.byDelivery ? 1 : 0,
                             "commission": self.commission * 100,
                             "intro": {
-                                "zh-CN": self.intro
+                                "zh-CN": $filter('keepBr')(self.intro)
                             },
                             "imgSrc": imgSrc1,
                             "invetory": self.invetory,
@@ -867,19 +928,18 @@
                     }, 0);
                 }
 
-                function setTime (start, end, timeObj) {
-                    if (timeObj) {
-                        self[start] = timeObj.startTime
-                        self[end] = timeObj.endTime
-                    } else {
-                        self[start] = $filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
-                        self[end] = $filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
+                function setTime (start, end, timeObj,type) {
+                    if(type=='date'){
+                        self[start] = timeObj.startTime?timeObj.startTime.slice(0,-9):$filter('date')(new Date(), 'yyyy-MM-dd')
+                        self[end] = timeObj.startTime?timeObj.endTime.slice(0,-9):$filter('date')(new Date(), 'yyyy-MM-dd')
+                    }else{
+                        self[start] = timeObj.startTime?timeObj.startTime:$filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
+                        self[end] = timeObj.endTime?timeObj.endTime:$filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
                     }
-
                     var option = {
                         startEl: '#' + start,
                         endEl: '#' + end,
-                        type: 'datetime'
+                        type: type
                     }
 
                     // 日期选择-开始时间
@@ -909,15 +969,18 @@
                 function setData (obj) {
                     self.title = obj.title['zh-CN']
                     self.name = obj.name['zh-CN']
-                    self.intro = obj.intro['zh-CN']
+                    self.intro = $filter('parseBr')(obj.intro['zh-CN'])
                     self.invetory = obj.invetory
                     self.saleNumByOne = obj.saleNumByOne
+                    self.shareDesc = obj.shareDesc[0]
                     self.pricePub = Number(obj.pricePub) / 100
                     self.price = Number(obj.price) / 100
                     self.byDelivery = obj.expressSupport == 1
                     self.bySelf = obj.bySelfSupport == 1
                     self.commission = Number(obj.commission) / 100
-                    self.buyNotes = obj.buyNotes['zh-CN']
+                    self.buyNotes = obj.buyNotes['zh-CN']?$filter('parseBr')(obj.buyNotes['zh-CN']):''
+                    self.useNotes = obj.useNotes['zh-CN']?$filter('parseBr')(obj.useNotes['zh-CN']):''
+                    self.warmNotes = obj.warmNotes['zh-CN']?$filter('parseBr')(obj.warmNotes['zh-CN']):''
                     self.seq = obj.seq
 
                     self.imgs = new util.initUploadImgs([{
@@ -937,13 +1000,13 @@
                     setTime('useStartTime', 'useEndTime', {
                         startTime: obj.useStartDate,
                         endTime: obj.useEndDate
-                    });
+                    },'date');
 
                     // 时间控件设置
                     setTime('saleStartTime', 'saleEndTime', {
                         startTime: obj.saleStartDate,
                         endTime: obj.saleEndDate
-                    });
+                    },'datetime');
 
                     // 编辑器处理在 /plugin/meta.umeditor.js
                     $rootScope.$broadcast('intContent', obj.htmlIntro);
@@ -1206,8 +1269,8 @@
                     $scope.status = [
                         {'code': '', active: true, 'name': {'zh-CN': '全部'}},
                         {'code': 'WAITPAY', active: false, 'name': {'zh-CN': '待付款'}},
-                        {'code': 'WAITAPPROVAL', active: false, 'name': {'zh-CN': '待审核'}},
-                        // {'code': 'ACCEPT', active: false, 'name': {'zh-CN': '待发货'}},
+                        // {'code': 'WAITAPPROVAL', active: false, 'name': {'zh-CN': '待审核'}},
+                        {'code': 'ACCEPT', active: false, 'name': {'zh-CN': '待使用'}},
                         // {'code': 'DELIVERING', active: false, 'name': {'zh-CN': '待收货'}},
                         {'code': 'COMPLETED', active: false, 'name': {'zh-CN': '订单完成'}},
                         {'code': 'REFUNDING', active: false, 'name': {'zh-CN': '退款中'}},
