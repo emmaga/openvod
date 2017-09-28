@@ -126,30 +126,30 @@
                         flag = '管理员取消订单';
                         break;
 
-                     case 'CANCEL_REFUNDING':
-                         flag = '用户取消退款中';
-                         break;
-                     case 'SELLER_CANCEL_REFUNDING':
-                         flag = '管理员取消退款中';
-                         break;
-                     case 'ACCEPT':
-                         flag = '订单审核通过';
-                         break;
-                     case 'COMPLETED':
-                     case 'AUTO_COMPLETED':
-                         flag = '订单完成';
-                         break;
-                     case 'ADMIN_COMPLETED':
-                         flag = '管理员完成';
-                         break;
-                     case 'SELLER_DECLINE':
-                     case 'DECLINE':
+                    case 'CANCEL_REFUNDING':
+                        flag = '用户取消退款中';
+                        break;
+                    case 'SELLER_CANCEL_REFUNDING':
+                        flag = '管理员取消退款中';
+                        break;
+                    case 'ACCEPT':
+                        flag = '订单审核通过';
+                        break;
+                    case 'COMPLETED':
+                    case 'AUTO_COMPLETED':
+                        flag = '订单完成';
+                        break;
+                    case 'ADMIN_COMPLETED':
+                        flag = '管理员完成';
+                        break;
+                    case 'SELLER_DECLINE':
+                    case 'DECLINE':
                         flag = '订单审核不通过';
                         break;
-                     case 'CHANGE_EXPRESS':
+                    case 'CHANGE_EXPRESS':
                         flag = '更新了快递信息';
                         break;
-                     case 'DELIVERING':
+                    case 'DELIVERING':
                         flag = '发货了';
                         break;
                 }
@@ -263,8 +263,12 @@
         // 数组转化为字符串
         .filter('keepBr', function () {
             return function (str) {
-                var result=str.replace(/(\n)/g,"\n");
-                    result=result.replace(/(\n)/g,"</br>");
+                if (str) {
+                    var result = str.replace(/(\n)/g, "\n");
+                    result = result.replace(/(\n)/g, "</br>");
+                } else {
+                    result = ''
+                }
                 return result;
             }
         })
@@ -272,7 +276,11 @@
         // 数组转化为字符串
         .filter('parseBr', function () {
             return function (str) {
-                var result=str.replace(/<\/br>/g,"\n");
+                if (str) {
+                    var result = str.replace(/<\/br>/g, "\n");
+                } else {
+                    result = ''
+                }
                 return result;
             }
         })

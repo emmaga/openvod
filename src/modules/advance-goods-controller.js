@@ -669,7 +669,7 @@
                             "categoryId": self.shopGoodsCategoryId == 'all' ? -1 : self.shopGoodsCategoryId,
                             "useStartDate": self.useStartTime + ' 00:00:00',
                             "htmlIntro": self.htmlIntro,
-                            "shareDesc": [self.shareDesc],
+                            "shareDesc": self.shareDesc,
                             "useEndDate": self.useEndTime + ' 23:59:59',
                             "name": {
                                 "zh-CN": self.name
@@ -869,7 +869,7 @@
                             "useStartDate": self.useStartTime + ' 00:00:00',
                             "htmlIntro": self.htmlIntro,
                             "useEndDate": self.useEndTime + ' 23:59:59',
-                            "shareDesc": [self.shareDesc],
+                            "shareDesc": self.shareDesc,
                             "name": {
                                 "zh-CN": self.name
                             },
