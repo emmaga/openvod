@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-// var plumber = require('gulp-plumber'); // less编译出错时继续执行
+var plumber = require('gulp-plumber'); // less编译出错时继续执行
 
 // less 插件
 // var less = require('gulp-less');
@@ -29,6 +29,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var cached = require('gulp-cached');
 var remember = require('gulp-remember');
 var jsFiles = [
+    './plugins/laydate/laydate.js',
     './src/modules/controllers.js',
     './src/modules/tv-admin-controllers.js',
     './src/modules/project-config-controllers.js',
@@ -40,6 +41,7 @@ var jsFiles = [
     './src/modules/qcode-controller.js',
     './src/modules/report-controller.js',
     './src/modules/ticket-controller.js',
+    './src/modules/advance-goods-controller.js',
     './plugins/angular-locale_zh-cn.js',
     './plugins/ramda.min.js'
 ];
@@ -62,6 +64,7 @@ var cssFiles = [
 
 gulp.task('uglifyJS', function () {
     return gulp.src(jsFiles)
+        .pipe(plumber())
         .pipe(cached('js-task'))
         .pipe(uglify())
         .pipe(remember('js-task'))

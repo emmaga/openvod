@@ -1,0 +1,144 @@
+<div ng-controller="advanceOrderDetailController as sod" ng-init="sod.init()" class="modal-dialog modal-md">
+    <div class="modal-content">
+        <!-- loading -->
+        <div ng-show="sod.loading">loading...</div>
+        <!--header-->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="sod.close()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title">订单详情</h5>
+        </div>
+        <!-- body -->
+        <div class="modal-body">
+            <!--商品列表-->
+            <!-- <div class="row"> -->
+            <table class="table table-condensed table-responsive">
+                <thead>
+                <tr>
+                    <th>商品名</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="product in sod.info.detail.productList">
+                    <!--商品名-->
+                    <td> {{product.GoodsName}}</td>
+                    <!--商品单价-->
+                    <td>
+                        {{product.price | fenToYuan}} 元
+                    </td>
+                    <!--商品数量-->
+                    <td>{{product.GoodsNum}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- </div> -->
+            <!--商品列表-->
+            <ul class="list-group list-group-condensed">
+                <!--订单基本信息-->
+                <li class="list-group-item">
+                    订单号
+                    <span class="pull-right">{{sod.info.detail.OrderNum}}</span>
+                </li>
+                <!--订单号-->
+                <!--下单时间-->
+                <li class="list-group-item">
+                    下单时间
+                    <span class="pull-right">{{sod.info.detail.dealTime}}</span>
+                </li>
+                <!--订单状态-->
+                <li class="list-group-item">
+                    订单状态
+                    <span class="pull-right">{{sod.info.detail.Status=='ACCEPT'?'待使用':(sod.info.detail.Status | shopOrderStatus)}}</span>
+                </li>
+                <!--订单总价-->
+                <li class="list-group-item">
+                    订单总价
+                    <span class="pull-right">
+                        {{sod.info.detail.totalPri | fenToYuan}}元
+                    </span>
+                </li>
+                <!--商品总数-->
+                <li class="list-group-item">
+                    商品总数
+                    <span class="pull-right">{{sod.info.detail.totalCount}}</span>
+                </li>
+                <li class="list-group-item">
+                    佣金总额
+                    <span class="pull-right">{{sod.info.detail.totalCommission | fenToYuan}} 元</span>
+                </li>
+                <hr>
+                <!--订单基本信息-->
+                <!--联系人信息-->
+                <!--姓名-->
+                <li class="list-group-item">
+                    姓名
+                    <span class="pull-right">{{sod.info.detail.name}}</span>
+                </li>
+                <!--微信昵称-->
+                <li class="list-group-item">
+                    微信昵称
+                    <span class="pull-right">{{sod.info.detail.WeiXinNickName}}</span>
+                </li>
+                <!--手机号-->
+                <li class="list-group-item">
+                    手机号
+                    <span class="pull-right">{{sod.info.detail.mobile}}</span>
+                </li>
+                <!--配送方式-->
+                <li class="list-group-item">
+                    收货方式
+                    <span class="pull-right">{{sod.info.detail.deliverWay | deliverWay}}</span>
+                </li>
+                <!--收货地址-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='homeDelivery'">
+                    房间号
+                    <span class="pull-right">{{sod.info.detail.address}}</span>
+                </li>
+                <!--收货地址-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
+                    收货地址
+                    <span class="pull-right">{{sod.info.detail.address}}</span>
+                </li>
+                <!--快递单号-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
+                    快递单号
+                    <span class="pull-right">{{sod.deliverInfo.ExpressNum}}</span>
+                </li>
+                <!--快递公司-->
+                <li class="list-group-item" ng-show="sod.info.detail.deliverWay=='express'">
+                    快递公司
+                    <span class="pull-right">{{sod.deliverInfo.ExpressCompany}}</span>
+                </li>
+            </ul>
+            <hr>
+            <!--操作记录-->
+            <small ng-repeat="info in sod.info.operatelogs">
+                <!--状态改变描述-->
+                <label>{{info.OperateAction | operateAction}}</label>
+                <!--时间-->
+                {{info.OperateTime}}
+                <!--状态改变者-->
+                &nbsp{{info.OperateUserName}}
+                <!--微信用户操作-->
+                {{info.OperateDetail == 'GUEST_COMPLETED' ? '微信用户操作' : ''}}
+                <br>
+            </small>
+            <!--操作记录-->
+        </div>
+        <!-- body end -->
+        <!--footer-->
+        <div class="modal-footer">
+            <!-- 取消 -->
+            <button type="button" class="btn btn-default btn-sm" ng-click="sod.close()">关闭</button>
+
+            <button ng-if="sod.info.detail.Status=='DELIVERING' || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='bySelf') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.PayCash === 'CASH') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='homeDelivery')"
+                    type="button" class="btn btn-success btn-sm" ng-click="sod.finish(sod.id)">已完成
+            </button>
+
+        </div>
+    </div>
+</div>
