@@ -972,7 +972,7 @@
                     self.intro = $filter('parseBr')(obj.intro['zh-CN'])
                     self.invetory = obj.invetory
                     self.saleNumByOne = obj.saleNumByOne
-                    self.shareDesc = obj.shareDesc
+                    self.shareDesc = obj.shareDesc[0]
                     self.pricePub = Number(obj.pricePub) / 100
                     self.price = Number(obj.price) / 100
                     self.byDelivery = obj.expressSupport == 1
