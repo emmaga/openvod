@@ -598,8 +598,9 @@
                     self.ueConfig = {
                         toolbar: ['source | undo redo | bold italic underline | justifyleft justifyright justifycenter | fontsize | formatmatch | forecolor backcolor | removeformat '],
                         autoHeightEnabled: false,
-                        // initialContent:'<p>编辑器</p>',
-                        fontsize: [10, 11, 12, 14, 16, 18, 20, 24, 36]
+                        autoFloatEnabled: false
+                        // initialContent:'<p>编辑器</p>'
+                        // fontsize: [10, 11, 12, 14, 16, 18, 20, 24, 36]
                     }
                     // UM.delEditor('container');  // 解决关闭弹窗后，第二次无法加载
                     // self.productInfo = UM.getEditor('container', {
@@ -783,7 +784,7 @@
                     self.ueConfig = {
                         toolbar: ['source | undo redo | bold italic underline | justifyleft justifyright justifycenter | fontsize | formatmatch | forecolor backcolor | removeformat '],
                         autoHeightEnabled: false,
-                        fontsize: [10, 11, 12, 14, 16, 18, 20, 24, 36]
+                        autoFloatEnabled: false
                     }
                 }
 
@@ -928,13 +929,13 @@
                     }, 0);
                 }
 
-                function setTime (start, end, timeObj,type) {
-                    if(type=='date'){
-                        self[start] = timeObj.startTime?timeObj.startTime.slice(0,-9):$filter('date')(new Date(), 'yyyy-MM-dd')
-                        self[end] = timeObj.startTime?timeObj.endTime.slice(0,-9):$filter('date')(new Date(), 'yyyy-MM-dd')
-                    }else{
-                        self[start] = timeObj.startTime?timeObj.startTime:$filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
-                        self[end] = timeObj.endTime?timeObj.endTime:$filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
+                function setTime (start, end, timeObj, type) {
+                    if (type == 'date') {
+                        self[start] = timeObj.startTime ? timeObj.startTime.slice(0, -9) : $filter('date')(new Date(), 'yyyy-MM-dd')
+                        self[end] = timeObj.startTime ? timeObj.endTime.slice(0, -9) : $filter('date')(new Date(), 'yyyy-MM-dd')
+                    } else {
+                        self[start] = timeObj.startTime ? timeObj.startTime : $filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
+                        self[end] = timeObj.endTime ? timeObj.endTime : $filter('date')(new Date(), 'yyyy-MM-dd') + ' 00:00:00'
                     }
                     var option = {
                         startEl: '#' + start,
@@ -978,9 +979,9 @@
                     self.byDelivery = obj.expressSupport == 1
                     self.bySelf = obj.bySelfSupport == 1
                     self.commission = Number(obj.commission) / 100
-                    self.buyNotes = obj.buyNotes['zh-CN']?$filter('parseBr')(obj.buyNotes['zh-CN']):''
-                    self.useNotes = obj.useNotes['zh-CN']?$filter('parseBr')(obj.useNotes['zh-CN']):''
-                    self.warmNotes = obj.warmNotes['zh-CN']?$filter('parseBr')(obj.warmNotes['zh-CN']):''
+                    self.buyNotes = obj.buyNotes['zh-CN'] ? $filter('parseBr')(obj.buyNotes['zh-CN']) : ''
+                    self.useNotes = obj.useNotes['zh-CN'] ? $filter('parseBr')(obj.useNotes['zh-CN']) : ''
+                    self.warmNotes = obj.warmNotes['zh-CN'] ? $filter('parseBr')(obj.warmNotes['zh-CN']) : ''
                     self.seq = obj.seq
 
                     self.imgs = new util.initUploadImgs([{
@@ -1000,13 +1001,13 @@
                     setTime('useStartTime', 'useEndTime', {
                         startTime: obj.useStartDate,
                         endTime: obj.useEndDate
-                    },'date');
+                    }, 'date');
 
                     // 时间控件设置
                     setTime('saleStartTime', 'saleEndTime', {
                         startTime: obj.saleStartDate,
                         endTime: obj.saleEndDate
-                    },'datetime');
+                    }, 'datetime');
 
                     // 编辑器处理在 /plugin/meta.umeditor.js
                     $rootScope.$broadcast('intContent', obj.htmlIntro);
