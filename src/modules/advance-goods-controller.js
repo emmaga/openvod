@@ -602,18 +602,6 @@
                         // initialContent:'<p>编辑器</p>'
                         // fontsize: [10, 11, 12, 14, 16, 18, 20, 24, 36]
                     }
-                    // UM.delEditor('container');  // 解决关闭弹窗后，第二次无法加载
-                    // self.productInfo = UM.getEditor('container', {
-                    //     toolbar: ['source | undo redo | bold italic underline | justifyleft justifyright justifycenter | fontsize | formatmatch | forecolor backcolor | removeformat '],
-                    //     autoHeightEnabled:false,
-                    //     // initialContent:'<p>编辑器</p>',
-                    //     fontsize:[10, 11, 12, 14, 16, 18, 20, 24, 36]
-                    // })
-                    // self.productInfo.addListener('contentChange', function () {
-                    //     $scope.$apply(function () {
-                    //         self.htmlIntro = self.productInfo.getContent()
-                    //     })
-                    // });
                 }
 
                 self.insertImg = function (src) {
@@ -1271,11 +1259,11 @@
                         {'code': '', active: true, 'name': {'zh-CN': '全部'}},
                         {'code': 'WAITPAY', active: false, 'name': {'zh-CN': '待付款'}},
                         // {'code': 'WAITAPPROVAL', active: false, 'name': {'zh-CN': '待审核'}},
-                        {'code': 'ACCEPT', active: false, 'name': {'zh-CN': '待使用'}},
-                        // {'code': 'DELIVERING', active: false, 'name': {'zh-CN': '待收货'}},
-                        {'code': 'COMPLETED', active: false, 'name': {'zh-CN': '订单完成'}},
-                        {'code': 'REFUNDING', active: false, 'name': {'zh-CN': '退款中'}},
-                        {'code': 'CANCELED', active: false, 'name': {'zh-CN': '已取消'}}
+                        {'code': 'ACCEPT', active: false, 'name': {'zh-CN': '已支付'}},
+                        {'code': 'DELIVERING', active: false, 'name': {'zh-CN': '待收货'}},
+                        {'code': 'COMPLETED', active: false, 'name': {'zh-CN': '订单完成'}}
+                        // {'code': 'REFUNDING', active: false, 'name': {'zh-CN': '退款中'}},
+                        // {'code': 'CANCELED', active: false, 'name': {'zh-CN': '已取消'}}
                     ];
                     self.searchStr.status = '';
 
@@ -1299,12 +1287,12 @@
 
                 self.deliver = function (id) {
                     $scope.app.maskParams = {'orderId': id, 'search': self.search};
-                    $scope.app.showHideMask(true, 'pages/orders/shopOrderDeliver.html');
+                    $scope.app.showHideMask(true, 'pages/advanceGoods/shopOrderDeliver.html');
                 }
 
                 self.editDeliverInfo = function (info) {
                     $scope.app.maskParams = {'orderInfo': info, 'search': self.search};
-                    $scope.app.showHideMask(true, 'pages/orders/editShopOrderDeliver.html');
+                    $scope.app.showHideMask(true, 'pages/advanceGoods/editShopOrderDeliver.html');
                 }
 
                 self.accept = function (id) {
@@ -1629,6 +1617,114 @@
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.loading = false;
+                    });
+                }
+
+                self.close = function () {
+                    $scope.app.showHideMask(false);
+                }
+            }
+        ])
+
+        .controller('fxshopOrderDeliverController', ['$scope', '$state', '$http', 'util',
+            function ($scope, $state, $http, util) {
+                var self = this;
+
+                self.init = function () {
+                    self.id = $scope.app.maskParams.orderId;
+                }
+
+                self.close = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.submit = function () {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "setExpressInfo",
+                        "lang": util.langStyle(),
+                        "OrderID": self.id,
+                        "ExpressNum": self.ExpressNum,
+                        "ExpressCompany": self.ExpressCompany
+                    })
+
+                    self.saving = true;
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('fxshoporder', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('发货成功');
+                            $scope.app.maskParams.search();
+                            self.close();
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('发货失败' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+
+                self.close = function () {
+                    $scope.app.showHideMask(false);
+                }
+            }
+        ])
+        .controller('fxeditShopOrderDeliverController', ['$scope', '$state', '$http', 'util',
+            function ($scope, $state, $http, util) {
+                var self = this;
+
+                self.init = function () {
+                    self.info = $scope.app.maskParams.orderInfo;
+                    self.id = self.info.ID || self.info.Id;
+                    self.ExpressNum = self.info.ExpressNum;
+                    self.ExpressCompany = self.info.ExpressCompany;
+                }
+
+                self.close = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                self.submit = function () {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "updateExpressInfo",
+                        "lang": util.langStyle(),
+                        "OrderID": self.id,
+                        "ExpressNum": self.ExpressNum,
+                        "ExpressCompany": self.ExpressCompany
+                    })
+
+                    self.saving = true;
+
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('fxshoporder', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('修改成功');
+                            $scope.app.maskParams.search();
+                            self.close();
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('发货失败' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
                     });
                 }
 
