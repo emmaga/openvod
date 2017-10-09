@@ -326,7 +326,71 @@
                     }
                     return obj;
                 }
-            }
+            },
+            /**
+              * 初始化时间范围选择控件
+              * */
+              'initRangeDatePicker': function (obj, opt) {
+                  obj.startTime = this.format_yyyyMMdd(new Date(new Date().getTime() - 2678400000))
+                  obj.endTime = this.format_yyyyMMdd(new Date())
+                  var defaultOption = {
+                      startEl: '#startTime',
+                      endEl: '#endTime',
+                      maxDate: this.format_yyyyMMdd(new Date())
+                  }
+                  var option = extend(defaultOption, opt || {})
+
+                  // 日期选择-开始时间
+                  laydate.render({
+                      elem: option.startEl,
+                      max: option.maxDate,
+                      btns: ['now','confirm'],
+                      done: function (value, date, endDate) {
+                          obj.$apply(function () {
+                              obj.startTime = value
+                          })
+                      }
+                  });
+                  // 日期选择-结束时间
+                  laydate.render({
+                      elem: option.endEl,
+                      max: option.maxDate,
+                      btns: ['now','confirm'],
+                      done: function (value, date, endDate) {
+                          obj.$apply(function () {
+                              obj.endTime = value
+                          })
+                      }
+                  });
+
+                  function extend (a, b) {
+                      for (var i in b) {
+                          //这个是检测for循环到的属性是不是b自身的
+                          if (b.hasOwnProperty(i)) {
+                              a[i] = b[i]
+                          }
+                      }
+                      return a;
+                  }
+              },
+              /**
+               * 时间格式控制
+               * */
+              'resetTime':function (obj,range) {
+                  if (obj.startTime > obj.endTime) {
+                      var k = obj.startTime;
+                      obj.startTime = obj.endTime;
+                      obj.endTime = k;
+                  }
+                  if(!range) return true;
+                  if (Math.abs(new Date(obj.startTime).getTime() - new Date(obj.endTime).getTime()) > range*24*60*60*1000) {
+                      alert('时间范围不能大于'+range+'天')
+                      return false;
+                  }else{
+                      return true;
+                  }
+              }
+          }
 
             return utilObj;
         }])

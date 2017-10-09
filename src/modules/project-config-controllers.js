@@ -349,6 +349,7 @@
             self.init = function() {
                 self.editLangs = util.getParams('editLangs');
                 self.loadInfo();
+                self.loadMovieInfo();
             }
 
             self.loadInfo = function() {
@@ -379,8 +380,6 @@
                     self.loading = false;
                 });
             }
-
-            
 
             self.save = function () {
                 var imgs = [];
@@ -427,6 +426,60 @@
                     alert('服务器出错');
                 }).finally(function (e) {
                     self.saving = false;
+                });
+            }
+
+            self.loadMovieInfo = function() {
+                var data = JSON.stringify({
+                    action: "getMoviePayPercentClear",
+                    token: util.getParams('token'),
+                    lang: util.langStyle()
+                })
+
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('hotelroom', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        self.percent=Number(data.data.MoviePayPercentClear)
+                    } else {
+                        alert('读取电影分成信息失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('服务器出错');
+                }).finally(function (e) {
+                    self.loading = false;
+                });
+            }
+
+            self.saveMovieInfo = function () {
+                self.movieSaving = true;
+                var data = JSON.stringify({
+                    action: "setMoviePayPercentClear",
+                    token: util.getParams('token'),
+                    lang: util.langStyle(),
+                    data: {
+                        "MoviePayPercentClear": self.percent+''
+                    }
+                })
+
+                $http({
+                    method: 'POST',
+                    url: util.getApiUrl('hotelroom', '', 'server'),
+                    data: data
+                }).then(function successCallback(response) {
+                    var data = response.data;
+                    if (data.rescode == '200') {
+                        alert('保存成功!');
+                    } else {
+                        alert('保存信息失败' + data.errInfo);
+                    }
+                }, function errorCallback(response) {
+                    alert('服务器出错');
+                }).finally(function (e) {
+                    self.loading = false;
                 });
             }
 
@@ -559,5 +612,6 @@
             
         }
     ])
+
 
 })();
