@@ -20,7 +20,7 @@
         </li>
         <li class="cursor-pointer">
             <a ng-click="goods.addCate()">
-                <i class="icon ion-android-add-circle"></i> 分类添加
+                <i class="icon ion-android-add-circle"></i> 标签添加
             </a>
         </li>
     </ul>
@@ -32,11 +32,11 @@
             </a>
             <a ng-show="goods.selectedCate!='all'" ng-click="goods.editCate()"
                class="button button-light ng-binding">
-                <i class="icon ion-ios-plus-outline"></i> 编辑分类
+                <i class="icon ion-ios-plus-outline"></i> 编辑标签
             </a>
             <a ng-show="goods.selectedCate!='all'" ng-click="goods.deleteCate()"
                class="button button-light ng-binding">
-                <i class="icon ion-ios-plus-outline"></i> 删除分类
+                <i class="icon ion-ios-plus-outline"></i> 删除标签
             </a>
         </div>
     </div>
@@ -56,7 +56,7 @@
             <td title="'抢购时间'">
                 {{row.saleStartDate}} 至 <br> {{row.saleEndDate}}
             </td>
-            <td title="'分类'">
+            <td title="'标签'">
                 <style>
                     .cateList, .cateList li {
                         padding: 0;
