@@ -95,7 +95,7 @@
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
-                            alert('修改失败' + data.errInfo);
+                            alert('获取失败' + data.errInfo);
                         }
                     }, function errorCallback (response) {
                         alert('连接服务器出错');
@@ -134,7 +134,7 @@
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
-                            alert('修改失败' + data.errInfo);
+                            alert('导出失败' + data.errInfo);
                         }
                     }, function errorCallback (response) {
                         alert('连接服务器出错，请重新导出');
@@ -208,7 +208,7 @@
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
-                            alert('修改失败' + data.errInfo);
+                            alert('获取失败' + data.errInfo);
                         }
                     }, function errorCallback (response) {
                         alert('连接服务器出错');
@@ -247,7 +247,7 @@
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
-                            alert('修改失败' + data.errInfo);
+                            alert('导出失败' + data.errInfo);
                         }
                     }, function errorCallback (response) {
                         alert('连接服务器出错，请重新导出');
@@ -340,7 +340,7 @@
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
-                            alert('修改失败' + data.errInfo);
+                            alert('获取失败' + data.errInfo);
                         }
                     }, function errorCallback (response) {
                         alert('连接服务器出错');
@@ -378,7 +378,7 @@
                             alert('访问超时，请重新登录');
                             $state.go('login');
                         } else {
-                            alert('修改失败' + data.errInfo);
+                            alert('导出失败' + data.errInfo);
                         }
                     }, function errorCallback (response) {
                         alert('连接服务器出错，请重新导出');
