@@ -1027,6 +1027,11 @@
                     templateUrl: 'pages/reportForm/orderCompleteForm.html'
                 })
 
+                .state('app.reportForm.movieIncomeForm', {
+                    url: '/movieIncomeForm',
+                    templateUrl: 'pages/reportForm/movieIncomeForm.html'
+                })
+
                 .state('app.ticket', {
                     url: '/ticket',
                     templateUrl: 'pages/ticket.html'

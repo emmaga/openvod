@@ -52,6 +52,22 @@
                     </button>
                 </div>
             </form>
+
+            <form name="movieInfoForm" ng-submit="movieInfoForm.$valid && pcProjectInfo.saveMovieInfo()">
+                <hr>
+                <div class="form-group">
+                    <label>电影分成清鹤占比（％）</label>
+                    <input ng-model="pcProjectInfo.percent" type="number" step="1" required placeholder="（必填）" class="form-control" />
+                </div>
+
+                <!--保存按钮-->
+                <div class="form-group">
+                    <label> </label>
+                    <button type="submit" class="button button-small button-block theme-button-outline ng-binding" ng-disable="pcProjectInfo.movieSaving">
+                        <i class="icon ion-ios-checkmark-outline"></i> 保存
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
