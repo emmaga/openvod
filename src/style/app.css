@@ -1338,6 +1338,10 @@ label + hr {
     height: 13px;
 }
 
+.nav-tabs > li {
+    user-select: none;
+}
+
 .form-control[readonly] {
     background-color: transparent !important;
     opacity: 1;
