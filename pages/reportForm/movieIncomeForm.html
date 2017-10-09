@@ -37,14 +37,12 @@
     <hr style="margin-top: 0;">
     <table class="table table-hover table-condensed" ng-show="!movieIncome.loading">
         <tr>
-            <th></th>
             <th>订单数</th>
             <th>电影收入（元）</th>
             <th>清鹤收入（元）</th>
             <th>酒店收入（元）</th>
         </tr>
         <tr>
-            <td>总计</td>
             <td>{{movieIncome.movieData['订单数']}}</td>
             <td>{{movieIncome.movieData['电影收入（元）']| number:2}}</td>
             <td>{{movieIncome.movieData['清鹤收入（元）']| number:2}}</td>

@@ -42,7 +42,7 @@
                     if (!util.resetTime($scope)) return; // 处理时间数据，31天限制
                     self.noData = false;
                     self.loading = true;
-                    var qrcodeData = [], roomData = []
+                    var qrcodeData = [], roomData = {}
                     var data = {
                         "action": "getOrderStatisXlsShow",
                         "token": util.getParams("token"),
@@ -86,8 +86,7 @@
                                     total2 += data.room[key2][j]
                                 }
                                 var item = {};
-                                item[key2] = total2
-                                roomData.push(item)
+                                roomData[key2] = total2
                             }
                             self.qrcodeTable = qrcodeData
                             self.roomTable = roomData
@@ -178,7 +177,7 @@
                     if (!util.resetTime($scope)) return; // 处理时间数据，31天限制
                     self.noData = false;
                     self.loading = true;
-                    var qrcodeData = [], roomData = []
+                    var qrcodeData = {}, roomData = {}
 
                     var data = {
                         "action": "getCompleteStatisXlsShow",
@@ -201,9 +200,7 @@
                                 for (var j = 0; j < data.room[key2].length; j++) {
                                     total2 += data.room[key2][j]
                                 }
-                                var item = {};
-                                item[key2] = total2
-                                roomData.push(item)
+                                roomData[key2] = total2
                             }
                             self.roomTable = roomData
                             self.loading = false

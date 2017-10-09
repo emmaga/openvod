@@ -38,18 +38,16 @@
     <hr style="margin-top: 0;">
     <table class="table table-hover table-condensed" ng-show="!reportForm.loading">
         <tr>
-            <td ng-repeat="item in reportForm.roomTable">
-                    <span ng-repeat="(key,val) in item">
-                        {{key}}
-                    </span>
-            </td>
+            <th>订单数</th>
+            <th>间夜数</th>
+            <th>订单总收入（元）</th>
+            <th>代收门票（元）</th>
         </tr>
         <tr>
-            <td ng-repeat="item in reportForm.roomTable">
-                    <span ng-repeat="(key,val) in item">
-                        {{key=='代收门票（元）'||key=='订单总收入（元）'? (val | number:2) : val}}
-                    </span>
-            </td>
+            <td>{{reportForm.roomTable['订单数']}}</td>
+            <td>{{reportForm.roomTable['间夜数']}}</td>
+            <td>{{reportForm.roomTable['订单总收入（元）']| number:2}}</td>
+            <td>{{reportForm.roomTable['代收门票（元）']| number:2}}</td>
         </tr>
     </table>
     <div ng-show="reportForm.loading">loading...</div>
