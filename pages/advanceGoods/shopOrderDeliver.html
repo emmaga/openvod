@@ -1,0 +1,41 @@
+<div ng-controller="fxshopOrderDeliverController as shopOrderDeliver" ng-init="shopOrderDeliver.init()" class="modal-dialog moadal-sm">
+    <div class="modal-content">
+        <!-- loading -->
+        <!-- form -->
+        <form name="shopOrderDeliverAddForm" ng-submit="shopOrderDeliverAddForm.$valid && shopOrderDeliver.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="shopOrderDeliver.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">修改快递信息</h5>
+            </div>
+            <!--header end-->
+            <!-- body -->
+            <div class="modal-body">
+                <!--快递单号-->
+                <div class="form-group">
+                    <label>快递单号</label>
+                    <input ng-model="shopOrderDeliver.ExpressNum" type="text" required placeholder="（必填）" class="form-control">
+                </div>
+                <!--快递公司-->
+                <div class="form-group">
+                    <label>快递公司</label>
+                    <input ng-model="shopOrderDeliver.ExpressCompany" type="text" required placeholder="（必填）" class="form-control">
+                </div>
+            </div>
+            <!--body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="shopOrderDeliver.close()">{{'CANCEL' | translate}}</button>
+                <!-- 保存 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="shopOrderDeliver.saving">
+                    <i class="icon ion-ios-checkmark-outline"></i> 发货
+                </button>
+            </div>
+            <!--footer end-->
+        </form>
+    </div>
+</div>

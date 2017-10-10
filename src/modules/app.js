@@ -15,6 +15,7 @@
         'app.qcode',
         'app.report',
         'app.ticket',
+        'app.advanceGoods',
         'angular-md5',
         'ngCookies',
         'ngTable',
@@ -22,7 +23,8 @@
         'ui.bootstrap',
         'ui.toggle',
         'angularBootstrapNavTree',
-        'AngularPrint'
+        'AngularPrint',
+        'meta.umeditor'
     ])
         .config(['$translateProvider', function ($translateProvider) {
             var lang = navigator.language.indexOf('zh') > -1 ? 'zh-CN' : 'en-US';
@@ -1025,9 +1027,27 @@
                     templateUrl: 'pages/reportForm/orderCompleteForm.html'
                 })
 
+                .state('app.reportForm.movieIncomeForm', {
+                    url: '/movieIncomeForm',
+                    templateUrl: 'pages/reportForm/movieIncomeForm.html'
+                })
+
                 .state('app.ticket', {
                     url: '/ticket',
                     templateUrl: 'pages/tickets/ticket.html'
+                })
+
+                .state('app.advanceGoods', {
+                    url: '/advanceGoods',
+                    templateUrl: 'pages/advanceGoods/advanceShop.html'
+                })
+                .state('app.advanceGoods.goods', {
+                    url: '/goods?HotelID&ShopID',
+                    templateUrl: 'pages/advanceGoods/advanceGoodsList.html'
+                })
+                .state('app.advanceGoodsOrder', {
+                    url: '/advanceGoodsOrder',
+                    templateUrl: 'pages/advanceGoods/advanceGoodsOrder.html'
                 })
         }])
 

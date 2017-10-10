@@ -29,6 +29,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var cached = require('gulp-cached');
 var remember = require('gulp-remember');
 var jsFiles = [
+    './plugins/laydate/laydate.js',
     './src/modules/controllers.js',
     './src/modules/tv-admin-controllers.js',
     './src/modules/project-config-controllers.js',
@@ -40,6 +41,7 @@ var jsFiles = [
     './src/modules/qcode-controller.js',
     './src/modules/report-controller.js',
     './src/modules/ticket-controller.js',
+    './src/modules/advance-goods-controller.js',
     './plugins/angular-locale_zh-cn.js',
     './plugins/ramda.min.js'
 ];

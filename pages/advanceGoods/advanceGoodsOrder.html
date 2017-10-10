@@ -1,0 +1,142 @@
+<div ng-controller="advanceGoodsOrderController as sol" ng-init="sol.init()" class="container-fluid has-nav-left">
+    <!--加载门店列表loading-->
+    <div ng-show="sol.loadingShopList">loading...</div>
+    <!-- 左侧菜单 筛选条件——门店-->
+    <div class="nav-left">
+        <ul class="nav nav-stacked nav-left-content">
+            <li class="nav-header {{sol.searchStr.shopId == shop.ShopID ? 'active' : ''}}" ng-repeat="shop in shopList">
+                <a ng-click="sol.searchByShop(shop.ShopID)">
+                    {{shop.ShopName[sol.defaultLangCode]}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 右侧部分 -->
+    <div class="content-right">
+        <!-- 右侧部分 end-->
+        <!--当前选中商店名称及门店名称-->
+        <h4 class="ng-binding">
+            {{sol.getSelectedShop().ShopName[sol.defaultLangCode]}}
+            <span class="">{{sol.getSelectedShop().HotelName[sol.defaultLangCode]}}</span>
+        </h4>
+        <hr>
+        <!--/当前选中商店名称及门店名称-->
+        <!--筛选条件－买家名&&订单号-->
+        <div class="search-bar">
+            <div class="form-group">
+                <!-- <label class="h5">手机号</label> -->
+                <input ng-model="sol.searchStr.userPhone" type="text" class="form-control" placeholder="手机号">
+            </div>
+            <div class="form-group">
+                <!-- <label class="h5">订单号</label> -->
+                <input ng-model="sol.searchStr.orderNumber" type="text" class="form-control" placeholder="订单号">
+            </div>
+            <div class="form-group">
+                <!-- <label class="h5">联系人</label> -->
+                <input ng-model="sol.searchStr.userName" type="text" class="form-control" placeholder="联系人">
+            </div>
+            <a ng-click="sol.search()" class="button button-light">
+                <i class="icon ion-ios-search-strong"></i>搜索
+            </a>
+        </div>
+        <!--/筛选条件－买家名&&订单号-->
+        <!--筛选条件－订单状态-->
+        <ul class="nav nav-tabs">
+            <li ng-repeat="s in status" ng-class="{'active': s.active}" class="cursor-pointer">
+                <a ng-click="sol.searchByStatus(s.code)" id="{{s.code}}Shop">{{s.name[sol.defaultLangCode]}}</a>
+            </li>
+        </ul>
+        <!--筛选条件－订单状态-->
+        <!--订单列表-->
+        <table ng-table="sol.tableParams" class="table table-hover">
+            <tr ng-repeat="row in $data">
+                <!--订单号-->
+                <td title="'订单号'">
+                    {{row.OrderNum}}
+                </td>
+                <!--/订单号-->
+                <!--下单时间-->
+                <td title="'下单时间'">
+                    {{row.CreateTime}}
+                </td>
+                <!--/下单时间-->
+                <!--订单状态-->
+                <td title="'订单状态'">
+                    {{row.Status=='ACCEPT'?'已支付':(row.Status| shopOrderStatus)}}
+                </td>
+                <!--/订单状态-->
+                <!--配送方式-->
+                <!--<td title="'配送方式'">-->
+                    <!--{{row.DeliveryType | deliverWay}}-->
+                <!--</td>-->
+                <!--/配送方式-->
+                <!--订单总价-->
+                <td title="'订单总价'">
+                    {{row.TotalGoodsPrice | fenToYuan}}元
+                </td>
+                <!--/订单总价-->
+                <td title="'佣金'">
+                    {{row.TotalGoodsCommission | fenToYuan}}元
+                </td>
+                <!--商品总数-->
+                <td title="'商品总数'">
+                    {{row.TotalGoodsCount}}
+                </td>
+                <!--/商品总数-->
+                <!--昵称-->
+                <td title="'昵称'">
+                    {{row.RoomID || row.name || ''}}
+                </td>
+                <!--/昵称-->
+                <!--手机号-->
+                <td title="'手机号'">
+                    {{row.mobile}}
+                </td>
+                <!--/手机号-->
+                <!--操作-->
+                <td title="'操作'">
+                    <!--详情-->
+                    <a ng-click="sol.gotoDetail(row)">详情</a>
+                    <!--/详情-->
+                    <!--编辑快递信息-->
+                    <a ng-click="sol.editDeliverInfo(row)" ng-show="row.Status=='DELIVERING'">编辑快递信息</a>
+                    <!--/编辑快递信息-->
+                    <!--发货-->
+                    <a ng-click="sol.deliver(row.ID)" ng-show="row.Status=='ACCEPT' && row.DeliveryType=='express' && row.PayCash !== 'CASH'">发货</a>
+                    <!--/发货-->
+                    <!--接受-->
+                    <a ng-click="sol.accept(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">接受</a>
+                    <!--/接受-->
+                    <!--拒绝-->
+                    <a ng-click="sol.reject(row.ID)" ng-show="row.Status=='WAITAPPROVAL'">拒绝</a>
+                    <!--/拒绝-->
+                    <a ng-click="sol.setInvoice(row.ID)" ng-show="(row.Status=='DELIVERING' || row.Status=='ACCEPT' || row.Status=='COMPLETED') && row.InvoiceStatus==1">已开票</a>
+                    <!--已完成-->
+                    <a ng-click="sol.finish(row.ID)" ng-show="row.Status=='DELIVERING' || (row.Status=='ACCEPT' && row.DeliveryType==='bySelf') || (row.Status=='ACCEPT' && row.PayCash === 'CASH') || (row.Status=='ACCEPT' && row.DeliveryType==='homeDelivery')">已完成</a>
+                    <!--/已完成-->
+                    <!--取消订单-->
+                    <!--<a ng-click="sol.cancel(row.ID)" ng-show="row.Status=='WAITPAY' || row.Status=='ACCEPT'">取消订单</a>-->
+                    <!--/取消订单-->
+                </td>
+                <!--/操作-->
+            </tr>
+        </table>
+        <div ng-show="sol.loading">loading...</div>
+        <div ng-show="sol.noData">无数据</div>
+        <!--订单列表 end-->
+    </div>
+    <!-- 右侧部分 end-->
+
+
+
+    <!--theme-->
+    <style type="text/css">
+        .nav-left-content a {
+            line-height: 1.25
+        }
+
+        .nav-left-content {
+            padding-top: 23px;
+        }
+    </style>
+</div>
