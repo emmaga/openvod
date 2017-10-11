@@ -437,6 +437,7 @@
                     self.changeMenuInfo();
                 }
 
+
                 // QHtlMovieCommon
                 if(branch.data.type == 'QHtl_MovieCommon') {
                     $state.go('app.tvAdmin.QHtlMovieCommon', {moduleId: branch.data.moduleId, label: branch.label});
@@ -464,6 +465,18 @@
                 // movieLocal 项目本地电影
                 if(branch.data.type == 'MovieLocal') {
                     $state.go('app.tvAdmin.MovieLocal', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                //FY_TVSeriesLocal
+                if(branch.data.type == 'FY_TVSeriesLocal'){
+                    $state.go('app.tvAdmin.FY_TVSeriesLocal', {moduleId: branch.data.moduleId, label: branch.label});
+                    self.changeMenuInfo();
+                }
+
+                //FY_MovieLocal富悦本地电影
+                if(branch.data.type == 'FY_MovieLocal') {
+                    $state.go('app.tvAdmin.FY_MovieLocal', {moduleId: branch.data.moduleId, label: branch.label});
                     self.changeMenuInfo();
                 }
 
