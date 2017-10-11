@@ -3765,6 +3765,7 @@
                     }).then(function successCallback (data, status, headers, config) {
                         console.log(data)
                         alert('修改分类成功');
+                        self.getProductList(self.stateParams.ShopGoodsCategoryID);  // bug修复
                     }, function errorCallback (data, status, headers, config) {
                         alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')

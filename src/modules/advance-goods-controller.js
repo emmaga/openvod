@@ -323,7 +323,7 @@
                 }
 
                 self.deleteCate = function () {
-                    if (confirm("确定要删除此分类吗？")) {
+                    if (confirm("确定要删除此标签吗？")) {
                         var data = {
                             "lang": self.langStyle,
                             "action": "delMgtProductCategory",
@@ -517,7 +517,8 @@
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
                         console.log(data)
-                        alert('修改分类成功');
+                        alert('修改成功');
+                        self.search();  // 修改分类bug.每次点击时，商品的分类要重新获取
                     }, function errorCallback (data, status, headers, config) {
                         alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')
@@ -1052,7 +1053,7 @@
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryName": self.form.shopName,
                             "ShopID": self.maskParams.ShopID - 0,
-                            "seq": self.seq
+                            "Seq": self.seq
                         }
                     };
                     data = JSON.stringify(data);
@@ -1062,7 +1063,7 @@
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
-                            alert('分类添加成功');
+                            alert('添加成功');
                             $scope.app.maskParams.getGoodsCategory();
                             self.cancel();
                         } else if (data.data.rescode == "401") {
@@ -1113,7 +1114,7 @@
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryID": self.id,
                             "ShopGoodsCategoryName": self.name,
-                            "seq": self.seq
+                            "Seq": self.seq
                         }
                     };
                     data = JSON.stringify(data);
@@ -1122,7 +1123,7 @@
                         url: util.getApiUrl('fxshopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
-                        alert('分类修改成功')
+                        alert('修改成功')
                         $state.reload();
                     }, function errorCallback (data, status, headers, config) {
 
