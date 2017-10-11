@@ -779,6 +779,7 @@
                         }]
                     }
                 })
+
                 .state('app.tvAdmin.QHtlMovieCommon', {
                     url: '/QHtlMovieCommon?moduleId&label',
                     templateUrl: 'pages/tv/movieCommon.html',
@@ -820,6 +821,28 @@
                 // 专题大片
                 .state('app.tvAdmin.MovieLocal', {
                     url: '/MovieLocal?moduleId&label',
+                    templateUrl: 'pages/tv/movieCommon.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                //富悦本地电视剧
+                .state('app.tvAdmin.FY_TVSeriesLocal', {
+                    url: '/FY_TVSeriesLocal?moduleId&label',
+                    templateUrl: 'pages/tv/TVSeriesLocal.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+
+                // 富悦本地电影
+                .state('app.tvAdmin.FY_MovieLocal', {
+                    url: '/FY_MovieLocal?moduleId&label',
                     templateUrl: 'pages/tv/movieCommon.html',
                     resolve: {
                         resB: ['resA', 'resWelcome', function(resA, resWelcome){
