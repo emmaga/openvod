@@ -9,25 +9,25 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h5 class="modal-title">添加商品分类</h5>
+                <h5 class="modal-title">添加商品标签</h5>
             </div>
             <!--header end-->
             <!--body-->
             <div class="modal-body">
-                <!-- 分类名称 -->
+                <!-- 标签名称 -->
                 <ng-repeat ng-repeat="lang in categoryAdd.multiLang track by $index">
                     <div class="form-group" ng-if="lang.default==true">
-                        <label>分类名称({{lang.name}})</label>
+                        <label>标签名称({{lang.name}})</label>
                         <input type="text" name="" required placeholder="（必填）" ng-model="categoryAdd.form.shopName[lang.code]" class="form-control">
                     </div>
                     <div class="form-group" ng-if="lang.default!==true">
-                        <label>分类名称({{lang.name}})</label>
+                        <label>标签名称({{lang.name}})</label>
                         <input type="text" name="" ng-model="categoryAdd.form.shopName[lang.code]" class="form-control">
                     </div>
                 </ng-repeat>
-                <!-- 分类排序 -->
+                <!-- 标签排序 -->
                 <div class="form-group">
-                    <label>分类排序</label>
+                    <label>标签排序</label>
                     <input ng-model="categoryAdd.seq" required placeholder="（必填）" type="number" min="0" class="form-control" />
                 </div>
             </div>

@@ -584,6 +584,7 @@
                     self.shopId = $stateParams.ShopID;
                     self.shopGoodsCategoryId = $scope.app.maskParams.cadeId;
                     self.imgs = new util.initUploadImgs([], self, $scope, 'imgs', true);
+                    self.imgs0 = new util.initUploadImgs([], self, $scope, 'imgs0', true);
                     self.imgs1 = new util.initUploadImgs([], self, $scope, 'imgs1');
                     self.imgEditing = false;
 
@@ -632,6 +633,7 @@
                         alert('请上传封面图片');
                         return;
                     }
+
                     // 图片不能未传完
                     else if (self.imgs.data.some(function (e, i, a) {
                             return e.progress < 100 && e.progress !== -1
@@ -664,6 +666,7 @@
                                 "zh-CN": self.name
                             },
                             "img": self.imgs.data[0].src,
+                            "commentImg": self.imgs0.data[0].src,
                             "title": {
                                 "zh-CN": self.title
                             },
@@ -830,6 +833,7 @@
                         alert('请上传封面图片');
                         return;
                     }
+
                     // 图片不能未传完
                     else if (self.imgs.data.some(function (e, i, a) {
                             return e.progress < 100 && e.progress !== -1
@@ -863,6 +867,7 @@
                                 "zh-CN": self.name
                             },
                             "img": self.imgs.data[0].src,
+                            "commentImg": self.imgs0.data[0].src,
                             "title": {
                                 "zh-CN": self.title
                             },
@@ -977,6 +982,16 @@
                         "ImageSize": 0
                     }], self, $scope, 'imgs', true);
                     self.imgs.initImgs();
+
+                    if (obj.commentImg) {
+                        self.imgs0 = new util.initUploadImgs([{
+                            "ImageURL": obj.commentImg,
+                            "ImageSize": 0
+                        }], self, $scope, 'imgs0', true);
+                        self.imgs0.initImgs();
+                    } else {
+                        self.imgs0 = new util.initUploadImgs([], self, $scope, 'imgs0', true);
+                    }
 
                     if (obj.imgSrc.length > 0) {
                         self.imgs1 = new util.initUploadImgs(obj.imgSrc, self, $scope, 'imgs1');
@@ -1654,7 +1669,7 @@
                         method: 'POST',
                         url: util.getApiUrl('fxshoporder', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('发货成功');
@@ -1666,7 +1681,7 @@
                         } else {
                             alert('发货失败' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;
@@ -1709,7 +1724,7 @@
                         method: 'POST',
                         url: util.getApiUrl('fxshoporder', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('修改成功');
@@ -1721,7 +1736,7 @@
                         } else {
                             alert('发货失败' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;
