@@ -323,7 +323,7 @@
                 }
 
                 self.deleteCate = function () {
-                    if (confirm("确定要删除此分类吗？")) {
+                    if (confirm("确定要删除此标签吗？")) {
                         var data = {
                             "lang": self.langStyle,
                             "action": "delMgtProductCategory",
@@ -517,7 +517,8 @@
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
                         console.log(data)
-                        alert('修改分类成功');
+                        alert('修改成功');
+                        self.search();  // 修改分类bug.每次点击时，商品的分类要重新获取
                     }, function errorCallback (data, status, headers, config) {
                         alert("修改失败" + data.errInfo);
                         $state.reload('app.shop.goods.goodsList')
@@ -584,6 +585,7 @@
                     self.shopId = $stateParams.ShopID;
                     self.shopGoodsCategoryId = $scope.app.maskParams.cadeId;
                     self.imgs = new util.initUploadImgs([], self, $scope, 'imgs', true);
+                    self.imgs0 = new util.initUploadImgs([], self, $scope, 'imgs0', true);
                     self.imgs1 = new util.initUploadImgs([], self, $scope, 'imgs1');
                     self.imgEditing = false;
 
@@ -632,6 +634,7 @@
                         alert('请上传封面图片');
                         return;
                     }
+
                     // 图片不能未传完
                     else if (self.imgs.data.some(function (e, i, a) {
                             return e.progress < 100 && e.progress !== -1
@@ -664,6 +667,7 @@
                                 "zh-CN": self.name
                             },
                             "img": self.imgs.data[0].src,
+                            "commentImg": self.imgs0.data[0].src,
                             "title": {
                                 "zh-CN": self.title
                             },
@@ -830,6 +834,7 @@
                         alert('请上传封面图片');
                         return;
                     }
+
                     // 图片不能未传完
                     else if (self.imgs.data.some(function (e, i, a) {
                             return e.progress < 100 && e.progress !== -1
@@ -863,6 +868,7 @@
                                 "zh-CN": self.name
                             },
                             "img": self.imgs.data[0].src,
+                            "commentImg": self.imgs0.data[0].src,
                             "title": {
                                 "zh-CN": self.title
                             },
@@ -978,6 +984,16 @@
                     }], self, $scope, 'imgs', true);
                     self.imgs.initImgs();
 
+                    if (obj.commentImg) {
+                        self.imgs0 = new util.initUploadImgs([{
+                            "ImageURL": obj.commentImg,
+                            "ImageSize": 0
+                        }], self, $scope, 'imgs0', true);
+                        self.imgs0.initImgs();
+                    } else {
+                        self.imgs0 = new util.initUploadImgs([], self, $scope, 'imgs0', true);
+                    }
+
                     if (obj.imgSrc.length > 0) {
                         self.imgs1 = new util.initUploadImgs(obj.imgSrc, self, $scope, 'imgs1');
                         self.imgs1.initImgs();
@@ -1037,7 +1053,7 @@
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryName": self.form.shopName,
                             "ShopID": self.maskParams.ShopID - 0,
-                            "seq": self.seq
+                            "Seq": self.seq
                         }
                     };
                     data = JSON.stringify(data);
@@ -1047,7 +1063,7 @@
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
                         if (data.data.rescode == "200") {
-                            alert('分类添加成功');
+                            alert('添加成功');
                             $scope.app.maskParams.getGoodsCategory();
                             self.cancel();
                         } else if (data.data.rescode == "401") {
@@ -1098,7 +1114,7 @@
                         "ShopGoodsCategory": {
                             "ShopGoodsCategoryID": self.id,
                             "ShopGoodsCategoryName": self.name,
-                            "seq": self.seq
+                            "Seq": self.seq
                         }
                     };
                     data = JSON.stringify(data);
@@ -1107,7 +1123,7 @@
                         url: util.getApiUrl('fxshopinfo', 'shopList', 'server'),
                         data: data
                     }).then(function successCallback (data, status, headers, config) {
-                        alert('分类修改成功')
+                        alert('修改成功')
                         $state.reload();
                     }, function errorCallback (data, status, headers, config) {
 
@@ -1654,7 +1670,7 @@
                         method: 'POST',
                         url: util.getApiUrl('fxshoporder', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('发货成功');
@@ -1666,7 +1682,7 @@
                         } else {
                             alert('发货失败' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;
@@ -1709,7 +1725,7 @@
                         method: 'POST',
                         url: util.getApiUrl('fxshoporder', '', 'server'),
                         data: data
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback (response) {
                         var data = response.data;
                         if (data.rescode == '200') {
                             alert('修改成功');
@@ -1721,7 +1737,7 @@
                         } else {
                             alert('发货失败' + data.errInfo);
                         }
-                    }, function errorCallback(response) {
+                    }, function errorCallback (response) {
                         alert('连接服务器出错');
                     }).finally(function (value) {
                         self.saving = false;

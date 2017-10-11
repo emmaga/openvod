@@ -63,6 +63,32 @@
                 </div>
                 <!--/商品图-->
 
+                <!--评论图-->
+                <div class="form-group">
+                    <label>商品评论图片</label>
+                    <a ng-click="goodsAdd.clickUpload('upload0')">上传</a>
+                    <br>
+                    <input id="upload0" style="display: none;" type="file" file-model="myFile" data-e="hidenUpload0"/>
+                    <a id="hidenUpload0" style="display: none;" ng-click="goodsAdd.imgs0.uploadFile('myFile')"></a>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- 图 -->
+                            <div ng-repeat="img in goodsAdd.imgs0.data" style="background-image: url({{img.src}})"
+                                 class="form-thumbnail">
+                                <!-- 进度条 -->
+                                <div class="progress form-thumbnail-progress" ng-show="!({{img.progress}}==100)">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                         style="width: {{img.progress}}%;">
+                                    </div>
+                                </div>
+                                <!-- 删除按钮 -->
+                                <i ng-click="goodsAdd.imgs0.deleteById(img.id)"
+                                   class="form-thumbnail-delete icon ion-close"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>使用日期</label>
                     <div class="form-inline">
