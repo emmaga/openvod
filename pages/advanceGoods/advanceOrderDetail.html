@@ -11,7 +11,7 @@
             <h5 class="modal-title">订单详情</h5>
         </div>
         <!-- body -->
-        <div class="modal-body">
+        <div print-section class="modal-body">
             <!--商品列表-->
             <!-- <div class="row"> -->
             <table class="table table-condensed table-responsive">
@@ -134,7 +134,9 @@
         <div class="modal-footer">
             <!-- 取消 -->
             <button type="button" class="btn btn-default btn-sm" ng-click="sod.close()">关闭</button>
-
+            <button type="button" class="btn btn-primary btn-sm" print-btn>
+                <i class="icon ion-printer"></i> 订单打印
+            </button>
             <button ng-if="sod.info.detail.Status=='DELIVERING' || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='bySelf') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.PayCash === 'CASH') || (sod.info.detail.Status=='ACCEPT' && sod.info.detail.deliverWay==='homeDelivery')"
                     type="button" class="btn btn-success btn-sm" ng-click="sod.finish(sod.id)">已完成
             </button>
