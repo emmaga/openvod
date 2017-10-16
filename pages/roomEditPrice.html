@@ -183,7 +183,7 @@
         <form id="roomEditTicketPriceForm" name="roomEditTicketPriceForm" ng-submit="roomEditTicketPriceForm.$valid && roomEditPrice.saveTicketPrice()" role="form">
             <div class="modal-body">
                 <label>当前已绑定门票为：</label>
-                <span ng-show="!roomEditPrice.ticketEditing">{{roomEditPrice.ticket.TicketName?roomEditPrice.ticket.TicketName:'空'}} —— {{roomEditPrice.ticket.TicketDescription?roomEditPrice.ticket.TicketDescription:'暂无描述'}}</span>
+                <span ng-show="!roomEditPrice.ticketEditing">{{roomEditPrice.ticket.TicketCategoryName?roomEditPrice.ticket.TicketCategoryName:'暂无分类'}} —— {{roomEditPrice.ticket.TicketName?roomEditPrice.ticket.TicketName:'空'}} </span>
                 <span ng-show="roomEditPrice.ticketEditing" class="form-inline">
                     <select class="form-control" ng-model="roomEditPrice.selected" ng-options="item.ID as item.Name for item in roomEditPrice.ticketList"></select>
                 </span>

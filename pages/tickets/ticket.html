@@ -33,11 +33,13 @@
             <tr>
                 <th width="160">门票名称</th>
                 <th>门票描述</th>
+                <th>门票分类</th>
                 <th width="120">操作</th>
             </tr>
             <tr ng-repeat="item in ticketCtr.ticketList">
                 <td>{{item.Name}}</td>
                 <td>{{item.Description}}</td>
+                <td>{{item.CategoryName}}</td>
                 <td>
                     <a ng-click="ticketCtr.delete(item.ID)">删除</a>
                     <a ng-click="ticketCtr.edit(item.ID)">编辑</a>
