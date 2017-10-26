@@ -1042,6 +1042,10 @@
                                         params.total(data.data.total);
                                         obj.authListHead = data.data.data.header
                                         obj.authListData = data.data.data.data
+                                        // 按对象类型排序
+                                        obj.authListData.sort(function(a,b){
+                                            return  a[4].localeCompare(b[4])
+                                        })
                                         return obj.authListData;
                                     } else if (data.rescode == '401') {
                                         alert('访问超时，请重新登录');
