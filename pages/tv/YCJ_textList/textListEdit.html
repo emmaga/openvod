@@ -1,0 +1,69 @@
+<div ng-controller="YCJ_textListEditController as vm" ng-init="vm.init()" class="autoscroll modal-dialog modal-sm">
+        <div class="modal-content">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="vm.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑条目</h5>
+            </div>
+            <!--/header end-->
+            <!--body-->
+            <div class="modal-body">
+                <form id="vmForm" name="vmForm" ng-submit="vmForm.$valid && vm.save()">
+                    <div class="form-group">
+                        <!--机场序号-->
+                        <label>序号</label>
+                        <input class="form-control" placeholder="（必填）" type="number"
+                            ng-model="vm.num" min="0" required placeholder="（必填）" />
+                        <!--/机场序号-->
+                    </div>
+                    <div class="form-group">
+                        <ng-repeat ng-repeat="lang in vm.editLangs">
+                            <ng-if ng-if="lang.default">
+                                <label>培训名称 {{lang.name}}：</label>
+                                <input class="form-control" ng-model="vm.name[lang.code]" required placeholder="（必填）" />
+                            </ng-if>
+                            <ng-if ng-if="lang.default !== true">
+                                <label>培训名称 {{lang.name}}：</label>
+                                <input class="form-control" ng-model="vm.name[lang.code]" />
+                            </ng-if>
+                        </ng-repeat>
+                    </div>
+                    <div class="form-group">
+                        <ng-repeat ng-repeat="lang in vm.editLangs">
+                            <ng-if ng-if="lang.default">
+                                <label>培训时间 {{lang.name}}：</label>
+                                <input class="form-control" ng-model="vm.time[lang.code]" required placeholder="（必填）" />
+                            </ng-if>
+                            <ng-if ng-if="lang.default !== true">
+                                <label>培训时间 {{lang.name}}：</label>
+                                <input class="form-control" ng-model="vm.time[lang.code]" />
+                            </ng-if>
+                        </ng-repeat>
+                    </div>
+                    <div class="form-group">
+                        <ng-repeat ng-repeat="lang in vm.editLangs">
+                            <ng-if ng-if="lang.default">
+                                <label>培训对象 {{lang.name}}：</label>
+                                <input class="form-control" ng-model="vm.obj[lang.code]" required placeholder="（必填）" />
+                            </ng-if>
+                            <ng-if ng-if="lang.default !== true">
+                                <label>培训对象 {{lang.name}}：</label>
+                                <input class="form-control" ng-model="vm.obj[lang.code]" />
+                            </ng-if>
+                        </ng-repeat>
+                    </div>
+    
+                </form>
+            </div>
+            <!--/body end-->
+            <!--footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" ng-click="vm.cancel()">取消</button>
+                <button type="submit" class="btn btn-primary btn-sm" form="vmForm" ng-disabled="vm.saving">保存</button>
+            </div>
+            <!--/footer end-->
+        </div>
+    </div>

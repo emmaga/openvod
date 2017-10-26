@@ -1,0 +1,35 @@
+<div ng-controller="YCJ_textListController as vm" ng-init="vm.init()">
+    <a class="button button-light" ng-click="vm.add()">
+        <i class="icon ion-ios-plus-outline"></i>
+        添加条目
+    </a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>培训名称</th>
+                <th>培训时间</th>
+                <th>培训对象</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in vm.itemList track by $index">
+                <td>{{item.Text['zh-CN'][0]}}</td>
+                <td>{{item.Text['zh-CN'][1]}}</td>
+                <td>{{item.Text['zh-CN'][2]}}</td>
+                <td>
+                    <!--编辑按钮-->
+                    <a class="" ng-click="vm.edit(item.ID,$index)">编辑</a>
+                    <!--编辑按钮-->
+                    <!--删除按钮-->
+                    <a class="" ng-click="vm.del(item.ID, $index)">删除</a>
+                    <!--删除按钮-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    <!--直播列表-->
+</div>
