@@ -135,6 +135,14 @@
       "icon": "dist/imgs/app-icon-15.png",
       "bgColor": "#4b3d3c",
       "themeColor":"#c18458"
+    },
+    {
+      "id": 18,
+      "name": "用户权限",
+      "appName":"UserManage",
+      "icon": "dist/imgs/app-icon-18.png",
+      "bgColor": "#337ab7",
+      "themeColor":"#337ab7"
     }
   ]
 }
