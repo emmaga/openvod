@@ -1,25 +1,23 @@
-<div ng-controller="authViewController as vm" ng-init="vm.init()" class="content-right">
-    <h4>权限查看</h4>
+<div ng-controller="authViewController as vm" ng-init="vm.init()" class="content-right auth-content">
+    <h4 class="form-inline">权限查看
+        <span class="side-control">
+            <select class="form-control" ng-model="vm.controlType">
+                <option value="">批量操作...</option>
+                <option value="delete">取消授权</option>
+            </select>
+            <button class="btn btn-primary" ng-click="vm.loadAllData()">应用</button>
+        </span>
+    </h4>
     <hr>
 
-    <div class="step-content" ng-show="vm.stepIndex==0">
-        <div class="step-head form-inline">
-            当前权限类型
-            <select ng-model="vm.selectType" class="form-control">
-                <option value="User">用户</option>
-                <option value="Role">角色</option>
-            </select>
-            <span class="side-control">
-                <select class="form-control" ng-model="vm.controlType">
-                    <option value="">批量操作...</option>
-                    <option value="delete">取消授权</option>
-                </select>
-                <button class="btn btn-primary" ng-click="vm.deleteAuth()">应用</button>
-            </span>
-
-        </div>
+    <div ng-show="vm.stepIndex==0">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-3 form-inline">
+                当前权限类型
+                <select ng-model="vm.selectType" class="form-control">
+                    <option value="User">用户</option>
+                    <option value="Role">角色</option>
+                </select>
                 <table ng-table="vm.tableParams" class="table table-hover auth-table">
                     <tr ng-repeat="(index,row) in $data" ng-click="vm.loadAuthList(row.ID,index)" ng-class="{'selected':vm.selectedIdx==index}">
                         <td width="50" title="'ID'">{{row.ID}}</td>
@@ -29,6 +27,8 @@
                 </table>
             </div>
             <div class="col-sm-9">
+                已选择模块：
+                <span ng-repeat="(key,value) in vm.checkedModules" ng-model="vm.checkedModules[key]" ng-show="value" uib-btn-checkbox class="tag">{{key | authName}}</span>
                 <table ng-table="vm.authTableParams" class="table table-hover auth-table">
                     <thead>
                         <tr>
@@ -38,7 +38,7 @@
                             <th ng-repeat="item in vm.authListHead track by $index" ng-if="$index!=2&&$index!=5">{{item | authName}}</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="row in $data" ng-class={"selected":vm.checkedAuth.items[row[0]]}>
+                    <tr ng-repeat="row in $data" ng-class={selected:vm.checkedAuth.items[row[0]]}>
                         <td>
                             <input type="checkbox" ng-model="vm.checkedAuth.items[row[0]]" ng-click="vm.selectSame(row[0],$event)">
                         </td>

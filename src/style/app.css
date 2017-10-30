@@ -1397,7 +1397,7 @@ label + hr {
     margin: 20px 0;
     position: relative
 }
-.step-content .side-control{
+.auth-content .side-control{
     position: absolute;right: 20px
 }
 

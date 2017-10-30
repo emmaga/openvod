@@ -162,12 +162,14 @@
                     self.authListHead = []
                     self.selectedAuth = []
                     self.checkboxes = { items: {} }
+                    self.checkedModules = {}
                     self.selectedIdx = 0
                     self.tableParams = userRoleUtil.loadUserList(0, self, self.loadAuthList)
                     self.checkedAuth = { checked: false, items: {} }
                     // 设置类型
                     $scope.$watch('vm.selectType', function (value) {
-                        self.checkboxes = { items: {} }
+                        self.checkedAuth.items = {}
+                        self.checkedModules = {}
                         if (value == 'User') {
                             self.tableParams = userRoleUtil.loadUserList(0, self)
                         } else {
@@ -175,51 +177,55 @@
                         }
                     })
 
-                    // $scope.$watch('vm.checkedAuth.items', function (value) {
-                    //     for(var i in value){
-                            
-                    //         var obj=R.find(R.propEq('0',i-0))(self.authListData)
-                    //         var name=obj[4]  // 获取选中对象的对象类型
-                    //         console.error(name,value[i])
-                            
-                    //         var sameNameArray=R.filter(function(t){
-                    //             return t[4]==name
-                    //         },self.authListData)
-                    //         console.error(sameNameArray)
-
-                    //         R.forEach(function(t){
-                    //             self.checkedAuth.items[t[0]]=value[i]
-                    //         })(sameNameArray)
-                    //     }
-                    // },true)
-
+                    $scope.$watch('vm.checkedModules', function (value) {
+                        for (var i in self.checkedModules) {
+                            var sameNameArray = R.filter(function (t) {
+                                return t[4] == i
+                            }, self.authListData)
+                            R.forEach(function (t) {
+                                self.checkedAuth.items[t[0]] = self.checkedModules[i]
+                            })(sameNameArray)
+                        }
+                    }, true)
                 };
 
+                // 全选
                 self.checkAll = function (event) {
+                    var moduleList = []
                     if (self.authListData) {
                         for (var i = 0; i < self.authListData.length; i++) {
                             self.checkedAuth.items[self.authListData[i][0]] = event.target.checked
+                            moduleList.push(self.authListData[i][4])  // 当前页所有模块
                         }
+
+                        moduleList = R.uniq(moduleList) // 去重
+                        R.forEach(function (t) {
+                            self.checkedModules[t] = event.target.checked   // 设置已选模块
+                        })(moduleList)
                     }
                 }
 
-                self.selectSame = function (id,event) {
-                    var obj=R.find(R.propEq('0',id-0))(self.authListData)
-                    var name=obj[4]  // 获取选中对象的对象类型
-                    
-                    var sameNameArray=R.filter(function(t){
-                        return t[4]==name
-                    },self.authListData)
-                    console.error(sameNameArray)
+                // 勾选同一对象类型
+                self.selectSame = function (id, event) {
+                    var obj = R.find(R.propEq('0', id - 0))(self.authListData)
+                    var name = obj[4]  // 获取选中对象的对象类型
 
-                    R.forEach(function(t){
-                        self.checkedAuth.items[t[0]]=event.target.checked
+                    var sameNameArray = R.filter(function (t) {
+                        return t[4] == name
+                    }, self.authListData)
+
+                    // 已选择模块
+                    self.checkedModules[name] = event.target.checked
+
+                    R.forEach(function (t) {
+                        self.checkedAuth.items[t[0]] = event.target.checked
                     })(sameNameArray)
                 }
 
                 // 加载对应权限列表
                 self.loadAuthList = function (id, idx) {
-                    self.checkedAuth.items = {}
+                    self.checkedAuth.items = {}  // 切换用户或角色时，清空操作对象
+                    self.checkedModules = {} // 切换用户或角色时，清空操作对象
                     self.selectedIdx = idx
                     var type = self.selectType.toLowerCase()
                     self.targetID = id
@@ -227,42 +233,100 @@
                 }
 
                 self.deleteAuth = function () {
-                    self.selectedAuth = []
-                    if (self.controlType != 'delete') return
                     for (var i in self.checkedAuth.items) {
                         if (self.checkedAuth.items[i]) {
                             self.selectedAuth.push(i - 0)
                         }
                     }
-                    if (confirm("确定取消授权吗？")) {
-                        var data = {
-                            "action": "revokes",
-                            "token": util.getParams("token"),
-                            "data": {
-                                "IDS": self.selectedAuth
-                            }
+                    var data = {
+                        "action": "revokes",
+                        "token": util.getParams("token"),
+                        "data": {
+                            "IDS": self.selectedAuth
                         }
-                        $http({
-                            method: 'POST',
-                            url: util.getApiUrl('privilege', '', 'server'),
-                            data: data
-                        }).then(function successCallback(response) {
-                            var data = response.data;
-                            if (data.rescode == '200') {
-                                alert('取消授权成功！')
-                                self.loadAuthList(self.targetID);
-                            } else if (data.rescode == '401') {
-                                alert('访问超时，请重新登录');
-                                $state.go('login');
-                            } else {
-                                alert('加载失败' + data.errInfo);
-                            }
-                        }, function errorCallback(response) {
-                            alert('连接服务器出错，请重新导出');
-                        }).finally(function (value) {
-                            self.saving = false;
-                        });
                     }
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('privilege', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert('取消授权成功！')
+                            self.loadAuthList(self.targetID, self.selectedIdx);
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('加载失败' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错，请重新导出');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+
+
+                // 后端接口尚不完善，手动获取一次全部权限列表。一次删除所有勾选的对象类型
+                self.loadAllData = function () {
+                    self.selectedAuth = []
+                    if (self.controlType != 'delete') return
+                    
+                    var flag = true;
+                    for (var j in self.checkedModules) {
+                        if (self.checkedModules) {
+                            flag = false
+                        }
+                    }
+                    if(flag){
+                        alert("没有选择任何模块，请选择")
+                        return false;
+                    }
+
+                    if (!confirm("确定取消授权吗？")) return
+                    var data = JSON.stringify({
+                        "action": "getPrivilege",
+                        "token": util.getParams('token'),
+                        "data": {
+                            "per_page": 999,
+                            "page": 1,
+                            "ID": self.targetID
+                        }
+                    });
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl(self.selectType.toLowerCase() + 'manager', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        self.checkedAuth.checked = false
+                        if (data.rescode == '200') {
+                            var authListData = data.data.data.data
+                            // 加载完，勾选已选择的模块
+                            if (self.checkedModules) {
+                                for (var i in self.checkedModules) {
+                                    var sameNameArray;
+                                    sameNameArray = R.filter(function (t) {
+                                        return t[4] == i
+                                    }, authListData)
+                                    R.forEach(function (t) {
+                                        self.checkedAuth.items[t[0]] = self.checkedModules[i]
+                                    })(sameNameArray)
+                                }
+                            }
+                            self.deleteAuth()  // 取消授权
+                        } else if (data.rescode == '401') {
+                            alert('访问超时，请重新登录');
+                            $state.go('login');
+                        } else {
+                            alert('获取列表失败，' + data.errInfo);
+                        }
+                    }, function errorCallback(data, status, headers, config) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
                 }
             }
         ])
@@ -1003,12 +1067,12 @@
                     );
                     return tableParams
                 },
-                'loadAuthList': function (id, type, obj) {
+                'loadAuthList': function (id, type, obj, num) {
                     obj.targetID = id
                     var tableParams = new NgTableParams(
                         {
                             page: 1,
-                            count: 15,
+                            count: num ? num : 15, // 指定每页显示数目
                             url: ''
                         },
                         {
@@ -1042,9 +1106,21 @@
                                         params.total(data.data.total);
                                         obj.authListHead = data.data.data.header
                                         obj.authListData = data.data.data.data
+
+                                        // 加载完，勾选已选择的模块
+                                        if (obj.checkedModules) {
+                                            for (var i in obj.checkedModules) {
+                                                var sameNameArray = R.filter(function (t) {
+                                                    return t[4] == i
+                                                }, obj.authListData)
+                                                R.forEach(function (t) {
+                                                    obj.checkedAuth.items[t[0]] = obj.checkedModules[i]
+                                                })(sameNameArray)
+                                            }
+                                        }
                                         // 按对象类型排序
-                                        obj.authListData.sort(function(a,b){
-                                            return  a[4].localeCompare(b[4])
+                                        obj.authListData.sort(function (a, b) {
+                                            return a[4].localeCompare(b[4])
                                         })
                                         return obj.authListData;
                                     } else if (data.rescode == '401') {
