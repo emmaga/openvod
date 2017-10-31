@@ -24623,6 +24623,7 @@
                 self.cateIndex; // 当前选中分类index
 
                 self.init = function () {
+                    self.cateIndex=0;
                     self.viewId = $stateParams.moduleId;
                     self.defaultLangCode = util.getDefaultLangCode();
                     self.loadInfo();
