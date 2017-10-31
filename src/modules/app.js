@@ -943,6 +943,17 @@
                     }
                 })
                 
+                // 烟草局分类视频
+                .state('app.tvAdmin.YCJ_MultVideoCategory', {
+                    url: '/YCJ_MultVideoCategory?moduleId&label',
+                    templateUrl: 'pages/tv/multVideoCategory.html',
+                    resolve: {
+                        resB: ['resA', 'resWelcome', function(resA, resWelcome){
+
+                        }]
+                    }
+                })
+                
                 // 烟草局培训动态
                 .state('app.tvAdmin.YCJ_TextList', {
                     url: '/YCJ_TextList?moduleId&label',

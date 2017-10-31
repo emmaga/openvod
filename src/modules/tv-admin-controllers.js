@@ -548,10 +548,16 @@
                         $state.go('app.tvAdmin.YCJ_TextList', { moduleId: branch.data.moduleId, label: branch.label });
                         self.changeMenuInfo();
                     }
-                    
+
                     // 烟草局多图文
                     if (branch.data.type == 'YCJ_PicText') {
                         $state.go('app.tvAdmin.YCJ_PicText', { moduleId: branch.data.moduleId, label: branch.label });
+                        self.changeMenuInfo();
+                    }
+
+                    // 烟草局分类视频
+                    if (branch.data.type == 'YCJ_MultVideoCategory') {
+                        $state.go('app.tvAdmin.YCJ_MultVideoCategory', { moduleId: branch.data.moduleId, label: branch.label });
                         self.changeMenuInfo();
                     }
 
@@ -23859,7 +23865,7 @@
                 var self = this;
                 self.init = function () {
                     self.viewId = $scope.app.maskParams.viewId;
-
+                    self.cateId = $scope.app.maskParams.cateId;
                     // 获取编辑多语言信息
                     self.editLangs = util.getParams('editLangs');
 
@@ -23918,6 +23924,22 @@
                         },
                         "lang": util.langStyle()
                     })
+                    if (self.cateId) {
+                        data = JSON.stringify({
+                            "token": util.getParams('token'),
+                            "action": "addVideo",
+                            "viewID": Number(self.viewId),
+                            "data": {
+                                "CategoryID": self.cateId,
+                                "Title": self.Title,
+                                "PicURL": self.imgs1.data[0].src,
+                                "PicSize": self.imgs1.data[0].fileSize,
+                                "VideoURL": self.imgs2.data[0].src,
+                                "VideoSize": self.imgs2.data[0].fileSize
+                            },
+                            "lang": util.langStyle()
+                        })
+                    }
                     self.saving = true;
                     $http({
                         method: 'POST',
@@ -24080,17 +24102,18 @@
                 self.init = function () {
                     self.viewId = $scope.app.maskParams.viewId;
                     self.info = $scope.app.maskParams.videoInfo;
+                    self.cateId = $scope.app.maskParams.cateId;
                     self.Title = self.info.Title;
 
                     // 获取编辑多语言信息
                     self.editLangs = util.getParams('editLangs');
 
                     // 初始化频道图片
-                    self.imgs1 = new Imgs([{ "ImageURL": self.info.PicURL, "ImageSize": self.info.PicSize }], true);
+                    self.imgs1 = new util.initUploadImgs([{ "ImageURL": self.info.PicURL, "ImageSize": self.info.PicSize }], self, $scope, 'imgs1', true);
                     self.imgs1.initImgs();
 
                     // 初始化频道图片
-                    self.imgs2 = new Imgs([{ "ImageURL": self.info.VideoURL, "ImageSize": self.info.VideoSize }], true);
+                    self.imgs2 = new util.initUploadImgs([{ "ImageURL": self.info.VideoURL, "ImageSize": self.info.VideoSize }], self, $scope, 'imgs2', true);
                     self.imgs2.initImgs();
 
                 }
@@ -24144,6 +24167,23 @@
                         },
                         "lang": util.langStyle()
                     })
+                    if (self.cateId) {
+                        data = JSON.stringify({
+                            "token": util.getParams('token'),
+                            "action": "editVideo",
+                            "viewID": Number(self.viewId),
+                            "data": {
+                                "CategoryID": self.cateId,
+                                "ID": self.info.ID,
+                                "Title": self.Title,
+                                "PicURL": self.imgs1.data[0].src,
+                                "PicSize": self.imgs1.data[0].fileSize,
+                                "VideoURL": self.imgs2.data[0].src,
+                                "VideoSize": self.imgs2.data[0].fileSize
+                            },
+                            "lang": util.langStyle()
+                        })
+                    }
                     self.saving = true;
                     $http({
                         method: 'POST',
@@ -24174,125 +24214,6 @@
                     setTimeout(function () {
                         document.getElementById(e).click();
                     }, 0);
-                }
-
-                function Imgs(imgList, single) {
-                    this.initImgList = imgList;
-                    this.data = [];
-                    this.maxId = 0;
-                    this.single = single ? true : false;
-                }
-
-                Imgs.prototype = {
-                    initImgs: function () {
-                        var l = this.initImgList;
-                        for (var i = 0; i < l.length; i++) {
-                            this.data[i] = {
-                                "src": l[i].ImageURL,
-                                "fileSize": l[i].ImageSize,
-                                "id": this.maxId++,
-                                "progress": 100
-                            };
-                        }
-                    },
-                    deleteById: function (id) {
-                        var l = this.data;
-                        for (var i = 0; i < l.length; i++) {
-                            if (l[i].id == id) {
-                                // 如果正在上传，取消上传
-                                if (l[i].progress < 100 && l[i].progress != -1) {
-                                    l[i].xhr.abort();
-                                }
-                                l.splice(i, 1);
-                                break;
-                            }
-                        }
-                    },
-
-                    add: function (xhr, fileName, fileSize) {
-                        this.data.push({
-                            "xhr": xhr,
-                            "fileName": fileName,
-                            "fileSize": fileSize,
-                            "progress": 0,
-                            "id": this.maxId
-                        });
-                        return this.maxId++;
-                    },
-
-                    update: function (id, progress, leftSize, fileSize) {
-                        for (var i = 0; i < this.data.length; i++) {
-                            var f = this.data[i];
-                            if (f.id === id) {
-                                f.progress = progress;
-                                f.leftSize = leftSize;
-                                f.fileSize = fileSize;
-                                break;
-                            }
-                        }
-                    },
-
-                    setSrcSizeByXhr: function (xhr, src, size) {
-                        for (var i = 0; i < this.data.length; i++) {
-                            if (this.data[i].xhr == xhr) {
-                                this.data[i].src = src;
-                                this.data[i].fileSize = size;
-                                break;
-                            }
-                        }
-                    },
-
-                    uploadFile: function (e, o) {
-
-                        // 如果这个对象只允许上传一张图片
-                        if (this.single) {
-                            // 删除第二张以后的图片
-                            for (var i = 1; i < this.data.length; i++) {
-                                this.deleteById(this.data[i].id);
-                            }
-                        }
-
-                        var file = $scope[e];
-                        var uploadUrl = CONFIG.uploadUrl;
-                        var xhr = new XMLHttpRequest();
-                        var fileId = this.add(xhr, file.name, file.size, xhr);
-                        // self.search();
-
-                        util.uploadFileToUrl(xhr, file, uploadUrl, 'normal',
-                            function (evt) {
-                                $scope.$apply(function () {
-                                    if (evt.lengthComputable) {
-                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                                        o.update(fileId, percentComplete, evt.total - evt.loaded, evt.total);
-                                        console && console.log(percentComplete);
-                                    }
-                                });
-                            },
-                            function (xhr) {
-                                var ret = JSON.parse(xhr.responseText);
-                                console && console.log(ret);
-                                $scope.$apply(function () {
-                                    o.setSrcSizeByXhr(xhr, ret.upload_path, ret.size);
-                                    // 如果这个对象只允许上传一张图片
-                                    if (o.single) {
-                                        // 如果长度大于1张图片，删除前几张图片
-                                        if (o.data.length > 1) {
-                                            for (var i = 0; i < o.data.length - 1; i++) {
-                                                o.deleteById(o.data[i].id);
-                                            }
-                                        }
-                                    }
-                                });
-                            },
-                            function (xhr) {
-                                $scope.$apply(function () {
-                                    o.update(fileId, -1, '', '');
-                                });
-                                console && console.log('failure');
-                                xhr.abort();
-                            }
-                        );
-                    }
                 }
 
             }
@@ -24484,7 +24405,7 @@
                     }
                     var data = JSON.stringify({
                         "token": util.getParams('token'),
-                        "action": "delText",      
+                        "action": "delText",
                         "viewID": self.viewId,
                         "data": {
                             "TextList": [
@@ -24621,7 +24542,6 @@
                 self.init = function () {
                     self.viewId = $scope.app.maskParams.viewId;
                     var itemInfo = $scope.app.maskParams.itemInfo
-                    console.error(itemInfo)
                     self.num = itemInfo.TextNum
                     self.name = {
                         "zh-CN": itemInfo.Text["zh-CN"][0],
@@ -24691,6 +24611,345 @@
                         self.saving = false;
                     });
 
+                }
+            }
+        ])
+
+        // 分类多视频图文
+        .controller('multVideoCategoryController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util',
+            function ($scope, $state, $http, $stateParams, $location, util) {
+                var self = this;
+                self.info = []; // 分类＋分类下的图文信息
+                self.cateIndex; // 当前选中分类index
+
+                self.init = function () {
+                    self.viewId = $stateParams.moduleId;
+                    self.defaultLangCode = util.getDefaultLangCode();
+                    self.loadInfo();
+                }
+
+                /**
+                 * 添加该模版的图文分类
+                 *
+                 * @method addCategory
+                 */
+                self.addCategory = function () {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.loadInfo = self.loadInfo;
+                    $scope.app.showHideMask(true, 'pages/tv/multVideoCategoryAdd.html');
+                }
+
+                /**
+                 * 删除图文分类
+                 *
+                 * @method delCate
+                 */
+                self.delCate = function () {
+                    if (self.info[self.cateIndex].Videos.length > 0) {
+                        alert("请先删除该分类下视频")
+                        return false;
+                    }
+                    if (!confirm('确认删除？')) {
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "delCategory",
+                        "viewID": self.viewId,
+                        "lang": util.langStyle(),
+                        "data": {
+                            "CategoryList": [{
+                                "ID": self.info[self.cateIndex].ID
+                            }]
+                        }
+                    });
+                    self.cateDeleting = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert("删除成功")
+                            self.loadInfo();
+                        }
+                        else {
+                            alert('连接服务器出错' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.cateDeleting = false;
+                    });
+                }
+
+                /**
+                 * 编辑该模版的图文分类
+                 *
+                 * @method editCate
+                 */
+                self.editCate = function () {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.cateId = self.info[self.cateIndex].ID;
+                    $scope.app.maskParams.info = self.info[self.cateIndex];
+                    $scope.app.maskParams.loadInfo = self.loadInfo;
+                    $scope.app.showHideMask(true, 'pages/tv/multVideoCategoryEdit.html');
+                }
+
+                /**
+                 * 编辑图文
+                 *
+                 * @method editPic
+                 * @param index 图片在该分类下列表中的序号
+                 */
+                self.editVideo = function (index) {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.cateId = self.info[self.cateIndex].ID;
+                    $scope.app.maskParams.videoInfo = self.info[self.cateIndex].Videos[index];
+                    $scope.app.maskParams.loadInfo = self.loadInfo;
+                    $scope.app.showHideMask(true, 'pages/tv/multVideoTextEdit.html');
+                }
+
+                /**
+                 * 添加该模版的图文
+                 *
+                 * @method addPic
+                 */
+                self.addVideo = function () {
+                    $scope.app.maskParams.viewId = self.viewId;
+                    $scope.app.maskParams.cateId = self.info[self.cateIndex].ID;
+                    $scope.app.maskParams.loadInfo = self.loadInfo;
+                    $scope.app.showHideMask(true, 'pages/tv/multVideoTextAdd.html');
+                }
+
+                /**
+                 * 删除图文
+                 *
+                 * @method delPic
+                 * @param index 图文在列表中的序号
+                 */
+                self.delVideo = function (index) {
+                    if (!confirm('确认删除？')) {
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "delVideo",
+                        "viewID": self.viewId,
+                        "lang": util.langStyle(),
+                        "data": {
+                            "CategoryID": self.info[self.cateIndex].ID,
+                            "ID": self.info[self.cateIndex].Videos[index].ID
+                        }
+                    });
+                    self.picDeleting = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            alert("删除成功")
+                            self.loadInfo();
+                        }
+                        else {
+                            alert('连接服务器出错' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.picDeleting = false;
+                    });
+                }
+
+                /**
+                 * 加载分类及分类下的信息
+                 *
+                 * @method loadInfo
+                 */
+                self.loadInfo = function () {
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "get",
+                        "viewID": self.viewId,
+                        "lang": util.langStyle()
+                    });
+                    self.loading = true;
+                    $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        var data = response.data;
+                        if (data.rescode == '200') {
+                            self.info = data.data.res;
+
+                            R.forEach(function (t) {
+                                t.CategoryName = JSON.parse(t.CategoryName)
+                            })(self.info)
+
+                            if (!self.cateIndex || (self.cateIndex + 1) > self.info.length) {
+                                self.cateIndex = 0;
+                            }
+                            //判断分类下内容为空时，sub属性为空数组，不然模板的ng-repeat会报错
+                            if (self.info.length == 0) {
+                                self.info[0].sub = [];
+                            }
+                        }
+                        else {
+                            alert('连接服务器出错' + data.errInfo);
+                        }
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.loading = false;
+                    });
+                }
+
+                /**
+                 * 加载分类及分类下的信息
+                 *
+                 * @method loadInfo
+                 * @param index 跳转分类在self.info中的index
+                 */
+                self.loadVideoList = function (index) {
+                    self.cateIndex = index;
+                }
+
+            }
+        ])
+
+        //分类多视频图文添加分类
+        .controller('multVideoCategoryAddController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+                self.viewId = 0;
+                self.imgs1 = null;
+                self.editLangs = util.getParams('editLangs');
+
+                self.init = function () {
+                    self.viewId = $scope.app.maskParams.viewId;
+                    self.imgs1 = new util.initUploadImgs([], self, $scope, 'imgs1', true);
+                }
+                // 图片上传相关
+                self.clickUpload = function (e) {
+                    setTimeout(function () {
+                        document.getElementById(e).click();
+                    }, 0);
+                }
+                /**
+                 * 关闭弹窗
+                 *
+                 * @method cancel
+                 */
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                /**
+                 * 新建分类提交
+                 *
+                 * @method save
+                 */
+                self.save = function () {
+                    // if (!(self.imgs1.data[0] && self.imgs1.data[0].src)) {
+                    //     alert('请上传图片');
+                    //     return;
+                    // }
+
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "addCategory",
+                        "viewID": self.viewId - 0,
+                        "lang": util.langStyle(),
+                        "data": {
+                            "CategoryName": self.cateName
+                        }
+                    });
+
+                    self.saving = true;
+
+                    return $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        if (response.data.rescode == 200) {
+                            alert("添加成功")
+                        }
+                        $scope.app.showHideMask(false);
+                        $scope.app.maskParams.loadInfo();
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
+                }
+            }
+        ])
+
+        //分类多视频图文编辑分类
+        .controller('multVideoCategoryEditController', ['$scope', '$state', '$http', '$stateParams', '$location', 'util', 'CONFIG',
+            function ($scope, $state, $http, $stateParams, $location, util, CONFIG) {
+                var self = this;
+                self.viewId = 0;
+                self.imgs1 = null;
+                self.editLangs = util.getParams('editLangs');
+
+                self.init = function () {
+                    self.viewId = $scope.app.maskParams.viewId;
+                    self.cateName = $scope.app.maskParams.info.CategoryName
+                }
+                /**
+                 * 关闭弹窗
+                 *
+                 * @method cancel
+                 */
+                self.cancel = function () {
+                    $scope.app.showHideMask(false);
+                }
+
+                /**
+                 * 新建分类提交
+                 *
+                 * @method save
+                 */
+                self.save = function () {
+                    // if (!(self.imgs1.data[0] && self.imgs1.data[0].src)) {
+                    //     alert('请上传图片');
+                    //     return;
+                    // }
+
+                    var data = JSON.stringify({
+                        "token": util.getParams('token'),
+                        "action": "editCategory",
+                        "viewID": self.viewId - 0,
+                        "lang": util.langStyle(),
+                        "data": {
+                            "ID": $scope.app.maskParams.cateId,
+                            "CategoryName": self.cateName
+                        }
+                    });
+
+                    self.saving = true;
+
+                    return $http({
+                        method: 'POST',
+                        url: util.getApiUrl('commonview', '', 'server'),
+                        data: data
+                    }).then(function successCallback(response) {
+                        if (response.data.rescode == 200) {
+                            alert("修改成功")
+                        }
+                        $scope.app.showHideMask(false);
+                        $scope.app.maskParams.loadInfo();
+                    }, function errorCallback(response) {
+                        alert('连接服务器出错');
+                    }).finally(function (value) {
+                        self.saving = false;
+                    });
                 }
             }
         ])
