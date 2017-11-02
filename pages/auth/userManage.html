@@ -1,0 +1,24 @@
+<div ng-controller="userManageController as vm" ng-init="vm.init()" class="content-right">
+    <h4>用户管理</h4>
+    <hr>
+    <a ng-click="vm.addUser()" class="button button-light">
+        <i class="icon ion-ios-plus-outline"></i> 添加用户
+    </a>
+
+    <table ng-table="vm.tableParams" class="table table-hover">
+        <tr ng-repeat="row in $data">
+            <td width="100" title="'ID'">
+                {{row.ID}}
+            </td>
+            <td title="'角色名'">
+                {{row.UserName}}
+            </td>
+            <td width="160" title="'操作'">
+                <a ng-click="vm.deleteUser(row.ID)" ng-if="row.UserName!='root'">删除</a>
+                <a ng-click="vm.editUser(row.ID)">编辑</a>
+                <a ng-click="vm.editUserRole(row.ID)">角色管理</a>
+            </td>
+        </tr>
+    </table>
+    <div ng-show="vm.loading">loading...</div>
+</div>

@@ -1,0 +1,24 @@
+<div ng-controller="roleManageController as vm" ng-init="vm.init()" class="content-right">
+    <h4>角色管理</h4>
+    <hr>
+    <a ng-click="vm.addRole()" class="button button-light">
+        <i class="icon ion-ios-plus-outline"></i> 添加角色
+    </a>
+
+    <table ng-table="vm.tableParams" class="table table-hover">
+        <tr ng-repeat="row in $data">
+            <td width="100" title="'ID'">
+                {{row.ID}}
+            </td>
+            <td title="'用户名'">
+                {{row.RoleName}}
+            </td>
+            <td width="160" title="'操作'">
+                <a ng-click="vm.deleteRole(row.ID)">删除</a>
+                <a ng-click="vm.editRole(row.ID)">编辑</a>
+                <a ng-click="vm.editRoleUser(row.ID)">用户管理</a>
+            </td>
+        </tr>
+    </table>
+    <div ng-show="vm.loading">loading...</div>
+</div>

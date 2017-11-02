@@ -31,6 +31,7 @@ var remember = require('gulp-remember');
 var jsFiles = [
     './plugins/laydate/laydate.js',
     './src/modules/controllers.js',
+    './src/modules/auth-controller.js',
     './src/modules/tv-admin-controllers.js',
     './src/modules/project-config-controllers.js',
     './src/modules/member-card-controllers.js',

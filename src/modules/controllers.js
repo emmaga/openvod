@@ -530,6 +530,11 @@
                                 $state.go('app.advanceGoodsOrder', {'appId': n});
                             }
                             break;
+                        case 18:
+                            if (!$state.includes('app.auth')) {
+                                $state.go('app.auth.userManage', {'appId': n});
+                            }
+                            break;
                         default:
                             break;
 

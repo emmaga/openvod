@@ -176,6 +176,111 @@
             }
         }])
 
+        .filter("authName", ['$filter', function ($filter) {
+            return function (authName) {
+                var flag;
+                // translate to do
+                switch (authName) {
+                    case 'Shop':
+                        flag = '商城';
+                        break;
+                    case 'Statistics':
+                        flag = '报表统计';
+                        break;
+                    case 'FXShopOrder':
+                        flag = '预售订单';
+                        break;
+                    case 'Room':
+                        flag = '酒店客房';
+                        break;
+                    case 'TermManage':
+                        flag = '终端管理';
+                        break;
+                    case 'TV':
+                        flag = 'TV界面';
+                        break;
+                    case 'Bus':
+                        flag = '班车预约';
+                        break;
+                    case 'BusOrder':
+                        flag = '班车订单';
+                        break;
+                    case 'Hotel':
+                        flag = '项目配置';
+                        break;
+                    case 'MemberManage':
+                        flag = '会员';
+                        break;
+                    case 'ScrollingMarquee':
+                        flag = '滚动字幕';
+                        break;
+                    case 'FXShop':
+                        flag = '预售商品 ';
+                        break;
+                    case 'MoviePrice':
+                        flag = '电影价格';
+                        break;
+                    case 'ShopOrder':
+                        flag = '商城订单';
+                        break;
+                    case 'UserManage':
+                        flag = '用户管理';
+                        break;
+                    case 'Ticket':
+                        flag = '门票';
+                        break;
+                    case 'WeiXinManage':
+                        flag = '微信用户';
+                        break;
+                    case 'RoomOrder':
+                        flag = '预订订单';
+                        break;
+                    case 'QrcodeScene':
+                        flag = '扫码统计';
+                        break;
+                    case 'ROLE':
+                        flag = '角色';
+                        break;
+                    case 'USER':
+                        flag = '用户';
+                        break;
+                    case 'MasterType':
+                        flag = '控制类型';
+                        break;
+                    case 'MasterValue':
+                        flag = '控制值';
+                        break;
+                    case 'OperationType':
+                        flag = '操作类型';
+                        break;
+                    case 'ObjectType':
+                        flag = '对象类型';
+                        break;
+                    case 'ObjectValue':
+                        flag = '对象值';
+                        break;
+                    case 'Add':
+                        flag = '新增';
+                        break;
+                    case 'Edit':
+                        flag = '编辑';
+                        break;
+                    case 'Delete':
+                        flag = '删除';
+                        break;
+                    case 'Read':
+                        flag = '读取';
+                        break;
+                    case 'Export':
+                        flag = '导出';
+                        break;
+                    default:
+                        flag = authName
+                }
+                return flag;
+            }
+        }])
+
         // 是否生效
         .filter('isValid', function () {
             return function (input) {

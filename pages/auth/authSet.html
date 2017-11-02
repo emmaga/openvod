@@ -1,0 +1,63 @@
+<div ng-controller="authSetController as vm" ng-init="vm.init()" class="content-right">
+    <h4>权限设置</h4>
+    <hr>
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step">
+                <span type="button" class="btn btn-default btn-circle" ng-class="{'btn-primary':vm.stepIndex==0}">1</span>
+                <p>选择设置对象</p>
+            </div>
+            <div class="stepwizard-step">
+                <span type="button" class="btn btn-default btn-circle" ng-class="{'btn-primary':vm.stepIndex==1}">2</span>
+                <p>选择功能模块</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="step-content" ng-show="vm.stepIndex==0">
+        <div class="step-head form-inline">
+            当前权限类型
+            <select ng-model="vm.selectType" class="form-control">
+                <option value="User">用户</option>
+                <option value="Role">角色</option>
+            </select>
+        </div>
+        <table ng-table="vm.tableParams" class="table table-hover">
+            <tr ng-repeat="row in $data">
+                <td header="'checkbox.html'" width="50">
+                    <input type="checkbox" ng-model="vm.checkboxes.items[row[vm.selectType+'Name']]">
+                </td>
+                <td width="50" title="'ID'">{{row.ID}}</td>
+                <td ng-if="vm.selectType=='User'" title="'用户名'">{{row[vm.selectType+'Name']}}</td>
+                <td ng-if="vm.selectType=='Role'" title="'角色名'">{{row[vm.selectType+'Name']}}</td>
+            </tr>
+        </table>
+        <script type="text/ng-template" id="checkbox.html">
+            <input type="checkbox" ng-model="vm.checkboxes.checked" ng-click="vm.checkAll($event)"/>
+        </script>
+        <div class="text-right">
+            <a class="btn btn-default" ng-show="vm.stepIndex!=0" ng-click="vm.prevStep()">上一步</a>
+            <a class="btn btn-default" ng-show="vm.stepIndex!=1" ng-click="vm.nextStep()">下一步</a>
+            <a class="btn btn-default" ng-show="vm.stepIndex==1">保存设置</a>
+        </div>
+    </div>
+
+    <div class="step-content" ng-show="vm.stepIndex==1">
+        <div class="step-head">
+            当前设置对象为
+            <b>{{vm.selectType=='User'?'用户':'角色'}}</b>：
+            <span ng-repeat="item in vm.target" style="margin-right: 10px" class="btn btn-default btn-sm">{{item}}</span>
+        </div>
+        <hr>
+        {{vm.checkedModules}}
+        <div class="step-head">
+            选择功能模块
+            <br>
+            <span ng-repeat="item in vm.authList" ng-model="vm.checkedModules[item]" uib-btn-checkbox class="tag">{{item | authName}}</span>
+        </div>
+        <div class="text-right">
+            <a class="btn btn-default" ng-show="vm.stepIndex!=0" ng-click="vm.prevStep()">上一步</a>
+            <a class="btn btn-default" ng-show="vm.stepIndex==1" ng-click="vm.save()">保存设置</a>
+        </div>
+    </div>
+</div>
