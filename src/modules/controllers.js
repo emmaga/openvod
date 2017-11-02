@@ -4951,6 +4951,7 @@
                     self.loadAddPrice();
                     self.loadTicketPrice();
                     self.multiLang = util.getParams('editLangs');
+                    self.selectedCate = 'all'
                 }
 
                 self.delAddPrice = function (n) {
@@ -5106,7 +5107,10 @@
                 self.showAllTicket = function () {
                     var data = JSON.stringify({
                         "action": "getList",
-                        "token": token
+                        "token": token,
+                        "data": {
+                            'CategoryIDS': self.selectedCate == 'all' ? null : self.selectedCate
+                        }
                     })
 
                     $http({
@@ -5117,7 +5121,14 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.ticketEditing = true
-                            self.ticketList = data.data
+                            self.ticketList = []
+                            R.forEach(function (t) {
+                                t.Name = t.CategoryName + ' —— ' + t.Name
+                                self.ticketList.push(t);
+                            })(data.data)
+                            self.ticketList.sort(function (a, b) {
+                                return a.Name.localeCompare(b.Name)
+                            });
                             self.ticketList.unshift({'Name': '请选择', 'ID': ''})
                             self.ticketList.push({'Name': '取消绑定', 'ID': 0})
                             self.selected = self.ticket.TicketID !== 0 ? self.ticket.TicketID : ''

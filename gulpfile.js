@@ -65,7 +65,7 @@ var cssFiles = [
 
 gulp.task('uglifyJS', function () {
     return gulp.src(jsFiles)
-        .pipe(plumber())
+        .pipe(plumber())     // 编译出错时，不会中断任务
         .pipe(cached('js-task'))
         .pipe(uglify())
         .pipe(remember('js-task'))

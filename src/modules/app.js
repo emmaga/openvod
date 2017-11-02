@@ -1121,7 +1121,7 @@
 
                 .state('app.ticket', {
                     url: '/ticket',
-                    templateUrl: 'pages/ticket.html'
+                    templateUrl: 'pages/tickets/ticket.html'
                 })
 
                 .state('app.advanceGoods', {
