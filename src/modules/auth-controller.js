@@ -170,6 +170,7 @@
                     $scope.$watch('vm.selectType', function (value) {
                         self.checkedAuth.items = {}
                         self.checkedModules = {}
+                        self.selectedIdx = 0
                         if (value == 'User') {
                             self.tableParams = userRoleUtil.loadUserList(0, self)
                         } else {
