@@ -4362,6 +4362,7 @@
                     self.defaultLangCode = util.getDefaultLangCode();
                     self.getRoomTags();
                     self.ifCheckedTags = [];
+                    self.minOrderQuantity=0;
                     self.imgs = new Imgs([]);
                     self.seq = $scope.app.maskParams.roomAmount + 1;
                 }
@@ -4439,6 +4440,7 @@
                             "ViewURL": self.room.ViewURL ? self.room.ViewURL : '',
                             "Description": self.room.Description,
                             "RoomTypeName": self.room.RoomTypeName,
+                            "MinOrderQuantity":self.minOrderQuantity,
                             // Roomsummary: self.room.Roomsummary
                             "Roomsummary": "",
                             "Seq": self.seq
@@ -4686,6 +4688,7 @@
                             self.room.ViewURL = data.ViewURL;
                             self.room.Roomsummary = data.Roomsummary;
                             self.room.Description = data.Description;
+                            self.minOrderQuantity = data.MinOrderQuantity;
                             for (var i = 0; i < self.ifCheckedTags.length; i++) {
                                 for (var j = 0; j < data.tags.length; j++) {
                                     if (self.ifCheckedTags[i].ID == data.tags[j].ID) {
@@ -4780,6 +4783,7 @@
                             "ViewURL": self.room.ViewURL ? self.room.ViewURL : '',
                             "Description": self.room.Description,
                             "RoomTypeName": self.room.RoomTypeName,
+                            "MinOrderQuantity":self.minOrderQuantity,
                             "Seq": self.seq
                         }
                     })
