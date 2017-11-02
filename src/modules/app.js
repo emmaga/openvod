@@ -6,6 +6,7 @@
         'pascalprecht.translate',
         'app.controllers',
         'app.tv-admin-controllers',
+        'app.auth',
         'app.project-config-controllers',
         'app.orders-controllers',
         'app.member-card-controllers',
@@ -52,6 +53,31 @@
                 .state('login', {
                     url: '/login',
                     templateUrl: 'pages/login.html'
+                })
+
+                .state('app.auth', {
+                    url: '/auth',
+                    templateUrl: 'pages/auth/auth.html'
+                })
+
+                .state('app.auth.userManage', {
+                    url: '/userManage',
+                    templateUrl: 'pages/auth/userManage.html'
+                })
+
+                .state('app.auth.roleManage', {
+                    url: '/roleManage',
+                    templateUrl: 'pages/auth/roleManage.html'
+                })
+
+                .state('app.auth.authSet', {
+                    url: '/authSet',
+                    templateUrl: 'pages/auth/authSet.html'
+                })
+
+                .state('app.auth.authView', {
+                    url: '/authView',
+                    templateUrl: 'pages/auth/authView.html'
                 })
 
                 .state('app', {
@@ -1095,7 +1121,7 @@
 
                 .state('app.ticket', {
                     url: '/ticket',
-                    templateUrl: 'pages/ticket.html'
+                    templateUrl: 'pages/tickets/ticket.html'
                 })
 
                 .state('app.advanceGoods', {

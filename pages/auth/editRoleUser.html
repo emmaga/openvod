@@ -1,0 +1,47 @@
+<div ng-controller="editRoleUserController as vm" ng-init="vm.init()" class="modal-dialog">
+    <div class="modal-content">
+        <!--loading-->
+        <form name="vmForm" ng-submit="vmForm.$valid && vm.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="vm.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">用户管理</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <table ng-table="vm.tableParams" class="table table-hover">
+                    <tr ng-repeat="row in $data">
+                        <td header="'checkbox.html'">
+                            <input type="checkbox" ng-model="vm.checkboxes.items[row.ID]"
+                                   ng-checked="vm.checkboxes.items[row.ID]" ng-click="vm.updateArray($event,row.ID)">
+                        </td>
+                        <td title="'ID'">
+                            {{row.ID}}
+                        </td>
+                        <td title="'用户名'">
+                            {{row.UserName}}
+                        </td>
+                    </tr>
+                </table>
+                <script type="text/ng-template" id="checkbox.html">
+                    <input type="checkbox" ng-model="vm.checkboxes.checked" ng-click="vm.checkAll($event)"/>
+                </script>
+            </div>
+            <div class="modal-footer" style="clear: both">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="vm.close()">{{'CANCEL' |
+                    translate}}
+                </button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary  btn-sm"
+                        ng-disabled="vmForm.oldPassword.$invalid || vmForm.password.$invalid || vm.form.passwordAgain!=vm.form.password">
+                    <i class="icon ion-ios-checkmark-outline"></i> 保存
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>

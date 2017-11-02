@@ -1,0 +1,37 @@
+<div ng-controller="editRoleController as editRole" ng-init="editRole.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <form name="editRoleForm" ng-submit="editRoleForm.$valid && editRole.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="editRole.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑角色</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>角色名</label>
+                    <input name="" required placeholder="请输入用户名" type="text" class="form-control" ng-model="editRole.form.roleName" name="roleName" readonly/>
+                </div>
+                <div class="form-group">
+                    <label>描述</label>
+                    <textarea name="" required placeholder="请输入用户名" type="text" class="form-control" ng-model="editRole.form.des" name="des"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="editRole.close()">{{'CANCEL' |
+                    translate}}
+                </button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="editRoleForm.oldPassword.$invalid || editRoleForm.password.$invalid || editRole.form.passwordAgain!=editRole.form.password">
+                    <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>

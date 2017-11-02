@@ -21136,7 +21136,7 @@
                             self.imgs2.data[0] = {
                                 src: self.projectData.Signature.Data.URL,
                                 progress: 100,
-                                fileSize: self.projectData.Font.Data.Size
+                                fileSize: self.projectData.Signature.Data.Size
                             };
                         } else if (data.rescode == '401') {
                             alert('访问超时，请重新登录');

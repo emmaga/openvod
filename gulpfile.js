@@ -31,6 +31,7 @@ var remember = require('gulp-remember');
 var jsFiles = [
     './plugins/laydate/laydate.js',
     './src/modules/controllers.js',
+    './src/modules/auth-controller.js',
     './src/modules/tv-admin-controllers.js',
     './src/modules/project-config-controllers.js',
     './src/modules/member-card-controllers.js',
@@ -64,7 +65,7 @@ var cssFiles = [
 
 gulp.task('uglifyJS', function () {
     return gulp.src(jsFiles)
-        .pipe(plumber())
+        .pipe(plumber())     // 编译出错时，不会中断任务
         .pipe(cached('js-task'))
         .pipe(uglify())
         .pipe(remember('js-task'))

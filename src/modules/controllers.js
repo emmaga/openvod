@@ -530,6 +530,11 @@
                                 $state.go('app.advanceGoodsOrder', {'appId': n});
                             }
                             break;
+                        case 18:
+                            if (!$state.includes('app.auth')) {
+                                $state.go('app.auth.userManage', {'appId': n});
+                            }
+                            break;
                         default:
                             break;
 
@@ -4362,6 +4367,7 @@
                     self.defaultLangCode = util.getDefaultLangCode();
                     self.getRoomTags();
                     self.ifCheckedTags = [];
+                    self.minOrderQuantity=0;
                     self.imgs = new Imgs([]);
                     self.seq = $scope.app.maskParams.roomAmount + 1;
                 }
@@ -4439,6 +4445,7 @@
                             "ViewURL": self.room.ViewURL ? self.room.ViewURL : '',
                             "Description": self.room.Description,
                             "RoomTypeName": self.room.RoomTypeName,
+                            "MinOrderQuantity":self.minOrderQuantity,
                             // Roomsummary: self.room.Roomsummary
                             "Roomsummary": "",
                             "Seq": self.seq
@@ -4686,6 +4693,7 @@
                             self.room.ViewURL = data.ViewURL;
                             self.room.Roomsummary = data.Roomsummary;
                             self.room.Description = data.Description;
+                            self.minOrderQuantity = data.MinOrderQuantity;
                             for (var i = 0; i < self.ifCheckedTags.length; i++) {
                                 for (var j = 0; j < data.tags.length; j++) {
                                     if (self.ifCheckedTags[i].ID == data.tags[j].ID) {
@@ -4780,6 +4788,7 @@
                             "ViewURL": self.room.ViewURL ? self.room.ViewURL : '',
                             "Description": self.room.Description,
                             "RoomTypeName": self.room.RoomTypeName,
+                            "MinOrderQuantity":self.minOrderQuantity,
                             "Seq": self.seq
                         }
                     })
@@ -4946,6 +4955,7 @@
                     self.loadAddPrice();
                     self.loadTicketPrice();
                     self.multiLang = util.getParams('editLangs');
+                    self.selectedCate = 'all'
                 }
 
                 self.delAddPrice = function (n) {
@@ -5101,7 +5111,10 @@
                 self.showAllTicket = function () {
                     var data = JSON.stringify({
                         "action": "getList",
-                        "token": token
+                        "token": token,
+                        "data": {
+                            'CategoryIDS': self.selectedCate == 'all' ? null : self.selectedCate
+                        }
                     })
 
                     $http({
@@ -5112,7 +5125,14 @@
                         var data = response.data;
                         if (data.rescode == '200') {
                             self.ticketEditing = true
-                            self.ticketList = data.data
+                            self.ticketList = []
+                            R.forEach(function (t) {
+                                t.Name = t.CategoryName + ' —— ' + t.Name
+                                self.ticketList.push(t);
+                            })(data.data)
+                            self.ticketList.sort(function (a, b) {
+                                return a.Name.localeCompare(b.Name)
+                            });
                             self.ticketList.unshift({'Name': '请选择', 'ID': ''})
                             self.ticketList.push({'Name': '取消绑定', 'ID': 0})
                             self.selected = self.ticket.TicketID !== 0 ? self.ticket.TicketID : ''

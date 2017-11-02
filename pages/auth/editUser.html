@@ -1,0 +1,60 @@
+<div ng-controller="editUserController as vm" ng-init="vm.init()" class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <!--loading-->
+        <form name="vmForm" ng-submit="vmForm.$valid && vm.submit()">
+            <!--header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="vm.close()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title">编辑用户</h5>
+            </div>
+            <!-- body -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>用户名</label> <br>
+                    {{vm.form.userName}}
+                    <!-- <input name="" required placeholder="请输入用户名" type="text" class="form-control" ng-model="vm.form.userName" name="userName"
+                    /> -->
+                </div>
+                <div class="form-group">
+                    <label>昵称</label>
+                    <input name="" placeholder="请输入用户名" type="text" class="form-control" ng-model="vm.form.nickName" name="nickName" />
+                </div>
+                <div class="form-group">
+                    <label>电话</label>
+                    <input name="" placeholder="请输入电话" type="text" class="form-control" ng-model="vm.form.phone" name="phone" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input name="" placeholder="请输入用户名" type="text" class="form-control" ng-model="vm.form.email" name="email" />
+                </div>
+                <!--名称-->
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" name="" required placeholder="请输入密码" class="form-control" ng-model="vm.form.password" name="password"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>确认密码</label>
+                    <input type="password" name="" required placeholder="请再次输入密码" class="form-control" ng-model="vm.form.passwordAgain" name="passwordAgain"
+                    />
+                </div>
+                <div style="color:red">
+                    <span ng-show="vm.form.passwordAgain!=vm.form.password">*两次密码输入不一致</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- 取消 -->
+                <button type="button" class="btn btn-default btn-sm" ng-click="vm.close()">{{'CANCEL' | translate}}
+                </button>
+                <!-- 提交 -->
+                <button type="submit" class="btn btn-primary  btn-sm" ng-disabled="vmForm.oldPassword.$invalid || vmForm.password.$invalid || vm.form.passwordAgain!=vm.form.password">
+                    <i class="icon ion-ios-checkmark-outline"></i> 提交
+                </button>
+                <!--footer end-->
+            </div>
+        </form>
+    </div>
+</div>
