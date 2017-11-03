@@ -28,6 +28,7 @@
                         console.log(value)
                         if (self.tableData) {
                             R.forEach(function (t) {
+                                if(t.ID==1) return;  // 禁止全选超级管理员或root用户
                                 self.checkboxes.items[t[self.selectType + 'Name']] = value
                             })(self.tableData)
                         }
