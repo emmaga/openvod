@@ -25,7 +25,7 @@
         <table ng-table="vm.tableParams" class="table table-hover">
             <tr ng-repeat="row in $data">
                 <td header="'checkbox.html'" width="50">
-                    <input type="checkbox" ng-model="vm.checkboxes.items[row[vm.selectType+'Name']]">
+                    <input type="checkbox" ng-model="vm.checkboxes.items[row[vm.selectType+'Name']]"  ng-disabled="row.ID==1">
                 </td>
                 <td width="50" title="'ID'">{{row.ID}}</td>
                 <td ng-if="vm.selectType=='User'" title="'用户名'">{{row[vm.selectType+'Name']}}</td>
