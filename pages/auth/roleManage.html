@@ -14,8 +14,8 @@
                 {{row.RoleName}}
             </td>
             <td width="160" title="'操作'">
-                <a ng-click="vm.deleteRole(row.ID)">删除</a>
-                <a ng-click="vm.editRole(row.ID)">编辑</a>
+                <a ng-click="vm.deleteUser(row.ID)" ng-if="row.ID!=1">删除</a>
+                <a ng-click="vm.editUser(row.ID)" ng-if="row.ID!=1">编辑</a>
                 <a ng-click="vm.editRoleUser(row.ID)">用户管理</a>
             </td>
         </tr>
